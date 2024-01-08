@@ -35,6 +35,7 @@ def draw_board(screen, board, revealed):
         for col in range(GRID_SIZE):
             rect = pygame.Rect(col * CELL_SIZE, row * CELL_SIZE, CELL_SIZE, CELL_SIZE)
             pygame.draw.rect(screen, GRAY, rect)
+            pygame.draw.rect(screen, BLACK, rect, 1)  # Dibuja un contorno negro alrededor de cada celda
             if revealed[row][col]:
                 if board[row][col] == -1:
                     pygame.draw.circle(screen, BLACK, (col * CELL_SIZE + CELL_SIZE // 2, row * CELL_SIZE + CELL_SIZE // 2), CELL_SIZE // 2 - 5)
