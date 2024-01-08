@@ -1,0 +1,77 @@
+
+MINESWEEPER SQUAD PI
+====================
+
+EN PROCESO
+==========
+
+BUGS
+====
+
+POR HACER
+=========
+
+HECHO
+=====
+
+
+
+Notas
+=====
+
+- Python/Pygame (ver versiones)
+- Isométrico basado en buscaminas
+
+- Tres personajes:
+     Blaze: Velocidad normal, resistencia normal
+     Piper: Velocidad alta, resistencia baja
+     Norman: Velocidad baja, resistencia alta
+
+- Escenarios (5 niveles cada uno):
+     
+     Operación Torch (África del Norte):
+     Fecha clave: Noviembre de 1942.
+     Contexto: Invasión aliada en el norte de África.
+     
+     Invasión del Día D (Normandía):
+     Fecha clave: 6 de junio de 1944.
+     Contexto: Desembarco aliado en las playas de Normandía.
+
+     Batalla de las Ardenas:
+     Fecha clave: Diciembre de 1944 - enero de 1945.
+     Contexto: Ofensiva alemana en la región de las Ardenas durante el invierno.
+
+     Avance Aliado hacia Berlín:
+     Fecha clave: 1944-1945 (fases finales de la guerra).
+     Contexto: Despeje de obstáculos y avance hacia la capital alemana
+
+
+    Objetivo: Despejar el campo de juego sin activar ninguna mina.
+    Campo de juego: Campo de juego cuadrado que consiste en celdas.
+    Minas: Algunas celdas contienen minas, y el jugador no puede ver dónde están ubicadas al principio del juego.
+    Descubrir Celdas: El jugador comienza haciendo clic en una celda para revelar lo que hay debajo.
+    Números: Si la celda que se revela no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
+    Marcar Minas: El jugador puede marcar las celdas que piensa que contienen minas con una bandera o un símbolo similar.
+    Ganar o Perder: El jugador gana al revelar todas las celdas que no contienen minas. Pierde si hace clic en una celda con una mina.
+    Estrategia: Deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
+
+
+
+Botones gamepad:
+A = 1
+B = 2
+L = 4
+R = 5
+X = 0
+Y = 3
+
+VSC: Cambiar fondo a negro:
+"workbench.colorCustomizations": {
+    "editor.background": "#000000"
+}
+
+Para compilar exe:
+pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
+
+Para generar un tar.gz:
+tar cvzf RedPlanetPi.tar.gz RedPlanetPi

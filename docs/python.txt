@@ -1,0 +1,3984 @@
+Resumen tutorial Python 3 rev.2
+===============================
+
+INTRODUCCIÓN
+============
+
+Para dividir una sentencia en varias líneas se utiliza el carácter \. 
+Por ejemplo:
+
+a = 2 + 3 + 5 + \
+    7 + 9 + 4 + \
+    6
+
+(se recomienda una longitud de línea máxima de 72 caracteres).
+
+En Python la continuación de línea es implícita siempre y cuando la 
+expresión vaya dentro de los caracteres (), [] y {}.
+Por ejemplo, podemos inicializar una lista del siguiente modo:
+
+a = [1, 2, 7,
+     3, 8, 4,
+     9]
+
+Para definir un bloque de código, en Python se usa la indentación o sangrado.
+Consiste en mover un bloque de texto hacia la derecha insertando espacios o 
+tabuladores al principio de la línea, dejando un margen a la izquierda.
+
+Un bloque comienza con un nuevo sangrado y acaba con la primera línea cuyo 
+sangrado sea menor. Se recomienda usar espacios en lugar de tabulaciones:
+
+def suma_numeros(numeros):  # Bloque 1
+    suma = 0                # Bloque 2
+    for n in numeros:       # Bloque 2
+        suma += n           # Bloque 3
+        print(suma)         # Bloque 3
+    return suma             # Bloque 2
+
+Para añadir un comentario simplemente comienza una línea con el carácter #:
+
+>>> print(a * 2)  # Resultado de multiplicar a por 2
+
+Los docstrings son un tipo de comentarios especiales que se usan para documentar 
+un módulo, función, clase o método. Son la primera sentencia de cada uno de 
+ellos y se encierran entre tres comillas simples o dobles:
+
+def suma(a, b):
+    """Esta función devuelve la suma de los parámetros a y b"
+    return a + b
+
+A la hora de nombrar una variable, una función, un módulo, una clase, etc. 
+en Python, siempre se siguen las siguientes reglas y recomendaciones:
+
+- Un identificador puede ser cualquier combinación de letras 
+(mayúsculas y minúsculas), números y el carácter guión bajo (_).
+- Un identificador no puede comenzar por un número.
+- A excepción de los nombres de clases, es una convención que todos los 
+identificadores se escriban en minúsculas, separando las palabras con el 
+guión bajo. Ejemplos: contador, suma_enteros.
+- Es una convención que los nombres de clases sigan la notación Camel Case, 
+es decir, todas las letras en minúscula a excepción del primer carácter de 
+cada palabra, que se escribe en mayúscula. Ejemplos: Coche, VehiculoMotorizado.
+- No se pueden usar como identificadores las palabras reservadas.
+- Python diferencia entre mayúsculas y minúsculas, de manera que variable_1 y 
+Variable_1 son dos identificadores totalmente diferentes.
+
+La lista de palabras reservadas es la siguiente:
+
+and, as, assert, break, class, continue, def, del, elif, else, except, False, 
+finally, for, from, global, if, import, in, is, lambda, None, nonlocal, not, 
+or, pass, raise, return, True, try, yield, while y with
+
+En Python no existen las constantes. Se puede simular este comportamiento, 
+siempre desde el punto de vista del programador.
+Python define una serie de valores constantes en su propio namespace. 
+Los más importantes son:
+False: El valor false del tipo bool.
+True: El valor true del tipo bool.
+None: El valor del tipo NoneType. (ausencia de valor de una variable)
+
+Para dividir un programa largo en partes, lo ideal es agrupar las funciones con
+propósitos comunes en archivos propios *.py dentro de la misma carpeta, y cargar
+dichas funciones con parámetros. Las referencias a los módulos y variables se
+harían de la siguiente manera:
+
+from time import asctime
+from generic import *
+from globalvars import *
+
+globalvars.text1 = "Esta variable es global";
+
+
+VARIABLES
+=========
+
+Para asignar un valor a una variable se utiliza el operador de asignación =.
+En la operación de asignación se ven involucradas tres partes:
+El operador de asignación =
+Un identificador o nombre de variable, a la izquierda del operador
+Un literal, una expresión, una llamada a una función o una combinación de 
+todos ellos a la derecha del operador de asignación. Ejemplos:
+
+>>> a = 1  # Asigna a la variable <a> el valor 1
+>>> a = 3 * 4  # Asigna a la variable <a> el resultado de la expresión 3 * 4
+
+En un script o programa escrito en Python, podemos definir variables en 
+cualquier lugar del mismo. Sin embargo, es una buena práctica definir 
+las variables que vayamos a utilizar al principio.
+
+En Python, los tipos de datos básicos son los numéricos (enteros, reales 
+y complejos), los boolenaos (True, False) y las cadenas de caracteres.
+A diferencia de otros lenguajes, en Python no es necesario indicar el 
+tipo de dato cuando se define una variable. Además, en cualquier momento, 
+una variable que es de un tipo puede convertirse en una variable de otro 
+tipo cualquiera:
+
+>>> a = 1  # a es de tipo entero
+>>> a = 'Hola'  # Ahora a es de tipo cadena de caracteres
+
+Para modificar el valor de una variable en Python, basta con asignarle 
+un nuevo valor en cualquier momento y lugar después de la definición.
+
+Si tienes que definir varias variables con un mismo dato, puedes usar 
+la siguiente estructura:
+
+>>> a = b = c = 1  # Inicializa a, b y c con el valor 1
+
+También es posible inicializar varias variables con un valor diferente 
+cada una del siguiente modo:
+
+>>> a, b, c = 1, 2, 3
+
+
+
+TIPOS DE DATOS BÁSICOS
+======================
+
+El tipo de los NÚMEROS ENTEROS es int. Este tipo de dato comprende el conjunto 
+de todos los números enteros, pero como dicho conjunto es infinito, en Python 
+el conjunto está limitado realmente por la capacidad de la memoria disponible. 
+Un número de tipo int se crea a partir de un literal que represente un número 
+entero o bien como resultado de una expresión o una llamada a una función:
+
+>>> a = -1  # a es de tipo int y su valor es -1
+>>> b = a + 2  # b es de tipo int y su valor es 1
+
+También podemos representar los números enteros en formato binario, octal o 
+hexadecimal. 
+- Los números octales se crean anteponiendo 0o a una secuencia de 
+dígitos octales (del 0 al 7).
+- En hexadecimal, hay que anteponer 0x a una secuencia de dígitos en 
+hexadecimal (del 0 al 9 y de la A la F).
+- En binario, se antepone 0b a una secuencia de dígitos en binario (0 y 1).
+
+>>> diez = 10
+>>> diez_binario = 0b1010
+>>> diez_octal = 0o12
+>>> diez_hex = 0xa
+
+--------------------------------------------------------------------------------
+
+Puedes usar el tipo float para representar cualquier NÚMERO REAL (siempre 
+teniendo en cuenta que es una aproximación lo más precisa posible). 
+
+>>> real = 1.1 + 2.2  # real es un float
+>>> print(real)
+3.3000000000000003  # Representación aproximada de 3.3
+>>> print(f'{real:.2f}')
+3.30  # real mostrando únicamente 2 cifras decimales
+
+Si se necesita una mayor precisión a la hora de trabajar con números reales,
+Python tiene otros tipos de datos, como Decimal. Es ideal a la hora de trabajar
+con dinero o tipos de interés. Este tipo de dato trunca la parte decimal del 
+número para ser más preciso.
+
+--------------------------------------------------------------------------------
+
+El último tipo de dato numérico básico que tiene Python es el de los 
+NÚMEROS COMPLEJOS, complex. Tienen una parte real y otra imaginaria y cada una 
+de ellas se representa como un float. Para crear un número complejo, se sigue 
+la siguiente estructura <parte_real>+<parte_imaginaria>j. Y se puede acceder 
+a la parte real e imaginaria a través de los atributos real e imag:
+
+>>> complejo = 1+2j
+>>> complejo.real
+1.0
+>>> complejo.imag
+2.0
+
+Con todos los tipos numéricos se pueden aplicar las operaciones de la 
+aritmética: suma, resta, producto, división, …  Está permitido realizar una 
+operación aritmética con números de distinto tipo. En este caso, el tipo 
+numérico «más pequeño» se convierte al del tipo «más grande», Entendemos que el
+tipo int es menor que el tipo float que a su vez es menor que el tipo complex:
+
+>>> 1 + 2.0
+3.0
+>>> 2+3j + 5.7
+(7.7+3j)
+
+--------------------------------------------------------------------------------
+
+La clase que representa los VALORES BOOLEANOS es bool. Esta clase solo se 
+puede instanciar con dos valores/objetos: True para representar verdadero y 
+False para representar falso.
+Por defecto, cualquier objeto es considerado como verdadero con dos excepciones:
+Que implemente el método __bool__() y este devuelva False.
+Que impleménte el método __len__() y este devuelva 0.
+Además, los siguientes objetos/instancias también son consideradas falsas:
+None
+False
+El valor cero de cualquier tipo numérico: 0, 0.0, 0j, …
+Secuencias y colecciones vacías: '', (), [], {}, set(), range(0)
+
+--------------------------------------------------------------------------------
+
+Otro tipo básico de Python, son las secuencias o CADENAS DE CARACTERES. Este 
+tipo es conocido como string aunque su clase verdadera es str. Un string es una
+secuencia inmutable de caracteres en formato Unicode.
+Para crear un string, simplemente tienes que encerrar entre comillas simples ''
+o dobles "" una secuencia de caracteres:
+
+>>> hola = 'Hola "Pythonista"'
+>>> hola_2 = 'Hola \'Pythonista\''
+>>> hola_3 = "Hola 'Pythonista'"
+
+En Python no existe el tipo «carácter». No obstante, se puede simular con un 
+string de un solo carácter:
+
+>>> caracter_a = 'a'
+
+--------------------------------------------------------------------------------
+
+Ahora vamos a presentar dos funciones. Son type() e isinstance():
+type() recibe como parámetro un objeto y te devuelve el tipo del mismo.
+isinstance() recibe dos parámetros: un objeto y un tipo. Devuelve True si el 
+objeto es del tipo que se pasa como parámetro y False en caso contrario.
+
+>>> type(3)
+<class 'int'>
+>>> type(2.78)
+<class 'float'>
+>>> type('Hola')
+<class 'str'>
+>>> isinstance(3, float)
+False
+>>> isinstance(3, int)
+True
+>>> isinstance(False, bool)
+True
+
+Python ofrece las siguientes funciones para conversión de tipos:
+str(): Devuelve la representación en cadena de caracteres del objeto que se 
+pasa como parámetro.
+int(): Devuelve un int a partir de un número o secuencia de caracteres.
+float(): Devuelve un float a partir de un número o secuencia de caracteres.
+complex(): Devuelve un complex a partir de un número o secuencia de caracteres.
+
+>>> edad = int(edad) + 10  # Convierte edad a int
+>>> edad  #  edad es un int
+35
+>>> edad = str(edad)  # Convierte edad a str
+>>> edad  # edad es un str (se muestran las '')
+'35'
+>>> float('18.66')  # Convierte un str a float
+18.66
+
+
+
+OPERADORES
+==========
+
+A la hora de operar con VALORES BOOLEANOS, tenemos a nuestra disposición los 
+operadores and, or y not. IMPORTANTE: Las operaciones and, or y not realmente 
+no devuelven True o False, sino que devuelven uno de los operandos como 
+veremos en el cuadro de abajo.
+
+a or b:     Si a se evalúa a falso, entonces devuelve b, si no devuelve a. 
+            Solo se evalúa el segundo operando si el primero es falso
+a and b:    Si a se evalúa a falso, entonces devuelve a, si no devuelve b.
+            Solo se evalúa el segundo operando si el primero es verdadero
+not a:      Si a se evalúa a falso, entonces devuelve True, si no devuelve False
+            Tiene menos prioridad que otros operadores no booleanos
+
+>>> x = True
+>>> y = False
+>>> x or y
+True
+>>> x and y
+False
+>>> not x
+False
+
+>>> x = 0
+>>> y = 10
+>>> x or y
+10
+>>> x and y
+0
+>>> not x
+True
+
+--------------------------------------------------------------------------------
+
+Los OPERADORES DE COMPARACIÓN se utilizan, como su nombre indica, para 
+comparar dos o más valores. El resultado siempre es True o False.
+
+>   Mayor que. True si el operando de la izquierda es estrictamente mayor que 
+    el de la derecha; False en caso contrario.
+>=  Mayor o igual que. True si el operando de la izquierda es mayor o igual 
+    que el de la derecha; False en caso contrario.
+<   Menor que. True si el operando de la izquierda es estrictamente menor que 
+    el de la derecha; False en caso contrario.
+<=  Menor o igual que. True si el operando de la izquierda es menor o igual 
+    que el de la derecha; False en caso contrario.
+==  Igual. True si el operando de la izquierda es igual que el de la derecha; 
+    False en caso contrario.
+!=  Distinto. True si los operandos son distintos; False en caso contrario.
+
+>>> x = 9
+>>> y = 1
+>>> x < y
+False
+>>> x > y
+True
+>>> x == y
+False
+
+Los operadores de comparación se pueden concatenar. Ejemplo:
+
+>>> x = 9
+>>> 1 < x and x < 20
+True
+>>> 1 < x < 20
+True
+
+- Los objetos de diferentes tipos, excepto los tipos numéricos, nunca se 
+comparan igual. El operador == siempre está definido, pero para algunos tipos
+de objetos (por ejemplo, objetos de clase) es equivalente a is.
+- Las instancias no idénticas de una clase normalmente se comparan como no 
+iguales a menos que la clase defina el método __eq__().
+- Las instancias de una clase no se pueden ordenar con respecto a otras 
+instancias de la misma clase u otros tipos de objeto, a menos que la clase 
+defina los métodos __lt__(), __gt__().
+
+--------------------------------------------------------------------------------
+
+En cuanto a los OPERADORES ARITMÉTICOS, estos permiten realizar las diferentes 
+operaciones aritméticas del álgebra: suma, resta, producto, división, … 
+
++	Suma dos operandos.
+–	Resta al operando de la izquierda el valor del operando de la derecha. 
+    Utilizado sobre un único operando, le cambia el signo.
+*	Producto/Multiplicación de dos operandos.
+/	Divide el operando de la izquierda por el de la derecha 
+    (el resultado siempre es un float).
+%	Operador módulo. Obtiene el resto de dividir el operando de la izquierda 
+    por el de la derecha.
+//	Obtiene el cociente entero de dividir el operando de la izquierda por el 
+    de la derecha.
+**	Potencia. El resultado es el operando de la izquierda elevado a la 
+    potencia del operando de la derecha.
+
+>>> x = 7
+>>> y = 2
+>>> x + y  # Suma
+9
+>>> x - y  # Resta
+5
+>>> x * y  # Producto
+14
+>>> x / y  # División
+3.5
+>>> x % y  # Resto
+1
+>>> x // y  # Cociente
+3
+>>> x ** y  # Potencia
+49
+
+--------------------------------------------------------------------------------
+
+Los OPERADORES A NIVEL DE BITS actúan sobre los operandos como si fueran una 
+cadena de dígitos binarios. Como su nombre indica, actúan sobre los operandos 
+bit a bit. Son los siguientes:
+
+x | y	    or bit a bit de x e y.
+x ^ y	    or exclusivo bit a bit de x e y.
+x & y	    and bit a bit de x e y.
+x << n	    Desplaza x n bits a la izquierda.
+x >> n	    Desplaza x n bits a la derecha.
+~x not x    Obtiene los bits de x invertidos.
+
+Supongamos que tenemos el entero 2 (en bits es 00010) y el entero 7 (00111). 
+El resultado de aplicar las operaciones anteriores es:
+
+>>> x = 2
+>>> y = 7
+>>> x | y
+7
+>>> x ^ y
+5
+>>> x & y
+2
+>>> x << 1
+4
+>>> x >> 1
+1
+>>> ~x
+-3
+
+--------------------------------------------------------------------------------
+
+Los OPERADORES COMPUESTOS realizan la operación que hay antes del signo igual, 
+tomando como operandos la propia variable y el valor a la derecha del signo 
+igual. A continuación, la lista de todos los operadores compuestos:
+
+Operador    Ejemplo     Equivalencia
++=	        x += 2	    x = x + 2
+-=	        x -= 2	    x = x – 2
+*=	        x *= 2	    x = x * 2
+/=	        x /= 2	    x = x / 2
+%=	        x %= 2	    x = x % 2
+//=	        x //= 2	    x = x // 2
+**=	        x **= 2	    x = x ** 2
+&=	        x &= 2      x = x & 2
+|=	        x |= 2	    x = x | 2
+^=	        x ^= 2	    x = x ^ 2
+>>=	        x >>= 2	    x = x >> 2
+<<=	        x <<= 2	    x = x << 2
+
+--------------------------------------------------------------------------------
+
+Los OPERADORES DE PERTENENCIA se utilizan para comprobar si un valor o variable
+se encuentran en una secuencia (list, tuple, dict, set o str).
+
+in	        Devuelve True si el valor se encuentra en una secuencia; 
+            False en caso contrario.
+not in	    Devuelve True si el valor no se encuentra en una secuencia; 
+            False en caso contrario.
+
+>>> lista = [1, 3, 2, 7, 9, 8, 6]
+>>> 4 in lista
+False
+>>> 3 in lista
+True
+>>> 4 not in lista
+True
+
+--------------------------------------------------------------------------------
+
+Por último, los OPERADORES DE IDENTIDAD se utilizan para comprobar si dos 
+variables son, o no, el mismo objeto.
+
+is      Devuelve True si ambos operandos hacen referencia al mismo objeto; 
+        False en caso contrario.
+is not	Devuelve True si ambos operandos no hacen referencia al mismo objeto; 
+        False en caso contrario.
+
+Recuerda: Para conocer la identidad de un objeto se usa la función id().
+
+>>> x = 4
+>>> y = 2
+>>> lista = [1, 5]
+>>> x is lista
+False
+>>> x is y
+False
+>>> x is 4
+True
+
+Al igual que ocurre en las matemáticas, los operadores en Python tienen un 
+orden de prioridad. Este orden es el siguiente, de menos prioritario a más 
+prioritario: asignación; operadores booleanos; operadores de comparación, 
+identidad y pertenencia; a nivel de bits y finalmente los aritméticos 
+(con el mismo orden de prioridad que en las matemáticas). Este orden de 
+prioridad se puede alterar con el uso de los paréntesis ():
+
+
+
+SENTENCIAS DE CONTROL DE FLUJO
+==============================
+
+la sentencia if se utiliza para ejecutar un bloque de código si, y solo si, 
+se cumple una determinada condición. Por tanto, if es usado para la toma de 
+decisiones. La estructura básica de esta sentencia if es la siguiente:
+
+if condición:
+    bloque de código
+    
+Es decir, solo si condición se evalúa a True, se ejecutarán las sentencias que 
+forman parte de bloque de código. En caso de que se evalúe a False no se 
+ejecutará ninguna sentencia perteneciente a bloque de código. Aquí, condición 
+puede ser un literal, el valor de una variable, el resultado de una expresión 
+o el valor devuelto por una función.
+
+x = 17
+if x < 20:
+    print('x es menor que 20')
+
+valores = [1, 3, 4, 8]
+if 5 in valores:
+    print('está en valores')
+
+Hay ocasiones en que la sentencia if básica no es suficiente y es necesario 
+ejecutar un conjunto de instrucciones o sentencias cuando la condición se 
+evalúa a False. Para ello se utiliza la estructura if ... else... 
+Esta es estructura es como sigue:
+
+if condición:
+    bloque de código (cuando condición se evalúa a True)
+else:
+    bloque de código 2 (cuando condición se evalúa a False)
+
+resultado = None
+x = 10
+y = 2
+if y != 0:
+    resultado = x / y
+else:
+    resultado = f'No se puede dividir {x} entre {y}'
+
+También es posible que te encuentres situaciones en que una decisión dependa 
+de más de una condición. En estos casos se usa una sentencia if compuesta, 
+cuya estructura es como se indica a continuación:
+
+if cond1:
+    bloque cond1 (sentencias si se evalúa la cond1 a True)
+elif cond2:
+    bloque cond2 (sentencias si cond1 es False pero cond2 es True)
+...
+else:
+    bloque else (sentencias si todas las condiciones se evalúan a False)
+
+x = 28
+if x < 0:
+    print(f'{x} es menor que 0')
+elif x > 0:
+    print(f'{x} es mayor que 0')
+else:
+    print('x es 0')
+
+En cualquiera de los bloques de sentencias anteriores se puede volver a incluir
+una sentencia if, o if … else … o if … elif … else …
+
+x = 28
+if x < 0:
+    print(f'{x} es menor que 0')
+else:
+    if x > 0:
+        print(f'{x} es mayor que 0')
+    else:
+        print('x es 0')
+
+--------------------------------------------------------------------------------
+
+El uso principal de la sentencia WHILE es ejecutar repetidamente un bloque de 
+código mientras se cumpla una condición. La estructura de esta sentencia 
+while es la siguiente:
+
+while condición:
+    bloque de código
+
+Es decir, mientras condición se evalúe a True, se ejecutarán las instrucciones 
+y sentencias de bloque de código. Condición puede ser un literal, el valor de 
+una variable, el resultado de una expresión o el valor devuelto por una función.
+
+numero = 0
+print('Tabla del 3')
+while numero <= 10:
+    print(f'{numero * 3}')
+    numero += 1
+print('Fin')
+
+Podemos alterar el flujo de ejecución del bucle while con las sentencias break 
+y continue. break se utiliza para finalizar y salir el bucle, por ejemplo, si 
+se cumple alguna condición. Por su parte, continue salta al siguiente paso de 
+la iteración, ignorando todas las sentencias que le siguen y que forman parte 
+del bucle.
+
+Por otro lado, al bucle while le podemos añadir la sentencia opcional else. 
+El bloque de código del else se ejecutará siempre y cuando la condición de la 
+sentencia while se evalúe a False y no se haya ejecutado una sentencia break.
+
+valores = [5, 1, 9, 2, 7, 4]
+indice = 0
+longitud = len(valores)
+while indice < longitud:
+    valor = valores[indice]
+    if valor == 2:
+        print(f'El elemento 2 ha sido encontrado en el índice {indice}')
+        break
+    else:
+        indice += 1
+else:
+    print('El elemento 2 no se encuentra en la lista de valores')
+
+--------------------------------------------------------------------------------
+
+El BUCLE FOR se utiliza para recorrer los elementos de un objeto iterable 
+(lista, tupla, conjunto, diccionario, …) y ejecutar un bloque de código. 
+
+nums = [4, 78, 9, 84]
+for n in nums:
+    print(n)
+4
+78
+9
+84
+
+Un iterable es un objeto que se puede iterar sobre él, es decir, que permite 
+recorrer sus elementos uno a uno. iter() devuelve un iterador basado en el 
+objeto iterable que se pasa como parámetro.
+
+>>> nums = [4, 78, 9, 84]
+>>> it = iter(nums)
+>>> next(it)
+4
+>>> next(it)
+78
+>>> next(it)
+9
+
+Un iterador recorre los elementos de un iterable solo hacia delante. Cada vez 
+que se llama a la función next() se recupera el siguiente valor del iterador.
+En Python, los tipos principales list, tuple, dict, set o string entre otros, 
+son iterables, por lo que podrán ser usados en el bucle for.
+
+Un caso es especial de bucle for se da al recorrer los elementos de un 
+diccionario. Dado que un diccionario está compuesto por pares clave/valor, 
+hay distintas formas de iterar sobre ellas.
+
+1 – Recorrer las claves del diccionario.
+valores = {'A': 4, 'E': 3, 'I': 1, 'O': 0}
+for k in valores:
+    print(k)
+A
+E
+I
+O
+
+2 – Iterar sobre los valores del diccionario.
+valores = {'A': 4, 'E': 3, 'I': 1, 'O': 0}
+for v in valores.values():
+    print(v)
+4
+3
+1
+0
+
+3 – Iterar a la vez sobre la clave y el valor de cada uno de los elementos.
+valores = {'A': 4, 'E': 3, 'I': 1, 'O': 0}
+for k, v in valores.items():
+    print('k=', k, ', v=', v)
+k=A, v=4
+k=E, v=3
+k=I, v=1
+k=O, v=0
+
+¿Cómo implementamos y/o simulamos en Python el bucle for basado en una 
+secuencia numérica? Para estos casos, Python pone a nuestra disposición la 
+clase range (en Python 2 era una función). El constructor de esta clase, 
+range(max), devuelve un iterable cuyos valores van desde 0 hasta max - 1.
+
+for i in range(11):
+    print(i)
+0
+1
+2
+3
+...
+10
+
+El tipo de datos range se puede invocar con uno, dos e incluso tres parámetros:
+range(max): Un iterable de números enteros consecutivos que empieza en 0 y 
+acaba en max - 1
+range(min, max): Un iterable de números enteros consecutivos que empieza en 
+min y acaba en max - 1
+range(min, max, step): Un iterable de números enteros consecutivos que empieza 
+en min acaba en max - 1 y los valores se van incrementando de step en step. 
+Este último caso simula el bucle for con variable de control.
+
+for num in range(0, 11, 2):
+    print(num)
+0
+2
+4
+6
+8
+10
+
+for _ in <iterable>
+En ocasiones, es posible que el elemento actual del iterable que se está 
+recorriendo sea irrelevante. En estos casos puedes usar la variable _ para 
+indicar esta situación. No obstante, yo no te lo recomiendo ya que también se 
+suele usar en librerías de traducciones de texto. Aún así, te muestro un caso 
+de uso. Imagínate que queremos implementar una función que devuelva la longitud
+de una lista. El código podría ser como el que te muestro a continuación:
+
+def longitud(mi_lista):
+    cont = 0
+    for _ in mi_lista:
+        cont += 1
+    return cont
+
+Por último, vamos a ver que es posible alterar la iteración de un bucle for 
+en Python. break se utiliza para finalizar y salir el bucle, por ejemplo, 
+si se cumple alguna condición. Por su parte, continue salta al siguiente paso 
+de la iteración, ignorando todas las sentencias que le siguen y que forman 
+parte del bucle.
+
+Uso de break. Encontrar un elemento en una colección
+coleccion = [2, 4, 5, 7, 8, 9, 3, 4]
+for e in coleccion:
+    if e == 7:
+        break
+    print(e)
+El código anterior mostrará los números 2, 4 y 5.
+
+Uso de continue. Imprimir solo los números pares de una colección
+coleccion = [2, 4, 5, 7, 8, 9, 3, 4]
+for e in coleccion:
+    if e % 2 != 0:
+        continue
+    print(e)
+En este caso, el código anterior mostrará los números 2, 4, 8 y 4.
+
+En relación al apartado anterior, Python ofrece una estructura adicional de 
+bucle for cuya estructura es la siguiente:
+
+for e in iterable:
+    # Tu código aquí
+else:
+    # Este código siempre se ejecuta si no
+    # se ejecutó la sentencia break en el bloque for
+
+Es decir, el código del bloque else se ejecutará siempre y cuando no se haya 
+ejecutado la sentencia break dentro del bloque del for.
+
+numeros = [1, 2, 4, 3, 5, 8, 6]
+for n in numeros:
+    if n == 3:
+        break
+else:
+    print('No se encontró el número 3')
+
+Como en el ejemplo anterior la secuencia numeros contiene al número 3, la 
+instrucción print nunca se ejecutará.
+
+
+
+LISTAS
+======
+
+Son un tipo contenedor, compuesto, que se usan para almacenar conjuntos de 
+elementos relacionados del mismo tipo o de tipos distintos. Su contenido se 
+puede modificar después de haber sido creada.
+
+Para crear una lista en Python, simplemente hay que encerrar una secuencia de 
+elementos separados por comas entre paréntesis cuadrados [].
+
+>>> numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+>>> elementos = [3, 'a', 8, 7.2, 'hola']
+>>> lista = [1, ['a', 'e', 'i', 'o', 'u'], 8.9, 'hola']
+
+>>> vocales = list('aeiou')
+>>> vocales
+['a', 'e', 'i', 'o', 'u']
+
+Dos alternativas de crear una lista vacía:
+
+>>> lista_1 = []  # Opción 1
+>>> lista_2 = list()  # Opción 2
+
+--------------------------------------------------------------------------------
+
+Para acceder a un elemento de una lista se utilizan los índices. Un índice es 
+un número entero que indica la posición de un elemento en una lista. El primer 
+elemento de una lista siempre comienza en el índice 0.
+
+>>> lista = ['a', 'b', 'd', 'i', 'j']
+>>> lista[0]  # Primer elemento de la lista. Índice 0
+'a'
+>>> lista[3]  # Cuarto elemento de la lista. Índice 3
+'i'
+
+Las listas pueden contener otros elementos de tipo secuencia de forma anidada. 
+Por ejemplo, una lista que uno de sus ítems es otra lista. Se puede acceder a 
+los elementos de estos tipos usando índices compuestos o anidados:
+
+>>> lista = ['a', ['d', 'b'], 'z']
+>>> lista[1][1]  # lista[1] hace referencia a la lista anidada
+'b'
+
+En Python está permitido usar índices negativos para acceder a los elementos de 
+una secuencia. En este caso, el índice -1 hace referencia al último elemento de 
+la secuencia, el -2 al penúltimo y así, sucesivamente:
+
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> vocales[-1]
+'u'
+>>> vocales[-4]
+'e'
+
+También es posible acceder a un subconjunto de elementos de una lista utilizando
+rangos en los índices. Esto es usando el operador [:]:
+
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> vocales[2:3]  # Elementos desde el índice 2 hasta el índice 3-1
+['i']
+>>> vocales[2:4]  # Elementos desde el 2 hasta el índice 4-1
+['i', 'o']
+>>> vocales[:]  # Todos los elementos
+['a', 'e', 'i', 'o', 'u']
+>>> vocales[1:]  # Elementos desde el índice 1
+['e', 'i', 'o', 'u']
+>>> vocales[:3]  # Elementos hasta el índice 3-1
+['a', 'e', 'i']
+
+También es posible acceder a los elementos de una lista indicando un paso con 
+el operador [::]:
+
+>>> letras = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k']
+>>> letras[::2]  # Acceso a los elementos de 2 en 2
+['a', 'c', 'e', 'g', 'i', 'k']
+>>> letras[1:5:2]  # Elementos del índice 1 al 4 de 2 en 2
+['b', 'd']
+>>> letras[1:6:3]  # Elementos del índice 1 al 5 de 3 en 3
+['b', 'e']
+
+Ya hemos visto que se puede usar el bucle for en Python para recorrer los 
+elementos de una secuencia. En nuestro caso, para recorrer una lista en Python 
+utilizaríamos la siguiente estructura:
+
+>>> colores = ['azul', 'blanco', 'negro']
+>>> for color in colores:
+        print(color)
+azul
+blanco
+negro
+
+--------------------------------------------------------------------------------
+
+Para añadir un nuevo elemento a una lista se utiliza el método append() y para 
+añadir varios elementos, el método extend():
+
+>>> vocales = ['a']
+>>> vocales.append('e')  # Añade un elemento
+>>> vocales
+['a', 'e']
+>>> vocales.extend(['i', 'o', 'u'])  # Añade un grupo de elementos
+>>> vocales
+['a', 'e', 'i', 'o', 'u']
+
+También es posible utilizar el operador de concatenación + para unir dos listas 
+en una sola. El resultado es una nueva lista con los elementos de ambas:
+
+>>> lista_1 = [1, 2, 3]
+>>> lista_2 = [4, 5, 6]
+>>> nueva_lista = lista_1 + lista_2
+>>> nueva_lista
+[1, 2, 3, 4, 5, 6]
+
+Por otro lado, el operador * repite el contenido de una lista n veces:
+
+>>> numeros = [1, 2, 3]
+>>> numeros *= 3
+>>> numeros
+[1, 2, 3, 1, 2, 3, 1, 2, 3]
+
+También es posible añadir un elemento en una posición concreta de una lista 
+con el método insert(índice, elemento). Los elementos cuyo índice sea mayor a 
+índice se desplazan una posición a la derecha:
+
+>>> vocales = ['a', 'e', 'u']
+>>> vocales.insert(2, 'i')
+>>> vocales
+['a', 'e', 'i', 'u']
+
+--------------------------------------------------------------------------------
+
+Es posible modificar un elemento de una lista en Python con el operador de 
+asignación =. Para ello, lo único que necesitas conocer es el índice del 
+elemento que quieres modificar o el rango de índices:
+
+>>> vocales = ['o', 'o', 'o', 'o', 'u']
+# Actualiza el elemento del índice 0
+>>> vocales[0] = 'a'
+>>> vocales
+['a', 'o', 'o', 'o', 'u']
+# Actualiza los elementos entre las posiciones 1 y 2
+>>> vocales[1:3] = ['e', 'i']
+>>> vocales
+['a', 'e', 'i', 'o', 'u']
+
+--------------------------------------------------------------------------------
+
+En Python se puede eliminar un elemento de una lista de varias formas.
+Con la sentencia del se puede eliminar un elemento a partir de su índice:
+
+# Elimina el elemento del índice 1
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> del vocales[1]
+>>> vocales
+['a', 'i', 'o', 'u']
+# Elimina los elementos con índices 2 y 3
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> del vocales[2:4]
+>>> vocales
+['a', 'e', 'u']
+# Elimina todos los elementos
+>>> del vocales[:]
+>>> vocales
+[]
+
+Remove() elimina la primera ocurrencia que se encuentre del elemento en una 
+lista. Por su parte, pop([i]) obtiene el elemento cuyo índice sea igual a i y 
+lo elimina de la lista. Si no se especifica ningún índice, recupera y elimina 
+el último elemento.
+
+>>> letras = ['a', 'b', 'k', 'a', 'v']
+# Elimina la primera ocurrencia del carácter a
+>>> letras.remove('a')
+>>> letras
+['b', 'k', 'a', 'v']
+# Obtiene y elimina el último elemento
+>>> letras.pop()
+'v'
+>>> letras
+['b', 'k', 'a']
+
+Es posible eliminar todos los elementos a través del método clear():
+
+>>> letras = ['a', 'b', 'c']
+>>> letras.clear()
+>>> letras
+[]
+El código anterior sería equivalente a del letras[:].
+
+--------------------------------------------------------------------------------
+
+Como cualquier tipo secuencia, para conocer la longitud de una lista en Python 
+se hace uso de la función len(). Esta función devuelve el número de elementos
+ de una lista:
+
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> len(vocales)
+5
+
+Para saber si un elemento está contenido en una lista, se utiliza el operador 
+de pertenencia in:
+
+>>> vocales = ['a', 'e', 'i', 'o', 'u']
+>>> if 'a' in vocales:
+...     print('Sí')
+...     
+Sí
+>>> if 'b' not in vocales:
+...     print('No')
+...     
+No
+
+Las listas son secuencias ordenadas. Esto quiere decir que sus elementos 
+siempre se devuelven en el mismo orden en que fueron añadidos. No obstante, es 
+posible ordenar los elementos de una lista con el método sort(). El método 
+sort() ordena los elementos de la lista utilizando únicamente el operador < y 
+modifica la lista actual (no se obtiene una nueva lista):
+
+# Lista desordenada de números enteros
+>>> numeros = [3, 2, 6, 1, 7, 4]
+# Identidad del objeto numeros
+>>> id(numeros)
+4475439216
+# Se llama al método sort() para ordenar los elementos de la lista
+>>> numeros.sort()
+>>> numeros
+[1, 2, 3, 4, 6, 7]
+# Se comprueba que la identidad del objeto numeros es la misma
+>>> id(numeros)
+4475439216
+
+Tanto al método sort() como a la función sorted() se le puede indicar el 
+parámetro reverse para modificar el orden ascendente en que se ordena una lista.
+Así, si se indica reverse=True, el orden será de mayor a menor
+ (por defecto es False):
+
+>>> numeros = [16, 4, 9, 1, 3, 20, 8]
+>>> numeros.sort(reverse=True)
+>>> numeros
+[20, 16, 9, 8, 4, 3, 1]
+
+Lista completa de métodos de la clase list:
+
+Método          Descripción
+--------------  --------------------------------------------------------------
+append()        Añade un nuevo elemento al final de la lista.
+extend()        Añade un grupo de elementos (iterables) al final de la lista.
+insert(indice, elemento) Inserta un elemento en una posición concreta.
+remove(elemento)Elimina la primera ocurrencia del elemento en la lista.
+pop([i])        Obtiene y elimina el elemento de la lista en la posición i. Si 
+                no se especifica, obtiene y elimina el último elemento.
+clear()         Borra todos los elementos de la lista.
+index(elemento) Obtiene el índice de la primera ocurrencia del elemento. Si el 
+                elemento no se encuentra, se lanza la excepción ValueError.
+count(elemento) Devuelve el número de ocurrencias del elemento en la lista.
+sort()          Ordena los elementos de la lista utilizando el operador <.
+reverse()       Obtiene los elementos de la lista en orden inverso.
+copy()          Devuelve una copia poco profunda de la lista.
+
+
+
+TUPLAS
+======
+
+La clase tuple en Python es un tipo contenedor, compuesto, que en un principio 
+se pensó para almacenar grupos de elementos heterogéneos, aunque también puede 
+contener elementos homogéneos. Son inmutables. Esto quiere decir que su 
+contenido NO se puede modificar después de haber sido creada.
+
+En general, para crear una tupla en Python simplemente hay que definir una 
+secuencia de elementos separados por comas. Por ejemplo, para crear una tupla 
+con los números del 1 al 5 se haría del siguiente modo:
+
+>>> numeros = 1, 2, 3, 4, 5
+>>> elementos = 3, 'a', 8, 7.2, 'hola'
+>>> tup = 1, ['a', 'e', 'i', 'o', 'u'], 8.9, 'hola'
+
+Para crear una tupla vacía, usa paréntesis () o el constructor de la clase 
+tuple() sin parámetros.
+Para crear una tupla con un único elemento: elem, o (elem, ). Observa que 
+siempre se añade una coma.
+Para crear una tupla de varios elementos, sepáralos con comas: a, b, c o 
+(a, b, c).
+Las tuplas también se pueden crear usando el constructor de la clase, 
+tuple(iterable). 
+
+IMPORTANTE: El hecho que determina que una secuencia de elementos sea una tupla
+es la coma , no los paréntesis. Los paréntesis son opcionales y solo se 
+necesitan para crear una tupla vacía o para evitar ambigüedades.
+
+# Aquí, a, b y c no son una tupla, sino tres argumentos con
+# los que se llama a la función "una_funcion"
+>>> una_funcion(a, b, c)
+# Aquí, a, b y c son tres elementos de una tupla. Esta tupla,
+# es el único argumento con el que se invoca a la función "una_funcion"
+>>> una_funcion((a, b, c))
+
+--------------------------------------------------------------------------------
+
+Para acceder a un elemento de una tupla se utilizan los índices. El primer 
+elemento de una tupla siempre comienza en el índice 0.
+
+>>> tupla = ('a', 'b', 'd')
+>>> tupla[0]  # Primer elemento de la tupla. Índice 0
+'a'
+>>> tupla[1]  # Segundo elemento de la tupla. Índice 1
+'b'
+
+Al igual que ocurre con las listas (y todos los tipos secuenciales), está 
+permitido usar índices negativos para acceder a los elementos de una tupla. 
+En este caso, el índice -1 hace referencia al último elemento de la secuencia, 
+el -2 al penúltimo y así, sucesivamente:
+
+>>> bebidas = ('agua', 'café', 'batido', 'sorbete')
+>>> bebidas[-1]
+'sorbete'
+>>> bebidas[-3]
+'café'
+
+También es posible acceder a un subconjunto de elementos de una tupla 
+utilizando el operador [:]:
+
+>>> vocales = 'a', 'e', 'i', 'o', 'u'
+>>> vocales[2:3]  # Elementos desde el índice 2 hasta el índice 3-1
+('i',)
+>>> vocales[2:4]  # Elementos desde el 2 hasta el índice 4-1
+('i', 'o')
+>>> vocales[:]  # Todos los elementos
+('a', 'e', 'i', 'o', 'u')
+>>> vocales[1:]  # Elementos desde el índice 1
+('e', 'i', 'o', 'u')
+>>> vocales[:3]  # Elementos hasta el índice 3-1
+('a', 'e', 'i')
+
+O indicando un salto entre los elementos con el operador [::]:
+
+>>> pares = 2, 4, 6, 8, 10, 12, 14
+>>> pares[::2]  # Acceso a los elementos de 2 en 2
+(2, 6, 10, 14)
+>>> pares[1:5:2]  # Elementos del índice 1 al 4 de 2 en 2
+(4, 8)
+>>> pares[1:6:3]  # Elementos del índice 1 al 5 de 3 en 3
+(4, 10)
+
+Vamos a ver el concepto conocido como tuple unpacking. Realmente el unpacking 
+se puede aplicar sobre cualquier objeto de tipo secuencia, aunque se usa 
+mayoritariamente con las tuplas, y consiste en lo siguiente:
+
+>>> bebidas = 'agua', 'café', 'batido'
+>>> a, b, c = bebidas
+>>> a
+'agua'
+>>> b
+'café'
+>>> c
+'batido'
+
+Como puedes apreciar, es un tipo de asignación múltiple. Requiere que haya 
+tantas variables a la izquierda del operador de asignación = como elementos 
+haya en la secuencia.
+
+--------------------------------------------------------------------------------
+
+El bucle for en Python es una de las estructuras ideales para iterar sobre los 
+elementos de una secuencia. Para recorrer una tupla en Python utiliza la 
+siguiente estructura:
+
+>>> colores = 'azul', 'blanco', 'negro'
+>>> for color in colores:
+        print(color)
+azul
+blanco
+negro
+
+Como te he indicado, las tuplas son objetos inmutables. No obstante, las tuplas 
+pueden contener objetos u otros elementos de tipo secuencia, por ejemplo, una 
+lista. Estos objetos, si son mutables, sí se pueden modificar:
+
+>>> tupla = (1, ['a', 'b'], 'hola', 8.2)
+>>> tupla[1].append('c')  # tupla[1] hace referencia a la lista
+>>> tupla
+(1, ['a', 'b', 'c'], 'hola', 8.2)
+
+Como cualquier tipo secuencia, para conocer la longitud de una tupla en Python 
+se hace uso de la función len(). Esta función devuelve el número de elementos 
+de una tupla:
+
+>>> vocales = ('a', 'e', 'i', 'o', 'u')
+>>> len(vocales)
+5
+
+Para saber si un elemento está contenido en una tupla, se utiliza el operador 
+de pertenencia in:
+
+>>> colores = 'azul', 'blanco', 'negro'
+>>> if 'azul' in colores:
+...     print('Sí')
+...     
+Sí
+>>> if 'verde' not in colores:
+...     print('No')
+...     
+No
+
+Listado de métodos de la clase tuple en Python
+
+Método	        Descripción
+--------------- --------------------------------------------------------------
+index(elemento)	Obtiene el índice de la primera ocurrencia del elemento en la 
+                tupla. Si el elemento no se encuentra, se lanza la excepción 
+                ValueError.
+count(elemento)	Devuelve el número de ocurrencias del elemento en la tupla.
+
+
+
+RANGE 
+=====
+
+range en Python es un tipo que se utiliza para representar una secuencia 
+inmutable de números. Uno de sus principales usos es junto a la sentencia for, 
+para definir un bucle sobre el que se itera un número determinado de veces.
+
+Para crear un objeto de tipo range, se pueden usar dos constructores :
+
+range(fin): Crea una secuencia numérica que va desde 0 hasta fin - 1.
+range(inicio, fin, [paso]): Crea una secuencia numérica que va desde inicio 
+hasta fin - 1. Si además se indica el parámetro paso, la secuencia genera los 
+números de paso en paso.
+
+>>> list(range(10))
+[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+>>> list(range(5, 10))
+[5, 6, 7, 8, 9]
+>>> list(range(0, 10, 3))
+[0, 3, 6, 9]
+>>> list(range(0, -10, -1))
+[0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
+>>> list(range(5, -5, -2))
+[5, 3, 1, -1, -3]
+
+# Nunca se puede ir de 0 a 10 de -1 en -1
+>>> list(range(0, 10, -1))
+[]
+
+Aquí puedes ver todos los detalles del uso de for y range en Python.
+
+>>> for i in range(1, 11):
+...     print(i)
+...     
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+La principal ventaja de usar range sobre list o tuple es que es un iterable que 
+genera los elementos solo en el momento en que realmente los necesita. Esto 
+implica que usa una cantidad de memoria mínima, por muy grande que sea el rango 
+de números que represente.
+
+>>> import sys
+>>> lista = list(range(0, 100000))
+>>> rango = range(0, 100000)
+>>> sys.getsizeof(lista)
+900120
+>>> sys.getsizeof(rango)
+48
+
+Como puedes apreciar, la lista ocupa casi 1 MB en memoria frente a los 48 bytes
+que ocupa el rango.
+
+Al tratarse de un tipo secuencial, range implementa las operaciones básicas de 
+ese tipo a excepción de la concatenación y la repetición:
+
+>>> r = range(0,30, 3)
+>>> r[2]
+6
+>>> r[-1]
+27
+>>> 13 in r
+False
+>>> 12 in r
+True
+>>> r.index(18)
+6
+
+
+
+SET 
+===
+
+Es utilizado para trabajar con conjuntos de elementos. La principal 
+característica de este tipo de datos es que es una colección cuyos elementos no
+guardan ningún orden y que además son únicos. Estas características hacen que 
+los principales usos de esta clase sean conocer si un elemento pertenece o no a
+una colección y eliminar duplicados de un tipo secuencial (list, tuple o str).
+Además, esta clase también implementa las típicas operaciones matemáticas sobre
+conjuntos: unión, intersección, diferencia, …
+
+Para crear un conjunto, basta con encerrar una serie de elementos entre llaves 
+{}, o bien usar el constructor de la clase set() y pasarle como argumento un 
+objeto iterable (como una lista, una tupla, una cadena …).
+
+# Los elementos repetidos se eliminan
+>>> c = {1, 3, 2, 9, 3, 1}
+>>> c
+{1, 2, 3, 9}
+
+# Los caracteres repetidos se eliminan
+>>> a = set('Hola Pythonista')
+>>> a
+{'a', 'H', 'h', 'y', 'n', 's', 'P', 't', ' ', 'i', 'l', 'o'}
+
+# Los elementos repetidos de la lista se eliminan
+>>> unicos = set([3, 5, 6, 1, 5])
+>>> unicos
+{1, 3, 5, 6}
+
+Para crear un conjunto vacío, se llama al constructor set() sin parámetros.
+
+En realidad, en Python existen dos clases para representar conjuntos: set y 
+frozenset. La principal diferencia es que set es mutable, por lo que después de 
+ser creado, se pueden añadir y/o eliminar elementos del conjunto, como veremos 
+en secciones posteriores. Por su parte, frozenset es inmutable y su contenido 
+no puede ser modificado una vez que ha sido inicializado.
+
+>>> f = frozenset([3, 5, 6, 1, 5])
+>>> f
+frozenset({1, 3, 5, 6})
+
+Dado que los conjuntos son colecciones desordenadas, en ellos no se guarda la 
+posición en la que son insertados los elementos como ocurre en los tipos list 
+o tuple. Así que no se puede acceder a los elementos a través de un índice.
+Sin embargo, sí se puede acceder y/o recorrer todos los elementos de un 
+conjunto usando un bucle for:
+
+>>> mi_conjunto = {1, 3, 2, 9, 3, 1}
+>>> for e in mi_conjunto:
+...     print(e)
+...     
+1
+2
+3
+9
+
+Para añadir un elemento a un conjunto se utiliza el método add(). También existe
+el método update(), que puede tomar como argumento una lista, tupla, string, 
+conjunto o cualquier objeto de tipo iterable.
+
+>>> mi_conjunto = {1, 3, 2, 9, 3, 1}
+>>> mi_conjunto
+{1, 2, 3, 9}
+# Añade el elemento 7 al conjunto
+>>> mi_conjunto.add(7)
+>>> mi_conjunto
+{1, 2, 3, 7, 9}
+# Añade los elementos 5, 3, 4 y 6 al conjunto
+# Los elementos repetidos no se añaden al conjunto
+>>> mi_conjunto.update([5, 3, 4, 6])
+>>> mi_conjunto
+{1, 2, 3, 4, 5, 6, 7, 9}
+
+NOTA: add() y update() no añaden elementos que ya existen al conjunto.
+
+La clase set ofrece cuatro métodos para eliminar elementos de un conjunto. Son: 
+discard(), remove(), pop() y clear().
+
+discard(elemento) y remove(elemento) eliminan elemento del conjunto. La única 
+diferencia es que si elemento no existe, discard() no hace nada mientras que 
+remove() lanza la excepción KeyError. pop() es un tanto peculiar. Este método 
+devuelve un elemento aleatorio del conjunto y lo elimina del mismo. Si el 
+conjunto está vacío, lanza la excepción KeyError. Finalmente, clear() elimina 
+todos los elementos contenidos en el conjunto.
+
+>>> mi_conjunto = {1, 3, 2, 9, 3, 1, 6, 4, 5}
+>>> mi_conjunto
+{1, 2, 3, 4, 5, 6, 9}
+# Elimina el elemento 1 con remove()
+>>> mi_conjunto.remove(1)
+>>> mi_conjunto
+{2, 3, 4, 5, 6, 9}
+# Elimina el elemento 4 con discard()
+>>> mi_conjunto.discard(4)
+>>> mi_conjunto
+{2, 3, 5, 6, 9}
+# Obtiene y elimina un elemento aleatorio con pop()
+>>> mi_conjunto.pop()
+2
+>>> mi_conjunto
+{3, 5, 6, 9}
+# Elimina todos los elementos del conjunto
+>>> mi_conjunto.clear()
+>>> mi_conjunto
+
+Como con cualquier otra colección, puedes usar la función len() para obtener el
+número de elementos contenidos en un conjunto:
+
+>>> mi_conjunto = set([1, 2, 5, 3, 1, 5])
+>>> len(mi_conjunto)
+4
+
+Con los conjuntos también se puede usar el operador de pertenencia in para 
+comprobar si un elemento está contenido, o no, en un conjunto:
+
+>>> mi_conjunto = set([1, 2, 5, 3, 1, 5])
+>>> print(1 in mi_conjunto)
+True
+>>> print(6 in mi_conjunto)
+False
+>>> print(2 not in mi_conjunto)
+False
+
+--------------------------------------------------------------------------------
+
+Uno de los principales usos del tipo set es utilizarlo en operaciones del 
+álgebra de conjuntos: unión, intersección, diferencia, diferencia simétrica, …
+
+La unión de dos conjuntos A y B es el conjunto A ∪ B que contiene todos los 
+elementos de A y de B. En Python se utiliza el operador | para realizar la 
+unión de dos o más conjuntos.
+
+>>> a = {1, 2, 3, 4}
+>>> b = {2, 4, 6, 8}
+>>> a | b
+{1, 2, 3, 4, 6, 8}
+
+La intersección de dos conjuntos A y B es el conjunto A ∩ B que contiene todos 
+los elementos comunes de A y B. En Python se utiliza el operador & para realizar
+la intersección de dos o más conjuntos.
+
+>>> a = {1, 2, 3, 4}
+>>> b = {2, 4, 6, 8}
+>>> a & b
+{2, 4}
+
+La diferencia entre dos conjuntos A y B es el conjunto A \ B que contiene todos
+los elementos de A que no pertenecen a B. En Python se utiliza el operador - 
+para realizar la diferencia de dos o más conjuntos.
+
+>>> a = {1, 2, 3, 4}
+>>> b = {2, 4, 6, 8}
+>>> a - b
+{1, 3}
+
+La diferencia simétrica entre dos conjuntos A y B es el conjunto que contiene 
+los elementos de A y B que no son comunes. En Python se utiliza el operador ^ 
+para realizar la diferencia simétrica de dos o más conjuntos.
+
+>>> a = {1, 2, 3, 4}
+>>> b = {2, 4, 6, 8}
+a ^ b
+{1, 3, 6, 8}
+
+Dado un conjunto A, subcolección del conjunto B o igual a este, sus elementos 
+son un subconjunto de B. Es decir, A es un subconjunto de B y B es un 
+superconjunto de A. En Python se utiliza el operador <= para comprobar si un 
+conjunto A es subconjunto de B y el operador >= para comprobar si un conjunto A
+es superconjunto de B.
+
+>>> a = {1, 2}
+>>> b = {1, 2, 3, 4}
+>>> a <= b
+True
+>>> a >= b
+False
+>>> b >= a
+True
+>>> a = {1, 2}
+>>> b = {1, 2}
+>>> a < b  # Ojo al operador < sin el =
+False
+>>> a <= b
+True
+
+Dos conjuntos A y B son disjuntos si no tienen elementos en común, es decir, la
+intersección de A y B es el conjunto vacío. En Python se utiliza el método 
+isdisjoint() de la clase set para comprobar si un conjunto es disjunto de otro.
+
+>>> a = {1, 2}
+>>> b = {1, 2, 3, 4}
+>>> a.isdisjoint(b)
+False
+>>> a = {1, 2}
+>>> b = {3, 4}
+>>> a.isdisjoint(b)
+True
+
+En Python dos conjuntos son iguales si y solo si todos los elementos de un 
+conjunto están contenidos en el otro. Esto quiere decir que cada uno es un 
+subconjunto del otro.
+
+>>> a = {1, 2}
+>>> b = {1, 2}
+>>> id(a)
+4475070656
+>>> id(b)
+4475072096
+>>> a == b
+True
+
+
+Métodos de la clase set en Python:
+
+Método	        Descripción
+--------        --------------------------------------------------------------
+add(e)	        Añade un elemento al conjunto.
+
+clear()	        Elimina todos los elementos del conjunto.
+
+copy()	        Devuelve una copia superficial del conjunto.
+
+difference(iterable)    Devuelve la diferencia del conjunto con el iterable como
+                        un conjunto nuevo.
+
+difference_update(iterable) Actualiza el conjunto tras realizar la diferencia 
+                            con el iterable.
+
+discard(e)      Elimina, si existe, el elemento del conjunto.
+
+intersection(iterable)  Devuelve la intersección del conjunto con el iterable 
+                        como un conjunto nuevo.
+
+intersection_update(iterable)   Actualiza el conjunto tras realizar la 
+                                intersección con el iterable.
+
+isdisjoint(iterable)    Devuelve True si dos conjuntos son disjuntos.
+
+issubset(iterable)      Devuelve True si el conjunto es subconjunto del 
+                        iterable.
+
+issuperset(iterable)	Devuelve True si el conjunto es superconjunto del 
+                        iterable.
+
+pop()           Obtiene y elimina un elemento de forma aleatoria del conjunto.
+
+remove(e)       Elimina el elemento del conjunto. Si no existe lanza un error.
+
+symmetric_difference(iterable)  Devuelve la diferencia simétrica del conjunto 
+                                con el iterable como un conjunto nuevo.
+
+symmetric_difference_update(iterable)   Actualiza el conjunto tras realizar la 
+                                        diferencia simétrica con el iterable.
+
+union(iterable)	    Devuelve la unión del conjunto con el iterable como un 
+                    conjunto nuevo.
+
+update(iterable)    Actualiza el conjunto tras realizar la unión con el 
+                    iterable.
+
+
+
+DICCIONARIOS
+============
+
+La clase dict de Python es un tipo mapa que asocia claves a valores. A 
+diferencia de los tipos secuenciales (list, tuple, range o str), que son 
+indexados por un índice numérico, los diccionarios son indexados por claves. 
+Estas claves siempre deben ser de un tipo inmutable hashable. (si tiene un valor
+de hash que no cambia durante todo su ciclo de vida)
+
+Piensa siempre en un diccionario como un contenedor de pares clave: valor, en 
+el que la clave puede ser de cualquier tipo hashable y es única en el 
+diccionario que la contiene. Generalmente, se suelen usar como claves los tipos 
+int y str aunque cualquier tipo hashable puede ser una clave. En un diccionario,
+el acceso a un elemento a partir de una clave es una operación realmente rápida,
+eficaz y que consume pocos recursos.
+
+--------------------------------------------------------------------------------
+
+En Python hay varias formas de crear un diccionario:
+La más simple es encerrar una secuencia de pares clave: valor separados por 
+comas entre llaves {}
+
+>>> d = {1: 'hola', 89: 'Pythonista', 'a': 'b', 'c': 27}
+
+En el diccionario anterior, los enteros 1 y 89 y las cadenas 'a' y 'c' son las 
+claves. Como ves, se pueden mezclar claves y valores de distinto tipo sin 
+problema.
+
+Para crear un diccionario vacío, simplemente asigna a una variable el valor {}.
+
+También se puede usar el constructor de la clase dict() de varias maneras:
+
+Sin parámetros. Esto creará un diccionario vacío.
+Con pares clave: valor encerrados entre llaves.
+Con argumentos con nombre. El nombre del argumento será la clave en el 
+diccionario. En este caso, las claves solo pueden ser identificadores válidos y 
+mantienen el orden en el que se indican. No se podría, por ejemplo, tener 
+números enteros como claves.
+Pasando un iterable. En este caso, cada elemento del iterable debe ser también 
+un iterable con solo dos elementos. El primero se toma como clave del 
+diccionario y el segundo como valor. Si la clave aparece varias veces, el valor
+que prevalece es el último.
+
+# 1. Pares clave: valor encerrados entre llaves
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> d
+{'uno': 1, 'dos': 2, 'tres': 3}
+
+# 2. Argumentos con nombre
+>>> d2 = dict(uno=1, dos=2, tres=3)
+>>> d2
+{'uno': 1, 'dos': 2, 'tres': 3}
+
+# 3. Pares clave: valor encerrados entre llaves
+>>> d3 = dict({'uno': 1, 'dos': 2, 'tres': 3})
+>>> d3
+{'uno': 1, 'dos': 2, 'tres': 3}
+
+# 4. Iterable que contiene iterables con dos elementos
+>>> d4 = dict([('uno', 1), ('dos', 2), ('tres', 3)])
+>>> d4
+{'uno': 1, 'dos': 2, 'tres': 3}
+
+# 5. Diccionario vacío
+>>> d5 = {}
+>>> d5
+{}
+
+# 6. Diccionario vacío usando el constructor
+>>> d6 = dict()
+>>> d6
+{}
+
+--------------------------------------------------------------------------------
+
+Acceder a un elemento de un diccionario es una de las principales operaciones 
+por las que existe este tipo de dato. El acceso a un valor se realiza mediante 
+indexación de la clave. Para ello, simplemente encierra entre corchetes la clave
+del elemento d[clave]. En caso de que la clave no exista, se lanzará la 
+excepción KeyError.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> d['dos']
+2
+
+La clase dict también ofrece el método get(clave[, valor por defecto]). Este 
+método devuelve el valor correspondiente a la clave clave. En caso de que la 
+clave no exista no lanza ningún error, sino que devuelve el segundo argumento 
+valor por defecto. Si no se proporciona este argumento, se devuelve el valor 
+None.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> d.get('uno')
+1
+
+# Devuelve 4 como valor por defecto si no encuentra la clave
+>>> d.get('cuatro', 4)
+4
+
+# Devuelve None como valor por defecto si no encuentra la clave
+>>> a = d.get('cuatro')
+>>> a
+>>> type(a)
+<class 'NoneType'>
+
+Hay varias formas de recorrer los elementos de un diccionario: recorrer solo 
+las claves, solo los valores o recorrer a la vez las claves y los valores. 
+Puedes ver aquí cómo usar el bucle for para recorrer un diccionario.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> for e in d:
+...     print(e)
+... 
+uno
+dos
+tres
+
+# Recorrer las claves del diccionario
+>>> for k in d.keys():
+...     print(k)
+...     
+uno
+dos
+tres
+
+# Recorrer los valores del diccionario
+>>> for v in d.values():
+...     print(v)
+...     
+1
+2
+3
+
+# Recorrer los pares clave valor
+>>> for i in d.items():
+...     print(i)
+...     
+('uno', 1)
+('dos', 2)
+('tres', 3)
+
+--------------------------------------------------------------------------------
+
+Para añadir un nuevo elemento a un diccionario existente, se usa el operador de
+asignación =. A la izquierda del operador aparece el objeto diccionario con la 
+nueva clave entre corchetes [] y a la derecha el valor que se asocia a dicha 
+clave.
+
+>>> d = {'uno': 1, 'dos': 2}
+>>> d
+{'uno': 1, 'dos': 2}
+
+# Añade un nuevo elemento al diccionario
+>>> d['tres'] = 3
+>>> d
+{'uno': 1, 'dos': 2, 'tres': 3}
+# Si la clave ya existe en el diccionario, se actualiza su valor.
+
+También existe el método setdefault(clave[, valor]). Este método devuelve el 
+valor de la clave si ya existe y, en caso contrario, le asigna el valor que se 
+pasa como segundo argumento. Si no se especifica este segundo argumento, por 
+defecto es None.
+
+>>> d = {'uno': 1, 'dos': 2}
+>>> d.setdefault('uno', 1.0)
+1
+>>> d.setdefault('tres', 3)
+3
+>>> d.setdefault('cuatro')
+>>> d
+{'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': None}
+
+Para actualizar el valor asociado a una clave, simplemente se asigna un nuevo 
+valor a dicha clave del diccionario.
+
+>>> d = {'uno': 1, 'dos': 2}
+>>> d
+{'uno': 1, 'dos': 2}
+>>> d['uno'] = 1.0
+>>> d
+{'uno': 1.0, 'dos': 2}
+
+En Python existen diversos modos de eliminar un elemento de un diccionario. 
+
+pop(clave [, valor por defecto]): Si la clave está en el diccionario, elimina 
+el elemento y devuelve su valor; si no, devuelve el valor por defecto. Si no se
+proporciona el valor por defecto y la clave no está en el diccionario, se lanza
+la excepción KeyError.
+
+popitem(): Elimina el último par clave: valor del diccionario y lo devuelve. Si
+el diccionario está vacío se lanza la excepción KeyError. 
+(NOTA: En versiones anteriores a Python 3.7, se elimina/devuelve un par 
+aleatorio, no se garantiza que sea el último).
+
+del d[clave]: Elimina el par clave: valor. Si no existe la clave, se lanza la 
+excepción KeyError.
+
+clear(): Borra todos los pares clave: valor del diccionario.
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': 4, 'cinco': 5}
+# Elimina un elemento con pop()
+>>> d.pop('uno')
+1
+>>> d
+{'dos': 2, 'tres': 3, 'cuatro': 4, 'cinco': 5}
+# Trata de eliminar una clave con pop() que no existe
+>>> d.pop(6)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+KeyError: 6
+# Elimina un elemento con popitem()
+>>> d.popitem()
+('cinco', 5)
+>>> d
+{'dos': 2, 'tres': 3, 'cuatro': 4}
+# Elimina un elemento con del
+>>> del d['tres']
+>>> d
+{'dos': 2, 'cuatro': 4}
+# Trata de eliminar una clave con del que no existe
+>>> del d['seis']
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+KeyError: 'seis'
+# Borra todos los elementos del diccionario
+>>> d.clear()
+>>> d
+{}
+
+--------------------------------------------------------------------------------
+
+Al igual que sucede con otros tipos contenedores, se puede usar la función de 
+Python len() para obtener el número de elementos de un diccionario.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> len(d)
+3
+
+Al operar con diccionarios, se puede usar el operador de pertenencia in para 
+comprobar si una clave está contenida, o no, en un diccionario. Esto resulta 
+útil, por ejemplo, para asegurarnos de que una clave existe antes de intentar 
+eliminarla.
+
+>>> print('uno' in d)
+True
+>>> print(1 in d)
+False
+>>> print(1 not in d)
+True
+
+# Intenta eliminar la clave 1 si existe
+>>> if 1 in d:
+...     del d[1]
+...     
+>>> d
+{'uno': 1, 'dos': 2, 'tres': 3}
+
+En Python se puede utilizar el operador de igualdad == para comparar si dos 
+diccionarios son iguales. Dos diccionarios son iguales si contienen el mismo 
+conjunto de pares clave: valor, independientemente del orden que tengan.
+Otro tipo de comparaciones entre diccionarios no están permitidas.
+
+>>> d1 = {'uno': 1, 'dos': 2}
+>>> d2 = {'dos': 2, 'uno': 1}
+>>> d3 = {'uno': 1}
+>>> print(d1 == d2)
+True
+>>> print(d1 == d3)
+False
+>>> print(d1 > d2)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+TypeError: '>' not supported between instances of 'dict' and 'dict'
+
+Un diccionario puede contener un valor de cualquier tipo, entre ellos, otro 
+diccionario. Este hecho se conoce como diccionarios anidados. Para acceder al 
+valor de una de las claves de un diccionario interno, se usa el operador de 
+indexación anidada [clave1][clave2]...
+
+>>> d = {'d1': {'k1': 1, 'k2': 2}, 'd2': {'k1': 3, 'k4': 4}}
+>>> d['d1']['k1']
+1
+>>> d['d2']['k1']
+3
+>>> d['d2']['k4']
+4
+
+En ocasiones, es necesario tener almacenado en una lista las claves de un 
+diccionario. Para ello, simplemente pasa el diccionario como argumento del 
+constructor list(). Esto devolverá las claves del diccionario en una lista.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+>>> list(d)
+['uno', 'dos', 'tres']
+
+La clase dict implementa tres métodos muy particulares, dado que devuelven un 
+tipo de dato, iterable, conocido como objetos vista. Estos objetos ofrecen una 
+vista de las claves y valores contenidos en el diccionario y si el diccionario 
+se modifica, dichos objetos se actualizan al instante. Los métodos son los 
+siguientes:
+keys(): Devuelve una vista de las claves del diccionario.
+values(): Devuelve una vista de los valores del diccionario.
+items(): Devuelve una vista de pares (clave, valor) del diccionario.
+
+>>> d = {'uno': 1, 'dos': 2, 'tres': 3}
+# d.keys() es diferente a list(d), aunque ambos
+# contengan las claves del diccionario
+# d.keys() es de tipo dict_keys y list(d) es de tipo list
+>>> v = d.keys()
+>>> type(v)
+<class 'dict_keys'>
+>>> v
+dict_keys(['uno', 'dos', 'tres'])
+>>> l = list(d)
+>>> type(l)
+<class 'list'>
+>>> l
+['uno', 'dos', 'tres']
+>>> v = d.values()
+>>> type(v)
+<class 'dict_values'>
+>>> v
+dict_values([1, 2, 3])
+>>> v = d.items()
+>>> type(v)
+<class 'dict_items'>
+>>> v
+dict_items([('uno', 1), ('dos', 2), ('tres', 3)])
+
+Listado de métodos de la clase dict...
+
+Método	    Descripción
+--------    ------------------------------------------------------------------
+clear()	    Elimina todos los elementos del diccionario.
+copy()	    Devuelve una copia poco profunda del diccionario.
+get(clave[, valor]) Devuelve el valor de la clave. Si no existe, devuelve el 
+                    valor valor si se indica y si no, None.
+items()	    Devuelve una vista de los pares clave: valor del diccionario.
+keys()	    Devuelve una vista de las claves del diccionario.
+pop(clave[, valor]) Devuelve el valor del elemento cuya clave es clave y elimina
+                    el elemento del diccionario. Si la clave no se encuentra,
+                    devuelve valor si se proporciona. Si la clave no se 
+                    encuentra y no se indica valor, lanza la excepción KeyError.
+popitem()   Devuelve un par (clave, valor) aleatorio del diccionario. Si el 
+            diccionario está vacío, lanza la excepción KeyError.
+setdefault(clave[, valor])  Si la clave está en el diccionario, devuelve su 
+                            valor. Si no lo está, inserta la clave con el valor
+                            valor y lo devuelve (si no se especifica valor, por
+                            defecto es None).
+update(iterable)    Actualiza el diccionario con los pares clave: valor del 
+                    iterable.
+values()    Devuelve una vista de los valores del diccionario.
+
+
+
+CADENAS 
+=======
+
+El tipo str es una secuencia inmutable de caracteres Unicode. Por tanto, al 
+igual que list, tuple o range, es un tipo secuencial y como es inmutable, un 
+objeto de este tipo no se puede modificar después de haber sido creado.
+
+Crear una cadena de texto en Python es muy sencillo. Simplemente encierra una 
+secuencia de caracteres entre comillas simples '' o dobles "".
+
+>>> s = 'Hola Pythonista'
+>>> s
+'Hola Pythonista'
+>>> type(s)
+<class 'str'>
+
+Si quieres o necesitas que un string ocupe más de una línea, entonces debes 
+encerrar el texto entre tres comillas simples '''...''' o dobles """...""".
+
+>>> s = '''
+... Este string
+...    ocupa más
+...     de
+...  una línea'''
+>>> s
+'\nEste string\n   ocupa más\n    de\n una línea'
+>>> print(s)
+Este string
+   ocupa más
+    de
+ una línea
+
+Como puedes observar, el uso de las tres comillas (simples o dobles) guarda el 
+carácter de fin de línea. Esto se puede evitar añadiendo el carácter \ al final
+de cada línea.
+
+>>> s = '''Este string \
+...    ocupa más \
+...     de \
+...  una línea'''
+>>> s
+'Este string    ocupa más     de  una línea'
+>>> print(s)
+Este string    ocupa más     de  una línea
+
+Además, dos cadenas se pueden concatenar con el operador +, o incluso repetir,
+usando el operador *. El resultado en ambos casos es un nuevo string.
+
+>>> hola = 'hola'
+>>> s = hola + ' Pythonista'
+>>> s
+'hola Pythonista'
+>>> s2 = hola * 3 + ' Pythonista'
+>>> s2
+'holaholahola Pythonista'
+
+Dos strings literales se pueden concatenar si aparecen juntos uno tras otro.
+
+>>> s = 'Hola' ' Pythonista'
+>>> s
+'Hola Pythonista'
+
+--------------------------------------------------------------------------------
+
+Podemos acceder a los caracteres de una cadena a través de un índice numérico.
+Siempre el primer carácter de la secuencia tiene como índice 0.
+
+>>> s = 'Hola Pythonista'
+# Primer carácter de la cadena
+>>> s[0]
+'H'
+# Sexto carácter de la cadena
+>>> s[5]
+'P'
+
+Los índices también puede ser negativos. En este caso, el índice -1 hace 
+referencia al último carácter, -2 al penúltimo, y así, sucesivamente.
+
+>>> s = 'Hola Pythonista'
+>>> s[-1]
+'a'
+>>> s[-2]
+'t'
+
+En Python es posible recorrer todos los caracteres de una cadena usando la 
+sentencia for. Para ello, lo más fácil es seguir la siguiente plantilla:
+
+>>> saludo = 'Hola'
+>>> for c in saludo:
+...     print(c)
+...     
+H
+o
+l
+a
+
+--------------------------------------------------------------------------------
+
+Para comprobar si un carácter está contenido en una cadena, utiliza el operador
+de pertenencia in. Esto nos devolverá True si al menos hay una ocurrencia del 
+carácter en el string o False en caso contrario.
+
+>>> saludo = 'Hola'
+>>> print('o' in saludo)
+True
+>>> print('p' in saludo)
+False
+>>> print('p' not in saludo)
+True
+
+find(sub [, pos_ini, pos_final]) es parecido a utilizar el operador in, con la 
+diferencia de que si encuentra la subcadena sub devuelve el índice por el que 
+comienza la primera aparición de dicha subcadena, y -1 en caso contrario.
+
+>>> cadena = 'me gusta la mermelada'
+>>> cadena.find('la')
+9
+>>> cadena.find('lo')
+-1
+>>> cadena.find('la', 11)
+17
+
+index(sub [, pos_ini, pos_final]) es similar a find() pero en caso de que no se
+encuentre la subcadena sub lanza la excepción ValueError.
+
+>>> cadena = 'me gusta la mermelada'
+>>> cadena.index('lo')
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+ValueError: substring not found
+>>> cadena.index('la')
+9
+
+rfind(sub [, pos_ini, pos_final]) devuelve el índice por el que comienza la 
+última aparición de la subcadena sub, y -1 si no se encuentra. 
+rindex(sub [, pos_ini, pos_final]) es similar a rfind() pero en caso de que no 
+se encuentre la subcadena sub lanza la excepción ValueError.
+
+>>> cadena = 'me gusta la mermelada'
+>>> cadena.rfind('la')
+17
+>>> cadena.rfind('lo')
+-1
+>>> cadena.rindex('la')
+17
+
+Para obtener el número de veces que una subcadena aparece en un texto, utiliza
+el método count(). count(sub [, pos_ini, pos_final]) devuelve el número de 
+ocurrencias de la subcadena sub en la cadena.
+
+>>> cadena = 'me gusta la mermelada'
+>>> cadena.count('la')
+2
+>>> cadena.count('lo')
+0
+
+startswith(prefijo [, pos_ini, pos_fin]) devuelve True si la cadena comienza por
+prefijo y False en caso contrario. prefijo puede ser una tupla de prefijos a 
+buscar. endswith(sufijo [, pos_ini, pos_fin]) devuelve True si la cadena termina
+por sufijo y False en caso contrario. sufijo puede ser una tupla de sufijos a 
+buscar.
+
+>>> cadena = 'me gusta la mermelada'
+>>> cadena.startswith('me')
+True
+>>> cadena.startswith('no')
+False
+>>> cadena.startswith(('me', 'le', 'te'))
+True
+>>> cadena.endswith('da')
+True
+>>> cadena.endswith('drid')
+False
+>>> cadena.endswith(('drid', 'ro', 'la'))
+False
+
+En Python, para comparar si dos cadenas de caracteres son iguales, se utiliza 
+el operador de igualdad ==. Dos strings son iguales si y solo si ambas cadenas 
+contienen la misma secuencia de caracteres (se distingue entre mayúsculas y 
+minúsculas).
+
+>>> s1 = 'hola'
+>>> s2 = 'hola'
+>>> print(s1 == s2)
+True
+
+Para obtener la longitud de una cadena se debe utilizar la función de Python 
+len(). A esta función se le pasa como argumento la cadena en cuestión y nos 
+devolverá el número de caracteres que tiene.
+
+>>> saludo = 'Hola'
+>>> len(saludo)
+4
+
+--------------------------------------------------------------------------------
+
+Una de las operaciones más básicas cuando se trabaja con CADENAS de caracteres
+es la CONCATENACIÓN. Esto consiste en unir dos cadenas en una sola, siendo el 
+resultado un nuevo string. La forma más simple de concatenar dos cadenas en 
+Python es utilizando el operador de concatenación +:
+
+>>> hola = 'Hola'
+>>> python = 'Pythonista'
+>>> hola_python = hola + ' ' + python  # concatenamos 3 strings
+
+También es posible concatenar más de dos strings a la vez:
+
+>>> print('Suma: ' + str(1) + ' + 2 = ' + str(1 + 2))
+
+Si nos fijamos en el script que mostraba el resultado de una suma de la 
+sección anterior, lo podemos mejorar del siguiente modo:
+
+>>> def print_suma(x, y):
+...     return 'El resultado de %i y %i es: %i' % (x, y, x+y)
+... 
+>>> print_suma(1, 2)
+'El resultado de 1 y 2 es: 3'
+
+--------------------------------------------------------------------------------
+
+Python 3 introdujo un nuevo modo de formatear cadenas a través del método 
+format disponible en cualquier objeto de tipo string. Se puede hacer uso de 
+este método del mismo modo que se hacía con el método tradicional, es decir, 
+sustituyendo valores en función de la posición a través del marcador {}:
+
+>>> var1 = 'J2logo'
+>>> var2 = 'Hola'
+>>> '{} {}, ¿cómo estás?'.format(var2, var1)
+'Hola J2logo, ¿cómo estás?'
+
+Pero también puedes especificar el nombre de las variables, de manera que el 
+orden en el que se pasen los argumentos al llamar a format no importa:
+
+>>> var1 = 'J2logo'
+>>> var2 = 'Hola'
+>>> '{var2} {var1}, ¿cómo estás?'.format(var1=var1, var2=var2)
+'Hola J2logo, ¿cómo estás?'
+
+O indicando el índice de los parámetros al invocar al método format:
+
+>>> var1 = 'J2logo'
+>>> var2 = 'Hola'
+>>> '{1} {0}, ¿cómo estás?'.format(var1, var2)
+'Hola J2logo, ¿cómo estás?'
+
+A partir de la versión 3.6 de Python, el lenguaje introdujo un nuevo modo de 
+formatear strings que es más eficiente que todos los que hemos visto 
+anteriormente. Son las cadenas literales formateadas o f-Strings:
+
+nombre = 'J2logo'
+f'Hola {nombre}'
+'Hola J2logo'
+
+>>> def print_suma(x, y):
+...     return f'El resultado de {x} + {y} es: {x + y}'
+... 
+>>> print_suma(1, 2)
+'El resultado de 1 + 2 es: 3'
+
+Por último, si dispones de una lista de strings, puedes hacer uso del método 
+join para concatenar los distintos valores en un único string. El literal con 
+el que se llama a join es lo que se utiliza para separar los distintos 
+elementos de la cadena:
+
+>>> numeros = ['1', '2', '3']
+>>> ', '.join(numeros)
+'1, 2, 3'
+
+--------------------------------------------------------------------------------
+
+Como un string está limitado por los caracteres '' o "", ¿qué ocurre si necesito
+usar el carácter ' o " dentro de una cadena? Lo más fácil si tienes que usar el 
+carácter ' en tu cadena, es encerarla entre comillas dobles. Por el contrario, 
+si necesitas usar " dentro del string, enciérralo entre comillas simples.
+
+>>> s = 'Dijo: "Hola Pythonista"'
+>>> print(s)
+Dijo: "Hola Pythonista"
+>>> s = "Dijo: 'Hola Pythonista'"
+>>> print(s)
+Dijo: 'Hola Pythonista'
+
+También puedes usar la combinación \' para mostrar una comilla simple o \" para
+mostrar una comilla doble, independientemente de si la cadena está encerrada 
+entre comillas simples o dobles.
+
+>>> s = 'Dijo: \'Hola Pythonista\''
+>>> print(s)
+Dijo: 'Hola Pythonista'
+>>> s = "Dijo: \"Hola Pythonista\""
+>>> print(s)
+Dijo: "Hola Pythonista"
+
+Además del carácter ' y ", hay otros caracteres especiales que para ser usados
+dentro de una cadena necesitan ser «escapados» con el carácter \. Son, entre 
+otros, los siguientes: tabulador (\t), barra invertida (\\), retroceso (\b), 
+nueva línea (\n) o retorno de carro (\r).
+
+# Ejemplo para declarar una ruta en Windows
+>>> s = 'C:\\Users\\Documents\\'
+>>> print(s)
+C:\Users\Documents\
+# Nueva línea más tabulador
+>>> s = 'Hola\n\tPythonista'
+>>> print(s)
+Hola
+    Pythonista
+
+En relación con la sección anterior, puede haber ocasiones en que se quiera 
+usar el carácter \ pero sin ser utilizado como carácter de escape. Para ello, 
+se puede hacer uso de las raw strings. Una cadena de este tipo comienza 
+anteponiendo el carácter r a las comillas (simples o dobles).
+
+# Aquí, \n es interpretado como nueva línea
+>>> s = 'C:\python\noticias'
+>>> print(s)
+C:\python
+oticias
+# En una raw string no se interpreta el carácter \
+>>> s = r'C:\python\noticias'
+>>> print(s)
+C:\python\noticias
+
+--------------------------------------------------------------------------------
+
+Si una estructura de datos está vacía, devuelve «False» cuando es usada en un 
+contexto booleano. Por el contrario, si contiene elementos, devuelve «True» al 
+tratarla en un contexto booleano.
+
+Vamos a definir una función para comprobar si una estructura de datos es vacía:
+
+def is_empty(data_structure):
+    if data_structure:
+        print("No está vacía")
+        return False
+    else:
+        print("Está vacía")
+        return True
+
+Ahora vamos a inicializar unas estructuras de datos vacías y vamos a comprobar
+su estado:
+
+>>>d = {}
+>>>t = ()
+>>>l = []
+>>>str = ''
+>>>s = set()
+>>>is_empty(d)
+Está vacía
+>>>is_empty(t)
+Está vacía
+>>>is_empty(l)
+Está vacía
+>>>is_empty(str)
+Está vacía
+>>>is_empty(s)
+Está vacía
+
+A continuación, añadimos un elemento a cada una de las estructuras anteriores y 
+hacemos la misma comprobación:
+
+>>>d['a'] = 1
+>>>t = tuple('a')
+>>>l.append('a')
+>>>str = 'a'
+>>>s.add('a')
+>>>is_empty(d)
+No está vacía
+>>>is_empty(t)
+No está vacía
+>>>is_empty(l)
+No está vacía
+>>>is_empty(str)
+No está vacía
+>>>is_empty(s)
+No está vacía
+
+Hay que tener en cuenta que esta forma de comprobar si una estructura de datos 
+(ya sea una lista, diccionario, cadena…) está vacía, también devolverá False si
+su valor es None. Además, las claves «vacías» que tienen valores en los 
+diccionarios también serán evaluadas como «no vacías«.
+
+--------------------------------------------------------------------------------
+
+El método replace(sub, nuevo) de la clase string devuelve una copia del string 
+con todas las ocurrencias del substring sub reemplazadas por el substring nuevo.
+
+>>> dir_name = 'S2A_MSIL1C_20190106T105431_N0207_R051_T30SXH_20190106T112304'
+>>> new_dir_name = dir_name.replace('MSIL1C', 'MSIL2A')
+>>> new_dir_name
+'S2A_MSIL2A_20190106T105431_N0207_R051_T30SXH_20190106T112304'
+
+Al método replace() se le puede pasar un tercer parámetro opcional de tipo 
+integer. Este parámetro indica el número máximo de ocurrencias a reemplazar.
+
+>>> aes = 'aaaaaa'
+>>> nueva = aes.replace('a', 'b', 3)
+>>> nueva
+'bbbaaa'
+
+El método replace() visto en los apartados anteriores se refiere al método 
+perteneciente a objetos de tipo string. No hay que confundirlo con la función 
+replace() del módulo string que, además, fue eliminada en la v3 de Python. Es 
+por esto que al método se le llama del siguiente modo: 
+'cadena'.replace('c', 'C') y no string.replace('cadena', 'c', 'C').
+
+--------------------------------------------------------------------------------
+
+Cualquier objeto de tipo string implementa el método strip(). Este método se 
+utiliza para eliminar todos los espacios en blanco iniciales y finales de una 
+cadena. También tiene en cuenta los tabuladores y saltos de línea. En realidad 
+strip() devuelve una copia de la cadena con los caracteres iniciales y finales 
+en blanco eliminados.
+
+>>> hola = ' \t\t\n\tHola \n '
+>>> print(hola)
+    Hola 
+>>> hola_limpio = hola.strip()
+>>> print(hola_limpio)
+Hola
+
+Opcionalmente, al método strip() se le puede pasar como parámetro un conjunto 
+de caracteres. Si todos estos caracteres se encuentran al principio o al final 
+de la cadena serán eliminados. Veámoslo con un ejemplo:
+
+>>> texto = ' hola mundo hola \ni'
+>>> print(texto.strip(' oahl'))
+mundo hola 
+i
+>>> print(texto.strip(' \nioahl'))
+mund
+
+Además del método strip(), también existen los métodos rstrip() y lstrip().
+rstrip() devuelve una nueva cadena con los espacios en blanco del final 
+eliminados. Por el contrario, lstrip() devuelve una nueva cadena sin los 
+espacios en blanco del principio.
+
+>>> hola = ' hola '
+>>> print(hola.rstrip())
+' hola'
+>>> print(hola.lstrip())
+'hola '
+
+--------------------------------------------------------------------------------
+
+upper() devuelve una copia de la cadena en mayúsculas.
+
+>>> hola = 'Hola pythonista'
+>>> hola_upper = hola.upper()
+>>> print(hola_upper)
+HOLA PYTHONISTA
+
+lower() devuelve una copia de la cadena en minúsculas.
+
+>>> hola = 'HOLA Pythonista'
+>>> hola_lower = hola.lower()
+>>> print(hola_lower)
+hola pythonista
+
+capitalize() devuelve una copia de la cadena con la primera letra en mayúsculas.
+
+>>> 'hola pythonista. ¿te gusta python?'.capitalize()
+'Hola pythonista. ¿te gusta python?'
+
+swapcase() devuelve una copia de la cadena con los caracteres en mayúsculas 
+cambiados por minúsculas y viceversa.
+
+>>> hola = 'Hola Pythonista. ¿Te gusta Python?'
+>>> hola_swaped = hola.swapcase()
+>>> print(hola_swaped)
+hOLA pYTHONISTA. ¿tE GUSTA pYTHON?
+
+title() convierte la primera letra de cada palabra de una cadena a mayúsculas.
+
+>>> hola = 'hola pythonista. ¿te gusta python?'
+>>> hola_title = hola.title()
+>>> print(hola_title)
+Hola Pythonista. ¿Te Gusta Python?
+
+isupper() devuelve True si todos los caracteres de una cadena están en 
+mayúsculas, False en caso contrario.
+
+>>> 'Hola'.isupper()
+False
+>>> 'HOLA'.isupper()
+True
+
+islower() devuelve True si todos los caracteres de una cadena están en 
+minúsculas, False en caso contrario.
+
+>>> 'Hola'.islower()
+False
+>>> 'hola'.islower()
+True
+
+--------------------------------------------------------------------------------
+
+El método split(sep=None, maxsplit=-1) en Python devuelve una lista de palabras
+o tokens usando sep como cadena de separación. Básicamente, se utiliza para 
+dividir o separar un string en partes. Si no se pasa el argumento sep o este es
+None, cualquier espacio en blanco será eliminado, incluyendo los del comienzo y
+fin de la cadena y cualquier carácter que se imprima en blanco, como \n \t o \r:
+
+>>> '  Me    gusta \t\nPython     '.split()
+['Me', 'gusta', 'Python']
+Fíjate que el resultado es diferente si se indica sep=' ':
+
+>>> '  Me    gusta \t\nPython     '.split(' ')
+['', '', 'Me', '', '', '', 'gusta', '\t\nPython', '', '', '', '', '']
+
+Como te decía, sep puede ser un carácter:
+
+>>> '1,2,3'.split(sep=',')
+['1', '2', '3']
+
+O una cadena (en este caso, la coma y un espacio):
+
+>>> '1, 2, 3'.split(sep=', ')
+['1', '2', '3']
+
+Además, si se especifica el argumento sep, los delimitadores que aparezcan 
+juntos no se agrupan. En su lugar, se crea como token una cadena vacía '':
+
+>>> '1,,2,,,3'.split(',')
+['1', '', '2', '', '', '3']
+
+Se puede indicar el número máximo de divisiones a realizar especificando el 
+argumento maxsplit:
+
+>>> 'Me gusta Python'.split(maxsplit=1)
+['Me', 'gusta Python']
+>>> '1, 2, 3, 4, 5'.split(sep=', ', maxsplit=2)
+['1', '2', '3, 4, 5']
+
+
+
+FUNCIONES 
+=========
+
+Las funciones en Python constituyen unidades lógicas de un programa y tienen un
+doble objetivo:
+-   Dividir y organizar el código en partes más sencillas.
+-   Encapsular el código que se repite a lo largo de un programa para ser 
+    reutilizado.
+
+Python ya define de serie un conjunto de funciones que podemos utilizar 
+directamente en nuestras aplicaciones. Por ejemplo, hemos visto la función 
+print(), que muestra por consola un texto.
+
+Como programador puedes definir tus propias funciones para estructurar el 
+código de manera que sea más legible y para reutilizar aquellas partes que se 
+repiten a lo largo de una aplicación.
+
+Para definir una función en Python se utiliza la palabra reservada def. A 
+continuación viene el nombre o identificador de la función que es el que se 
+utiliza para invocarla. Después del nombre hay que incluir los paréntesis y 
+una lista opcional de parámetros. Por último, la cabecera o definición de la 
+función termina con dos puntos. Tras los dos puntos se incluye el cuerpo de la
+función (con un sangrado mayor, generalmente cuatro espacios) que no es más que
+el conjunto de instrucciones que se encapsulan en dicha función y que le dan 
+significado. En último lugar y de manera opcional, se añade la instrucción con
+la palabra reservada return para devolver un resultado.
+
+NOTA: Cuando la primera instrucción de una función es un string encerrado entre
+tres comillas simples ''' o dobles """, a dicha instrucción se le conoce como
+docstring. El docstring es una cadena que se utiliza para documentar la función.
+
+def multiplica_por_5(numero):
+    print(f'{numero} * 5 = {numero * 5}')
+print('Comienzo del programa')    
+multiplica_por_5(7)
+print('Siguiente')
+multiplica_por_5(113)
+print('Fin')
+
+La función multiplica_por_5() define un parámetro llamado numero que es el que 
+se utiliza para multiplicar por 5. El resultado del programa anterior sería el
+siguiente:
+
+Comienzo del programa
+7 * 5 = 35
+Siguiente
+113 * 5 = 565
+Fin
+
+IMPORTANTE: Diferencia entre parámetro y argumento. La función
+multiplica_por_5() define un parámetro llamado numero. Sin embargo, cuando 
+desde el código se invoca a la función, por ejemplo, multiplica_por_5(7), se 
+dice que se llama a multiplica por cinco con el argumento 7.
+
+--------------------------------------------------------------------------------
+
+En el siguiente ejemplo, la función es_mayor devuelve si el parámetro x es 
+mayor que el parámetro y:
+
+def es_mayor(x, y):
+    return x > y
+
+>>>es_mayor(5, 3)
+True
+
+Si al llamar a la función no pasamos todos los argumentos, el intérprete 
+lanzará una excepción. 
+
+Por defecto, los valores de los argumentos se asignan a los parámetros en el 
+mismo orden en el que los pasas al llamar a la función. Más adelante veremos 
+que esta circunstancia puede cambiar.
+
+Los parámetros opcionales se indican con un valor por defecto y si no se pasan 
+al invocar a la función entonces toman este valor.
+
+Imaginemos el constructor (método __init__) de una clase Punto que toma los 
+valores de las coordenadas en las que se creará un objeto de dicha clase:
+
+class Punto:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    def __repr__(self):
+        return "x: {}, y: {}".format(self.x, self.y)
+
+Como vemos, en el método __init__ se indican dos parámetros: la coordenada x y 
+la coordenada y de un punto:
+
+>>>Punto(1, 2)
+x: 1, y: 2
+
+Podemos mejorar nuestra función __init__ de manera que si no se indica alguno 
+de los parámetros, entonces tome el valor por defecto 0. Para indicar un 
+parámetro de forma opcional se usa el operador ‘=‘. Veamos cómo quedaría:
+
+def __init__(self, x=0, y=0):
+    self.x = x
+    self.y = y
+
+Ahora podemos invocar a la función del siguiente modo:
+
+>>>Punto()
+x: 0, y: 0
+>>>Punto(3)
+x: 3, y: 0
+
+En una función se pueden especificar tantos parámetros opcionales como se 
+quiera. Sin embargo, una vez que se indica uno, todos los parámetros a su 
+derecha también deben ser opcionales. Esto quiere decir que los parámetros 
+obligatorios no pueden seguir a los parámetros por defecto. Esto es así porque 
+el valor en el que se asignan los argumentos depende del orden con el que se 
+llaman. Sin embargo, el orden se puede cambiar si llamamos a la función 
+indicando el nombre de los parámetros. Los siguientes ejemplos son todos 
+válidos:
+
+>>>saludo(mensaje="¿cómo estás?", nombre="j2logo")
+Hola j2logo, ¿cómo estás?
+>>>saludo(nombre="j2logo", mensaje="¿cómo estás?")
+Hola j2logo, ¿cómo estás?
+>>>saludo("j2logo", mensaje="¿cómo estás?")
+Hola j2logo, ¿cómo estás?
+
+--------------------------------------------------------------------------------
+
+Hay situaciones en las que es mucho más apropiado que el número de parámetros 
+sea opcional y/o variable. En Python, el parámetro especial *args en una función 
+se usa para pasar, de forma opcional, un número variable de argumentos 
+posicionales. Lo que realmente indica que el parámetro es de este tipo es el 
+símbolo ‘*’, el nombre args se usa por convención. El parámetro recibe los 
+argumentos como una tupla. Es un parámetro opcional. Se puede invocar a la 
+función haciendo uso del mismo, o no. El número de argumentos al invocar a la 
+función es variable. Son parámetros posicionales, por lo que su valor depende 
+de la posición en la que se pasen a la función.
+
+def sum(x, y):
+    return x + y
+
+>>>sum(2, 3)
+5
+
+¿qué ocurre si decidimos que necesitamos sumar un valor más? La mejor solución
+es hacer uso de *args en la definición de esta función. De este modo, podemos 
+pasar tantos argumentos como queramos. Pero antes de esto, tenemos que 
+reimplementar nuestra función sum:
+
+def sum(*args):
+    value = 0
+    for n in args:
+        value += n
+    return value
+
+>>>sum()
+0
+>>>sum(2, 3)
+5
+>>>sum(2, 3, 4)
+9
+>>>sum(2, 3, 4, 6, 9, 21)
+45
+
+En Python, el parámetro especial **kwargs en una función se usa para pasar, de 
+forma opcional, un número variable de argumentos con nombre. Lo que realmente 
+indica que el parámetro es de este tipo es el símbolo ‘**’, el nombre kwargs se
+usa por convención. El parámetro recibe los argumentos como un diccionario.
+Al tratarse de un diccionario, el orden de los parámetros no importa. Los 
+parámetros se asocian en función de las claves del diccionario.
+
+def filter(**kwargs):
+    query = "SELECT * FROM clientes"
+    i = 0
+    for key, value in kwargs.items():
+        if i == 0:
+            query += " WHERE "
+        else:
+            query += " AND "
+        query += "{}='{}'".format(key, value)
+        i += 1
+    query += ";"
+    return query
+
+>>>filter()
+SELECT * FROM clientes;
+>>>filter(ciudad="Madrid")
+SELECT * FROM clientes WHERE ciudad='Madrid';
+>>>filter(ciudad="Madrid", fecha_alta="25-10-2018")
+SELECT * FROM clientes WHERE ciudad='Madrid' AND fecha_alta='25-10-2018';
+
+El orden de los parámetros *args y **kwargs en la definición de una función 
+importa. Ambos pueden aparecer de forma conjunta o individual, pero siempre al 
+final y de la siguiente manera:
+
+def ejemplo(arg1, arg2, *args, **kwargs)
+*args y **kwargs como argumentos en la llamada a una función
+
+*args y **kwargs también pueden usarse como argumentos al invocar a una función
+y su comportamiento es distinto al que te he enseñado anteriormente.
+
+def resultado(x, y, op):
+    if op == '+':
+        return x + y
+    elif op == '-':
+        return x - y
+
+Esta función recibe tres parámetros: x, y y op y puede ser invocada de distintas
+formas. La primera de ellas es la que ya supones:
+
+>>>resultado(1, 2, '+')
+3
+
+Pero también podemos invocar a la función resultado con un único parámetro de 
+tipo iterable, como una tupla o una lista, del siguiente modo (*args):
+
+>>>a = (1, 2, '+')
+>>>resultado(*a)
+3
+
+O incluso así:
+
+>>>a = (2, '-')
+>>>resultado(3, *a)
+1
+
+También podemos pasar como argumento un diccionario usando como claves los 
+nombres de los parámetros (**kwargs):
+
+>>>a = {"op": "+", "x": 2, "y": 5}
+>>>resultado(**a)
+7
+
+--------------------------------------------------------------------------------
+
+return hace que termine la ejecución de la función cuando aparece y el programa
+continúa por su flujo normal. La sentencia return es opcional, puede devolver,
+o no, un valor y es posible que aparezca más de una vez dentro de una misma 
+función.
+
+return que no devuelve ningún valor
+La siguiente función muestra por pantalla el cuadrado de un número solo si este
+es par:
+
+>>> def cuadrado_de_par(numero):
+...     if not numero % 2 == 0:
+...         return
+...     else:
+...         print(numero ** 2)
+...     
+>>> cuadrado_de_par(8)
+64
+>>> cuadrado_de_par(3)
+
+Varios return en una misma función
+La función es_par() devuelve True si un número es par y False en caso contrario:
+
+>>> def es_par(numero):
+...     if numero % 2 == 0:
+...         return True
+...     else:
+...         return False
+...     
+>>> es_par(2)
+True
+>>> es_par(5)
+False
+
+En Python, es posible devolver más de un valor con una sola sentencia return. 
+Por defecto, con return se puede devolver una tupla de valores. Un ejemplo 
+sería la siguiente función cuadrado_y_cubo() que devuelve el cuadrado y el cubo
+de un número:
+
+>>> def cuadrado_y_cubo(numero):
+...     return numero ** 2, numero ** 3
+... 
+>>> cuad, cubo = cuadrado_y_cubo(4)
+>>> cuad
+16
+>>> cubo
+64
+
+Sin embargo, se puede usar otra técnica devolviendo los diferentes resultados /
+valores en una lista. Por ejemplo, la función tabla_del() que se muestra a 
+continuación hace esto:
+
+>>> def tabla_del(numero):
+...     resultados = []
+...     for i in range(11):
+...         resultados.append(numero * i)
+...     return resultados
+... 
+>>> res = tabla_del(3)
+>>> res
+[0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30]
+
+En Python una función siempre devuelve un valor, porque internamente, devuelve
+por defecto el valor None cuando en una función no aparece la sentencia return 
+o esta no devuelve nada.
+
+>>> def saludo(nombre):
+...     print(f'Hola {nombre}')
+...     
+>>> print(saludo('j2logo'))
+Hola j2logo
+None
+
+--------------------------------------------------------------------------------
+
+Una función puede definir, opcionalmente, una secuencia de parámetros con los 
+que invocarla. ¿Cómo se asignan en Python los valores a los parámetros? ¿Se 
+puede modificar el valor de una variable dentro de una función? Antes de 
+contestar a estas dos preguntas, tenemos que conocer los conceptos de 
+programación paso por valor y paso por referencia.
+
+Paso por valor: Un lenguaje de programación que utiliza paso por valor de los 
+argumentos, lo que realmente hace es copiar el valor de las variables en los 
+respectivos parámetros. Cualquier modificación del valor del parámetro, no 
+afecta a la variable externa correspondiente.
+
+Paso por referencia: Un lenguaje de programación que utiliza paso por 
+referencia, lo que realmente hace es copiar en los parámetros la dirección de 
+memoria de las variables que se usan como argumento. Esto implica que cualquier
+modificación del valor en el parámetro afectará a la variable externa 
+correspondiente.
+
+Muchos lenguajes de programación usan a la vez paso por valor y por referencia
+en función del tipo de la variable. Por ejemplo, paso por valor para los tipos
+simples: entero, float, … y paso por referencia para los objetos.
+
+Lo que ocurre en Python realmente es que se pasa por valor la referencia del 
+objeto. Si el tipo que se pasa como argumento es inmutable, cualquier 
+modificación en el valor del parámetro no afectará a la variable externa pero, 
+si es mutable (como una lista o diccionario), sí se verá afectado por las 
+modificaciones.
+
+--------------------------------------------------------------------------------
+
+En cualquier lenguaje de programación de alto nivel, toda variable está 
+definida dentro de un ámbito. Esto es, los sitios en los que la variable tiene
+sentido y dónde se puede utilizar. Los parámetros y variables definidos dentro
+de una función tienen un ámbito local a la propia función. Por tanto, estos 
+parámetros y variables no pueden ser utilizados fuera de la función porque no 
+serían reconocidos.
+
+El ciclo de vida de una variable determina el tiempo en que una variable 
+permanece en memoria. Una variable dentro de una función existe en memoria 
+durante el tiempo en que está ejecutándose dicha función. Una vez que termina 
+su ejecución, sus variables y parámetros desaparecen de memoria y, por tanto, 
+no pueden ser referenciados.
+
+>>> def saludo(nombre):
+...     x = 10
+...     print(f'Hola {nombre}')
+...     
+>>> saludo('j2logo')
+Hola j2logo
+>>> print(x)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+NameError: name 'x' is not defined
+
+>>> def muestra_x():
+...     x = 10
+...     print(f'x vale {x}')
+...     
+>>> x = 20
+>>> muestra_x()
+x vale 10
+>>> print(x)
+20
+
+Las variables definidas fuera de una función tienen un ámbito conocido como 
+global y son visibles dentro de las funciones, dónde solo se puede consultar su
+valor.
+
+>>> y = 20
+>>> def muestra_x():
+...     x = 10
+...     print(f'x vale {x}')
+...     print(f'y vale {y}')
+...     
+>>> muestra_x()
+x vale 10
+y vale 20
+
+Para modificar dentro de una función una variable definida fuera de la misma, 
+hay que usar la palabra reservada global.
+
+
+
+NOMBRES Y ESPACIOS DE NOMBRES
+=============================
+
+Un nombre o identificador es la forma que existe en Python de referenciar a un 
+objeto concreto. Equivaldría al concepto de variable. En definitiva, una 
+variable no es más que el nombre con el que nos referimos a un objeto que existe
+en memoria.
+
+Un espacio de nombres es una colección aislada de nombres (o identificadores) 
+que referencian a objetos. En un mismo script o programa Python pueden coexistir
+varios espacios de nombres a la vez.
+
+Cuando accedemos a un intérprete de Python o ejecutamos un programa, todos los 
+identificadores que define el lenguaje son añadidos a un espacio de nombres al 
+que es posible acceder desde cualquier punto de un script. Es por esto que las 
+funciones como print() o len() están siempre accesibles. Este espacio de nombres
+es conocido como espacio de nombres incorporado (o built-in namespace)
+
+Los espacios de nombres están aislados. Es la razón por la que en diferentes 
+módulos se pueden usar los mismos nombres y estos no interfieren entre sí.
+
+A su vez, en un módulo existen funciones y clases. Cuando se invoca a una 
+función se crea un espacio de nombres local asociado a dicha función que 
+contiene todos los nombres definidos dentro de la misma (sucede algo similar 
+para las clases).
+
+--------------------------------------------------------------------------------
+
+Un ámbito define los límites de un programa en los que un espacio de nombres 
+puede ser accedido sin utilizar un prefijo. Existen, como mínimo, tres ámbitos.
+Uno por cada espacio de nombres:
+
+Ámbito de la función actual, que tiene los nombres locales a la función.
+Ámbito a nivel de módulo, que tiene los nombres globales, los que se definen en
+el propio módulo.
+Ámbito incorporado, el más externo, que tiene los nombres que define Python.
+
+Cuando desde dentro de una función se hace referencia a un nombre, este se busca
+en primer lugar en el espacio de nombres local, luego en el espacio de nombres 
+global y finalmente en el espacio de nombres incorporado. 
+
+Si hay una función dentro de otra función, se anida un nuevo ámbito dentro del 
+ámbito local.
+
+def funcion_a():
+    y = 2
+    def funcion_b():
+        z = 3
+        print(z)
+    funcion_b()
+    print(y)
+x = 1
+funcion_a()
+print(x)
+
+En el programa de arriba tenemos una variable x que está definida en el espacio
+de nombres global, una variable y definida en el espacio de nombres local de la 
+función funcion_a y una variable z que está definida en el espacio de nombres 
+local de la función funcion_b. Imagina por un momento que estamos dentro de la 
+función funcion_b. La variable z es local para nosotros (está en el ámbito 
+local), y es no local y x es global. Esto quiere decir que podemos acceder y 
+modificar la variable z pero solo podemos consultar el valor de x e y puesto que
+se encuentran en un ámbito diferente al nuestro.
+
+Si dentro de la función funcion_b asignamos un valor a una variable y, realmente
+estamos creando una nueva variable en nuestro espacio de nombres local. Esta 
+variable es diferente a la variable no local y que está definida en la función 
+funcion_a. Lo mismo ocurriría con la variable global x.
+
+Para poder modificar la variable x dentro de funcion_b, debemos definir la 
+variable como global. Y para modificar la variable y, hay que definirla como 
+nonlocal.
+
+def funcion_a():
+    x = 2
+    def funcion_b():
+        x = 3
+        print(x)
+    funcion_b()
+    print(x)
+x = 1
+funcion_a()
+print(x)
+
+el resultado sería el siguiente:
+3
+2
+1
+
+Sin embargo, si definimos la variable x como global, la cosa cambia:
+
+def funcion_a():
+    global x
+    x = 2
+    def funcion_b():
+        global x
+        x = 3
+        print(x)
+    funcion_b()
+    print(x)
+x = 1
+funcion_a()
+print(x)
+
+Ahora el resultado sería este otro:
+3
+3
+3
+
+--------------------------------------------------------------------------------
+
+En Python, un módulo no es más que un fichero que contiene instrucciones y 
+definiciones (variables, funciones, clases, …). El fichero debe tener extensión
+.py y su nombre se corresponde con el nombre del módulo.
+
+NOTA: Dentro de un módulo, puedes acceder al nombre del mismo a través de la 
+variable global __name__.
+
+Los módulos tienen un doble propósito:
+- Dividir un programa con muchas líneas de código en partes más pequeñas.
+- Extraer un conjunto de definiciones que utilizas frecuentemente en tus 
+programas para ser reutilizadas. Esto evita, por ejemplo, tener que estar 
+copiando funciones de un programa a otro.
+
+>>> import mis_funciones
+>>> mis_funciones.saludo('j2logo')
+Hola j2logo
+
+Existen otros modos de usar e importar módulos.
+
+from … import …
+
+Podemos importar uno o varios nombres de un módulo del siguiente modo:
+
+from mis_funciones import saludo, otra_funcion
+saludo('j2logo')
+
+Esto nos permite acceder directamente a los nombres definidos en el módulo sin 
+tener que utilizar el operador ..
+
+from … import *
+from mis_funciones import *
+saludo('j2logo')
+
+Es similar al caso anterior, solo que importa todas las definiciones del módulo
+a excepción de los nombres que comienzan por guión bajo _. No es una buena 
+práctica importar así las definiciones de un módulo porque dificulta la lectura
+y los nombres importados pueden ocultar identificadores y nombres usados en el 
+módulo en el que se importan.
+
+from … import as
+
+Por último, podemos redefinir el nombre con el que una definición será usada 
+dentro de un módulo utilizando la palabra reservada as:
+
+>>> from mis_funciones import saludo as hola
+>>> hola('j2logo')
+Hola j2logo
+
+--------------------------------------------------------------------------------
+
+Un módulo puede ser ejecutado como un script o como punto de entrada de un 
+programa cuando se pasa directamente como parámetro al intérprete de Python:
+
+>>> python mis_funciones.py
+
+Cuando esto ocurre, el código del módulo se ejecuta como si se hubiera 
+importado, con la particularidad de que el nombre del módulo, __name__, es 
+__main__.
+
+Esto hace realmente interesante añadir al final del módulo las siguientes líneas
+de código, que solo se ejecutarán en caso de que dicho módulo se haya ejecutado
+como el principal:
+
+if __name__ == '__main__':
+    hola('j2logo')
+
+No se ejecutarán en caso de que el módulo se importe en otro módulo.
+
+Python trae consigo un gran catálogo de módulos estándar con multitud de 
+funciones y clases que puedes usar en tus aplicaciones. Este catálogo es 
+conocido como la Biblioteca de Referencia.
+
+En primer lugar, Python busca el módulo en el catálogo de módulos estándar y si 
+no lo encuentra, entonces busca el fichero en el listado de directorios 
+definidos en la variable sys.path. Esta variable es inicializada con las 
+siguientes rutas y localizaciones:
+El directorio en el que se encuentra el script principal.
+PYTHONPATH, una variable de entorno similar a PATH.
+Directorios de instalación por defecto de Python
+
+La función dir() devuelve una lista con todas las definiciones (variables, 
+funciones, clases, …) contenidas en un módulo. Por ejemplo, si ejecutamos dir()
+sobre el módulo mis_funciones que creamos previamente, obtendríamos el siguiente
+resultado:
+
+>>> dir(mis_funciones)
+['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__',
+'__package__', '__spec__', 'saludo']
+
+Fíjate en que al final aparece el nombre saludo referente a la función que hemos
+definido. Si a dir() no se le pasa ningún argumento, entonces devuelve todas las
+definiciones del módulo actual.
+
+--------------------------------------------------------------------------------
+
+Del mismo modo en que agrupamos las funciones y demás definiciones en módulos,
+los paquetes en Python permiten organizar y estructurar de forma jerárquica los
+diferentes módulos que componen un programa. Además, los paquetes hacen posible
+que existan varios módulos con el mismo nombre y que no se produzcan errores.
+Un paquete es simplemente un directorio que contiene otros paquetes y módulos. 
+Además, en Python, para que un directorio sea considerado un paquete, este debe
+incluir un módulo llamado __init__.py. En la mayoría de ocasiones, el fichero 
+__init__.py estará vacío, sin embargo, se puede utilizar para inicializar código
+relacionado con el paquete. Al igual que sucede con los módulos, cuando se 
+importa un paquete, Python busca a través de los directorios definidos en 
+sys.path el directorio perteneciente a dicho paquete.
+
+Para importar módulos y definiciones de módulos que están contenidos en paquetes
+, se usa el operador .. Las referencias se hacen indicando el nombre completo 
+del módulo, es decir, especificando los paquetes hasta llegar al módulo en 
+cuestión separándolos con puntos.
+
+# Módulo app.pedidos.vistas
+import app.usuarios.dao
+
+El único problema de hacerlo así, es que si, por ejemplo, dicho módulo define 
+una función llamada guardar(), hay que especificar toda la jerarquía para 
+invocar a esta función:
+
+app.usuarios.dao.guardar(usuario)
+
+Una forma mejor es importar el módulo. Esto se consigue de la siguiente manera:
+
+# Módulo app.pedidos.vistas
+from app.usuarios import dao
+dao.guardar(usuario)
+
+Incluso, se puede importar una definición de un módulo del siguiente modo:
+
+# Módulo app.pedidos.vistas
+from app.usuarios.dao import guardar
+guardar(usuario)
+
+Imagina ahora que desde el módulo app.pedidos.vistas quieres importar los 
+módulos app.pedidos.dao y app.usuarios.vistas. Se podría hacer como hemos visto
+hasta ahora:
+
+# Módulo app.pedidos.vistas
+from app.pedidos import dao
+from app.usuarios import vistas
+
+O también se podría hacer así:
+
+# Módulo app.pedidos.vistas
+from . import dao  # Un punto referencia al paquete actual
+from ..usuarios import vistas  # Dos puntos referencian al paquete padre
+
+
+
+PROGRAMACIÓN ORIENTADA A OBJETOS EN PYTHON
+========================================== 
+
+Python soporta la programación imperativa y funcional, pero también la 
+programación orientada a objetos. Este tipo de programación introduce un nuevo 
+paradigma que nos permite encapsular y aislar datos y operaciones que se pueden
+realizar sobre dichos datos.
+
+Básicamente, una clase es una entidad que define una serie de elementos que 
+determinan un estado (datos) y un comportamiento (operaciones sobre los datos 
+que modifican su estado). Por su parte, un objeto es una concreción o instancia
+de una clase.
+
+Cada vez que se define una clase en Python, se crea a su vez un tipo nuevo 
+(¿recuerdas? tipo int, float, str, list, tuple, … todos ellos están definidos 
+en una clase). Para definir una clase en Python se utiliza la palabra reservada
+class.
+
+Cuando se crea una variable de tipo Coche, por ejemplo, realmente se está 
+instanciando un objeto de dicha clase. En el siguiente ejemplo se crean dos 
+objetos de tipo Coche:
+
+>>> c1 = Coche('rojo', 20)
+>>> print(c1.color)
+rojo
+>>> print(c1.ruedas)
+4
+>>> c2 = Coche('azul', 30)
+>>> print(c2.color)
+azul
+>>> print(c2.ruedas)
+4
+
+c1 y c2 son objetos, objetos cuya clase es Coche. Ambos objetos pueden acelerar 
+y frenar, porque su clase define estas operaciones y tienen un color, porque la 
+clase Coche también define este dato. Lo que ocurre es que c1 es de color rojo, 
+mientras que c2 es de color azul.
+
+NOTA: Es una convención utilizar la notación CamelCase para los nombres de las 
+clases. Esto es, la primera letra de cada palabra del nombre está en mayúsculas 
+y el resto de letras se mantienen en minúsculas.
+
+--------------------------------------------------------------------------------
+
+Para crear un objeto de una clase determinada, es decir, instanciar una clase, 
+se usa el nombre de la clase y a continuación se añaden paréntesis (como si se 
+llamara a una función).
+
+obj = MiClase()
+
+El código anterior crea una nueva instancia de la clase MiClase y asigna dicho 
+objeto a la variable obj. Esto crea un objeto vacío, sin estado.
+
+Sin embargo, hay clases (como nuestra clase Coche) que deben o necesitan crear 
+instancias de objetos con un estado inicial. Esto se consigue implementando el 
+método especial __init__(). Este método es conocido como el constructor de la 
+clase y se invoca cada vez que se instancia un nuevo objeto.
+
+El método __init__() establece un primer parámetro especial que se suele llamar 
+self (veremos qué significa este nombre en la siguiente sección). Pero puede 
+especificar otros parámetros siguiendo las mismas reglas que cualquier otra 
+función.
+
+En nuestro caso, el constructor de la clase coche es el siguiente:
+
+def __init__(self, color, aceleracion):
+    self.color = color
+    self.aceleracion = aceleracion
+    self.velocidad = 0
+
+Como puedes observar, además del parámetro self, define los parámetros color y 
+aceleracion, que determinan el estado inicial de un objeto de tipo Coche. En 
+este caso, para instanciar un objeto de tipo coche, debemos pasar como 
+argumentos el color y la aceleración como vimos en el ejemplo:
+
+c1 = Coche('rojo', 20)
+
+IMPORTANTE: En Python solo se puede definir un método __init__().
+
+--------------------------------------------------------------------------------
+
+Como habrás podido apreciar, un objeto tiene dos tipos de atributos: atributos 
+de datos y métodos. Los atributos de datos definen el estado del objeto. En 
+otros lenguajes son conocidos simplemente como atributos o miembros. Los métodos
+son las funciones definidas dentro de la clase.
+
+Siguiendo con nuestro ejemplo de la clase Coche, vamos a crear el siguiente
+ objeto:
+
+>>> c1 = Coche('rojo', 20)
+>>> print(c1.color)
+rojo
+>>> print(c1.velocidad)
+0
+>>> c1.acelera()
+>>> print(c1.velocidad)
+20
+
+En la línea 2 del código anterior, el objeto c1 está referenciando al atributo 
+de dato color y en la línea 4 al atributo velocidad. Sin embargo, en la línea 6 
+se referencia al método acelera(). Llamar a este método tiene una implicación 
+como puedes observar y es que modifica el estado del objeto, dado que se 
+incrementa su velocidad.
+
+A diferencia de otros lenguajes, los atributos de datos no necesitan ser 
+declarados previamente. Un objeto los crea del mismo modo en que se crean las 
+variables en Python, es decir, cuando les asigna un valor por primera vez.
+
+Los métodos son las funciones que se definen dentro de una clase y que, por 
+consiguiente, pueden ser referenciadas por los objetos de dicha clase. Sin 
+embargo, realmente los métodos son algo más. Las funciones acelera() y frena() 
+definen un parámetro self.
+
+def acelera(self):
+    self.velocidad = self.velocidad + self.aceleracion
+
+Cuando un objeto referencia a dicha función, realmente pasa su propia referencia
+como primer parámetro de la función. Sabiendo esto, podemos entender, por 
+ejemplo, por qué todos los objetos de tipo Coche pueden referenciar a los 
+atributos de datos velocidad o color. Son inicializados para cada objeto en el 
+método __init__().
+
+El siguiente ejemplo muestra dos formas diferentes y equivalentes de llamar al 
+método acelera():
+
+>>> c1 = Coche('rojo', 20)
+>>> c2 = Coche('azul', 20)
+>>> c1.acelera()
+>>> Coche.acelera(c2)
+>>> print(c1.velocidad)
+20
+>>> print(c2.velocidad)
+20
+
+Para la clase Coche, acelera() es una función. Sin embargo, para los objetos de 
+la clase Coche, acelera() es un método.
+
+--------------------------------------------------------------------------------
+
+Una clase puede definir dos tipos diferentes de atributos de datos: atributos 
+de clase y atributos de instancia. Los atributos de clase son atributos 
+compartidos por todas las instancias de esa clase. Los atributos de instancia 
+son únicos para cada uno de los objetos pertenecientes a dicha clase.
+
+En el ejemplo de la clase Coche, ruedas se ha definido como un atributo de 
+clase, mientras que color, aceleracion y velocidad son atributos de instancia.
+
+Para referenciar a un atributo de clase se utiliza, generalmente, el nombre de 
+la clase. Al modificar un atributo de este tipo, los cambios se verán reflejados
+en todas y cada una las instancias.
+
+>>> c1 = Coche('rojo', 20)
+>>> c2 = Coche('azul', 20)
+>>> print(c1.color)
+rojo
+>>> print(c2.color)
+azul
+>>> print(c1.ruedas)  # Atributo de clase
+4
+>>> print(c2.ruedas)  # Atributo de clase
+4
+>>> Coche.ruedas = 6  # Atributo de clase
+>>> print(c1.ruedas)  # Atributo de clase
+6
+>>> print(c2.ruedas)  # Atributo de clase
+6
+
+Si un objeto modifica un atributo de clase, lo que realmente hace es crear un 
+atributo de instancia con el mismo nombre que el atributo de clase.
+
+>>> c1 = Coche('rojo', 20)
+>>> c2 = Coche('azul', 20)
+>>> print(c1.color)
+rojo
+>>> print(c2.color)
+azul
+>>> c1.ruedas = 6  # Crea el atributo de instancia ruedas
+>>> print(c1.ruedas)
+6
+>>> print(c2.ruedas)
+4
+>>> print(Coche.ruedas)
+4
+
+--------------------------------------------------------------------------------
+
+En programación orientada a objetos, la herencia es la capacidad de reutilizar 
+una clase extendiendo su funcionalidad. Una clase que hereda de otra puede 
+añadir nuevos atributos, ocultarlos, añadir nuevos métodos o redefinirlos.
+
+En Python, podemos indicar que una clase hereda de otra de la siguiente manera:
+
+class CocheVolador(Coche):
+    ruedas = 6
+    def __init__(self, color, aceleracion, esta_volando=False):
+        super().__init__(color, aceleracion)
+        self.esta_volando = esta_volando
+    def vuela(self):
+        self.esta_volando = True
+    def aterriza(self):
+        self.esta_volando = False
+
+Como puedes observar, la clase CocheVolador hereda de la clase Coche. En Python,
+el nombre de la clase padre se indica entre paréntesis a continuación del nombre
+de la clase hija.
+
+La clase CocheVolador redefine el atributo de clase ruedas, estableciendo su 
+valor a 6 e implementa dos métodos nuevos: vuela() y aterriza().
+
+Fíjate ahora en la primera línea del método __init__(). En ella aparece la 
+función super(). Esta función devuelve un objeto temporal de la superclase que 
+permite invocar a los métodos definidos en la misma. Lo que está ocurriendo es 
+que se está redefiniendo el método __init__() de la clase hija usando la 
+funcionalidad del método de la clase padre. Como la clase Coche es la que define
+los atributos color y aceleracion, estos se pasan al constructor de la clase 
+padre y, a continuación, se crea el atributo de instancia esta_volando solo para
+objetos de la clase CocheVolador.
+
+Al utilizar la herencia, todos los atributos (atributos de datos y métodos) de 
+la clase padre también pueden ser referenciados por objetos de las clases hijas.
+Al revés no ocurre lo mismo.
+
+>>> c = Coche('azul', 10)
+>>> cv1 = CocheVolador('rojo', 60)
+>>> print(cv1.color)
+rojo
+>>> print(cv1.esta_volando)
+False
+>>> cv1.acelera()
+>>> print(cv1.velocidad)
+60
+>>> print(CocheVolador.ruedas)
+6
+>>> print(c.esta_volando)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'Coche' object has no attribute 'esta_volando'
+
+NOTA: Cuando no se indica, toda clase Python hereda implícitamente de la clase 
+object, de tal modo que class MiClase es lo mismo que class MiClase(object).
+
+--------------------------------------------------------------------------------
+
+Como ya vimos en otros tutoriales, la función incorporada type() devuelve el 
+tipo o la clase a la que pertenece un objeto. En nuestro caso, si ejecutamos 
+type() pasando como argumento un objeto de clase Coche o un objeto de clase 
+CocheVolador obtendremos lo siguiente:
+
+>>> c = Coche('rojo', 20)
+>>> type(c)
+<class 'objetos.Coche'>
+>>> cv = CocheVolador('azul', 60)
+>>> type(cv)
+<class 'objetos.CocheVolador'>
+
+Python incorpora otras dos funciones que pueden ser de utilidad cuando se quiere
+conocer el tipo de una clase. Son: isinstance() e issubclass().
+
+isinstance(objeto, clase) devuelve True si objeto es de la clase clase o de una
+de sus clases hijas. Por tanto, un objeto de la clase CocheVolador es instancia
+de CocheVolador pero también lo es de Coche. Sin embargo, un objeto de la clase
+Coche nunca será instancia de la clase CocheVolador.
+
+issubclass(clase, claseinfo) comprueba la herencia de clases. Devuelve True en 
+caso de que clase sea una subclase de claseinfo, False en caso contrario. 
+claseinfo puede ser una clase o una tupla de clases.
+
+>>> c = Coche('rojo', 20)
+>>> cv = CocheVolador('azul', 60)
+>>> isinstance(c, Coche)
+True
+isinstance(cv, Coche)
+True
+>>> isinstance(c, CocheVolador)
+False
+>>> isinstance(cv, CocheVolador)
+True
+>>> issubclass(CocheVolador, Coche)
+True
+>>> issubclass(Coche, CocheVolador)
+False
+
+--------------------------------------------------------------------------------
+
+Python es un lenguaje de programación que permite herencia múltiple. Esto quiere
+decir que una clase puede heredar de más de una clase a la vez.
+
+class A:
+    def print_a(self):
+        print('a')
+class B:
+    def print_b(self):
+        print('b')
+class C(A, B):
+    def print_c(self):
+        print('c')
+c = C()
+c.print_a()
+c.print_b()
+c.print_c()
+El script anterior dará como resultado
+
+a
+b
+c
+
+--------------------------------------------------------------------------------
+
+Encapsulación (o encapsulamiento), en programación orientada a objetos, hace 
+referencia a la capacidad que tiene un objeto de ocultar su estado, de manera 
+que sus datos solo se puedan modificar por medio de las operaciones (métodos) 
+que ofrece.
+
+En Python, todos los atributos de una clase (atributos de datos y métodos) son 
+públicos. Esto quiere decir que desde un código que use la clase, se puede 
+acceder a todos los atributos y métodos de dicha clase. No obstante, hay una 
+forma de indicar en Python que un atributo, ya sea un dato o un método, es 
+interno a una clase y no se debería utilizar fuera de ella. Algo así como los 
+miembros privados de otros lenguajes. Esto es usando el carácter guión bajo 
+_atributo antes del nombre del atributo que queramos ocultar. En cualquier caso,
+el atributo seguirá siendo accesible desde fuera de la clase, pero el 
+programador está indicando que es privado y no debería utilizarse porque no se 
+sabe qué consecuencias puede tener.
+
+También es posible usar un doble guión bajo __atributo. Esto hace que el 
+identificador sea literalmente reemplazado por el texto _Clase__atributo, 
+donde Clase es el nombre de la clase actual.
+
+class A:
+    def __init__(self):
+        self._contador = 0  # Este atributo es privado
+    def incrementa(self):
+        self._contador += 1
+    def cuenta(self):
+        return self._contador
+class B(object):
+    def __init__(self):
+        self.__contador = 0  # Este atributo es privado
+    def incrementa(self):
+        self.__contador += 1
+    def cuenta(self):
+        return self.__contador
+
+>>> a = A()
+>>> a.incrementa()
+>>> a.incrementa()
+>>> a.incrementa()
+>>> print(a.cuenta())
+3
+>>> print(a._contador)
+3
+
+Como puedes observar, es posible acceder al atributo privado, aunque no se 
+debiera. En cambio, la clase B define el atributo privado __contador 
+anteponiendo un doble guión bajo. El resultado de hacer el mismo experimento 
+cambia:
+
+>>> b = B()
+>>> b.incrementa()
+>>> b.incrementa()
+>>> print(b.cuenta())
+2
+>>> print(b.__contador)
+Traceback (most recent call last):
+  File "<input>", line 1, in <module>
+AttributeError: 'B' object has no attribute '__contador'
+>>> print(b._B__contador)
+
+Si te fijas, no se puede acceder al atributo __contador fuera de la clase. Este 
+identificador se ha sustituido por _B__contador.
+
+--------------------------------------------------------------------------------
+
+Polimorfismo es la capacidad de una entidad de referenciar en tiempo de 
+ejecución a instancias de diferentes clases. Aunque este concepto te suene raro
+ahora mismo, lo vas a entender con un ejemplo. Imagina que tenemos las 
+siguientes clases que representan animales:
+
+class Perro:
+    def sonido(self):
+        print('Guauuuuu!!!')
+class Gato:
+    def sonido(self):
+        print('Miaaauuuu!!!')        
+class Vaca:
+    def sonido(self):
+        print('Múuuuuuuu!!!')
+
+def a_cantar(animales):
+    for animal in animales:
+        animal.sonido()
+if __name__ == '__main__':
+    perro = Perro()
+    gato = Gato()
+    gato_2 = Gato()
+    vaca = Vaca()
+    perro_2 = Perro()
+    granja = [perro, gato, vaca, gato_2, perro_2]
+    a_cantar(granja)
+
+En él se ha definido una función llamada a_cantar(). La variable animal que se 
+crea dentro del bucle for de la función es polimórfica, ya que en tiempo de 
+ejecución hará referencia a objetos de las clases Perro, Gato y Vaca. Cuando se 
+invoque al método sonido(), se llamará al método correspondiente de la clase a 
+la que pertenezca cada uno de los animales.
+
+
+
+ENTRADA DE DATOS
+================ 
+
+En consola, para pedir al usuario que introduzca algún dato a través del 
+teclado, usaremos el método input().
+
+Este método, recibe como parámetro un str con el mensaje a mostrar al usuario:
+
+>>> edad = input('¿Qué edad tienes?')
+¿Qué edad tienes?
+>?
+En este momento, la consola queda a la espera de la entrada de datos por parte 
+del usuario.
+
+Al introducir cualquier texto, será asignado a la variable edad:
+
+>>> edad = input('¿Qué edad tienes?')
+¿Qué edad tienes?>? 28
+>>> edad
+'28'
+
+Ten en cuenta que la entrada es convertida SIEMPRE a un objeto de tipo str 
+UTF-8. Por tanto, si lo que necesitamos es cualquier otro tipo, por ejemplo, un 
+int, habrá que hacer la conversión correspondiente:
+
+>>> edad = int (edad)
+>>> edad
+28
+
+Como ves, ahora edad es un int (ya no se muestra con las comillas simples).
+
+
+
+FICHEROS
+========
+
+El objeto File en Python representa un fichero del sistema operativo. Los 
+ficheros, sirven para guardar datos en disco que podrán ser leídos 
+posteriormente (recuerda que ya vimos cómo leer ficheros en Python).
+
+Normalmente, existen dos tipos de ficheros: ficheros de texto y ficheros 
+binarios. Un fichero de texto contiene caracteres que son legibles por el ser 
+humano y están guardados con una codificación (ASCII, UTF-8, …). Por el 
+contrario, un fichero binario está compuesto por un flujo de bytes y solo 
+tienen sentido para los programas o aplicaciones para los que son creados. Un 
+ejemplo de este tipo de archivos son las imágenes o la música.
+
+Cuando se trabaja con un fichero de texto, hay que tener en cuenta que este se 
+estructura como una secuencia de líneas. Cada una de estas líneas acaba con un 
+carácter especial conocido como EOL (fin de línea). En función del sistema 
+operativo, este carácter puede variar. Puede ser \n (Unix) o \r\n (Windows). No 
+obstante, en Python, cuando escribimos o leemos el carácter \n en un fichero de 
+texto, el propio lenguaje se encarga de convertir dicho carácter al 
+correspondiente por el sistema operativo, por lo que es algo a prever si nuestro
+código se va a ejecutar en diferentes sistemas.
+
+En Python, para escribir en un fichero o simplemente leer su contenido 
+utilizaremos la función predefinida open(). Al invocar a esta, se crea un objeto
+de tipo File.
+
+Lo más común es llamar a la función open() con dos parámetros:
+El primero de ellos es la ruta del fichero (en la que está o donde se va a 
+crear). El segundo es el modo en el que se abre el fichero: lectura, etc...
+Por defecto, cuando se invoca a la función open(path, modo), el fichero se abre
+en modo texto. Si quisiéramos abrir un fichero en forma binaria, habría que 
+añadir el carácter b al parámetro modo.
+
+Los diferentes modos en los que se puede abrir un fichero son:
+r	Solo lectura. El fichero solo se puede leer. Es el modo por defecto si no se
+    indica.
+w	Solo escritura. En el fichero solo se puede escribir. Si ya existe el 
+    fichero, machaca su contenido.
+a	Adición. En el fichero solo se puede escribir. Si ya existe el fichero, 
+    todo lo que se escriba se añadirá al final del mismo.
+x	Como ‘w’ pero si existe el fichero lanza una excepción.
+r+	Lectura y escritura. El fichero se puede leer y escribir.
+
+Como te he indicado, todos estos modos abren el fichero en modo texto. Su 
+versión correspondiente para abrir el fichero en modo binario sería rb, wb, ab, 
+xb, rb+.
+
+--------------------------------------------------------------------------------
+
+Leer las líneas de un fichero es una tarea muy común y muy sencilla. 
+Básicamente, todo se reduce a dos líneas de código:
+
+with open('ruta_del_fichero') as f:
+    for linea in f:
+        # Tu código aquí
+
+Ten en cuenta que la variable linea incluye el carácter \n al final.
+
+Un objeto de tipo file también ofrece un método llamado read(). Este método 
+leerá el fichero en su totalidad y lo devolverá como una cadena de texto. Usa 
+este método con precaución ya que puede consumir mucha memoria si el fichero es 
+demasiado grande. Yo lo usaría solo en caso de que el fichero fuera muy pequeño.
+
+with open('cloudbutton.py', 'r') as f:
+    contenido = f.read()
+    print(contenido)
+
+A la hora de gestionar y manipular recursos, como puede ser un fichero, hay 
+ciertos patrones que se suelen repetir. Para estos casos, Python nos ayuda a 
+abstraernos del código repetitivo introduciendo lo que se conocen como 
+«Manejadores de contexto» a través de la sentencia with.
+
+En el caso de los ficheros, with nos asegura de que el fichero se cerrará 
+correctamente después de ejecutarse el código en el interior del bloque, 
+incluso si ocurre alguna excepción.
+
+De manera que el siguiente código
+
+with open('hola.txt', 'r') as f:
+    for linea in f:
+        ...
+sería equivalente a este
+
+f = open('hola.txt', 'r')
+try:
+    for linea in f:
+        ...
+finally:
+    f.close()
+
+--------------------------------------------------------------------------------
+
+La estructura para abrir un fichero en modo escritura es la siguiente:
+
+f = open('mi_fichero', 'w')
+try:
+    # Procesamiento para escribir en el fichero
+finally:
+    f.close()
+
+Aunque personalmente prefiero usar la sentencia with, ya que ella se encarga de 
+cerrar el fichero y liberar sus recursos (incluso si ocurre cualquier error):
+
+with open('mi_fichero', 'w') as f:
+    # Procesamiento del fichero
+
+El objeto f de los ejemplos anteriores representa un fichero y este pone a 
+nuestra disposición el método write() para escribir cualquier contenido sobre 
+el fichero.
+
+Con todo lo anterior, si quisiéramos escribir un fichero de texto haríamos lo 
+siguiente:
+
+with open('mi_fichero', 'w') as f:
+    f.write('Hola mundo\n')
+
+Para escribir un fichero binario, simplemente añadimos el carácter b al 
+parámetro modo y escribimos bytes:
+
+with open('mi_fichero', 'wb') as f:
+    f.write(b'0x28')
+
+--------------------------------------------------------------------------------
+
+La mejor forma de recorrer un directorio en Python es usar la función scandir(),
+contenida también en el módulo os. Esta función actúa realmente como un iterador
+en lugar de devolver una lista. Además, no solo recupera los nombres de fichero
+sino que devuelve objetos de tipo DirEntry que, además del nombre, contienen 
+otros atributos que indican si el objeto es un fichero, un directorio, su número
+inode o su ruta completa.
+
+Para listar un directorio con pathlib hay que crear un objeto Path que, en 
+función del sistema operativo en que nos encontremos, será realmente de tipo 
+PosixPath o WindowsPath. Estos objetos Path tienen un método llamado iterdir() 
+que crea un iterador que recorre todos los archivos y carpetas de un directorio.
+Además, los objetos de clase Path contienen propiedades como name, con el nombre
+del fichero, y métodos como is_file() o is_dir(), que permiten comprobar si un 
+fichero es un archivo o un directorio.
+
+Recorrer los ficheros de un directorio con scandir:
+
+import os
+ejemplo_dir = '/Users/Juanjo/ejemplo/'
+with os.scandir(ejemplo_dir) as ficheros:
+    ficheros = [fichero.name for fichero in ficheros if fichero.is_file()]
+print(ficheros)
+
+Resultado:
+['documento.txt', 'imagen.jpg', 'fichero1.txt']
+
+Para recorrer solo los ficheros de tipo jpg, se puede añadir una condición más:
+
+with os.scandir(ejemplo_dir) as ficheros:
+    ficheros = [fichero.name for fichero in ficheros if fichero.is_file() 
+    and fichero.name.endswith('.jpg')]
+
+Recorrer los ficheros de un directorio con iterdir:
+
+import pathlib
+ejemplo_dir = '/Users/Juanjo/ejemplo/'
+directorio = pathlib.Path(ejemplo_dir)
+ficheros = 
+[fichero.name for fichero in directorio.iterdir() if fichero.is_file()]
+
+Listar los subdirectorios de un directorio con scandir:
+
+import os
+ejemplo_dir = '/Users/Juanjo/ejemplo/'
+with os.scandir(ejemplo_dir) as ficheros:
+    subdirectorios = [fichero.name for fichero in ficheros if fichero.is_dir()]
+print(subdirectorios)
+
+Resultado:
+['dir_b', 'dir_a']
+
+Listar los subdirectorios de un directorio con iterdir:
+
+import pathlib
+ejemplo_dir = '/Users/Juanjo/ejemplo/'
+directorio = pathlib.Path(ejemplo_dir)
+ficheros = 
+[fichero.name for fichero in directorio.iterdir() if fichero.is_dir()]
+
+--------------------------------------------------------------------------------
+
+Imaginemos que tenemos la siguiente ruta:
+
+ /Users/Juanjo/workspace/j2logo/pruebas.txt 
+ 
+para obtener el nombre del fichero, pruebas.txt, llamaremos a la función split()
+del módulo os.path:
+
+>>> import os
+>>> ruta = '/Users/Juanjo/workspace/j2logo/pruebas.txt'
+>>> os.path.split(ruta)
+('/Users/Juanjo/workspace/j2logo', 'pruebas.txt')
+
+Esta función devuelve dos valores. El primero de ellos es el directorio en el 
+que se encuentra el fichero, mientras que el segundo, es el nombre del archivo.
+
+splitext() la podemos usar para separar el nombre de un fichero en dos: el 
+propio nombre y su extensión.
+
+>>> import os
+>>> ruta = 'pruebas.txt'
+>>> os.path.splitext(ruta)
+('pruebas', '.txt')
+
+La función divide una ruta a partir de encontrar el carácter . y devuelve una 
+raíz y una extensión (que comienza con el carácter .).
+
+--------------------------------------------------------------------------------
+
+La forma más sencilla en Python de crear una carpeta es utilizando la función 
+mkdir() del módulo os:
+
+import os   
+os.mkdir('dir1')
+
+import os
+import errno
+try:
+    os.mkdir('dir1')
+except OSError as e:
+    if e.errno != errno.EEXIST:
+        raise
+
+El código anterior creará un directorio llamado dir1 en la misma ruta en que se
+encuentre nuestro script Python que hayamos ejecutado. El segundo ejemplo es con
+gestión de errores.
+
+makedirs() es la función que nos permite crear directorios de forma recursiva 
+en Python. A partir de la versión 3.2 de Python, a la función makedirs() se le 
+puede pasar el parámetro exist_ok para que no se produzca ningún error en caso 
+de que la carpeta ya exista:
+
+import os
+os.makedirs('dir1/dir2/dir3', exist_ok=True)
+
+Con Pathlib:
+
+from pathlib import Path
+path = Path('dir1/dir2/dir3/dir4')
+path.mkdir(parents=True)
+
+--------------------------------------------------------------------------------
+
+copy es la función principal que debes usar si quieres copiar un fichero en 
+Python. Se encuentra definida dentro del módulo shutil. La principal 
+característica de esta función es que copia el contenido del fichero y sus 
+permisos, pero no copia otro tipo de metadatos como las fechas de creación y 
+modificación originales.
+
+src: Ruta completa o nombre del fichero origen. Puede ser un string o un objeto 
+de tipo PathLike.
+dst: Ruta del fichero destino. Si la ruta es un directorio, se copiará el 
+fichero origen en el directorio tomando como nombre el nombre del fichero 
+original.
+follow_symlinks (por defecto, True): Si follow_symlinks es falso y src es un 
+enlace simbólico, dst se creará como un enlace simbólico. Si follow_symlinks es
+verdadero y src es un enlace simbólico, dst será una copia del archivo al que 
+se refiere src.
+
+import shutil
+shutil.copy('origen.txt', 'destino.txt')
+shutil.copy('/ruta/a/origen.txt', '/ruta/destino/copia.txt')
+shutil.copy('/ruta/a/origen.txt', '/ruta/destino')
+
+Si adicionalmente necesitas copiar los metadatos de un fichero, puedes usar la 
+función copy2. 
+
+import shutil
+shutil.copy2('origen.txt', 'destino.txt')
+shutil.copy2('/ruta/a/origen.txt', '/ruta/destino/copia.txt')
+shutil.copy2('/ruta/a/origen.txt', '/ruta/destino')
+
+Cuando solo quieres copiar el contenido de un fichero, puedes hacer uso de la 
+función copyfile(src, dst, follow_symlinks=True). 
+
+import shutil
+shutil.copyfile('origen.txt', 'destino.txt')
+shutil.copyfile('/ruta/a/origen.txt', '/ruta/destino/copia.txt')
+
+copyfileobj es similar a la anterior, solo que src y dst deben ser objetos de 
+tipo fichero (no strings con las rutas origen/destino).
+
+import shutil
+file_src = 'source.txt'  
+f_src = open(file_src, 'rb')
+file_dest = 'destination.txt'  
+f_dest = open(file_dest, 'wb')
+shutil.copyfileobj(f_src, f_dest)
+
+
+
+FECHAS
+======
+
+Para trabajar con fechas en Python hay que hacer uso del módulo datetime. Este 
+módulo define dos objetos para representar fechas: datetime y date.
+
+datetime es una fecha que incluye tiempo, mientras que date simplemente 
+especifica una fecha.
+
+Los únicos operadores que se pueden utilizar para comparar un objeto datetime 
+con un objeto date son el de igualdad (==) y el distinto (!=). Comparar un 
+objeto datetime con un objeto date usando el operador == siempre será False, 
+puesto que son objetos diferentes. Una comparación con != devolverá True por el
+mismo motivo.
+
+En Python, para comparar si dos fechas son iguales basta con utilizar el 
+operador de igualdad:
+
+>>> import datetime
+>>> fecha1 = datetime.datetime(2020, 4, 13)
+>>> fecha2 = datetime.datetime(2020, 4, 13)
+>>> print(fecha1 == fecha2)
+True
+>>> fecha3 = datetime.datetime(2019, 4, 13)
+>>> print(fecha1 == fecha3)
+False
+
+También puedes comprobar si dos fechas son diferentes utilizando el operador !=.
+A continuación te muestro un ejemplo:
+
+>>> import datetime
+>>> fecha1 = datetime.datetime(2020, 4, 13)
+>>> fecha2 = datetime.datetime(2020, 4, 13)
+>>> fecha3 = datetime.datetime(2019, 4, 13)
+>>> print(fecha1 != fecha2)
+False
+>>> print(fecha1 != fecha3)
+True
+
+Por último, en Python también es posible comprobar si una fecha es anterior o 
+posterior a otra fecha. Para ello, puedes utilizar los operadores <, <=, > o >=.
+
+Veámoslo con un ejemplo:
+
+>>> import datetime
+>>> fecha1 = datetime.datetime(2020, 1, 1)
+>>> fecha2 = datetime.datetime(2019, 1, 1)
+>>> print(fecha1 < fecha2)
+False
+>>> print(fecha1 > fecha2)
+True
+>>> print(fecha2 < fecha1)
+True
+>>> print(fecha2 > fecha1)
+False
+
+Los mismos ejemplos vistos en cada una de las secciones anteriores se podrían 
+aplicar a objetos de tipo date.
+
+--------------------------------------------------------------------------------
+
+Supongamos que queremos convertir la cadena '20/04/2019' en un objeto datetime 
+equivalente. Los pasos que tenemos que seguir son los siguientes:
+
+from datetime import datetime
+# Convertimos un string con formato <día>/<mes>/<año> en datetime
+una_fecha = '20/04/2019'
+fecha_dt = datetime.strptime(una_fecha, '%d/%m/%Y')
+print(fecha_dt)
+> 2019-04-20 00:00:00
+
+# Convertimos un string con formato
+# <día> del <mes> de <año> a las <hora>:<minutos> en datetime
+una_fecha = '20 del 04 de 2019 a las 12:00'
+fecha_dt = datetime.strptime(una_fecha, '%d del %m de %Y a las %H:%M')
+print(fecha_dt)
+> 2019-04-20 12:00:00
+
+En el ejemplo siguiente se crea un objeto de tipo datetime y a partir de él se 
+obtienen distintas representaciones de tipo string con diferentes formatos. 
+Recuerda importar el módulo datetime. La fecha de ejemplo es el 3 de enero de 
+2020 a las 8 horas:
+
+import datetime
+# Creamos un objeto datetime
+una_fecha = datetime.datetime(2020, 1, 3, 8, 0)
+# Convertimos el objeto datetime a string con formato <día>/<mes>/<año>
+f1_str = una_fecha.strftime('%d/%m/%Y')
+print(f1_str)
+> 03/01/2020
+# Convertimos el objeto datetime a string con formato <día>-<mes>-<año>
+f2_str = una_fecha.strftime('%d-%m-%Y')
+print(f2_str)
+> 03-01-2020
+# Convertimos el objeto datetime a string
+# con formato <hora>:<minutos>:<segundos>
+hora_str = una_fecha.strftime('%H:%M:%S')
+print(hora_str)
+> 08:00:00
+# Convertimos el objeto datetime a string uniendo todo lo anterior
+fecha_hora_str = una_fecha.strftime('%d/%m/%Y %H:%M')
+print(fecha_hora_str)
+> 03/01/2020 08:00
+
+
+
+NÚMEROS ALEATORIOS
+==================
+
+Para generar números aleatorios en Python de valor entero, se suele utilizar la 
+función randint(). La función randint(a, b) devuelve un número entero 
+comprendido entre a y b (ambos inclusive) de forma aleatoria:
+
+import random
+# ¿Quién comienza?
+comienza = random.randint(0, 1)
+if comienza == 0:
+    print('Comienza el jugador')
+else:
+    print('Comienza el PC')
+
+# Número aleatorio del parchís
+numero = random.randint(1, 6)
+
+La función randrange(a, b, salto) genera números enteros aleatorios comprendidos
+entre a y b separados entre sí con un salto. Por ejemplo, randrange(5, 27, 4) 
+obtendría un valor aleatorio de entre los siguientes posibles: 
+5, 9, 13, 17, 21, 25.
+
+>>> import random
+>>> for i in range(10):
+...     print(random.randrange(5, 27, 4))
+...     
+17
+13
+5
+17
+13
+25
+9
+5
+
+La función random() devuelve un float comprendido entre [0.0 y 1.0)
+
+>>> import random
+>>> for i in range(5):
+...     print(random.random())
+...     
+0.6355590910913725
+0.38870490605141683
+0.3757381647176976
+0.38770694501889935
+0.22472067642268556
+
+La función uniform(a, b) devuelve un float aleatorio comprendido entre a y b 
+(ambos inclusive).
+
+>>> import random
+>>> for i in range(5):
+...     print(random.uniform(100, 200))
+...     
+170.3543065193162
+103.47025653056637
+126.52588283656675
+169.60671144065486
+145.21872629322894
+
+A continuación veremos que también es posible obtener elementos aleatorios de 
+una secuencia.
+
+choice()
+La función choice(sec) devuelve un elemento aleatorio de una secuencia. Es muy 
+útil cuando hay que elegir al azar un elemento de entre un conjunto.
+
+>>> import random
+>>> frutas = ['peras', 'manzanas', 'plátanos', 'ciruelas']
+>>> for i in range(3):
+...     print(random.choice(frutas))
+...     
+peras
+ciruelas
+plátanos
+
+La función shuffle(sec) modifica el orden de los elementos de una lista. Esta 
+función se asemeja a la acción de mezclar una baraja.
+
+>>> import random
+>>> baraja = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12]
+>>> for i in range(3):
+...     random.shuffle(baraja)
+...     print(baraja)
+...     
+[11, 3, 2, 6, 12, 10, 5, 4, 1, 7]
+[7, 3, 1, 10, 6, 12, 2, 11, 5, 4]
+[1, 11, 3, 2, 4, 12, 5, 10, 7, 6]
+
+sample(sec, num) devuelve num elementos aleatorios de la secuencia sec. 
+Siguiendo con el ejemplo de la baraja, sería similar a la acción de repartir 
+num cartas a un jugador.
+
+>>> import random
+>>> baraja = [1, 2, 3, 4, 5, 6, 7, 10, 11, 12]
+>>> random.sample(baraja, 5)
+[2, 1, 4, 11, 12]
+

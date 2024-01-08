@@ -1,0 +1,1258 @@
+Resumen tutorial PYGAME rev.2
+=============================
+
+Para instalar pygame, basta con abrir una consola de comandos en un sistema con
+Python 3 y teclear: "pip install pygame".
+
+El paquete pygame contiene un repertorio de módulos para ser usados 
+independientemente. Hay un módulo para cada dispositivo a usar en el juego.
+Estos módulos se acceden a traves del espacio de nombres de pygame. Algunos de
+estos módulos se usarán en cada juego, como "Display", o los relacionados con
+los dispositivos de entrada.
+
+Nombre del módulo   Propósito
+=======================================================
+pygame.cdrom        Controla el lector de CD's
+pygame.cursors      Carga los gráficos de cursores
+pygame.display      Gestión de la pantalla
+pygame.draw         Pinta figuras, líneas y puntos
+pygame.event        Gestiona eventos externos
+pygame.font         Gestiona fuentes de letra del sistema
+pygame.image        Carga y graba imágenes
+pygame.joystick     Usa joystick y dispositivos similares
+pygame.key          Lee pulsaciones del teclado
+pygame.mixer        Carga y reproducción de sonido
+pygame.mouse        Controla el ratón
+pygame.movie        Reproduce archivos de video
+pygame.music        Música y streaming
+pygame.overlay      Características avanzadas de vídeo
+pygame              Funciona pygame de alto nivel
+pygame.rect         Gestiona areas rectangulares
+pygame.sndarray     Manipula datos de sonido
+pygame.sprite       Gestiona imágenes en movimiento
+pygame.surface      Controla imágenes en la pantalla
+pygame.surfarray    Manipula imágenes a nivel de pixel
+pygame.time         Manipula el tiempo y el framerate
+pygame.transform    Redimensiona y mueve imágenes
+
+No todos los módulos están disponibles en todas las plataformas. Para probar la
+disponibilidad de un módulo...
+
+if pygame.font is None:
+    print "The font module is not available!"
+    exit()
+
+El siguiente ejemplo pinta un fondo rojo y un cursor circular que deja rastro:
+
+import pygame, os # importa pygame para usar sus submódulos
+from pygame.locals import * # permite usar constantes sin escribir "pygame."
+from sys import exit
+from pygame import QUIT # no necesario, pero evita error falso en VSCode
+
+# inicializa pygame
+pygame.init()
+# genera una ventana de 640x480 con el título "Hello, World!" en el marco
+screen = pygame.display.set_mode((640, 480), 0, 32)
+pygame.display.set_caption("Hello, World!")
+# reloj para controlar los FPS
+clock = pygame.time.Clock()
+# ruta del ejecutable para cargar archivos de recursos
+base_path = os.path.dirname(__file__)
+# carga imagen del cursor
+mouse_image_filename = os.path.join(base_path, 'assets/ball.png')
+mouse_cursor = pygame.image.load(mouse_image_filename).convert_alpha()
+# fondo de la ventana en rojo (en valores RGB)
+# si la línea se pone dentro del bucle principal eliminará el rastro del cursor
+screen.fill((255,0,0))
+
+#bucle principal
+while True:
+    # gestión de eventos
+    for event in pygame.event.get():
+        if event.type == QUIT: # se pulsa en la X de la ventana
+            exit()
+
+    x, y = pygame.mouse.get_pos() # captura la posición XY del cursor
+    # resta la mitad del ancho y alto de la imagen del cursor, para centrar
+    x-= mouse_cursor.get_width() / 2
+    y-= mouse_cursor.get_height() / 2
+    # transfiere la imagen a la pantalla
+    screen.blit(mouse_cursor, (x, y))
+    pygame.display.update() # refresca la pantalla
+    clock.tick(60) # 60 refrescos efectivos por segundo
+
+
+EVENTOS 
+=======
+
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_LEFT:
+                move_x = -1
+            elif event.key == K_RIGHT:
+                move_x = +1
+            elif event.key == K_UP:
+                move_y = -1
+            elif event.key == K_DOWN:
+                move_y = +1
+        elif event.type == KEYUP:
+            if event.key == K_LEFT:
+                move_x = 0
+            elif event.key == K_RIGHT:
+                move_x = 0
+            elif event.key == K_UP:
+                move_y = 0
+            elif event.key == K_DOWN:
+                move_y = 0
+
+".event.get()" obtiene los eventos del sistema de la cola de eventos y una
+vez leídos los borra de la cola. 
+".event.wait()" espera a que se produzca un evento, parando la ejecución.
+".event.poll()" lee un solo evento de la cola o "NOEVENT" si no hay ninguno.
+
+Event           Purpose                                     Parameters
+=============== =========================================== ===================
+QUIT            Se ha pulsado el botón cerrar               none
+ACTIVEEVENT     Pygame ha sido activado u ocultado          gain, state
+KEYDOWN         Una tecla ha sido pulsada                   unicode, key, mod
+KEYUP           Una tecla ha sido liberada                  key, mod
+MOUSEMOTION     El ratón se ha movido                       pos, rel, buttons
+MOUSEBUTTONDOWN Un botón del ratón ha sido pulsado          pos, button
+MOUSEBUTTONUP   Un botón del ratón ha sido liberado         pos, button
+JOYAXISMOTION   Joystick/pad se ha movido                   joy, axis, value
+JOYBALLMOTION   Joystick bola se ha movido                  joy, ball, rel
+JOYHATMOTION    Joystick hat se ha movido (cruceta)         joy, hat, value
+JOYBUTTONDOWN   Botón de joystick/pad ha sido pulsado       joy, button
+JOYBUTTONUP     Botón de joystick/pad ha sido liberado      joy, button
+VIDEORESIZE     Ventana de pygame ha cambiado de tamaño     size, w, h
+VIDEOEXPOSE     Parte/toda la ventana de pygame expuesta    none
+USEREVENT       Un evento de usuario ha ocurrido            code
+
+Eventos de ratón:
+
+Los eventos MOUSEMOTION se activan cuando se mueve el ratón por la ventana.
+Contiene tres valores:
+buttons: Tupla de tres valores que corresponden a cada botón del ratón.
+buttons[0] es el botón izquierdo, buttons[1] es el ratón medio, y buttons[2] es
+el botón derecho. Si se pulsa el botón el valor pasa de 0 a 1. Se pueden pulsar
+varios botones a la vez.
+pos: Tupla con la posición XY del cursor del ratón.
+rel: Tupla que contiene la distancia que ha recorrido el ratón desde el último
+evento de movimiento (mouse mickies). 
+
+Además de MOUSEMOTION, el ratón genera los eventos MOUSEBUTTONDOWN y 
+MOUSEBUTTONUP. Estos eventos contienen los valores buttons y pos, iguales a los
+descritos en MOUSEMOTION. 
+
+Eventos de teclado:
+
+Para detectar los eventos de teclado, se usan KEYDOWN y KEYUP. Estos eventos
+contienen tres valores; key, mod, unicode.
+key: Como se ve en el ejemplo anterior, cada tecla física del teclado tiene una 
+constante K_. Desde K_a hasta K_z, pero también otras teclas como K_SPACE y
+K_RETURN. (www.pygame.org/docs/ref/key.html).
+mod: Representa teclas que están en uso en combinación con otras; Shift, Alt, y 
+Ctrl. Se representan por constantes que empiezan por KMOD_; KMOD_SHIFT, 
+KMOD_ALT, and KMOD_CTRL.
+unicode: Valor unicode de la tecla pulsada + tecla modificadora.
+
+Es posible evitar que la cola de eventos se recargue con eventos que no 
+necesitamos bloqueando dichos eventos:
+
+pygame.event.set_blocked(MOUSEMOTION)
+pygame.event.set_blocked([KEYDOWN, KEYUP])
+pygame.event.set_blocked(None)
+
+También es posible simular eventos; por ejemplo pulsar la barra de espacio
+(usando dos maneras distintas de pasar argumentos):
+
+my_event = pygame.event.Event(KEYDOWN, key=K_SPACE, mod=0, unicode=u' ')
+my_event = pygame.event.Event(KEYDOWN, {"key":K_SPACE, "mod":0, "unicode":u' '})
+pgame.event.post(my_event)
+
+Para crear un evento nuevo propio:
+
+CATONKEYBOARD = USEREVENT+1
+my_event = pygame.event.Event(CATONKEYBOARD, message="Bad cat!")
+pgame.event.post(my_event)
+
+for event in pygame.event.get():
+    if event.type == CATONKEYBOARD:
+        print event.message
+
+
+PYGAME.MOUSE 
+============
+
+pygame.mouse.get_pressed: Obtiene el estado de los botones del ratón. Tupla de
+tres booleanos.
+pygame.mouse.get_pos: Obtiene la posición del cursor del ratón. Tupla de los
+valores X e Y.
+pygame.mouse.get_rel: Obtiene el movimiento relativo (mickeys). Tupla de los
+valores relativos de X e Y.
+pygame.mouse.set_pos: Establece la posición del cursor del ratón. Tupla de los
+valores X e Y.
+pygame.mouse.set_visible: Oculta o muestra el cursor del ratón
+pygame.mouse.get_visible: Obtiene el estado de la visibilidad del cursor.
+pygame.mouse.get_focused: Chequea si el display está recibiendo información del 
+ratón.
+pygame.mouse.set_cursor: Establece una nueva imagen de cursor.
+pygame.mouse.get_cursor: Obtiene la imagen del cursor actual.
+
+Para usar la rotación de sprites, movimiento de mapas, etc. controlada por ratón
+hay que habilitar el "área virtual infinita", que elimina los límites de la 
+pantalla virtual para el cursor del ratón. Esto se hace así:
+
+pygame.mouse.set_visible(False)
+pygame.event.set_grab(True)
+
+OJO! Hay que preveer un medio para cerrar la pantalla/ventana, ya que no se
+dispone del cursor. (Este sistema se suele usar en FULLSCREEN)
+
+
+PYGAME.JOYSTICK 
+===============
+
+joystick.init: inicializa el módulo.
+joystick.quit: desactiva el módulo. Pygame ya no enviará más info del joystick.
+joystick.Joystick: Crea un nuevo joystick, para acceder a toda la
+información que genere. El constructor toma su ID. El primer joystick es ID 0,
+luego ID 1, y así hasta el número de joysticks disponibles en el sistema.
+joystick.get_id: devuelve el nº de joystick.
+joystick.get_count: devuelve el número de joysticks conectados.
+joystick.get_name: devuelve el nombre del joystick del fabricante.
+joystick.get_numaxes: devuelve el nº de ejes.
+joystick.get_axis: devuelve un valor entre –1 and +1 para el eje.
+joystick.get_numballs: devuelve el nº de trackballs del joystick.
+joystick.get_ball: tupla con el movimiento relativo de X e Y.
+joystick.get_button: estado de los botones. (True = pulsado).
+joystick.get_numhats: número de d-pads del joystick.
+joystick.get_hat: estado del d-pad.Tupla de valores X e Y.
+
+Para crear uno o varios Joysticks:
+
+joysticks = []
+for joystick_no in xrange(pygame.joystick.get_count()):
+    stick = pygame.joystick.Joystick(joystick_no)
+    stick.init()
+    joysticks.append(stick)
+
+Para obtener información del joystick podemos usar eventos, o las propiedades
+del objeto joystick generado:
+
+event = pygame.event.wait()
+ if event.type in (JOYAXISMOTION, JOYBALLMOTION, JOYHATMOTION, JOYBUTTONUP,
+    JOYBUTTONDOWN):
+
+El objeto joystick genera una lista de booleanos para los botones. True es
+pulsado.
+
+joystick_buttons = []
+for button_no in range(joystick.get_numbuttons()):
+    joystick_buttons.append(joystick.get_button(button_no))
+
+Para obtener la dirección con la cruceta digital se puede usar el evento 
+JOYHATMOTION o la propiedad .get_hat() del objeto joystick:
+
+scroll_direction = Vector2(0, 0)
+if joystick.get_numhats() > 0:
+    scroll_direction = Vector2(*joystick.get_hat(0))
+    scroll_direction.normalize()
+
+Para obtener la dirección con el joystick analógico se puede usar el evento 
+JOYAXISMOVEMENT o la propiedad .get_hat():
+
+analog_scroll = Vector2(0, 0)
+if joystick.get_numaxes() >= 2:
+    axis_x = joystick.get_axis(0)
+    axis_y = joystick.get_axis(1)
+    analog_scroll = Vector2(axis_x, -axis_y) 
+
+Para eliminar falsa información del mando analógico:
+
+if abs(axis_x) < 0.1:
+    axis_x = 0.
+if abs(axis_y) < 0.1:
+    axis_y = 0.
+
+
+PYGAME.KEY 
+==========
+
+Una alternativa a los eventos para capturar pulsaciones de teclas es el módulo
+pygame.key:
+
+key.get_focused: TRUE si la ventana tiene el foco, FALSE en caso contrario. 
+Pygame solo genera eventos de teclado si la ventana tiene el foco. En modo 
+FULLSCREEN siempre devolverá TRUE.
+
+key.get_pressed: Devuelve una lista de boolean para cada tecla. Si algún valor
+está a TRUE, la tecla para ese índice está pulsada.
+
+key.get_mods: Devuelve un número que indica qué tecla modificadora está pulsada.
+Son las teclas Shift, Alt, and Ctrl. Ejemplo de uso para el shift izquierdo ->
+"pygame.key.get_mods() & KMOD_LSHIFT".
+
+key.set_mods: Simula la pulsación de una tecla modificadora. Ejemplo de uso para
+Shift y Alt -> "pygame.key.set_mods(KMOD_SHIFT | KMOD_ALT)".
+
+key.set_repeat: Para definir el tiempo en ms. de repetición de tecla pulsada.
+Se puede deshabilitar llamando a la función sin parámetros.
+
+key.name: Devuelve el nombre descriptivo del valor de la tecla. Por ejemplo para
+un evento KEY_DOWN que devuelve el valor 103, usando key.name  obtenemos “g”.
+
+
+EXCEPCIONES
+===========
+
+Si queremos capturar errores y mostrar información como el mensaje de error del
+sistema o mensajes personalizados podemos hacer lo siguiente:
+
+try:
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+except pygame.error, e:
+    print "Can't create the display :-("
+    print e
+    exit()
+
+
+SURFACES 
+========
+
+Hay dos tipos de "surfaces". La display, y la regular.
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+
+- La "Display surface" es la ventana/pantalla de juego. En el ejemplo anterior 
+"screen". Requiere 3 parámetros pero solo es obligatorio el primero, una tupla 
+con el tamaño en pixels (ancho, alto). El siguiente parámetro es un FLAG o 
+conjunto de FLAGS separados por "|". Por ejemplo, para crear un double-buffered 
+renderizado por hardware, el valor del FLAG es "DOUBLEBUF|HWSURFACE". El valor
+"0" se usa por defecto para no activar ningún FLAG. Los FLAGS disponibles son:
+
+Flag        Propósito
+==========  =========
+FULLSCREEN  Crea un display que ocupa la pantalla entera.
+DOUBLEBUF   Crea un “double-buffered” display. 
+            Recomendado para los FLAGS HWSURFACE u OPENGL.
+HWSURFACE   Crea un display acelerado por hardware 
+            Debe combinarse con el flag FULLSCREEN.
+OPENGL      Crea un display que se renderiza con OpenGL.
+RESIZABLE   Crea un display que se puede redimensionar.
+NOFRAME     Crea un display sin marco ni barra de título.
+
+En FULLSCREEN, pygame se adapta a la resolución más conveniente de las que
+disponga el sistema. Es posible ver las resoluciones disponibles con 
+"pygame.display.list_modes()". En general es más rápido usar FULLSCREEN que una
+ventana.
+
+También es posible usar una ventana redimensionable, de las que se hace click en
+la esquina y se arrastra con el ratón. Para ello se usa el flag RESIZABLE.
+Si se cambia el tamaño se envía el evento VIDEORESIZE con los nuevos valores de
+ancho y alto. Entonces es necesario llamar de nuevo a "pygame.display.set_mode"
+para establecer dichos valores.
+
+Si por el contrario no se quiere control sobre la ventana (por ejemplo, una 
+splash screen) se usa el flag NOFRAME, que elimina el marco de la ventana y sus
+controles.
+
+HWSURFACE guarda la surface en la memoria de video, no del sistema. Debe usarse
+con FULLSCREEN, y aunque es más rápido, no está disponible en todas las
+plataformas. Esta combinación de flags también va muy bien con DOUBLEBUF, que
+mejora los tiempos de transferencia a pantalla. (Ojo, con DOUBLEBUF no se usa
+"pygame.display.update()", sino "pygame.display.flip()")
+
+screen = pygame.display.set_mode(SCREEN_SIZE, HWSURFACE | FULLSCREEN, 32)
+
+Por último, OPENGL es una librería 3D que no es compatible con las funciones 2D
+de pygame.
+
+El último parámetro de "set_mode()" es el tamaño de profundidad de color:
+
+Bits        Número de colores simultáneos
+=======     ================================
+8 bits      256 colores
+15 bits     32,768 colores, con un bit de reserva
+16 bits     65,536 colores
+24 bits     16.7 millones de colores
+32 bits     16.7 millones de colores, con 8 bits de reserva
+
+- La "Regular surface" es cualquier imagen, color o texto. Es necesario enviarla
+a la "Display surface" para hacerla visible. En el ejemplo anterior 
+"mouse_cursor". Para pintar en el display otras surfaces es necesario usar la
+función ".blit()" y luego volcar en memoria de video con ".update()"
+
+screen.blit(background, (0,0))
+screen.blit(ogre, (300, 200), (100*frame_no, 0, 100, 100))
+
+la segunda opción se usa cuando por ejemplo la imagen "ogre" se compone de
+varios frames, y se toma solo el area que interesa cambiando "frame_no".
+
+Se creará una surface automáticamente con "pygame.image.load", con tamaño y 
+propiedades igual a la imagen, pero también se puede crear una surface en blanco
+expresamente, que tomará las propiedades del display:
+
+blank_surface = pygame.Surface((256, 256))
+
+Para trabajar solo una parte de la surface, se usa "Set_Clip" o "Get_Clip". Por
+ejemplo, para repintar una determina región:
+
+screen.set_clip(0, 0, 640, 300)
+draw_map()
+screen.set_clip(0, 300, 640, 180)
+draw_panel()
+
+Las "subsurfaces" son surfaces dentro de surfaces. Se usan frecuentemente para
+pintar tipos de letras gráficas (más rápidas que las TTF con la clase font):
+
+my_font_image = Pygame.load("font.png")
+letters = []
+letters["a"] = my_font_image.subsurface((0,0), (80,80))
+letters["b"] = my_font_image.subsurface((80,0), (80,80))
+
+las subsurfaces tienen su propio sistema de coordenadas, empezando por 0,0.
+
+El método "fill" pinta una surface del color que se le pase. Se usa para borrar
+la secuencia anterior de animaciones, y se le puede pasar un Rectángulo para
+pintar solo parte de la surface:
+
+screen.fill((0, 0, 0))
+
+Para pintar un pixel en la surface se usa "set_at", para obtener el pixel de una
+surface se usa "get_at":
+
+screen = pygame.display.set_mode((640, 480), 0, 32)
+my_color = screen.get_at((100, 100))
+
+Pygame hace un LOCK cuando pinta algo para que ningún otro proceso acceda a la
+pantalla, cuando termina hace un UNLOCK. Esto ocurre si el render es HARDWARE.
+Si el render es por software, estas funciones no tienen ningún efecto. Podemos 
+hacer nosotros el lock y unlock una sola vez y así acelerar el proceso siguiente
+que haría 200 bloqueos:
+
+screen.lock()
+for _ in range(200):
+    rand_pos = (randint(0, 639), randint(0, 479))
+    screen.set_at(rand_pos, rand_col)
+screen.unlock()
+
+
+IMÁGENES
+========
+
+# ruta del ejecutable para cargar archivos de recursos
+base_path = os.path.dirname(__file__)
+# carga imagen del cursor
+mouse_image_filename = os.path.join(base_path, 'assets/ball.png')
+mouse_cursor = pygame.image.load(mouse_image_filename).convert_alpha()
+
+Las imágenes se cargan en memoria y se convierten en surfaces con la función 
+".load", pasándole un parámetro con la ruta en disco. Es muy recomendable usar
+la función ".convert()" (".convert_alpha()" si tiene transparencias) para cargar
+la imagen con el mismo formato del display surface. Así será más rápido pintar
+luego la imagen.
+
+Se suelen usar dos formatos de imagen. JPG para imágenes grandes sin alpha, y 
+PNG para imágenes que requieren mayor calidad o tienen transparencias.
+
+
+COLORES 
+=======
+
+Cuando pygame requiere un color, se puede pasar una tupla de tres enteros, para
+cada componente; rojo, verde y azul. El valor de cada componente debe estar
+entre 0 y 255, 255 es intensidad total y 0 no contribuye al color.
+
+Color   Red     Green   Blue    Tuple
+Black   0       0       0       (0, 0, 0)
+Blue    0       0       255     (0, 0, 255)
+Green   0       255     0       (0, 255, 0)
+Cyan    0       255     255     (0, 255, 255)
+Red     255     0       0       (255, 0, 0)
+Magenta 255     0       255     (255, 0, 255)
+Yellow  255     255     0       (255, 255, 0)
+White   255     255     255     (255, 255, 255)
+
+Para oscurecer un color, hay que multiplicar cada componente por un valor entre
+0 y 1. Multiplicando por un valor > 1 lo hace más brillante, pero no debe pasar
+de 255 cada componente.
+
+def scale_color(color, scale):
+    red, green, blue = color
+    red = int(red*scale)
+    green = int(green*scale)
+    blue = int(blue*scale)
+    return red, green, blue
+
+def saturate_color(color):
+    red, green, blue = color
+    red = min(red, 255)
+    green = min(green, 255)
+    blue = min(blue, 255)
+    return red, green, blue
+
+Para mezclar colores podemos usar la interpolación lineal, o hacer "lerp" entre 
+dos valores. Para ello hay que obtener la diferencia entre valor2 y valor1, 
+multiplicarla por un factor entre 0 y 1, y añadir el resultado a valor1.
+
+def lerp(value1, value2, factor):
+    return value1+(value2-value1)*factor
+
+
+PYGAME.DRAW 
+===========
+
+Sus funciones se usan para pintar figuras geométricas. El primer parámetro es
+la surface, seguido del color, y luego al menos un punto XY.
+
+Función     Propósito
+-------     --------------------
+rect        rectángulo
+polygon     polígono
+circle      círculo
+ellipse     elipse
+arc         arco
+line        línea
+lines       varias líneas
+aaline      línea con antialias
+aalines     líneas con antialias
+
+pygame.draw.rect(screen, random_color, Rect(random_pos, random_size))
+pygame.draw.polygon(screen, (0,255,0), points)
+pygame.draw.circle(screen, (0,0,255), point, 5)
+pygame.draw.ellipse(screen, (0,255,0), (0,0,x,y))
+pygame.draw.arc(screen, (0,0,0), (0,0,639,479), 0, angle)
+pygame.draw.line(screen, (0, 0, 0), (x, 479), mouse_pos)
+pygame.draw.lines(screen, (0,255,0), False, points, 2)
+
+
+TEXTOS
+======
+
+El objeto "pygame.font" puede usar fuentes del sistema o cargarlas de un 
+archivo TTF:
+
+# obtiene una lista de fuentes instaladas en el sistema
+pygame.font.get_fonts()
+# obtiene la fuente del sistema
+my_font = pygame.font.SysFont("arial", 16)
+# obtiene la fuente de un TTF
+my_font = pygame.font.Font("my_font.ttf", 16)
+# declaración con tamaño 100 y fuente por defecto
+test_font = pygame.font.Font(None, 100)
+# declaración con tamaño 50 y fuente específica
+test_font = pygame.font.Font('font/pixeltype.ttf', 50) 
+...
+# texto verde con antialiasing
+text_surface = test_font.render('My game', True, pygame.Color(0,255,0))
+# texto verde sin antialiasing (pixelart)
+text_surface = test_font.render('My game', False, pygame.Color(0,255,0))
+# texto negro con fondo blanco.
+# si no se define color de fondo, o es "None", el fondo será transparente
+text_surface = my_font.render("Pygame is cool!", True, (0,0,0), (255, 255, 255))
+...
+screen.blit(text_surface,(300,100))
+
+Ejemplo de marquesina con objeto font:
+
+import pygame
+from pygame.locals import *
+from pygame import QUIT
+from sys import exit
+
+message=" This is a demonstration of the scrolly message script. "
+pygame.init()
+screen = pygame.display.set_mode((640, 480))
+font = pygame.font.SysFont("arial", 80)
+text_surface = font.render(message, True, (255, 255, 0)) # mensaje amarillo
+x = 0
+y = (480 - text_surface.get_height() ) / 2 # mitad de la ventana
+clock = pygame.time.Clock()
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            exit()
+    screen.fill((0,0,0))
+    x-= 2
+    if x < -text_surface.get_width(): # si x < -ancho del texto, reset
+        x = 0
+    screen.blit(text_surface, (x, y))
+    # pinta el texto de nuevo a continuación para que no haya pausas
+    screen.blit(text_surface, (x+text_surface.get_width(), y))
+    pygame.display.update()
+    clock.tick(60)
+
+
+SONIDO 
+======
+
+Para reproducir sonidos hay que inicializar el objeto "Mixer" con la función
+"pygame.mixer.init" o "pre_init". A pre_init se le pasan los parámetros 
+frecuencia, tamaño, estereo y buffer:
+
+pygame.mixer.pre_init(44100, 16, 2, 4096)
+pygame.init()
+
+Los tipos de archivo permitidos para reproducir son WAV y OGG. Para cargar
+archivos en memoria se usa el objeto "sound":
+
+phaser_sound = Pygame.mixer.Sound("phaser.ogg")
+
+Para reproducir sonidos se usa el método "play" del objeto "sound". Permite dos
+parámetros; loop y maxtime (en milisegundos). un loop de -1 se repite siempre:
+
+channel = phaser_sound.play()
+channel = phaser_sound.play(–1, 5000)
+
+Métodos del objeto sound:
+fadeout             reduce el volumen a 0 en X milisegundos.
+get_length          Longitud del sonido en segundos.
+get_num_channels    Número de canales disponibles.
+get_volume          Obtiene el volumen del sonido, de 0.0 and 1.0.
+play                Reproduce el sonido.
+set_volume          Establece el volumen del sonido, de 0.0 and 1.0..
+stop                Para la reproducción.
+
+Se puede aplicar un volumen diferente a cada canal estereo en función de una
+coordenada X de pantalla:
+
+def stereo_pan(x_coord, screen_width):
+    right_volume = float(x_coord) / screen_width
+    left_volume = 1.0 - right_volume
+    return (left_volume, right_volume)
+
+tank.explode() # Do explosion visual
+explosion_channel = explosion_sound.play()
+if explosion_channel is not None:
+    left, right = stereo_pan(tank.position.x, SCREEN_SIZE[0])
+    explosion_channel.set_volume(left, right)
+
+Se puede forzar la reproducción en un canal determinado, aunque lo mejor es 
+dejar esta tarea al mixer:
+
+pygame.mixer.set_reserved(2)
+    reserved_channel_0 = pygame.mixer.Channel(0)
+    reserved_channel_1 = pygame.mixer.Channel(1)
+
+reserved_channel_1.play(gunfire_sound)
+
+Métodos del objeto "channel":
+fadeout
+get_busy
+get_endevent
+get_queue
+get_volume
+pause
+play
+queue
+set_endevent
+set_volume
+
+Métodos del objeto "mixer":
+pygame.mixer.Channel
+pygame.mixer.fadeout
+pygame.mixer.find_channel
+pygame.mixer.get_busy
+pygame.mixer.get_init
+pygame.mixer.get_num_channels
+pygame.mixer.init
+pygame.mixer.pause
+pygame.mixer.pre_init
+pygame.mixer.quit
+pygame.mixer.set_num_channels
+pygame.mixer.Sound
+pygame.mixer.stop
+pygame.mixer.unpause
+
+Para reproducir música se suele usar "pygame.mixer.music", ya que este objeto
+hace streaming, cargando en memoria solo lo que necesita:
+
+pygame.mixer.music.load("techno.ogg")
+pygame.mixer.music.play()
+
+Métodos de pygame.mixer.music:
+pygame.mixer.get_busy
+pygame.mixer.music.fadeout
+pygame.mixer.music.get_endevent
+pygame.mixer.music.get_volume
+pygame.mixer.music.load
+pygame.mixer.music.play
+pygame.mixer.music.rewind
+pygame.mixer.music.set_endevent
+pygame.mixer.music.set_volume
+pygame.mixer.music.stop
+pygame.mixer.music.unpause
+pygame.muxer.music.get_pos
+pygame.muxer.music.pause
+pygame.muxer.music.queue
+
+Para usar eventos:
+
+# This event is sent when a music track ends
+TRACK_END = USEREVENT + 1
+pygame.mixer.music.set_endevent(TRACK_END)
+
+for event in pygame.event.get():
+    if event.type == TRACK_END:
+        # If the track has ended, simulate pressing the next button
+        button_pressed = "next"
+
+
+
+MOVIMIENTO
+==========
+
+Se consigue cambiando la posición XY de las imágenes a mostrar. Para mantener un
+movimiento limpio con velocidad constante en cualquier máquina se usa la clase
+"Clock":
+
+clock = pygame.time.Clock()
+...
+    bucle principal:
+    pygame.display.update()
+    clock.tick(60)
+
+"tick" generará una pausa si se pasan los 60 fps.
+
+En videojuegos se suelen usar VECTORES para el movimiento. Pero no hay una clase
+vector en python/pygame. Esta es una posible clase:
+
+class Vector2(object):
+    def __init__(self, x=0.0, y=0.0):
+        self.x = x
+        self.y = y
+        
+    def __str__(self):
+        return "(%s, %s)"%(self.x, self.y)
+
+    @classmethod
+    def from_points(cls, P1, P2): # crea vector a partir de dos puntos
+        return cls( P2[0] - P1[0], P2[1] - P1[1] )
+
+    def get_magnitude(self): # magnitud del vector
+        return math.sqrt( self.x**2 + self.y**2 )
+
+    def normalize(self): # normaliza vector
+        magnitude = self.get_magnitude()
+        self.x /= magnitude
+        self.y /= magnitude
+
+    def __add__(self, rhs): # suma
+        return Vector2(self.x + rhs.x, self.y + rhs.y)
+
+    def __sub__(self, rhs): # resta
+        return Vector2(self.x - rhs.x, self.y - rhs.y)
+
+    def __neg__(self): # negación
+        return Vector2(-self.x, -self.y)
+
+    def __mul__(self, scalar): # multiplicación
+        return Vector2(self.x * scalar, self.y * scalar)
+
+    def __div__(self, scalar): # división
+        return Vector2(self.x / scalar, self.y / scalar)
+
+Probando la clase...
+
+A = (10.0, 20.0)
+B = (30.0, 35.0)
+AB = Vector2.from_points(A, B)
+print "Vector AB is", AB
+print "AB * 2 is", AB * 2
+print "AB / 2 is", AB / 2
+print "AB + (–10, 5) is", AB + (–10, 5)
+print "Magnitude of AB is", AB.get_magnitude()
+print "AB normalized is", AB.get_normalized()
+------------------------------------------------
+Vector AB is ( 20, 15 )
+AB * 2 is ( 40, 30 )
+AB / 2 is ( 10, 7.5 )
+AB + (-10, 5) is ( 10, 20 )
+Magnitude of AB is 25.0
+AB normalized is ( 0.8, 0.6 )
+
+
+INTELIGENCIA ARTIFICIAL (Ejemplo de máquina de estados)
+=======================================================
+
+En este ejemplo el escenario es un hormiguero. Las entidades serán hormigas,
+hojas y arañas.
+
+Las hojas irán apareciendo aleatoriamente en el mapa, las hormigas las recogen y
+las llevan al nido, e ignoran a las arañas a menos que se acerquen al nido, en 
+ese caso las atacarán.
+
+Lo habitual es crear una clase base para todas las entidades, ya que de seguro
+tendrán propiedades y métodos comunes; como la posición, destino, velocidad,
+imagen, etc. 
+
+class GameEntity(object):
+    def __init__(self, world, name, image):
+        self.world = world
+        self.name = name
+        self.image = image
+        self.location = Vector2(0, 0)
+        self.destination = Vector2(0, 0)
+        self.speed = 0.
+        self.brain = StateMachine()
+        self.id = 0
+    def render(self, surface):
+        x, y = self.location
+        w, h = self.image.get_size()
+        surface.blit(self.image, (x-w/2, y-h/2))
+    def process(self, time_passed):
+        self.brain.think()
+        if self.speed > 0 and self.location != self.destination:
+            vec_to_destination = self.destination - self.location
+            distance_to_destination = vec_to_destination.get_length()
+            heading = vec_to_destination.get_normalized()
+            travel_distance = 
+                min(distance_to_destination, time_passed * self.speed)
+            self.location += travel_distance * heading
+
+A continuación es necesario crear la clase "mundo". El escenario donde actúan
+las entidades. En nuestro ejemplo el hormiguero.
+
+class World(object):
+    def __init__(self):
+        self.entities = {} # Store all the entities
+        self.entity_id = 0 # Last entity id assigned
+        # Draw the nest (a circle) on the background
+        self.background = pygame.surface.Surface(SCREEN_SIZE).convert()
+        self.background.fill((255, 255, 255))
+        pygame.draw.circle(self.background, (200, 255, 200), NEST_POSITION,
+            int(NEST_SIZE))
+    def add_entity(self, entity):
+        # Stores the entity then advances the current id
+        self.entities[self.entity_id] = entity
+        entity.id = self.entity_id
+        self.entity_id += 1
+    def remove_entity(self, entity):
+        del self.entities[entity.id]
+    def get(self, entity_id):
+        # Find the entity, given its id (or None if it is not found)
+        if entity_id in self.entities:
+            return self.entities[entity_id]
+        else:
+            return None
+    def process(self, time_passed):
+        # Process every entity in the world
+        time_passed_seconds = time_passed / 1000.0
+        for entity in self.entities.itervalues():
+            entity.process(time_passed_seconds)
+    def render(self, surface):
+        # Draw the background and all the entities
+        surface.blit(self.background, (0, 0))
+        for entity in self.entities.values():
+            entity.render(surface)
+    def get_close_entity(self, name, location, range=100.):
+        # Find an entity within range of a location
+        location = Vector2(*location)
+        for entity in self.entities.values():
+            if entity.name == name:
+                distance = location.get_distance_to(entity.location)
+                if distance < range:
+                    return entity
+        return None
+
+Las entidades se guardan en un diccionario. Es más rápido de gestionar que una
+lista, y menos engorroso a la hora de borrar entidades.
+
+class Ant(GameEntity):
+    def __init__(self, world, image):
+        # Call the base class constructor
+        GameEntity.__init__(self, world, "ant", image)
+        # Create instances of each of the states
+        exploring_state = AntStateExploring(self)
+        seeking_state = AntStateSeeking(self)
+        delivering_state = AntStateDelivering(self)
+        hunting_state = AntStateHunting(self)
+        # Add the states to the state machine (self.brain)
+        self.brain.add_state(exploring_state)
+        self.brain.add_state(seeking_state)
+        self.brain.add_state(delivering_state)
+        self.brain.add_state(hunting_state)
+        self.carry_image = None
+    def carry(self, image):
+        self.carry_image = image
+    def drop(self, surface):
+        # Blit the 'carry' image to the background and reset it
+        if self.carry_image:
+        x, y = self.location
+        w, h = self.carry_image.get_size()
+        surface.blit(self.carry_image, (x-w, y-h/2))
+        self.carry_image = None
+    def render(self, surface):
+        # Call the render function of the base class
+        GameEntity.render(self, surface)
+        # Extra code to render the 'carry' image
+        if self.carry_image:
+        x, y = self.location
+        w, h = self.carry_image.get_size()
+        surface.blit(self.carry_image, (x-w, y-h/2))
+
+La máquina de estados se compone de 4 estados, como se ve en la clase ANT.
+"exploring" pasea aleatoriamente, "seeking" ha localizado una hoja, "delivering"
+lleva una hoja o araña al nido, "hunting" ataca a la araña. Cada estado debe
+cumplir ciertas condiciones para cambiar de estado. Por ejemplo las condiciones
+de salida del estado "exploring" son ver una hoja o que una araña ataque al 
+nido.
+
+El código de la máquina de estados sería el siguiente:
+
+class State(object):
+    def __init__(self, name):
+        self.name = name
+    def do_actions(self):
+        pass
+    def check_conditions(self):
+        pass
+    def entry_actions(self):
+        pass
+    def exit_actions(self):
+        pass
+
+class StateMachine(object):
+    def __init__(self):
+        self.states = {} # Stores the states
+        self.active_state = None # The currently active state
+    def add_state(self, state):
+        # Add a state to the internal dictionary
+        self.states[state.name] = state
+    def think(self):
+        # Only continue if there is an active state
+        if self.active_state is None:
+            return
+        # Perform the actions of the active state, and check conditions
+        self.active_state.do_actions()
+        new_state_name = self.active_state.check_conditions()
+        if new_state_name is not None:
+            self.set_state(new_state_name)
+    def set_state(self, new_state_name):
+        # Change states and perform any exit / entry actions
+        if self.active_state is not None:
+            self.active_state.exit_actions()
+        self.active_state = self.states[new_state_name]
+        self.active_state.entry_actions()
+
+Ahora tenemos que implementar los diferentes estados. Por ejemplo el estado
+"exploring" sería así:
+
+class AntStateExploring(State):
+    def __init__(self, ant):
+        # Call the base class constructor to initialize the State
+        State.__init__(self, "exploring")
+        # Set the ant that this State will manipulate
+        self.ant = ant
+    def random_destination(self):
+        # Select a point in the screen
+        w, h = SCREEN_SIZE
+        self.ant.destination = Vector2(randint(0, w), randint(0, h))
+    def do_actions(self):
+        # Change direction, 1 in 20 calls
+        if randint(1, 20) == 1:
+            self.random_destination()
+    def check_conditions(self):
+        # If there is a nearby leaf, switch to seeking state
+        leaf = self.ant.world.get_close_entity("leaf", self.ant.location)
+        if leaf is not None:
+            self.ant.leaf_id = leaf.id
+            return "seeking"
+        # If there is a nearby spider, switch to hunting state
+        spider = self.ant.world.get_close_entity("spider", 
+            NEST_POSITION, NEST_SIZE)
+        if spider is not None:
+            if self.ant.location.get_distance_to(spider.location) < 100.:
+                self.ant.spider_id = spider.id
+                return "hunting"
+        return None
+    def entry_actions(self):
+        # Start with random speed and heading
+        self.ant.speed = 120. + randint(-30, 30)
+        self.random_destination()
+
+Una vez implementados todos los estados, en el bucle principal quedaría crear 
+un objeto "World", y generar aleatoriamente hojas y en menor medida arañas. 
+Y sobre todo llamar a .Process y .Render una vez por frame, para actualizar y
+pintar los objetos.
+
+
+EMPAQUETADO Y DISTRIBUCIÓN
+==========================
+
+Para una instalación Windows lo primero es usar el módulo "py2exe". Se puede
+instalar con el comando "easy_install py2exe". Luego crear un script como el
+siguiente:
+
+from distutils.core import setup
+import py2exe
+setup(
+windows = [{"script":"antsstatemachine.py"}],
+data_files = [ (".", ["ant.png", "leaf.png", "spider.png"]) ]
+)
+
+Luego abrir el script con el siguiente comando: "python setup.py py2exe", con
+lo cual obtenemos el ejecutable.
+
+Para el instalador, podemos usar uno gratuíto como Inno Setup o NullSoft. El 
+script para el proyecto de ejemplo (ants.iss) con Inno sería:
+
+[Setup]
+SolidCompression=true
+AppName=Ant State Machine
+AppVerName=Ant State Machine 1.0
+DefaultDirName={pf}\ant state machine
+DefaultGroupName=ant state machine
+ShowLanguageDialog=yes
+[Files]
+Source: dist\*.*; DestDir: {app}
+[Icons]
+Name: {group}\Launch Ants; Filename:{app}\antsstatemachine.exe; WorkingDir:{app}
+Name: {group}\Uninstall Ants; Filename: {uninstallexe}
+
+Para crear un paquete Linux, hay que usar el módulo "distutils", que produce
+archivos TAR (tarballs) o RPM.
+
+Para crear un paquete en MAC se usará el módulo "py2app" de la misma manera que
+se usa "py2exe" en windows.
+
+
+
+EJEMPLO DE JUEGO CON SPRITES Y CLASES 
+=====================================
+
+import pygame, random
+
+WIDTH = 800
+HEIGHT = 600
+BLACK = (0, 0, 0)
+WHITE = ( 255, 255, 255)
+GREEN = (0, 255, 0)
+
+pygame.init()
+pygame.mixer.init()
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Shooter")
+clock = pygame.time.Clock()
+
+def draw_text(surface, text, size, x, y):
+	font = pygame.font.SysFont("serif", size)
+	text_surface = font.render(text, True, WHITE)
+	text_rect = text_surface.get_rect()
+	text_rect.midtop = (x, y)
+	surface.blit(text_surface, text_rect)
+
+def draw_shield_bar(surface, x, y, percentage):
+	BAR_LENGHT = 100
+	BAR_HEIGHT = 10
+	fill = (percentage / 100) * BAR_LENGHT
+	border = pygame.Rect(x, y, BAR_LENGHT, BAR_HEIGHT)
+	fill = pygame.Rect(x, y, fill, BAR_HEIGHT)
+	pygame.draw.rect(surface, GREEN, fill)
+	pygame.draw.rect(surface, WHITE, border, 2)
+
+class Player(pygame.sprite.Sprite):
+	def __init__(self):
+		super().__init__()
+		self.image = pygame.image.load("assets/player.png").convert()
+		self.image.set_colorkey(BLACK)
+		self.rect = self.image.get_rect()
+		self.rect.centerx = WIDTH // 2
+		self.rect.bottom = HEIGHT - 10
+		self.speed_x = 0
+		self.shield = 100
+
+	def update(self):
+		self.speed_x = 0
+		keystate = pygame.key.get_pressed()
+		if keystate[pygame.K_LEFT]:
+			self.speed_x = -5
+		if keystate[pygame.K_RIGHT]:
+			self.speed_x = 5
+		self.rect.x += self.speed_x
+		if self.rect.right > WIDTH:
+			self.rect.right = WIDTH
+		if self.rect.left < 0:
+			self.rect.left = 0
+
+	def shoot(self):
+		bullet = Bullet(self.rect.centerx, self.rect.top)
+		all_sprites.add(bullet)
+		bullets.add(bullet)
+		#laser_sound.play()
+
+class Meteor(pygame.sprite.Sprite):
+	def __init__(self):
+		super().__init__()
+		self.image = random.choice(meteor_images)
+		self.image.set_colorkey(BLACK)
+		self.rect = self.image.get_rect()
+		self.rect.x = random.randrange(WIDTH - self.rect.width)
+		self.rect.y = random.randrange(-140, -100)
+		self.speedy = random.randrange(1, 10)
+		self.speedx = random.randrange(-5, 5)
+
+	def update(self):
+		self.rect.y += self.speedy
+		self.rect.x += self.speedx
+		if self.rect.top > HEIGHT + 10 or self.rect.left < -40 or self.rect.right > WIDTH + 40:
+			self.rect.x = random.randrange(WIDTH - self.rect.width)
+			self.rect.y = random.randrange(-140, - 100)
+			self.speedy = random.randrange(1, 10)
+
+class Bullet(pygame.sprite.Sprite):
+	def __init__(self, x, y):
+		super().__init__()
+		self.image = pygame.image.load("assets/laser1.png")
+		self.image.set_colorkey(BLACK)
+		self.rect = self.image.get_rect()
+		self.rect.y = y
+		self.rect.centerx = x
+		self.speedy = -10
+
+	def update(self):
+		self.rect.y += self.speedy
+		if self.rect.bottom < 0:
+			self.kill()
+
+class Explosion(pygame.sprite.Sprite):
+	def __init__(self, center):
+		super().__init__()
+		self.image = explosion_anim[0]
+		self.rect = self.image.get_rect()
+		self.rect.center = center 
+		self.frame = 0
+		self.last_update = pygame.time.get_ticks()
+		self.frame_rate = 50 # VELOCIDAD DE LA EXPLOSION
+
+	def update(self):
+		now = pygame.time.get_ticks()
+		if now - self.last_update > self.frame_rate:
+			self.last_update = now
+			self.frame += 1
+			if self.frame == len(explosion_anim):
+				self.kill()
+			else:
+				center = self.rect.center
+				self.image = explosion_anim[self.frame]
+				self.rect = self.image.get_rect()
+				self.rect.center = center
+
+
+def show_go_screen():
+	screen.blit(background, [0,0])
+	draw_text(screen, "SHOOTER", 65, WIDTH // 2, HEIGHT // 4)
+	draw_text(screen, "Instruciones van aquí", 27, WIDTH // 2, HEIGHT // 2)
+	draw_text(screen, "Press Key", 20, WIDTH // 2, HEIGHT * 3/4)
+	pygame.display.flip()
+	waiting = True
+	while waiting:
+		clock.tick(60)
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				pygame.quit()
+			if event.type == pygame.KEYUP:
+				waiting = False
+
+
+meteor_images = []
+meteor_list = ["assets/meteorGrey_big1.png", "assets/meteorGrey_big2.png", "assets/meteorGrey_big3.png", "assets/meteorGrey_big4.png",
+				"assets/meteorGrey_med1.png", "assets/meteorGrey_med2.png", "assets/meteorGrey_small1.png", "assets/meteorGrey_small2.png",
+				"assets/meteorGrey_tiny1.png", "assets/meteorGrey_tiny2.png"]
+for img in meteor_list:
+	meteor_images.append(pygame.image.load(img).convert())
+
+
+####----------------EXPLOSTION IMAGENES --------------
+explosion_anim = []
+for i in range(9):
+	file = "assets/regularExplosion0{}.png".format(i)
+	img = pygame.image.load(file).convert()
+	img.set_colorkey(BLACK)
+	img_scale = pygame.transform.scale(img, (70,70))
+	explosion_anim.append(img_scale)
+
+# Cargar imagen de fondo
+background = pygame.image.load("assets/background.png").convert()
+
+# Cargar sonidos
+laser_sound = pygame.mixer.Sound("assets/laser5.ogg")
+explosion_sound = pygame.mixer.Sound("assets/explosion.wav")
+pygame.mixer.music.load("assets/music.ogg")
+pygame.mixer.music.set_volume(0.2)
+
+
+#pygame.mixer.music.play(loops=-1)
+
+#### ----------GAME OVER
+game_over = True
+running = True
+while running:
+	if game_over:
+
+		show_go_screen()
+
+		game_over = False
+		all_sprites = pygame.sprite.Group()
+		meteor_list = pygame.sprite.Group()
+		bullets = pygame.sprite.Group()
+
+		player = Player()
+		all_sprites.add(player)
+		for i in range(8):
+			meteor = Meteor()
+			all_sprites.add(meteor)
+			meteor_list.add(meteor)
+
+		score = 0
+
+
+	clock.tick(60)
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			running = False
+
+		elif event.type == pygame.KEYDOWN:
+			if event.key == pygame.K_SPACE:
+				player.shoot()
+
+
+	all_sprites.update()
+
+	#colisiones - meteoro - laser
+	hits = pygame.sprite.groupcollide(meteor_list, bullets, True, True)
+	for hit in hits:
+		score += 10
+		#explosion_sound.play()
+		explosion = Explosion(hit.rect.center)
+		all_sprites.add(explosion)
+		meteor = Meteor()
+		all_sprites.add(meteor)
+		meteor_list.add(meteor)
+
+	# Checar colisiones - jugador - meteoro
+	hits = pygame.sprite.spritecollide(player, meteor_list, True)
+	for hit in hits:
+		player.shield -= 25
+		meteor = Meteor()
+		all_sprites.add(meteor)
+		meteor_list.add(meteor)
+		if player.shield <= 0:
+			game_over = True
+
+	screen.blit(background, [0, 0])
+
+	all_sprites.draw(screen)
+
+	#Marcador
+	draw_text(screen, str(score), 25, WIDTH // 2, 10)
+
+	# Escudo.
+	draw_shield_bar(screen, 5, 5, player.shield)
+
+	pygame.display.flip()
+pygame.quit()
