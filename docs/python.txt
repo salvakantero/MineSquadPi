@@ -1,4 +1,4 @@
-Resumen tutorial Python 3 rev.2
+Resumen tutorial Python 3 rev.3
 ===============================
 
 INTRODUCCIÓN
@@ -1701,6 +1701,7 @@ del d[clave]: Elimina el par clave: valor. Si no existe la clave, se lanza la
 excepción KeyError.
 
 clear(): Borra todos los pares clave: valor del diccionario.
+
 >>> d = {'uno': 1, 'dos': 2, 'tres': 3, 'cuatro': 4, 'cinco': 5}
 # Elimina un elemento con pop()
 >>> d.pop('uno')
