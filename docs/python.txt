@@ -2083,6 +2083,7 @@ format disponible en cualquier objeto de tipo string. Se puede hacer uso de
 este método del mismo modo que se hacía con el método tradicional, es decir, 
 sustituyendo valores en función de la posición a través del marcador {}:
 
+
 >>> var1 = 'J2logo'
 >>> var2 = 'Hola'
 >>> '{} {}, ¿cómo estás?'.format(var2, var1)
