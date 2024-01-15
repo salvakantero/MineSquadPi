@@ -2778,7 +2778,7 @@ x vale 10
 y vale 20
 
 Para modificar dentro de una función una variable definida fuera de la misma, 
-hay que usar la palabra reservada global.
+hay que usar la palabra reservada "global".
 
 
 
@@ -2920,7 +2920,7 @@ from mis_funciones import saludo, otra_funcion
 saludo('j2logo')
 
 Esto nos permite acceder directamente a los nombres definidos en el módulo sin 
-tener que utilizar el operador ..
+tener que utilizar el operador "."
 
 from … import *
 from mis_funciones import *
