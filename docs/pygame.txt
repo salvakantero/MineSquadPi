@@ -993,7 +993,7 @@ Para instalar PyInstaller, abre una terminal de comandos y escribe
 "pip install pyinstaller".
 
 En la terminal, navega a la carpeta que contiene tu script principal y escribe:
-pyinstaller --name=redplanet --icon=myicon.ico redplanet.py
+pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
 Este comando generará un directorio llamado "dist" que contiene tu archivo ejecutable y 
 todas las dependencias necesarias para ejecutarlo.
@@ -1005,6 +1005,9 @@ NSIS (Nullsoft Scriptable Install System): Es una herramienta gratuita para crea
 instaladores para Windows. Es muy personalizable y ofrece soporte para una amplia 
 gama de características, como la creación de accesos directos, la personalización 
 de la interfaz de usuario y la creación de scripts de instalación. 
+
+Para generar un tar.gz:
+tar cvzf RedPlanetPi.tar.gz RedPlanetPi
 
 
 EJEMPLO DE JUEGO CON SPRITES Y CLASES 
