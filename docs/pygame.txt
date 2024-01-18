@@ -1,4 +1,4 @@
-Resumen tutorial PYGAME rev.2
+Resumen tutorial PYGAME rev.3
 =============================
 
 Para instalar pygame, basta con abrir una consola de comandos en un sistema con
@@ -26,7 +26,6 @@ pygame.mouse        Controla el ratón
 pygame.movie        Reproduce archivos de video
 pygame.music        Música y streaming
 pygame.overlay      Características avanzadas de vídeo
-pygame              Funciona pygame de alto nivel
 pygame.rect         Gestiona areas rectangulares
 pygame.sndarray     Manipula datos de sonido
 pygame.sprite       Gestiona imágenes en movimiento
@@ -109,9 +108,9 @@ while True:
                 move_y = 0
 
 ".event.get()" obtiene los eventos del sistema de la cola de eventos y una
-vez leídos los borra de la cola. 
+vez leídos los borra de la cola.
 ".event.wait()" espera a que se produzca un evento, parando la ejecución.
-".event.poll()" lee un solo evento de la cola o "NOEVENT" si no hay ninguno.
+".event.poll()" lee un solo evento de la cola ("NOEVENT" si no hay ninguno).
 
 Event           Purpose                                     Parameters
 =============== =========================================== ===================
@@ -339,11 +338,11 @@ Flag        Propósito
 FULLSCREEN  Crea un display que ocupa la pantalla entera.
 DOUBLEBUF   Crea un “double-buffered” display. 
             Recomendado para los FLAGS HWSURFACE u OPENGL.
+RESIZABLE   Crea un display que se puede redimensionar.
+NOFRAME     Crea un display sin marco ni barra de título.
 HWSURFACE   Crea un display acelerado por hardware 
             Debe combinarse con el flag FULLSCREEN.
 OPENGL      Crea un display que se renderiza con OpenGL.
-RESIZABLE   Crea un display que se puede redimensionar.
-NOFRAME     Crea un display sin marco ni barra de título.
 
 En FULLSCREEN, pygame se adapta a la resolución más conveniente de las que
 disponga el sistema. Es posible ver las resoluciones disponibles con 
@@ -609,13 +608,13 @@ channel = phaser_sound.play()
 channel = phaser_sound.play(–1, 5000)
 
 Métodos del objeto sound:
-fadeout             reduce el volumen a 0 en X milisegundos.
+fadeout             Reduce el volumen a 0 en X milisegundos.
 get_length          Longitud del sonido en segundos.
 get_num_channels    Número de canales disponibles.
-get_volume          Obtiene el volumen del sonido, de 0.0 and 1.0.
+get_volume          Obtiene el volumen del sonido, de 0.0 a 1.0.
 play                Reproduce el sonido.
-set_volume          Establece el volumen del sonido, de 0.0 and 1.0..
-stop                Para la reproducción.
+set_volume          Establece el volumen del sonido, de 0.0 a 1.0..
+stop                Detiene la reproducción.
 
 Se puede aplicar un volumen diferente a cada canal estereo en función de una
 coordenada X de pantalla:
@@ -713,6 +712,7 @@ movimiento limpio con velocidad constante en cualquier máquina se usa la clase
 clock = pygame.time.Clock()
 ...
     bucle principal:
+    ...
     pygame.display.update()
     clock.tick(60)
 
@@ -984,42 +984,27 @@ pintar los objetos.
 EMPAQUETADO Y DISTRIBUCIÓN
 ==========================
 
-Para una instalación Windows lo primero es usar el módulo "py2exe". Se puede
-instalar con el comando "easy_install py2exe". Luego crear un script como el
-siguiente:
+Para distribuir tu programa de Python y Pygame como un archivo ejecutable (EXE) 
+para usuarios de Windows/linux, puedes seguir estos pasos:
 
-from distutils.core import setup
-import py2exe
-setup(
-windows = [{"script":"antsstatemachine.py"}],
-data_files = [ (".", ["ant.png", "leaf.png", "spider.png"]) ]
-)
+Instala PyInstaller: PyInstaller es una herramienta de empaquetado que convierte 
+tu código de Python en un archivo ejecutable independiente. 
+Para instalar PyInstaller, abre una terminal de comandos y escribe 
+"pip install pyinstaller".
 
-Luego abrir el script con el siguiente comando: "python setup.py py2exe", con
-lo cual obtenemos el ejecutable.
+En la terminal, navega a la carpeta que contiene tu script principal y escribe:
+pyinstaller --name=redplanet --icon=myicon.ico redplanet.py
 
-Para el instalador, podemos usar uno gratuíto como Inno Setup o NullSoft. El 
-script para el proyecto de ejemplo (ants.iss) con Inno sería:
+Este comando generará un directorio llamado "dist" que contiene tu archivo ejecutable y 
+todas las dependencias necesarias para ejecutarlo.
 
-[Setup]
-SolidCompression=true
-AppName=Ant State Machine
-AppVerName=Ant State Machine 1.0
-DefaultDirName={pf}\ant state machine
-DefaultGroupName=ant state machine
-ShowLanguageDialog=yes
-[Files]
-Source: dist\*.*; DestDir: {app}
-[Icons]
-Name: {group}\Launch Ants; Filename:{app}\antsstatemachine.exe; WorkingDir:{app}
-Name: {group}\Uninstall Ants; Filename: {uninstallexe}
+Prueba el archivo ejecutable: Abre la carpeta "dist" y haz doble clic en el archivo 
+ejecutable para asegurarte de que funcione correctamente.
 
-Para crear un paquete Linux, hay que usar el módulo "distutils", que produce
-archivos TAR (tarballs) o RPM.
-
-Para crear un paquete en MAC se usará el módulo "py2app" de la misma manera que
-se usa "py2exe" en windows.
-
+NSIS (Nullsoft Scriptable Install System): Es una herramienta gratuita para crear 
+instaladores para Windows. Es muy personalizable y ofrece soporte para una amplia 
+gama de características, como la creación de accesos directos, la personalización 
+de la interfaz de usuario y la creación de scripts de instalación. 
 
 
 EJEMPLO DE JUEGO CON SPRITES Y CLASES 
