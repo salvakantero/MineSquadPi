@@ -1,6 +1,6 @@
 
-MINESWEEPER SQUAD PI
-====================
+MINESQUAD Pi
+============
 
 EN PROCESO
 ==========
@@ -19,17 +19,16 @@ HECHO
 Notas
 =====
 
-- Python/Pygame (ver versiones)
 - Isométrico basado en buscaminas
 
-- Tres personajes:
-     Blaze: Velocidad normal, resistencia normal
-     Piper: Velocidad alta, resistencia baja
-     Norman: Velocidad baja, resistencia alta
+- Tres personajes a elegir:
+     Blaze: Velocidad normal, resistencia normal (Es un chico normal)
+     Piper: Velocidad alta, resistencia baja (Es una chica)
+     Norman: Velocidad baja, resistencia alta (Es un chico fortachón)
 
 - Escenarios (5 niveles cada uno):
      
-     Operación Torch (África del Norte):
+     Operación Torch (Norte de África):
      Fecha clave: Noviembre de 1942.
      Contexto: Invasión aliada en el norte de África.
      
@@ -45,15 +44,15 @@ Notas
      Fecha clave: 1944-1945 (fases finales de la guerra).
      Contexto: Despeje de obstáculos y avance hacia la capital alemana
 
-
     Objetivo: Despejar el campo de juego sin activar ninguna mina.
     Campo de juego: Campo de juego cuadrado que consiste en celdas.
     Minas: Algunas celdas contienen minas, y el jugador no puede ver dónde están ubicadas al principio del juego.
-    Descubrir Celdas: El jugador comienza haciendo clic en una celda para revelar lo que hay debajo.
+    Descubrir Celdas: El jugador se mueve de celda en celda para revelar lo que hay debajo. (pasan a color verde)
     Números: Si la celda que se revela no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
     Marcar Minas: El jugador puede marcar las celdas que piensa que contienen minas con una bandera o un símbolo similar.
-    Ganar o Perder: El jugador gana al revelar todas las celdas que no contienen minas. Pierde si hace clic en una celda con una mina.
+    Ganar o Perder: El jugador gana el nivel al revelar todas las celdas que no contienen minas. Pierde si pisa una celda con una mina.
     Estrategia: Deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
+
 
 
 
