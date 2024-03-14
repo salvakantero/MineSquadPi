@@ -19,39 +19,49 @@ HECHO
 Notas
 =====
 
-- Isométrico basado en buscaminas
+- Isométrico basado en buscaminas (con una versión 2D)
 
 - Tres personajes a elegir:
-     Blaze: Velocidad normal, resistencia normal (Es un chico normal)
-     Piper: Velocidad alta, resistencia baja (Es una chica)
-     Norman: Velocidad baja, resistencia alta (Es un chico fortachón)
+    Blaze: Velocidad normal, resistencia normal (Es un chico normal)
+    Piper: Velocidad alta, resistencia baja (Es una chica)
+    Norman: Velocidad baja, resistencia alta (Es un chico fortachón)
 
 - Escenarios (5 niveles cada uno):
      
-     Operación Torch (Norte de África):
-     Fecha clave: Noviembre de 1942.
-     Contexto: Invasión aliada en el norte de África.
-     
-     Invasión del Día D (Normandía):
-     Fecha clave: 6 de junio de 1944.
-     Contexto: Desembarco aliado en las playas de Normandía.
+    Operación Torch (Norte de África):
+    Fecha clave: Noviembre de 1942.
+    Contexto: Invasión aliada en el norte de África.
+    
+    Invasión del Día D (Normandía):
+    Fecha clave: 6 de junio de 1944.
+    Contexto: Desembarco aliado en las playas de Normandía.
 
-     Batalla de las Ardenas:
-     Fecha clave: Diciembre de 1944 - enero de 1945.
-     Contexto: Ofensiva alemana en la región de las Ardenas durante el invierno.
+    Batalla de las Ardenas:
+    Fecha clave: Diciembre de 1944 - enero de 1945.
+    Contexto: Ofensiva alemana en la región de las Ardenas durante el invierno.
 
-     Avance Aliado hacia Berlín:
-     Fecha clave: 1944-1945 (fases finales de la guerra).
-     Contexto: Despeje de obstáculos y avance hacia la capital alemana
+    Avance Aliado hacia Berlín:
+    Fecha clave: 1944-1945 (fases finales de la guerra).
+    Contexto: Despeje de obstáculos y avance hacia la capital alemana.
 
-    Objetivo: Despejar el campo de juego sin activar ninguna mina.
-    Campo de juego: Campo de juego cuadrado que consiste en celdas.
-    Minas: Algunas celdas contienen minas, y el jugador no puede ver dónde están ubicadas al principio del juego.
-    Descubrir Celdas: El jugador se mueve de celda en celda para revelar lo que hay debajo. (pasan a color verde)
-    Números: Si la celda que se revela no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
-    Marcar Minas: El jugador puede marcar las celdas que piensa que contienen minas con una bandera o un símbolo similar.
-    Ganar o Perder: El jugador gana el nivel al revelar todas las celdas que no contienen minas. Pierde si pisa una celda con una mina.
-    Estrategia: Deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
+- Objetivo general: 
+    Despejar el campo de juego sin activar ninguna mina.
+
+- Campo de juego: 
+    Campo de juego rectangular (vertical) dividido en celdas. Hay scroll vertical. 
+    Algunas celdas contienen minas, pero el jugador no puede ver dónde están ubicadas.
+    El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay debajo de las adyacentes.
+    Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
+    Las celdas reveladas vacías se pintan con transparencia verde. Las que tienen números se pintan con transparencia roja.
+    El color de los números dependerá del nivel/escenario.
+    El jugador puede marcar las celdas que piensa que contienen minas con una bandera o un símbolo similar.
+    Para cada mina hay una bandera, así que no puede fallar. A mayor nivel, más minas/banderas.
+    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina.
+    La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
+
+- Enemigos:
+    Se pasean por el mapa de manera lineal, diagonal, aleatoria, o persiguen al jugador (lentos)
+    Dependiendo del nivel, cambian en tipo, número, velocidad y peligrosidad
 
 
 
