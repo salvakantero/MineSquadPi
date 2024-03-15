@@ -59,11 +59,43 @@ Notas
     El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina.
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
 
+- Objetos:
+    Se distribuyen por el mapa aleatoriamente.
+    Vida extra: +1
+    Munición: permite disparar (+20)
+    Gafas rayos X: se destapan 2 filas más de celdas cercanas al player
+    Regalos: puntuación extra
+        Chuche #1    50
+        Chuche #2    75
+        Rubí        100
+        Diamante    200
+
 - Enemigos:
-    Se pasean por el mapa de manera lineal, diagonal, aleatoria, o persiguen al jugador (lentos)
+    Se pasean por el mapa de manera lineal, aleatoria, o persiguen al jugador (pero lentos)
     Dependiendo del nivel, cambian en tipo, número, velocidad y peligrosidad
+    Todos mueren pero requieren más o menos disparos
 
+    NIVEL               TIPO        PUNTOS
+    ======================================
+    Desierto:
+        escorpión       lineal      10
+        serpiente       aleatorio   20
+        soldado marrón  persigue    50
 
+    Normandía:
+        cangrejo        aleatorio   20
+        proyectil       lineal      40
+        soldado verde   persigue    100
+
+    Ardenas:
+        jabalí          lineal      40
+        lobo            aleatorio   80
+        soldado blanco  persigue    200
+
+    Berlín:
+        persona #1      aleatoria   100
+        persona #2      aleatoria   100
+        soldado gris    persigue    400
 
 
 Botones gamepad:
