@@ -10,6 +10,8 @@ BUGS
 
 POR HACER
 =========
+- paleta pseudopico-8 con 32 colores
+- adaptar la base de RedPlanet para usar en MineSquad
 
 HECHO
 =====
@@ -93,9 +95,37 @@ Notas
         soldado blanco  persigue    200
 
     Berlín:
-        persona #1      aleatoria   100
-        persona #2      aleatoria   100
+        persona #1      aleatoria   80
+        persona #2      aleatoria   160
         soldado gris    persigue    400
+
+- Detalles técnicos:
+    - paleta similar a pico-8, en formato GPL
+    - pantallas de fondo de 240x198 en formato PNG
+        - logo PlayOnRetro
+        - título/intro
+        - fondo menú
+    - mapas realizados con TILED en formato JSON y tileset común en formato JSON
+    - tiles de 16x16 y 16 colores
+    - sprites de tamaño variable y 16 colores:
+        personajes: 16x16
+        objetos: 16x16
+        explosiones: 24x24
+        disparo: 8x8
+    - dos tamaños de fuentes (monócromas):
+        grande: 6x16
+        pequeña: 3x8
+    - tamaño de surfaces para escalado:
+        WIN_SIZE = 800, 640 # main window size (windowed mode)
+        MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
+        MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
+        MAP_SCALED_SIZE = 720, 480 # map size scaled x3 (windowed mode)
+        MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
+        SBOARD_SCALED_SIZE = 720, 114 # scoreboard size scaled x3 (windowed mode)
+        SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
+    - efectos de sonido en formato WAV
+    - música en formato OGG
+
 
 
 Botones gamepad:
