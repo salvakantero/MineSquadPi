@@ -37,8 +37,23 @@ V_MARGIN = 20 # vertical distance between the edge and the playing area (windowe
 
 # player
 INVINCIBLE_TIME = 2500 # time of invincibility (+-2,5 secs.)
+JUMP_VALUE = -3.2 # value of the initial jump for the player
+GRAVITY = 0.180 # acceleration of gravity for the player
+MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
+MAX_OXYGEN = 99 # oxygen units per refill
+OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
+
+# animated tiles
+ANIM_TILES = {
+    # frame_1   frame_2
+    'T4.png' : 'T80.png',   # computer 1
+    'T8.png' : 'T81.png',   # computer 2
+    'T9.png' : 'T82.png',   # corpse
+    'T70.png' : 'T83.png',  # toxic waste
+    'T71.png' : 'T84.png'   # lava
+}
 
 # colour palette (similar to Pico8)
 PALETTE = {
@@ -60,33 +75,59 @@ PALETTE = {
     'SAND' : (255, 204, 170)
 }
 
-# introductory help
-HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
-HELP += 'the entire complex and wipe out its evil INHABITANTS.     '
-HELP += 'To successfully complete the MISSION you must obtain the 15 EXPLOSIVES '
-HELP += 'that are scattered around the station, and place them in the explosives depot'
-HELP += ', deep inside the martian base.     Once deposited, you must RETURN '
-HELP += 'to the control centre and activate the DETONATOR. Good luck!'
+# screen names
+MAP_NAMES = {
+    # level 1
+    0  : 'CONTROL CENTRE',
+    1  : 'SUPPLY DEPOT 1',
+    2  : 'CENTRAL HALL',
+    3  : 'TOXIC WASTE STORAGE 1A',
+    4  : 'TOXIC WASTE STORAGE 1B',
+    5  : 'WEST CORRIDOR',
+    6  : 'ACCESS TO WEST CORRIDORS',
+    7  : 'CENTRAL HALL',
+    8  : 'ACCESS TO DUNGEONS',
+    9  : 'DUNGEONS',
+    10 : 'WEST CORRIDOR',
+    11 : 'SUPPLY DEPOT 2',
+    12 : 'CENTRAL HALL',
+    13 : 'ACCESS TO SOUTHEAST EXIT',
+    14 : 'EXIT TO UNDERGROUND',
+    # level 2
+    15 : 'WAREHOUSE ACCESS',
+    16 : 'CONVECTION CORRIDOR',
+    17 : 'SEWER MAINTENANCE',
+    18 : 'COLD ZONE ACCESS CORRIDOR',
+    19 : 'COLD ZONE ACCESS CORRIDOR',
+    20 : 'FROZEN WAREHOUSE 1',
+    21 : 'CONVECTION CORRIDOR',
+    22 : 'TOXIC SEWERS 1',
+    23 : 'ICE CAVE',
+    24 : 'ACCESS TO ICE CAVE',
+    25 : 'FROZEN WAREHOUSE 2',
+    26 : 'CONVECTION CORRIDOR',
+    27 : 'TOXIC SEWERS 1',
+    28 : 'ACCESS TO THE WARM ZONE',
+    29 : 'EXIT TO THE WARM ZONE',
+    # level 3
+    30 : 'PELUSOIDS LAIR',
+    31 : 'ALVARITOS GROTTO 2',
+    32 : 'ALVARITOS GROTTO 1',
+    33 : 'TOXIC WASTE STORAGE 2A',
+    34 : 'UNDERGROUND TUNNEL',
+    35 : 'SIDE HALL',
+    36 : 'ARACHNOVIRUS LAIR',
+    37 : 'UNSTABLE CORRIDORS 1',
+    38 : 'UNSTABLE CORRIDORS 2',
+    39 : 'TOXIC WASTE STORAGE 2B',
+    40 : 'SIDE HALL',
+    41 : 'ABANDONED MINE 1',
+    42 : 'ABANDONED MINE 2',
+    43 : 'ABANDONED MINE 3',
+    44 : 'EXPLOSIVES STOCKPILE',
+    45 : 'BACK TO CONTROL CENTER',
+}
 
-# credits for the main menu
-CREDITS  = '.::Red Planet Pi::. v1.0     PlayOnRetro 2023     '
-CREDITS += 'PROGRAMMING: salvaKantero     '
-CREDITS += 'GRAPHICS: salvaKantero     '
-CREDITS += 'COVER ILLUSTRATION: Masterklown     '
-CREDITS += 'MENU MUSIC: Masterklown     '
-CREDITS += 'IN-GAME MUSIC: Centurion of war     '
-CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
-CREDITS += 'BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero          '
-CREDITS += 'ACKNOWLEDGEMENTS: Mojon Twins (MK1 8bits engine)     DaFluffyPotato (Font class, screen scaling)     '
-CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel)     '
-CREDITS += 'Mark Vanstone (Raspberry Pi Press tutorials)     Ryan Lambie (Raspberry Pi Press tutorials)     '
-CREDITS += 'Cesar Gomez (Mundo Python YT channel)     Kenney (Keys/mouse icons)                    '
-CREDITS += '16:9 BACKGROUND: NASA (Hubble, Dec 2 2022)                    '
-CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi     '
-CREDITS += 'Thanks for playing!!'
-
-
-'''
 # enemies per map (x1, y1, x2, y2, vx, vy, type)
 # types:
 #	1) Infected
@@ -345,4 +386,28 @@ GATE_DATA = {
     41: [14, 8, True],
     42: [14, 2, True]
 }
-'''
+
+# introductory help
+HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
+HELP += 'the entire complex and wipe out its evil INHABITANTS.     '
+HELP += 'To successfully complete the MISSION you must obtain the 15 EXPLOSIVES '
+HELP += 'that are scattered around the station, and place them in the explosives depot'
+HELP += ', deep inside the martian base.     Once deposited, you must RETURN '
+HELP += 'to the control centre and activate the DETONATOR. Good luck!'
+
+# credits for the main menu
+CREDITS  = '.::Red Planet Pi::. v1.0     PlayOnRetro 2023     '
+CREDITS += 'PROGRAMMING: salvaKantero     '
+CREDITS += 'GRAPHICS: salvaKantero     '
+CREDITS += 'COVER ILLUSTRATION: Masterklown     '
+CREDITS += 'MENU MUSIC: Masterklown     '
+CREDITS += 'IN-GAME MUSIC: Centurion of war     '
+CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
+CREDITS += 'BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero          '
+CREDITS += 'ACKNOWLEDGEMENTS: Mojon Twins (MK1 8bits engine)     DaFluffyPotato (Font class, screen scaling)     '
+CREDITS += 'Rik Cross (Raspberry Pi Foundation)     Chris (Clear Code YT channel)     '
+CREDITS += 'Mark Vanstone (Raspberry Pi Press tutorials)     Ryan Lambie (Raspberry Pi Press tutorials)     '
+CREDITS += 'Cesar Gomez (Mundo Python YT channel)     Kenney (Keys/mouse icons)                    '
+CREDITS += '16:9 BACKGROUND: NASA (Hubble, Dec 2 2022)                    '
+CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi     '
+CREDITS += 'Thanks for playing!!'

@@ -1,0 +1,162 @@
+﻿
+================================
+RED PLANET Pi v1.0 (C) 2015/2023
+================================                
+  Para Raspberry Pi / Windows *
+
+* y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) o superior.
+  (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
+
+
+
+Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
+Pero cuidado, el entorno es peligroso. Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
+
+
+OBJETOS
+=======
+
+EXPLOSIVO: Para acabar con éxito la misión debes obtener los 15 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
+Una vez depositados, tienes que regresar al centro de control y activar el detonador.
+
+TARJETA: En ocasiones tendrás que acceder a zonas cerradas con tarjeta de acceso, por lo que previamente deberás localizar estas tarjetas para continuar tu misión.
+
+PUERTA: Solo podrás abrirlas si dispones de alguna tarjeta. 
+Las tarjetas son de un solo uso, pero la puerta permanecerá abierta.
+
+MUNICIÓN: Tienes la posibilidad de disparar balas de plasma contra tus enemigos, pero cuidado, no malgastes munición, ya que ésta es escasa.
+Hay recargas repartidas por todo el complejo.
+
+OXÍGENO: Vigila el estado de tus botellas de oxígeno y busca otras nuevas antes de que se agoten o morirás en el acto.
+
+DISKETTE: Graba la situación actual de la partida para continuarla en otra ocasión.
+Podrás localizarlos en las pantallas donde previamente había tarjetas. 
+
+BURGER, CAKE, DONUT: Sí, a los marcianos también les gustan. 
+Cómetelos si quieres ver aumentar tu puntuación.
+
+
+ENEMIGOS
+========
+
+INFECTADO: Anteriores compañeros que intentaron realizar la misión y no lo consiguieron.
+La picadura de los aracnovirus les mantiene en un estado de NO muertos.
+Se mueven de manera lineal y pueden ser muy rápidos, elimínalos antes de que te contagien.
+
+ARACNOVIRUS/PELUSOIDE: De movimientos erráticos y rápidos.
+Suelen moverse por el aire. Son los alienígenas más numerosos que han colonizado la base.
+
+PELUSOIDE FANTY: Son muy inteligentes. Pueden permanecer agazapados esperando tu llegada.
+Si te ven o te oyen, se abalanzarán sobre ti. 
+En ese caso acaba con ellos cuanto antes. 
+
+
+PUNTUACIÓN
+==========
+
+INFECTADO	 25 puntos
+ARACNOVIRUS	 50 puntos
+PELUSOIDE	 75 puntos
+FANTY		100 puntos
+--------------------------
+TNT		 50 puntos
+MUNICIÓN	 75 puntos
+OXÍGENO		100 puntos
+TARJETA		125 puntos
+PUERTA		150 puntos
+--------------------------
+DONUT		200 puntos
+TARTA		350 puntos
+HAMBURGUESA	500 puntos
+
+
+MENU PRINCIPAL
+==============
+
+Tras una breve intro inicial o tras cada partida se muestra el menú principal. 
+Éste se compone de una pantalla con las opciones de juego y otra con las opciones de configuración. 
+Si no se pulsa ninguna tecla, cada pocos segundos se muestran páginas deslizantes con la tabla de mejores puntuaciones, ayuda e información resumida de este manual.
+
+En el menú principal podremos comenzar una partida nueva o continuar una partida anterior a partir del último diskette que cogimos. 
+También podemos cambiar la configuración o salir al sistema operativo.
+
+En el menú de configuración podremos cambiar varias características del programa:
+  - La opción "Full Screen" nos permite ver el juego en una ventana, o bien en pantalla completa. A su vez en pantalla completa disponemos de dos opciones. 
+      - La opción "4:3" nos permite disfrutar del juego ocupando toda la pantalla de un monitor o TV  no panorámico con el aspecto correcto. 
+      - Si nuestra pantalla es panorámica probablemente veamos el juego muy achatado. Para corregir ese problema debemos seleccionar la siguiente opción, que es "16:9". Esta opción nos muestra el juego en la parte central de la pantalla con el aspecto correcto.
+  - "Scanlines" simula la imagen que ofrecían las máquinas ARCADE de la época en sus pantallas de tubo, mostrándolas con líneas oscuras visibles.
+  - "Map Transition" desactivado muestra las nuevas pantallas inmediatamente. Si activamos esta opción mostrará la siguiente pantalla deslizándose junto con la anterior. Es más lento pero muestra el mapa de juego como un todo...
+  - "Game Control" ...
+
+
+CONTROL DE JUEGO
+================
+
+		GAMER		RETRO		CLASSIC		JOYPAD
+		----------------------------------------------------------------
+salto:		W		Q		cur.arriba	botón A / B / joy.arriba	
+acción:		S		A		cur.abajo	joy.abajo
+izquierda:	A		O		cur.izda.	joy.izda.
+derecha:	D		P		cur.derecha	joy.derecha
+disparo*:	SPACE		SPACE		SPACE		botón X / botón Y	 		
+
+* también botón izquierdo del ratón
+
+Teclas comunes a todas las configuraciones:
+M:      Música Sí/No.
+ESC:    Pausa / Cancelar partida.
+
+
+CONSEJOS Y TRUCOS
+=================
+
+- Reserva algo de munición y oxígeno para cuando hayas colocado los explosivos y regreses al centro de control.
+En caso de escasez de oxígeno sonará una alarma durante la cual la prioridad será buscar botellas nuevas.
+
+- Extrema la precaución en los pasillos verticales. Son las zonas más traicioneras.
+
+- Siempre que sea posible, es mejor no molestar a los FANTYS
+
+- Usa el guardado de partida cuando la situación del juego sea adecuada, es decir, con un número de vidas y oxígeno suficiente para acabar la partida. 
+Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
+
+- Para colocar los explosivos en su emplazamiento final y para usar el detonador se debe pulsar la tecla ACCIÓN (abajo), en caso contrario no ocurrirá nada.
+
+
+===================================
+RED PLANET Pi  (C) PlayOnRetro 2023
+===================================
+
+PROGRAMA: salvaKantero
+GRÁFICOS: salvaKantero
+ILUSTRACIÓN DE PORTADA: Masterklown 
+MÚSICA DEL MENÚ: Masterklown
+MÚSICA IN-GAME: Centurion of war
+EFECTOS DE SONIDO: Juhani Junkala
+IMAGEN DE FONDO MODO 16/9: NASA (Hubble, Dec 2 2022)
+
+BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero    
+
+AGRADECIMIENTOS*: 
+Mojon Twins (MK1 motor de juegos de 8bits)
+DaFluffyPotato (clase Font, escalado de pantallas)
+Chris (Clear Code canal de YT)
+Rik Cross (Raspberry Pi Foundation)
+Mark Vanstone (Tutoriales de Raspberry Pi Press)
+Ryan Lambie (Tutoriales de Raspberry Pi Press)
+Cesar Gomez (Mundo Python canal de YT)
+Kenney (gráficos de teclas/ratón)
+
+* Gracias a todos ellos por compartir sus conocimientos, técnicas y recursos 
+
+CÓDIGO FUENTE PYTHON Y RECURSOS DISPONIBLES EN https://github.com/salvakantero/RedPlanetPi
+RED PLANET Pi se publica bajo licencia GPL v3. (ver license.txt)
+
+Gracias por jugar!!
+
+
+NOTA DEL AUTOR
+==============
+
+Este proyecto se programó íntegramente en ordenadores Raspberry Pi y lenguaje Python, pensando en la gran cantidad de academias y usuarios que usan dichos ordenadores en todo el mundo para aprender informática y programación.
+Si alguno de estos alumnos o jugadores casuales, accede al código fuente para estudiarlo, mejorarlo, realizar su propio juego, o simplemente revisarlo y entenderlo, entonces habrá valido la pena el esfuerzo.

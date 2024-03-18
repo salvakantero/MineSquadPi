@@ -115,7 +115,7 @@ Notas
     - dos tamaños de fuentes (monócromas):
         grande: 6x16
         pequeña: 3x8
-    - tamaño de surfaces para escalado:
+    - tamaño de surfaces (duplicada para escalado):
         WIN_SIZE = 800, 640 # main window size (windowed mode)
         MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
         MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
