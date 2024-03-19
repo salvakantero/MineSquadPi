@@ -31,7 +31,6 @@ import constants
 import enums
 
 from hotspot import Hotspot
-from gate import Gate
 from enemy import Enemy
 
 
@@ -234,13 +233,6 @@ class Map():
                 self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
                 self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
             constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type
-
-        # add the gate (if there is one visible on the map)
-        gate = constants.GATE_DATA.get(self.number)
-        if gate != None and gate[2] == True: # visible/available?
-            gate_sprite = Gate(gate, self.game.hotspot_images[enums.GATE_TILE])
-            self.game.groups[enums.ALL].add(gate_sprite) # to update/draw it
-            self.game.groups[enums.GATE].add(gate_sprite) # to check for collisions
 
         # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map

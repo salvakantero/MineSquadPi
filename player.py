@@ -28,7 +28,6 @@ import random
 from math import sin
 import constants
 import enums
-from dust import DustEffect
 from shot import Shot
 
 
@@ -78,19 +77,6 @@ class Player(pygame.sprite.Sprite):
         self.firing = 0 # frame counter
         self.img_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
-        # dust effect
-        self.dust_image_list = {
-            enums.JUMPING: [
-                pygame.image.load('images/sprites/dust0.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust1.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust2.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust3.png').convert_alpha(),                                
-                pygame.image.load('images/sprites/dust4.png').convert_alpha()],
-            enums.FALLING: [
-                pygame.image.load('images/sprites/dust5.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust6.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust7.png').convert_alpha(),
-                pygame.image.load('images/sprites/dust8.png').convert_alpha()]}
         # sounds
         self.sfx_jump = (
             pygame.mixer.Sound('sounds/fx/sfx_jump1.wav'),
@@ -116,20 +102,11 @@ class Player(pygame.sprite.Sprite):
         self.scoreboard = scoreboard
 
 
-    # dust effect when jumping or landing
-    def dust_effect(self, pos, state):
-        if self.game.groups[enums.DUST].sprite == None:        
-            dust_sprite = DustEffect(pos, self.dust_image_list[state])
-            self.game.groups[enums.DUST].add(dust_sprite)
-            self.game.groups[enums.ALL].add(dust_sprite)
-
-
     # common code from joystick or keyboard to make the jump
     def performs_jump(self):
         self.direction.y = constants.JUMP_VALUE
         self.on_ground = False
         self.y_jump = self.rect.y # to detect large jumps on landing            
-        self.dust_effect(self.rect.center, enums.JUMPING)
         # randomly plays one of the four jumping sounds
         self.sfx_jump[random.randint(0, 3)].play()
 
@@ -315,16 +292,15 @@ class Player(pygame.sprite.Sprite):
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
-                    # makes a preventive jump (this time without dust)
+                    # makes a preventive jump
                     self.direction.y = constants.JUMP_VALUE
                     break
 
         if not collision:
             self.rect.y = y_temp # apply the new Y position
 
-        # landing, creating some dust and shaking the map
+        # landing and shaking the map
         if self.state == enums.FALLING and self.on_ground:
-            self.dust_effect(self.rect.center, self.state)
             self.sfx_landing.play()
             # large jump?
             if self.rect.y > self.y_jump:                

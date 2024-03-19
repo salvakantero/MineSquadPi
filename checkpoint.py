@@ -44,8 +44,7 @@ class Checkpoint():
             'player_facing_right' : True,
             'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
             'player_score' : 0,
-            'hotspot_data' : constants.HOTSPOT_DATA,
-            'gate_data' : constants.GATE_DATA
+            'hotspot_data' : constants.HOTSPOT_DATA
         }
 
 

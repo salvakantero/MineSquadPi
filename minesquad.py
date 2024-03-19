@@ -65,7 +65,6 @@ while True:
         game.win_secuence = 0
         if game.new:
             for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
-            for gate in constants.GATE_DATA.values(): gate[2] = True # all visible doors                        
             map.number = 0 # current map
             scoreboard.game_percent = 0 # percentage of completed gameplay
         else: # load the last checkpoint
@@ -84,7 +83,6 @@ while True:
             player.rect = d['player_rect']
             player.score = d['player_score']
             constants.HOTSPOT_DATA = d['hotspot_data']
-            constants.GATE_DATA = d['gate_data']
             player.invincible = True
             player.invincible_time_from = pygame.time.get_ticks()
     else: # game running
@@ -123,7 +121,7 @@ while True:
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
 
-        # collision between player and mobile platform, martians, hotspot and gates        
+        # collision between player and mobile platform, martians and hotspot        
         game.check_player_collisions(player, scoreboard, map.number)
         # collision between bullets and martians or map tiles
         game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)

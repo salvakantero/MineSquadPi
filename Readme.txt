@@ -20,9 +20,6 @@ Once deposited, you must return to the control centre and activate the detonator
 
 KEY CARD: Sometimes you will have to access locked areas with access cards, so you will have to locate these cards before you can continue your mission.
 
-GATES: You will only be able to open them if you have a card. 
-The cards are for single use only, but the door will remain open.
-
 AMMO: You have the possibility to fire plasma bullets at your enemies, but be careful not to waste ammunition, which is scarce.
 There are reloads scattered throughout the complex.
 
@@ -64,7 +61,6 @@ TNT		 50 points
 AMMO		 75 points
 OXYGEN		100 points
 KEYCARD		125 points
-GATE		150 points
 ----------------------------
 DONUT		200 points
 CAKE		350 points

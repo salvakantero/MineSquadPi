@@ -41,7 +41,6 @@ class Scoreboard():
         # ----------------------------
         # TNT           15 * 3     45%
         # Keys           9 * 2     18%
-        # Gates          9 * 3     27%
         # Locate TNT     1 * 5      5%
         # Detonator      1 * 5      5%
         #                         ----

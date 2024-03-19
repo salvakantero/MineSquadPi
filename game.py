@@ -64,9 +64,7 @@ class Game():
             pygame.sprite.Group(), # all sprites (to display them)
             pygame.sprite.Group(), # enemies
             pygame.sprite.GroupSingle(), # hotspot
-            pygame.sprite.GroupSingle(), # gate
             pygame.sprite.GroupSingle(), # mobile platform
-            pygame.sprite.GroupSingle(), # dust
             pygame.sprite.GroupSingle()] # shot
         # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN
@@ -119,8 +117,7 @@ class Game():
             enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.BURGER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha(),
-            enums.GATE_TILE: pygame.image.load('images/tiles/T60.png').convert()} 
+            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -453,7 +450,7 @@ class Game():
         self.win_secuence -= 1 # next frame
 
 
-    # collisions between the player and mobile platforms, enemies, hotspots and gates
+    # collisions between the player and mobile platforms, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number):
         # player and mobile platform
         if self.groups[enums.PLATFORM].sprite is not None: # there is a platform on the map
@@ -532,8 +529,7 @@ class Game():
                         'player_facing_right' : player.facing_right,
                         'player_rect' : player.rect,
                         'player_score' : player.score,
-                        'hotspot_data' : constants.HOTSPOT_DATA,
-                        'gate_data' : constants.GATE_DATA }
+                        'hotspot_data' : constants.HOTSPOT_DATA }
                     self.checkpoint.save() 
 
                 scoreboard.invalidate()
@@ -544,35 +540,6 @@ class Game():
                 self.groups[enums.HOTSPOT].sprite.kill()
                 constants.HOTSPOT_DATA[map_number][3] = False # not visible            
                 return
-        # player and gates
-        if self.groups[enums.GATE].sprite is not None: # # there is a door on the map
-            if player.rect.colliderect(self.groups[enums.GATE].sprite):        
-                if player.keys > 0: # player has a key
-                    player.keys -= 1
-                    self.sfx_open_door.play()
-                    # creates a magic halo
-                    blast = Explosion(self.groups[enums.GATE].sprite.rect.center, self.blast_images[2])
-                    self.groups[enums.ALL].add(blast)
-                    # deletes the door
-                    self.groups[enums.GATE].sprite.kill()                    
-                    constants.GATE_DATA[map_number][2] = False # not visible
-                    # increases the percentage of game play
-                    scoreboard.game_percent += 3
-                    scoreboard.invalidate()
-                    # increases the score
-                    player.score += 150
-                    self.floating_text.text = '+150'
-                    self.floating_text.speed = 0
-                    self.floating_text.x = player.rect.x
-                    self.floating_text.y = player.rect.y
-                else: # no key
-                    self.sfx_locked_door.play()
-                    # shake the map (just a little in X)
-                    self.shake = [4, 0]
-                    self.shake_timer = 4
-                    # bounces the player
-                    if player.facing_right: player.rect.x -= 5
-                    else: player.rect.x += 5
 
 
     def check_bullet_collisions(self, player, scoreboard, tilemap_rect_list):  

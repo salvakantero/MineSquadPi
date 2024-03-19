@@ -373,20 +373,6 @@ HOTSPOT_DATA = [
     [enums.OXYGEN, 1, 2, True]
 ]   
 
-# doors per map
-# map number: [x, y, visible?]
-GATE_DATA = {    
-    8: [14, 8, True],
-    13: [14, 7, True],
-    14: [11, 1, True],
-    16: [0, 3, True],  
-    22: [0, 7, True],
-    28: [14, 8, True],
-    39: [3, 6, True],
-    41: [14, 8, True],
-    42: [14, 2, True]
-}
-
 # introductory help
 HELP = 'Lead our HERO into the underground of the old SPACE STATION to blow up '
 HELP += 'the entire complex and wipe out its evil INHABITANTS.     '
