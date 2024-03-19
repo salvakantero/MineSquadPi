@@ -4,7 +4,7 @@
 # Create a playlist with the tracks randomly shuffled
 # ==============================================================================
 #
-#  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -50,6 +50,6 @@ class Jukebox():
 
     def update(self):
         if not pygame.mixer.music.get_busy(): # if a track is not playing...
-            self.load_next() # load in memory the following track            
+            self.load_next() # load in memory the following track
             pygame.mixer.music.play(2) # play each track twice
      

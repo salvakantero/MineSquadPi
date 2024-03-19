@@ -4,7 +4,7 @@
 # Initial menu and additional information displayed on sliding pages
 # ==============================================================================
 #
-#  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
+#  This file is part of "MineSquad Pi". Copyright (C) 2024 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by

@@ -11,7 +11,8 @@ BUGS
 POR HACER
 =========
 - paleta pseudopico-8 con 32 colores
-- adaptar la base de RedPlanet para usar en MineSquad
+- adaptar la base de RedPlanet para usar en MineSquad (eliminar lo innecesario)
+
 
 HECHO
 =====

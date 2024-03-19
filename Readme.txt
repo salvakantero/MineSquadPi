@@ -1,8 +1,8 @@
 
-================================
-RED PLANET Pi v1.0 (C) 2015/2023
-================================                
-  for Raspberry Pi / Windows *
+============================
+Mine Squad Pi v1.0 (C) 2024
+============================
+for Raspberry Pi / Windows *
 
 *and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) or higher.
  (Windows and Raspberry Pi installers and executables in the /PUB folder)
@@ -125,7 +125,7 @@ Remember that selecting a DISKETTE overwrites the previous game.
 
 
 ===================================
-RED PLANET Pi  (C) PlayOnRetro 2023
+Mine Squad Pi  (C) PlayOnRetro 2024
 ===================================
 
 PROGRAM: salvaKantero
@@ -136,14 +136,12 @@ IN-GAME MUSIC: Centurion of war
 SOUND EFFECTS: Juhani Junkala
 16/9 MODE BACKGROUND IMAGE: NASA (Hubble, Dec 2 2022)
 
-BETA TESTERS: Danielito Dorado, Dany Cantero, Laura Cantero, Lucas Cantero, Marina Cantero
-
-RED PLANET Pi is released under GPL v3 for all software components* (see license.txt).
+Mine Squad Pi is released under GPL v3 for all software components* (see license.txt).
 * However, please note that the illustrations used for the cover artwork are NOT released under the GPL v3 license. 
 These illustrations are the intellectual property of Masterklown and are subject to separate licensing terms. 
 Any use, reproduction, or distribution of the illustrations must be authorized by Masterklown. 
 
-PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/RedPlanetPi
+PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi
 
 ACKNOWLEDGEMENTS*: 
 Mojon Twins (MK1 8bit game engine)
@@ -156,11 +154,3 @@ Cesar Gomez (Mundo Python YT channel)
 Kenney (Keyboard/Mouse Graphics)
 
 * Thanks to all of them for sharing their knowledge, techniques and resources. 
-
-
-AUTHOR'S NOTE
-=============
-
-This project was programmed entirely on Raspberry Pi computers and Python language, thinking about the large number of academies and users who use these computers around the world to learn computer science and programming.
-If any of these students or casual gamers, access the source code to study it, improve it, make their own game, or simply review and understand it, then it will have been worth the effort.
-

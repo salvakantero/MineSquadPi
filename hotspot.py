@@ -5,7 +5,7 @@
 # and animates it with an up-and-down movement.
 # ==============================================================================
 #
-#  This file is part of "Red Planet Pi". Copyright (C) 2023 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
