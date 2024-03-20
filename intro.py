@@ -65,7 +65,7 @@ class Intro():
         self.srf_aux.blit(self.img_logo, (0, 0))
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
         if self.main_key_pressed(): return # allows skipping the intro
-        self.sfx_intro3.play()
+        self.sfx_logo.play()
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
         # fade out
@@ -83,4 +83,4 @@ class Intro():
         pygame.time.wait(200)       
         if self.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!
-        pygame.time.wait(500)
+        pygame.time.wait(1500)

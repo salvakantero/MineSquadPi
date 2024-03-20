@@ -182,8 +182,8 @@ class Game():
         self.win_size = constants.WIN_SIZE
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         pygame.display.set_caption('.:: Red Planet Pi ::.')
-        icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-        pygame.display.set_icon(icon)
+        #icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
+        #pygame.display.set_icon(icon)
 
 
     # 4:3 (800x600) clear and faaaasssst!
