@@ -31,14 +31,10 @@ class Intro():
         self.srf_menu = game.srf_menu
         # images
         self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro logo  
-        self.img_intro1 = pygame.image.load('images/assets/intro1.png').convert() # background
-        self.img_intro2 = pygame.image.load('images/assets/intro2.png').convert_alpha() # title
-        self.img_intro3 = pygame.image.load('images/assets/intro3.png').convert_alpha() # pi
+        self.img_intro = pygame.image.load('images/assets/intro.png').convert() # background
         # sounds
-        self.sfx_intro1 = pygame.mixer.Sound('sounds/fx/sfx_intro1.wav') # flash effect
-        self.sfx_intro2 = pygame.mixer.Sound('sounds/fx/sfx_intro2.wav') # text sliding
-        self.sfx_intro3 = pygame.mixer.Sound('sounds/fx/sfx_intro3.wav') # PlayOnRetro
-        self.sfx_intro3.set_volume(.4)
+        self.sfx_logo = pygame.mixer.Sound('sounds/fx/sfx_logo.wav') # PlayOnRetro logo sound
+        self.sfx_intro = pygame.mixer.Sound('sounds/fx/sfx_intro.wav') # flash effect
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
@@ -47,7 +43,9 @@ class Intro():
     def main_key_pressed(self):
         for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_ESCAPE \
+                    or event.key == pygame.K_RETURN \
+                    or event.key == pygame.K_SPACE:
                         return True
 
 
@@ -77,26 +75,12 @@ class Intro():
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
 
-        # RedPlanetPi
-        self.sfx_intro1.play()
-        self.srf_menu.fill(constants.PALETTE["WHITE"]) # white background
-        self.srf_aux.blit(self.img_intro1, (0, 0))
+        # MineSquad logo
+        self.sfx_intro.play()
+        self.srf_menu.fill(constants.PALETTE["YELLOW"]) # yellow background
+        self.srf_aux.blit(self.img_intro, (0, 0))
         self.fades_surface(self.srf_menu, self.srf_aux, 50, 8)
-        pygame.time.wait(200)
-        if self.main_key_pressed(): return # allows skipping the intro
-        # slide the title "RED PLANET" from the right to its final position
-        self.sfx_intro2.play()
-        for x in range(-170, 0, 10):
-            self.srf_menu.blit(self.img_intro1, (0, 0))
-            self.srf_menu.blit(self.img_intro2, (x, 0))
-            self.game.update_screen()
-        # slides the PI from the bottom to its final position
-        self.sfx_intro2.play()
-        for y in range(140, -5, -10):
-            self.srf_menu.blit(self.img_intro1, (0, 0))
-            self.srf_menu.blit(self.img_intro2, (0, 0))
-            self.srf_menu.blit(self.img_intro3, (198, y))
-            self.game.update_screen()
+        pygame.time.wait(200)       
         if self.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!
         pygame.time.wait(500)
