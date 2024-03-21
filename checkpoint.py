@@ -40,7 +40,6 @@ class Checkpoint():
             'player_keys' : 0,
             'player_TNT' : 0,
             'player_oxygen' : constants.MAX_OXYGEN,
-            'player_stacked_TNT' : False,
             'player_facing_right' : True,
             'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
             'player_score' : 0,

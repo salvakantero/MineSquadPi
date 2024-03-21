@@ -38,7 +38,6 @@ class Map():
     def __init__(self, game):
         self.game = game
         self.number = 0 # current map
-        self.scroll = 0 # scroll direction for map_transition()
         self.last = -1 # last map loaded
         self.tilemap_rect_list = [] # list of tile rects (except for transparent ones)
         self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
@@ -154,27 +153,23 @@ class Map():
         # appearing from the right on the new map
         if player.rect.x < -(constants.TILE_SIZE-8):
             self.number -= 1
-            self.scroll = enums.LEFT
             player.rect.right = constants.MAP_UNSCALED_SIZE[0]
         # player disappears on the right
         # appearing from the left on the new map
         elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 8:
             self.number += 1
-            self.scroll = enums.RIGHT
             player.rect.left = 0
         # player disappears over the top
         # appearing at the bottom of the new map 
         # and jumps again to facilitate the return
         elif player.rect.y < (-constants.TILE_SIZE):
             self.number -= 5
-            self.scroll = enums.UP
             player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
             player.direction.y = constants.JUMP_VALUE
         # player disappears from underneath
         #appearing at the top of the new map
         elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
             self.number += 5
-            self.scroll = enums.DOWN
             player.rect.top = 0
 
 
@@ -184,17 +179,8 @@ class Map():
         self.last = self.number
         # load the new map
         self.load()
-        # preserves the previous map to make the transition
-        if self.game.config.data['map_transition']:
-            self.game.srf_map_bk_prev.blit(self.game.srf_map_bk, (0,0))
         # save the new background (empty of sprites)
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
-        # add the TNT pile if necessary to the background
-        if self.number == 44 and player.stacked_TNT:
-            self.add_TNT_pile()
-        # performs the screen transition
-        if self.game.config.data['map_transition']:
-            self.transition()
         # refresh the scoreboard area
         scoreboard.reset()
         scoreboard.map_info(self.number)
@@ -248,73 +234,6 @@ class Map():
                 else: # platform sprite? add to the platform group
                     self.game.groups[enums.PLATFORM].add(enemy) # to check for collisions                
 
-
-    # makes a screen transition between the old map and the new one.
-    def transition(self):
-        # surfaces to save the old and the new map together
-        srf_map_t_h = pygame.Surface((constants.MAP_UNSCALED_SIZE[0]*2, constants.MAP_UNSCALED_SIZE[1]))
-        srf_map_t_v = pygame.Surface((constants.MAP_UNSCALED_SIZE[0], constants.MAP_UNSCALED_SIZE[1]*2))
-
-        #  -----------   
-        #  | new map |  /|\
-        #  -----------   |
-        #  | old map |   |
-        #  -----------   
-        if self.scroll == enums.UP:
-            # joins the two maps on a single surface
-            srf_map_t_v.blit(self.game.srf_map_bk, (0,0))
-            srf_map_t_v.blit(self.game.srf_map_bk_prev, (0, constants.MAP_UNSCALED_SIZE[1]))
-            # scrolls the two maps across the screen
-            for y in range(-constants.MAP_UNSCALED_SIZE[1], 0, 4):
-                self.game.srf_map.blit(srf_map_t_v, (0, y))
-                self.game.update_screen()
-
-        #  -----------   
-        #  | old map |   |
-        #  -----------   |
-        #  | new map |  \|/
-        #  -----------   
-        elif self.scroll == enums.DOWN:
-            # joins the two maps on a single surface
-            srf_map_t_v.blit(self.game.srf_map_bk_prev, (0,0))
-            srf_map_t_v.blit(self.game.srf_map_bk, (0, constants.MAP_UNSCALED_SIZE[1]))
-            # scrolls the two maps across the screen
-            for y in range(0, -constants.MAP_UNSCALED_SIZE[1], -4):
-                self.game.srf_map.blit(srf_map_t_v, (0, y))
-                self.game.update_screen()
-
-        #         <-----
-        #  ---------------------
-        #  | new map | old map |
-        #  ---------------------
-        elif self.scroll == enums.LEFT:
-            # joins the two maps on a single surface
-            srf_map_t_h.blit(self.game.srf_map_bk, (0,0))
-            srf_map_t_h.blit(self.game.srf_map_bk_prev, (constants.MAP_UNSCALED_SIZE[0], 0))
-            # scrolls the two maps across the screen
-            for x in range(-constants.MAP_UNSCALED_SIZE[0], 0, 6):
-                self.game.srf_map.blit(srf_map_t_h, (x, 0))
-                self.game.update_screen()
-
-        #         ----->
-        #  ---------------------
-        #  | old map | new map |
-        #  ---------------------
-        else: # right
-            # joins the two maps on a single surface
-            srf_map_t_h.blit(self.game.srf_map_bk_prev, (0,0))
-            srf_map_t_h.blit(self.game.srf_map_bk, (constants.MAP_UNSCALED_SIZE[0], 0))
-            # scrolls the two maps across the screen
-            for x in range(0, -constants.MAP_UNSCALED_SIZE[0], -6):
-                self.game.srf_map.blit(srf_map_t_h, (x, 0))
-                self.game.update_screen()
-
-
-    # add the pile of explosives to the background (5 x 3)
-    def add_TNT_pile(self):
-        for y in range(80, 97, 8): # y = 80, 88, 96
-            for x in range(105, 154, 12): # x = 105, 117, 129, 141, 153
-                self.game.srf_map_bk.blit(self.img_TNT, (x,y))
 
 
 

@@ -39,7 +39,6 @@ class Player(pygame.sprite.Sprite):
         self.keys = 0 # unused keys collected 
         self.TNT = 0 # explosives collected  
         self.oxygen = constants.MAX_OXYGEN # oxygen remaining
-        self.stacked_TNT = False # the 15 TNT charges have been placed?
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.x_speed = 2 # movement in the x-axis (pixels)
@@ -132,14 +131,12 @@ class Player(pygame.sprite.Sprite):
         if self.map.number == 44 \
         and self.rect.x > 90 and self.rect.x < 165 \
         and self.rect.y == 96 and self.TNT == 15:  
-            self.stacked_TNT = True
             self.TNT = 0
             self.scoreboard.game_percent += 5
-            self.scoreboard.invalidate()
-            self.map.add_TNT_pile()                  
+            self.scoreboard.invalidate()             
             self.sfx_TNT.play()
         # detonate explosives
-        elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112 and self.stacked_TNT:
+        elif self.map.number == 0 and self.rect.x < 25 and self.rect.y == 112:
             self.game.win_secuence = 350 # animated sequence on winning
         # no action required
         else: self.sfx_no_action.play()

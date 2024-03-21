@@ -59,7 +59,6 @@ while True:
         player = Player(game, map, scoreboard)
         # reset variables
         map.last = -1 # map before the current map
-        map.scroll = enums.RIGHT
         game.status = enums.RUNNING
         game.floating_text.y = 0
         game.win_secuence = 0
@@ -78,7 +77,6 @@ while True:
             player.keys = d['player_keys']
             player.TNT = d['player_TNT']
             player.oxygen = d['player_oxygen']
-            player.stacked_TNT = d['player_stacked_TNT']
             player.facing_right = d['player_facing_right']
             player.rect = d['player_rect']
             player.score = d['player_score']

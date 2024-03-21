@@ -525,7 +525,6 @@ class Game():
                         'player_keys' : player.keys,
                         'player_TNT' : player.TNT,
                         'player_oxygen' : player.oxygen,
-                        'player_stacked_TNT' : player.stacked_TNT,
                         'player_facing_right' : player.facing_right,
                         'player_rect' : player.rect,
                         'player_score' : player.score,

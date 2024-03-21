@@ -182,11 +182,6 @@ class Menu():
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[5], x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+20, 1)
-        # map transition
-        if self.game.config.data['map_transition']: value = 'ON' 
-        else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Map Transition:', self.menu_pages[5], x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+40, 1)
         # control keys
         if self.game.config.data['control'] == enums.CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
@@ -347,8 +342,6 @@ class Menu():
                         self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 3
                     elif selected_option == enums.SCANLINES: # 0 = no, 1 = yes
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 2
-                    elif selected_option == enums.MAP_TRANSITION: # 0 = no, 1 = yes
-                        self.game.config.data['map_transition'] = (self.game.config.data['map_transition'] + 1) % 2
                     elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
