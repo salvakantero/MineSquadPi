@@ -187,10 +187,10 @@ class Menu():
         elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
-        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[5], x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+60, 1)
+        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[5], x, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+40, 1)
         # exit
-        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[5], x, y+80, 1)
+        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[5], x, y+60, 1)
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                          'Use arrow keys and SPACE/ENTER to select', self.menu_pages[5], x-10, y+110, 1)
