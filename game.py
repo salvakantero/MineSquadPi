@@ -181,7 +181,7 @@ class Game():
         # creates the window
         self.win_size = constants.WIN_SIZE
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
-        pygame.display.set_caption('.:: Red Planet Pi ::.')
+        pygame.display.set_caption('.:: Mine Squad Pi ::.')
         #icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
         #pygame.display.set_icon(icon)
 
