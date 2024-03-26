@@ -148,6 +148,6 @@ Kenney (gráficos de teclas/ratón)
 * Gracias a todos ellos por compartir sus conocimientos, técnicas y recursos 
 
 CÓDIGO FUENTE PYTHON Y RECURSOS DISPONIBLES EN https://github.com/salvakantero/MineSquadPi
-RED PLANET Pi se publica bajo licencia GPL v3. (ver license.txt)
+Mine Squad Pi se publica bajo licencia GPL v3. (ver license.txt)
 
 Gracias por jugar!!

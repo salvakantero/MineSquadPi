@@ -50,11 +50,6 @@ class Scoreboard():
 
     # draws the name of the map and other data
     def map_info(self, map_number):
-        # print map name
-        x = 0
-        y = 22
-        self.fonts[enums.L_B_WHITE].render(constants.MAP_NAMES[map_number], self.srf_sboard, (x+2, y+2)) # shadow
-        self.fonts[enums.L_F_WHITE].render(constants.MAP_NAMES[map_number], self.srf_sboard, (x, y))
         # print map number
         x = constants.SBOARD_UNSCALED_SIZE[0] - 55
         text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'        
