@@ -198,11 +198,11 @@ class Menu():
     def show(self):
         # menu options on the marquee
         marquee_menu = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
-            self.srf_menu.get_height() - 16, .7, constants.MENU, 1590)
+            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE'], True),
+            self.srf_menu.get_height() - 25, .7, constants.MENU, 700)
         # credit text on the marquee      
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 3400)
                 
         self.sfx_switchoff.play() # cool sound effect... who turned off the light?

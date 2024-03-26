@@ -321,11 +321,11 @@ HOTSPOT_DATA = [
 ]   
 
 # menu options
-MENU = 'Choose an option:     '
-MENU += '[1] START NEW GAME     '
-MENU += '[2] CONTINUE GAME     '
-MENU += '[3] OPTIONS     '
-MENU += '[4] EXIT        '
+MENU = 'Choose an option...     '
+MENU += '(1) START NEW GAME     '
+MENU += '(2) CONTINUE GAME     '
+MENU += '(3) CONFIGURATION     '
+MENU += '(ESC) EXIT        '
 
 # credits for the main menu
 CREDITS  = '.::Mine Squad Pi::. v1.0     PlayOnRetro 2024     '
