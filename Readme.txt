@@ -4,7 +4,7 @@ Mine Squad Pi v1.0 (C) 2024
 ============================
 for Raspberry Pi / Windows *
 
-*and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.12) or higher.
+*and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.13) or higher.
  (Windows and Raspberry Pi installers and executables in the /PUB folder)
 
 
