@@ -320,12 +320,9 @@ HOTSPOT_DATA = [
     [enums.OXYGEN, 1, 2, True]
 ]   
 
-# menu options
-MENU = 'Choose an option...     '
-MENU += '(1) START NEW GAME     '
-MENU += '(2) CONTINUE GAME     '
-MENU += '(3) CONFIGURATION     '
-MENU += '(ESC) EXIT        '
+# help for the main menu
+HELP = 'Select "START NEW GAME" to start a game from the beginning, '
+HELP += 'or select "CONTINUE GAME" to continue the previous game from the last completed level!'
 
 # credits for the main menu
 CREDITS  = '.::Mine Squad Pi::. v1.0     PlayOnRetro 2024     '
@@ -334,7 +331,7 @@ CREDITS += 'GRAPHICS: salvaKantero     '
 CREDITS += 'MENU MUSIC: Masterklown     '
 CREDITS += 'IN-GAME MUSIC: Centurion of war     '
 CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
-CREDITS += 'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Chris (Clear Code YT channel), '
-CREDITS += 'Mark Vanstone, Ryan Lambie, Cesar Gomez (Mundo Python YT channel), Kenney... '
+CREDITS += 'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Clear Code YT channel, '
+CREDITS += 'Mark Vanstone, Ryan Lambie, Mundo Python YT channel, Kenney... '
 CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi     '
 CREDITS += 'Thanks for playing!!'
