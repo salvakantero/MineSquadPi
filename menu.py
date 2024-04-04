@@ -76,25 +76,25 @@ class Menu():
 
     def page_0(self): # menu options    
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
-        x, y = 80, 67
+        x, y = 80, 47
         for i, option in enumerate(options):
             self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], x-35, y+90, 1)
+                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], 12, y+85, 1)
 
 
     def page_1(self): # high scores
         # header
-        x, y = 85, 62
+        x, y = 85, 42
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
                          'High Scores', self.menu_pages[1], x, y, 1)                
-        y = 90
+        y = 70
         for i in range(8):
-            if i % 2 == 0: # index even
+            if i % 2 == 0: # even index
                 fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
                 ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
-            else: # index odd 
+            else: # odd index 
                 fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
                 ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
             # names
@@ -127,7 +127,7 @@ class Menu():
 
 
     def page_3(self): # enemies/gifts info
-        x, y = 50, 95
+        x, y = 50, 85
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         enemies = [
             ('Infected', 25, enums.INFECTED), 
@@ -166,7 +166,7 @@ class Menu():
 
     def page_5(self): # options
         # menu options      
-        x, y = 60, 55
+        x, y = 60, 45
         fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
         ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
@@ -198,18 +198,18 @@ class Menu():
         self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[5], x, y+80, 1)
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[5], x-10, y+110, 1)
+                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[5], 12, y+105, 1)
 
 
     def show(self):
-        # help text on the marquee
-        marquee_help = MarqueeText(
-            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['YELLOW'], True),
-            0, .8, constants.HELP, 800)
-        # credit text on the marquee      
+        # credit text on the top marquee      
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE'], True),
-            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 3400)
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
+            0, .5, constants.CREDITS, 3400)
+        # help text on the bottom marquee
+        marquee_help = MarqueeText(
+            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE'], True),
+            self.srf_menu.get_height() - 16, .8, constants.HELP, 1300)
                 
         self.sfx_switchoff.play() # cool sound effect... who turned off the light?
         # main theme song
