@@ -34,7 +34,6 @@ class Intro():
         self.img_intro = pygame.image.load('images/assets/intro.png').convert() # background
         # sounds
         self.sfx_logo = pygame.mixer.Sound('sounds/fx/sfx_logo.wav') # PlayOnRetro logo sound
-        self.sfx_intro = pygame.mixer.Sound('sounds/fx/sfx_intro.wav') # flash effect
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
@@ -59,6 +58,7 @@ class Intro():
 
 
     def play(self):
+        pygame.time.wait(500)
         # PlayOnRetro logo
         # fade in
         self.srf_menu.fill(constants.PALETTE["BLACK"]) # black background
@@ -71,16 +71,13 @@ class Intro():
         # fade out
         self.srf_aux.fill(constants.PALETTE["BLACK"]) # black background
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
-        if self.main_key_pressed(): return # allows skipping the intro 
-        pygame.time.wait(1500)
-        if self.main_key_pressed(): return
+        if self.main_key_pressed(): return # allows skipping the intro
 
         # MineSquad logo
-        self.sfx_intro.play()
-        self.srf_menu.fill(constants.PALETTE["YELLOW"]) # yellow background
+        # fade in
+        self.srf_menu.fill(constants.PALETTE["BLACK"])
         self.srf_aux.blit(self.img_intro, (0, 0))
-        self.fades_surface(self.srf_menu, self.srf_aux, 50, 8)
-        pygame.time.wait(200)       
+        self.fades_surface(self.srf_menu, self.srf_aux, 45, 60)     
         if self.main_key_pressed(): return # allows skipping the intro
         # pause for recreation. Ooohhh how wonderful!
         pygame.time.wait(1500)

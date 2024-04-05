@@ -46,7 +46,6 @@ class Menu():
         self.img_joypad = pygame.image.load('images/assets/joypad.png').convert_alpha()
         self.img_common = pygame.image.load('images/assets/common.png').convert_alpha()
         # sounds
-        self.sfx_switchoff = pygame.mixer.Sound('sounds/fx/sfx_switchoff.wav')
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
 
@@ -211,10 +210,9 @@ class Menu():
             self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE'], True),
             self.srf_menu.get_height() - 16, .8, constants.HELP, 1300)
                 
-        self.sfx_switchoff.play() # cool sound effect... who turned off the light?
         # main theme song
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        pygame.mixer.music.play()
+        #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        #pygame.mixer.music.play()
     
         # some local variables are initialised
         selected_option = enums.START # option where the cursor is located
