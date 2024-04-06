@@ -90,7 +90,7 @@ class Scoreboard():
 
     # clean the previous data
     def clear_zone(self, x):
-        pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((x, 4),(13, 12)))
+        pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((x, 4),(13, 12)))
 
 
     # update the data (only if it has been invalidated)
@@ -116,14 +116,14 @@ class Scoreboard():
             if self.map_info_timer > 0:  # time to show the game percentage
                 x = constants.SBOARD_UNSCALED_SIZE[0] - 13
                 y = 30
-                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((x, y),(8, 8))) # clears the above content
+                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((x, y),(8, 8))) # clears the above content
                 text = str(self.game_percent).rjust(2, '0') + ';' # ; = %            
                 self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
                 self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
             else: #  time to show score and high
                 x = constants.SBOARD_UNSCALED_SIZE[0] - 51
                 y = 22
-                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK'], ((185, y),(54, 15))) # clears the above content
+                pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((185, y),(54, 15))) # clears the above content
                 text = 'SCORE: ' + str(player.score).rjust(6, '0')
                 self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
                 self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))

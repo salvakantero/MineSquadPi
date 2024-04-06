@@ -78,14 +78,14 @@ class Game():
         self.apply_display_settings()
         # common fonts. S = small F = foreground B = background
         self.fonts = {
-            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN'], True),
-            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN'], False),
-            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE'], True),
-            enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY'], False),
-            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE'], True),
-            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY'], False),
-            enums.L_F_SAND: Font('images/fonts/large_font.png', constants.PALETTE['SAND'], True),
-            enums.L_B_SAND: Font('images/fonts/large_font.png', constants.PALETTE['BROWN'], False)}
+            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN1'], True),
+            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN1'], False),
+            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE1'], True),
+            enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
+            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE1'], True),
+            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
+            enums.L_F_SAND: Font('images/fonts/large_font.png', constants.PALETTE['SAND1'], True),
+            enums.L_B_SAND: Font('images/fonts/large_font.png', constants.PALETTE['BROWN1'], False)}
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
          # playlist with the 12 available tracks
@@ -322,7 +322,7 @@ class Game():
                     if self.config.data['full_screen'] == enums.X720: # 16:9 fullscreen
                         self.screen.blit(self.img_background, (0,0))
                     else: # 4:3 fullscreen or windowed mode
-                        self.screen.fill(constants.PALETTE['BLACK'])
+                        self.screen.fill(constants.PALETTE['BLACK0'])
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
@@ -358,9 +358,9 @@ class Game():
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # black window
-        pygame.draw.rect(aux_surf, constants.PALETTE['BLACK'],(x, y, width, height))
+        pygame.draw.rect(aux_surf, constants.PALETTE['BLACK0'],(x, y, width, height))
         # blue border
-        pygame.draw.rect(aux_surf, constants.PALETTE['DARK_BLUE'],(x, y, width, height), 1)
+        pygame.draw.rect(aux_surf, constants.PALETTE['DARK_BLUE1'],(x, y, width, height), 1)
         # draws the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)

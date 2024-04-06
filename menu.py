@@ -58,7 +58,7 @@ class Menu():
         self.menu_pages = []
         for i in range(0, 6):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-            surface.set_colorkey(constants.PALETTE['BLACK'])
+            surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
         self.page_0()
         self.page_1()
@@ -203,11 +203,11 @@ class Menu():
     def show(self):
         # credit text on the top marquee      
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW'], True),
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW1'], True),
             0, .5, constants.CREDITS, 3400)
         # help text on the bottom marquee
         marquee_help = MarqueeText(
-            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE'], True),
+            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE1'], True),
             self.srf_menu.get_height() - 16, .8, constants.HELP, 1300)
                 
         # main theme song
@@ -367,7 +367,7 @@ class Menu():
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data
                         self.menu_pages[5] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-                        self.menu_pages[5].set_colorkey(constants.PALETTE['BLACK'])
+                        self.menu_pages[5].set_colorkey(constants.PALETTE['BLACK0'])
                         self.page_5()
 
             self.game.update_screen()
