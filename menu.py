@@ -75,12 +75,12 @@ class Menu():
 
     def page_0(self): # menu options    
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
-        x, y = 80, 47
+        x, y = 80, 60
         for i, option in enumerate(options):
             self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], 12, y+85, 1)
+                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], 12, y-55, 1)
 
 
     def page_1(self): # high scores
@@ -201,14 +201,14 @@ class Menu():
 
 
     def show(self):
-        # credit text on the top marquee      
-        marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['YELLOW1'], True),
-            0, .5, constants.CREDITS, 3400)
-        # help text on the bottom marquee
+        # help text
         marquee_help = MarqueeText(
-            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE1'], True),
-            self.srf_menu.get_height() - 16, .8, constants.HELP, 1300)
+            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
+            self.srf_menu.get_height() - 26, .8, constants.HELP, 1200)
+        # credit text     
+        marquee_credits = MarqueeText(
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE0'], True),
+            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 1800)
                 
         # main theme song
         #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
@@ -267,7 +267,7 @@ class Menu():
                             # creates a shot.
                             # the starting position depends on the current page and the selected option
                             if menu_page == 0:
-                                shot_x, shot_y = 58, 65+(20*selected_option)
+                                shot_x, shot_y = 58, 56+(20*selected_option)
                             elif menu_page == 5:
                                 shot_x, shot_y = 38, -28+(20*selected_option)
                             shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
@@ -315,7 +315,7 @@ class Menu():
             if (menu_page == 0 or menu_page == 5) and x == 0:
                 # shows the player (cursor) next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_player, (55, 64 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_player, (55, 56 + (20*selected_option)))
                 else: # page 5
                     self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
                 

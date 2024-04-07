@@ -369,12 +369,12 @@ HOTSPOT_DATA = [
 ]   
 
 # help for the main menu
-HELP = 'Select (1) START NEW GAME to start a game from the beginning, '
-HELP += 'or select (2) CONTINUE GAME to continue the previous game from the last completed level! '
+HELP = 'Select (START NEW GAME) to start a game from the beginning, '
+HELP += 'or (CONTINUE GAME) to continue the previous game from the last completed level! '
 HELP += '(ESC) to exit...'
 
 # credits for the main menu
-CREDITS  = '.::Mine Squad Pi::. v1.0     PlayOnRetro 2024     '
+CREDITS  = '.::Mine Squad Pi::. v1.0 (2024)     '
 CREDITS += 'PROGRAMMING: salvaKantero     '
 CREDITS += 'GRAPHICS: salvaKantero     '
 CREDITS += 'MENU MUSIC: Masterklown     '
