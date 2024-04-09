@@ -35,7 +35,7 @@ class Menu():
         self.game = game        
         self.srf_menu = game.srf_menu           
         # player (cursor)
-        self.img_player = pygame.image.load('images/sprites/player0.png').convert_alpha()
+        self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
@@ -315,9 +315,9 @@ class Menu():
             if (menu_page == 0 or menu_page == 5) and x == 0:
                 # shows the player (cursor) next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_player, (55, 56 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
                 else: # page 5
-                    self.srf_menu.blit(self.img_player, (34, -28 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (34, -28 + (20*selected_option)))
                 
                 # draw the shot (if it exists)
                 self.game.groups[enums.SHOT].update()
