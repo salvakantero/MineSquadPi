@@ -27,16 +27,14 @@ import enums
 
 from font import Font
 from marqueetext import MarqueeText
-from shot import Shot
 
 
 class Menu():
     def __init__(self, game):
         self.game = game        
         self.srf_menu = game.srf_menu           
-        # player (cursor)
+        # cursor
         self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
-        self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # controls
@@ -219,7 +217,7 @@ class Menu():
         confirmed_option = False # 'True' when a selected option is confirmed
         menu_page = 0 # page displayed (0 to 4 automatically. 5 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
-        x = constants.MENU_UNSCALED_SIZE[0] # for sideways scrolling of pages
+        y = -(constants.MENU_UNSCALED_SIZE[1]) # for vertical scrolling of pages
 
         # ========================= main menu loop =========================
         pygame.event.clear([pygame.KEYDOWN, pygame.JOYBUTTONDOWN, pygame.JOYAXISMOTION])
@@ -233,26 +231,26 @@ class Menu():
             marquee_help.update()
             marquee_credits.update()  
 
-            # ========== transition of menu pages from right to left ===========
+            # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
                 if menu_page > 4: menu_page = 0 # reset
                 page_timer = 0 # and reset the timer
-                x = constants.MENU_UNSCALED_SIZE[0] # again in the right margin
+                y = -(constants.MENU_UNSCALED_SIZE[1]) # again in the upper margin
                 selected_option = enums.START
             elif page_timer >= 470: # time almost exceeded?
-                x -= 8 # scrolls the page to the left (is disappearing)    
-            elif x > 0: # as long as the page does not reach the left margin
-                x -= 8 # scrolls the page to the left (is appearing)           
+                y -= 6 # scrolls the page up (is disappearing)
+            elif y < 0: # as long as the page does not reach the upper margin
+                y += 6 # scrolls the page up (is appearing)           
              # draw one of the 6 menu pages
-            self.srf_menu.blit(self.menu_pages[menu_page], (x, 0))
+            self.srf_menu.blit(self.menu_pages[menu_page], (0, y))
 
             # ====================== keyboard/gamepad management =======================
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
                 # a key or button has been pressed
-                if (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and x == 0:
+                if (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and y == 0:
                     # active pages
                     if menu_page == 0 or menu_page == 5:
                         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
@@ -264,17 +262,9 @@ class Menu():
                         # the selected option is accepted by pressing ENTER or SPACE or any joystick button
                         if (event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE)) \
                         or event.type == pygame.JOYBUTTONDOWN:
-                            # creates a shot.
-                            # the starting position depends on the current page and the selected option
-                            if menu_page == 0:
-                                shot_x, shot_y = 58, 56+(20*selected_option)
-                            elif menu_page == 5:
-                                shot_x, shot_y = 38, -28+(20*selected_option)
-                            shot = Shot(pygame.Rect(shot_x, shot_y, constants.TILE_SIZE, constants.TILE_SIZE), 1, self.img_bullet, 8)
-                            self.game.groups[enums.SHOT].add(shot)
                             self.sfx_menu_select.play()
                             confirmed_option = True
-                        # Main menu and there is no shot in progress?
+                        # Main menu?
                         elif menu_page == 0 and not confirmed_option:                            
                             # the cursor down or joystick down has been pressed
                             if selected_option < enums.EXIT \
@@ -290,7 +280,7 @@ class Menu():
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
-                        # Options menu and there is no shot in progress?
+                        # Options menu
                         elif menu_page == 5 and not confirmed_option:
                             # the cursor down or joystick down has been pressed
                             if selected_option < enums.EXIT_OPTIONS \
@@ -312,19 +302,15 @@ class Menu():
                         page_timer = 0
             
             # =================== management of active pages ===================
-            if (menu_page == 0 or menu_page == 5) and x == 0:
-                # shows the player (cursor) next to the selected option
+            if (menu_page == 0 or menu_page == 5) and y == 0:
+                # shows the cursor next to the selected option
                 if menu_page == 0:
                     self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
                 else: # page 5
                     self.srf_menu.blit(self.img_pointer, (34, -28 + (20*selected_option)))
-                
-                # draw the shot (if it exists)
-                self.game.groups[enums.SHOT].update()
-                self.game.groups[enums.SHOT].draw(self.srf_menu)
 
-                # an option was confirmed and the shot was completed?
-                if confirmed_option and self.game.groups[enums.SHOT].sprite == None:
+                # an option was confirmed?
+                if confirmed_option:
                     # main menu page
                     if selected_option == enums.START:
                         self.game.new = True
@@ -334,7 +320,7 @@ class Menu():
                         return
                     elif selected_option == enums.OPTIONS:
                         # reinitialises common variables and loads the page
-                        x = constants.MENU_UNSCALED_SIZE[0]
+                        y = -(constants.MENU_UNSCALED_SIZE[1])
                         selected_option = enums.FULLSCREEN
                         menu_page = 5
                     elif selected_option == enums.EXIT:
@@ -351,7 +337,7 @@ class Menu():
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.EXIT_OPTIONS:
-                        x = constants.MENU_UNSCALED_SIZE[0]
+                        y = -(constants.MENU_UNSCALED_SIZE[1])
                         menu_page = 0
                         selected_option = enums.START
 
