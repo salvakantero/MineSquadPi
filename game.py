@@ -78,8 +78,8 @@ class Game():
         self.apply_display_settings()
         # common fonts. S = small F = foreground B = background
         self.fonts = {
-            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN2'], True),
-            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN0'], False),
+            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['SAND1'], True),
+            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], False),
             
             enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE1'], True),
             enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),

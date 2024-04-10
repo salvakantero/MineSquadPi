@@ -83,10 +83,10 @@ class Menu():
 
     def page_1(self): # high scores
         # header
-        x, y = 85, 42
+        x, y = 85, 32
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
                          'High Scores', self.menu_pages[1], x, y, 1)                
-        y = 70
+        y = 60
         for i in range(8):
             if i % 2 == 0: # even index
                 fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
