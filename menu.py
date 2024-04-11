@@ -113,18 +113,18 @@ class Menu():
             ('Checkpoint', 0, enums.CHECKPOINT)]
 
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Hotspots', self.menu_pages[2], 75, 65, 1)
+                         'The Hotspots', self.menu_pages[2], 75, 35, 1)
         
         for i, (name, score, img_index) in enumerate(left_items):
-            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (24, 94+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 47, 100+i*25, 1)        
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (24, 64+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 47, 70+i*25, 1)        
         for i, (name, score, img_index) in enumerate(right_items):
-            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 94+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 100+i*25, 1)
+            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 64+i*25))
+            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 70+i*25, 1)
 
 
     def page_3(self): # enemies/gifts info
-        x, y = 50, 85
+        x, y = 50, 65
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         enemies = [
             ('Infected', 25, enums.INFECTED), 
@@ -137,25 +137,25 @@ class Menu():
             ('Burger', 500, enums.BURGER)]
 
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                    'The Baddies     The Gifts', self.menu_pages[3], 30, 65, 1)
+                    'The Baddies     The Gifts', self.menu_pages[3], 30, 35, 1)
         for i, (name, score, img_index) in enumerate(enemies):
-            self.menu_pages[3].blit(self.game.enemy_images[img_index][0], (27, 89+i*20))
+            self.menu_pages[3].blit(self.game.enemy_images[img_index][0], (27, 59+i*20))
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], x, y+i*20, 1)        
         for i, (name, score, img_index) in enumerate(gifts):
-            self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 89+i*20))
+            self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 59+i*20))
             self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
 
 
     def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
-            (self.img_classic, (30, 82), 'Classic', (39, 120)),
-            (self.img_gamer, (95, 82), 'Gamer', (104, 120)),
-            (self.img_retro, (160, 82), 'Retro', (169, 120)),
-            (self.img_joypad, (53, 138), 'Joypad', (23, 153)),
-            (self.img_common, (118, 138), 'Common keys', (180, 153))]
+            (self.img_classic, (30, 52), 'Classic', (39, 90)),
+            (self.img_gamer, (95, 52), 'Gamer', (104, 90)),
+            (self.img_retro, (160, 52), 'Retro', (169, 90)),
+            (self.img_joypad, (53, 108), 'Joypad', (23, 123)),
+            (self.img_common, (118, 108), 'Common keys', (180, 123))]
         
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[4], 90, 57, 1)        
+        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[4], 90, 27, 1)        
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):
             self.menu_pages[4].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
@@ -205,7 +205,7 @@ class Menu():
             self.srf_menu.get_height() - 26, .8, constants.HELP, 1200)
         # credit text     
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['ORANGE0'], True),
+            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 1800)
                 
         # main theme song
