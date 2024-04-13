@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- adaptar la base de RedPlanet para usar en MineSquad (eliminar lo innecesario)
+- adaptar la base de RedPlanet para MineSquad, eliminar lo innecesario
 - menú de inicio
 
 BUGS

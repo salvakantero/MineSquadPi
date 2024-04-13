@@ -37,6 +37,10 @@ class Menu():
         self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
+        # players
+        self.img_blaze = pygame.image.load('images/assets/blaze.png').convert_alpha()
+        self.img_piper = pygame.image.load('images/assets/piper.png').convert_alpha()
+        self.img_norman = pygame.image.load('images/assets/norman.png').convert_alpha()
         # controls
         self.img_classic = pygame.image.load('images/assets/classic.png').convert_alpha()
         self.img_gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
@@ -49,12 +53,13 @@ class Menu():
 
         # page 0: menu options
         # page 1: high scores
-        # page 2: hotspot information
-        # page 3: enemy/gift information
-        # page 4: control information
-        # page 5: options
+        # page 2: Blaze info
+        # page 3: Piper info
+        # page 4: Norman info
+        # page 5: control information
+        # page 6: options
         self.menu_pages = []
-        for i in range(0, 6):
+        for i in range(0, 7):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
@@ -63,6 +68,7 @@ class Menu():
         self.page_2()
         self.page_3()
         self.page_4()
+        self.page_5()
         
 
     # draws a text with its shadow
@@ -102,25 +108,11 @@ class Menu():
             y += 10
 
 
-    def page_2(self): # hotspot info
+    def page_2(self): # blaze info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        left_items = [
-            ('Explosives', 50, enums.TNT),
-            ('Ammunition', 75, enums.AMMO),
-            ('Oxygen', 100, enums.OXYGEN)]
-        right_items = [
-            ('Key Card', 125, enums.KEY),
-            ('Checkpoint', 0, enums.CHECKPOINT)]
-
         self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'The Hotspots', self.menu_pages[2], 75, 35, 1)
-        
-        for i, (name, score, img_index) in enumerate(left_items):
-            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (24, 64+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 47, 70+i*25, 1)        
-        for i, (name, score, img_index) in enumerate(right_items):
-            self.menu_pages[2].blit(self.game.hotspot_images[img_index], (128, 64+i*25))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[2], 151, 70+i*25, 1)
+                         'B L A Z E', self.menu_pages[2], 100, 35, 1)
+        self.menu_pages[2].blit(self.img_blaze, (0, 0))
 
 
     def page_3(self): # enemies/gifts info
