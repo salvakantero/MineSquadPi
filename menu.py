@@ -111,22 +111,22 @@ class Menu():
     def page_2(self): # blaze info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'B L A Z E', self.menu_pages[2], 120, 35, 1)
-        self.menu_pages[2].blit(self.img_blaze, (0, 0))
+                         'B L A Z E', self.menu_pages[2], 130, 35, 1)
+        self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
     def page_3(self): # piper info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'P I P E R', self.menu_pages[3], 10, 35, 1)
-        self.menu_pages[3].blit(self.img_piper, (80, 0))
+                         'P I P E R', self.menu_pages[3], 20, 35, 1)
+        self.menu_pages[3].blit(self.img_piper, (100, 0))
 
 
     def page_4(self): # norman info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'N O R M A N', self.menu_pages[4], 120, 35, 1)
-        self.menu_pages[4].blit(self.img_norman, (0, 0))
+                         'N O R M A N', self.menu_pages[4], 140, 35, 1)
+        self.menu_pages[4].blit(self.img_norman, (10, 0))
 
 
     def page_5(self): # control info
@@ -217,7 +217,7 @@ class Menu():
             # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
-                if menu_page > 4: menu_page = 0 # reset
+                if menu_page > 5: menu_page = 0 # reset
                 page_timer = 0 # and reset the timer
                 y = -(constants.MENU_UNSCALED_SIZE[1]) # again in the upper margin
                 selected_option = enums.START
@@ -235,10 +235,10 @@ class Menu():
                 # a key or button has been pressed
                 if (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and y == 0:
                     # active pages
-                    if menu_page == 0 or menu_page == 5:
+                    if menu_page == 0 or menu_page == 6:
                         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
                             if menu_page == 0: self.game.exit() # exits the application completely
-                            else: # on page 5, return to page 0
+                            else: # on page 6, return to page 0
                                 menu_page = 0
                                 selected_option = 0
                                 break
@@ -264,7 +264,7 @@ class Menu():
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                         # Options menu
-                        elif menu_page == 5 and not confirmed_option:
+                        elif menu_page == 6 and not confirmed_option:
                             # the cursor down or joystick down has been pressed
                             if selected_option < enums.EXIT_OPTIONS \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
@@ -285,12 +285,12 @@ class Menu():
                         page_timer = 0
             
             # =================== management of active pages ===================
-            if (menu_page == 0 or menu_page == 5) and y == 0:
+            if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
                     self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
-                else: # page 5
-                    self.srf_menu.blit(self.img_pointer, (34, -28 + (20*selected_option)))
+                else: # page 6
+                    self.srf_menu.blit(self.img_pointer, (34, -39 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:
@@ -305,7 +305,7 @@ class Menu():
                         # reinitialises common variables and loads the page
                         y = -(constants.MENU_UNSCALED_SIZE[1])
                         selected_option = enums.FULLSCREEN
-                        menu_page = 5
+                        menu_page = 6
                     elif selected_option == enums.EXIT:
                         self.game.exit()
 
@@ -328,15 +328,15 @@ class Menu():
                     confirmed_option = False
                     page_timer = 0
 
-                    if menu_page == 5:
+                    if menu_page == 6:
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
                         # saves and apply possible changes to the configuration
                         self.game.config.save()  
                         self.game.apply_display_settings()                     
                         # recreate the page with the new data
-                        self.menu_pages[5] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-                        self.menu_pages[5].set_colorkey(constants.PALETTE['BLACK0'])
-                        self.page_5()
+                        self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                        self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK0'])
+                        self.page_6()
 
             self.game.update_screen()
