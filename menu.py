@@ -81,7 +81,7 @@ class Menu():
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
         x, y = 80, 60
         for i, option in enumerate(options):
-            self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
+            self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], 12, y-55, 1)
@@ -90,7 +90,7 @@ class Menu():
     def page_1(self): # high scores
         # header
         x, y = 85, 32
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND],
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN],
                          'High Scores', self.menu_pages[1], x, y, 1)                
         y = 60
         for i in range(8):
@@ -110,35 +110,26 @@ class Menu():
 
     def page_2(self): # blaze info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                         'B L A Z E', self.menu_pages[2], 100, 35, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         'B L A Z E', self.menu_pages[2], 120, 35, 1)
         self.menu_pages[2].blit(self.img_blaze, (0, 0))
 
 
-    def page_3(self): # enemies/gifts info
-        x, y = 50, 65
+    def page_3(self): # piper info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        enemies = [
-            ('Infected', 25, enums.INFECTED), 
-            ('Arachnovirus', 50, enums.AVIRUS), 
-            ('Pelusoid', 75, enums.PELUSOID), 
-            ('Pelusoid Fanty', 100, enums.FANTY)]
-        gifts = [
-            ('Donut', 200, enums.DONUT),
-            ('Cake', 350, enums.CAKE),
-            ('Burger', 500, enums.BURGER)]
-
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 
-                    'The Baddies     The Gifts', self.menu_pages[3], 30, 35, 1)
-        for i, (name, score, img_index) in enumerate(enemies):
-            self.menu_pages[3].blit(self.game.enemy_images[img_index][0], (27, 59+i*20))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], x, y+i*20, 1)        
-        for i, (name, score, img_index) in enumerate(gifts):
-            self.menu_pages[3].blit(self.game.hotspot_images[img_index], (139, 59+i*20))
-            self.shaded_text(fb, ff, f"{name} (+{score})", self.menu_pages[3], 162, y+i*20, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         'P I P E R', self.menu_pages[3], 10, 35, 1)
+        self.menu_pages[3].blit(self.img_piper, (80, 0))
 
 
-    def page_4(self): # control info
+    def page_4(self): # norman info
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         'N O R M A N', self.menu_pages[4], 120, 35, 1)
+        self.menu_pages[4].blit(self.img_norman, (0, 0))
+
+
+    def page_5(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
             (self.img_classic, (30, 52), 'Classic', (39, 90)),
@@ -147,47 +138,47 @@ class Menu():
             (self.img_joypad, (53, 108), 'Joypad', (23, 123)),
             (self.img_common, (118, 108), 'Common keys', (180, 123))]
         
-        self.shaded_text(self.game.fonts[enums.L_B_SAND], self.game.fonts[enums.L_F_SAND], 'Controls', self.menu_pages[4], 90, 27, 1)        
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[5], 90, 27, 1)        
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):
-            self.menu_pages[4].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
+            self.menu_pages[5].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
 
 
-    def page_5(self): # options
+    def page_6(self): # options
         # menu options      
         x, y = 60, 45
-        fb = self.game.fonts[enums.L_B_SAND] # brown font for the background
-        ff = self.game.fonts[enums.L_F_SAND] # sand font for the foreground
+        fb = self.game.fonts[enums.L_B_BROWN] # brown font for the background
+        ff = self.game.fonts[enums.L_F_BROWN] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
         # full screen
         if self.game.config.data['full_screen'] == enums.X600: value = '4:3'
         elif self.game.config.data['full_screen'] == enums.X720: value = '16:9'
         else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[5], x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y, 1)
+        self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[6], x, y, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y, 1)
         # scanlines filter 
         if self.game.config.data['scanlines']: value = 'ON'
         else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[5], x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+20, 1)
+        self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+20, 1)
         # view
         if self.game.config.data['view'] == enums.ISO: value = 'ISOMETRIC' 
         else: value = 'ZENITHAL'
-        self.shaded_text(fb, ff, 'View:', self.menu_pages[5], x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+40, 1)
+        self.shaded_text(fb, ff, 'View:', self.menu_pages[6], x, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+40, 1)
         # control keys
         if self.game.config.data['control'] == enums.CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
-        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[5], x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[5], x+115, y+60, 1)
+        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+60, 1)
         # exit
-        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[5], x, y+80, 1)
+        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+80, 1)
         
         self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[5], 12, y+105, 1)
+                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[6], 12, y+105, 1)
 
 
     def show(self):

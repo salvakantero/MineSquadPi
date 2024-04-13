@@ -38,7 +38,7 @@ IDLE, CHASING, RETREATING = 0, 1, 2
 # hotspot types
 TNT, KEY, AMMO, OXYGEN, CHECKPOINT, BURGER, CAKE, DONUT = 0, 1, 2, 3, 4, 5, 6, 7
 # fonts; S=small L=large F=foreground B=background
-S_F_GREEN, S_B_GREEN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, L_F_SAND, L_B_SAND = 0, 1, 2, 3, 4, 5, 6, 7
+S_F_GREEN, S_B_GREEN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7
 # menu
 START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, VIEW, CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
 # keyboard control types

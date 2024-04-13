@@ -87,8 +87,8 @@ class Game():
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE1'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
 
-            enums.L_F_SAND: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
-            enums.L_B_SAND: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False)}
+            enums.L_F_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
+            enums.L_B_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False)}
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
          # playlist with the 12 available tracks
