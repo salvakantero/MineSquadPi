@@ -210,9 +210,7 @@ class Menu():
             # draws the background image
             self.srf_menu.blit(self.img_menu, (0,0))
 
-            # draws the texts of the marquee in their new position
-            marquee_help.update()
-            marquee_credits.update()  
+
 
             # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
@@ -338,5 +336,9 @@ class Menu():
                         self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK0'])
                         self.page_6()
+
+            # draws the texts of the marquee in their new position
+            marquee_help.update()
+            marquee_credits.update()  
 
             self.game.update_screen()
