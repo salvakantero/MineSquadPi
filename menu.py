@@ -4,7 +4,7 @@
 # Initial menu and additional information displayed on sliding pages
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2023 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -34,7 +34,7 @@ class Menu():
         self.game = game        
         self.srf_menu = game.srf_menu           
         # cursor
-        self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
+        self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # players
@@ -50,6 +50,12 @@ class Menu():
         # sounds
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
+        # player characteristics
+        self.speed = 0
+        self.strength = 0
+        self.age = 0
+        self.origin = ''
+
 
         # page 0: menu options
         # page 1: high scores
@@ -75,6 +81,20 @@ class Menu():
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
+
+
+    # draws the player's characteristics graphically
+    def draw_chars(self, x, page):
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        self.shaded_text(fb, ff, 'SPEED', x, 55)
+        self.shaded_text(fb, ff, 'STRENGTH', x, 95)
+        self.shaded_text(fb, ff, 'AGE', x, 135) 
+        self.shaded_text(fb, ff, 'ORIGIN', x, 175) 
+
+        for i in range(self.speed):
+            self.menu_pages[page].blit(self.img_blaze, (x+i*20, 65))
+        for i in range(self.strength):
+            self.menu_pages[page].blit(self.img_blaze, (x+i*20, 105))
 
 
     def page_0(self): # menu options    
@@ -108,24 +128,39 @@ class Menu():
             y += 10
 
 
-    def page_2(self): # blaze info
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+    def page_2(self): # Blaze info        
+        self.speed = 4
+        self.strength = 4
+        self.age = 23
+        self.origin = 'Brighton (England)'
+
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                          'B L A Z E', self.menu_pages[2], 130, 35, 1)
+        self.draw_chars(130, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
-    def page_3(self): # piper info
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+    def page_3(self): # Piper info
+        self.speed = 6
+        self.strength = 2
+        self.age = 20
+        self.origin = 'Glasgow (Scotland)'
+
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                          'P I P E R', self.menu_pages[3], 20, 35, 1)
+        self.draw_chars(20, 3)
         self.menu_pages[3].blit(self.img_piper, (100, 0))
 
 
-    def page_4(self): # norman info
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+    def page_4(self): # Norman info
+        self.speed = 2
+        self.strength = 6
+        self.age = 25
+        self.origin = 'Cleveland (USA)'
+
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                          'N O R M A N', self.menu_pages[4], 140, 35, 1)
+        self.draw_chars(140, 4)
         self.menu_pages[4].blit(self.img_norman, (10, 0))
 
 
@@ -286,9 +321,9 @@ class Menu():
             if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_star, (55, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (34, -39 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_star, (34, -39 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:
