@@ -86,15 +86,15 @@ class Menu():
     # draws the player's characteristics graphically
     def draw_chars(self, x, page):
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(fb, ff, 'SPEED', x, 55)
-        self.shaded_text(fb, ff, 'STRENGTH', x, 95)
-        self.shaded_text(fb, ff, 'AGE', x, 135) 
-        self.shaded_text(fb, ff, 'ORIGIN', x, 175) 
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 40, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 65, 1)
+        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 90, 1) 
+        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 125, 1) 
 
         for i in range(self.speed):
-            self.menu_pages[page].blit(self.img_blaze, (x+i*20, 65))
+            self.menu_pages[page].blit(self.img_star, (x+i*16, 50))
         for i in range(self.strength):
-            self.menu_pages[page].blit(self.img_blaze, (x+i*20, 105))
+            self.menu_pages[page].blit(self.img_star, (x+i*16, 80))
 
 
     def page_0(self): # menu options    
@@ -129,38 +129,38 @@ class Menu():
 
 
     def page_2(self): # Blaze info        
-        self.speed = 4
-        self.strength = 4
+        self.speed = 3
+        self.strength = 3
         self.age = 23
         self.origin = 'Brighton (England)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'B L A Z E', self.menu_pages[2], 130, 35, 1)
-        self.draw_chars(130, 2)
+                         'B L A Z E', self.menu_pages[2], 125, 15, 1)
+        self.draw_chars(125, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
     def page_3(self): # Piper info
-        self.speed = 6
+        self.speed = 5
         self.strength = 2
         self.age = 20
         self.origin = 'Glasgow (Scotland)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'P I P E R', self.menu_pages[3], 20, 35, 1)
-        self.draw_chars(20, 3)
-        self.menu_pages[3].blit(self.img_piper, (100, 0))
+                         'P I P E R', self.menu_pages[3], 10, 25, 1)
+        self.draw_chars(10, 3)
+        self.menu_pages[3].blit(self.img_piper, (120, 0))
 
 
     def page_4(self): # Norman info
         self.speed = 2
-        self.strength = 6
+        self.strength = 5
         self.age = 25
         self.origin = 'Cleveland (USA)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'N O R M A N', self.menu_pages[4], 140, 35, 1)
-        self.draw_chars(140, 4)
+                         'N O R M A N', self.menu_pages[4], 130, 25, 1)
+        self.draw_chars(130, 4)
         self.menu_pages[4].blit(self.img_norman, (10, 0))
 
 
