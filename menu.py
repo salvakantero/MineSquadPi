@@ -33,8 +33,6 @@ class Menu():
     def __init__(self, game):
         self.game = game        
         self.srf_menu = game.srf_menu           
-        # cursor
-        self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # players
@@ -47,13 +45,16 @@ class Menu():
         self.img_retro = pygame.image.load('images/assets/retro.png').convert_alpha()
         self.img_joypad = pygame.image.load('images/assets/joypad.png').convert_alpha()
         self.img_common = pygame.image.load('images/assets/common.png').convert_alpha()
+        # auxiliar
+        self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
+        self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
         # sounds
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
         # player characteristics
         self.speed = 0
         self.strength = 0
-        self.age = 0
+        self.age = ''
         self.origin = ''
 
 
@@ -87,19 +88,19 @@ class Menu():
     def draw_chars(self, x, page):
         # headers
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 50, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 80, 1)
-        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 110, 1) 
-        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 140, 1) 
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 40, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 70, 1)
+        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 100, 1) 
+        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 130, 1) 
         # data
         for i in range(self.speed):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 57))
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 47))
         for i in range(self.strength):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 87))
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 77))
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         self.age, self.menu_pages[page], x, 117, 1)
+                         self.age, self.menu_pages[page], x, 110, 1)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         self.origin , self.menu_pages[4], 130, 147, 1)
+                         self.origin , self.menu_pages[page], x, 140, 1)
 
 
     def page_0(self): # menu options    
@@ -134,25 +135,25 @@ class Menu():
 
 
     def page_2(self): # Blaze info        
-        self.speed = 3
+        self.speed = 4
         self.strength = 3
-        self.age = 23
+        self.age = '23'
         self.origin = 'Brighton (England)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'B L A Z E', self.menu_pages[2], 130, 15, 1)
-        self.draw_chars(130, 2)
+                         'B L A Z E', self.menu_pages[2], 115, 15, 1)
+        self.draw_chars(115, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
     def page_3(self): # Piper info
         self.speed = 5
         self.strength = 2
-        self.age = 20
+        self.age = '20'
         self.origin = 'Glasgow (Scotland)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'P I P E R', self.menu_pages[3], 10, 25, 1)
+                         'P I P E R', self.menu_pages[3], 10, 15, 1)
         self.draw_chars(10, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
 
@@ -160,12 +161,12 @@ class Menu():
     def page_4(self): # Norman info
         self.speed = 2
         self.strength = 5
-        self.age = 25
+        self.age = '25'
         self.origin = 'Cleveland (USA)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'N O R M A N', self.menu_pages[4], 130, 25, 1)
-        self.draw_chars(130, 4)
+                         'N O R M A N', self.menu_pages[4], 125, 15, 1)
+        self.draw_chars(125, 4)
         self.menu_pages[4].blit(self.img_norman, (10, 0))
 
 
@@ -326,9 +327,9 @@ class Menu():
             if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_star, (55, 56 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_star, (34, -39 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (34, -39 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:
