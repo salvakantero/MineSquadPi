@@ -85,16 +85,21 @@ class Menu():
 
     # draws the player's characteristics graphically
     def draw_chars(self, x, page):
+        # headers
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 50, 1)
         self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 80, 1)
         self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 110, 1) 
         self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 140, 1) 
-
+        # data
         for i in range(self.speed):
-            self.menu_pages[page].blit(self.img_star, (x+i*16, 58))
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 57))
         for i in range(self.strength):
-            self.menu_pages[page].blit(self.img_star, (x+i*16, 88))
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 87))
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         self.age, self.menu_pages[page], x, 117, 1)
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         self.origin , self.menu_pages[4], 130, 147, 1)
 
 
     def page_0(self): # menu options    
