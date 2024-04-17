@@ -86,15 +86,15 @@ class Menu():
     # draws the player's characteristics graphically
     def draw_chars(self, x, page):
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 40, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 65, 1)
-        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 90, 1) 
-        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 125, 1) 
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 50, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 80, 1)
+        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 110, 1) 
+        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 140, 1) 
 
         for i in range(self.speed):
-            self.menu_pages[page].blit(self.img_star, (x+i*16, 50))
+            self.menu_pages[page].blit(self.img_star, (x+i*16, 58))
         for i in range(self.strength):
-            self.menu_pages[page].blit(self.img_star, (x+i*16, 80))
+            self.menu_pages[page].blit(self.img_star, (x+i*16, 88))
 
 
     def page_0(self): # menu options    
@@ -135,8 +135,8 @@ class Menu():
         self.origin = 'Brighton (England)'
 
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         'B L A Z E', self.menu_pages[2], 125, 15, 1)
-        self.draw_chars(125, 2)
+                         'B L A Z E', self.menu_pages[2], 130, 15, 1)
+        self.draw_chars(130, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
