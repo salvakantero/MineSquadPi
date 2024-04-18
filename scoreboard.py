@@ -53,13 +53,13 @@ class Scoreboard():
         # print map number
         x = constants.SBOARD_UNSCALED_SIZE[0] - 55
         text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/45'        
-        self.fonts[enums.S_B_GREEN].render(text_1, self.srf_sboard, (x+1, y+1)) # shadow
-        self.fonts[enums.S_F_GREEN].render(text_1, self.srf_sboard, (x, y))
+        self.fonts[enums.S_B_BROWN].render(text_1, self.srf_sboard, (x+1, y+1)) # shadow
+        self.fonts[enums.S_F_BROWN].render(text_1, self.srf_sboard, (x, y))
         # prints a fixed text (for the percentage of the game completed)
         y = 30
         text_2 = 'COMPLETED..'
-        self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
-        self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x, y))
+        self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
+        self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x, y))
 
 
     # draws a text with its shadow
@@ -118,18 +118,18 @@ class Scoreboard():
                 y = 30
                 pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((x, y),(8, 8))) # clears the above content
                 text = str(self.game_percent).rjust(2, '0') + ';' # ; = %            
-                self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
-                self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+                self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
+                self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
             else: #  time to show score and high
                 x = constants.SBOARD_UNSCALED_SIZE[0] - 51
                 y = 22
                 pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((185, y),(54, 15))) # clears the above content
                 text = 'SCORE: ' + str(player.score).rjust(6, '0')
-                self.fonts[enums.S_B_GREEN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
-                self.fonts[enums.S_F_GREEN].render(text, self.srf_sboard, (x, y))
+                self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
+                self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
                 # high score
                 y = 30
                 score = self.hi if self.hi > player.score else player.score
                 text_2 = 'HIGH: ' + str(score).rjust(6, '0')
-                self.fonts[enums.S_B_GREEN].render(text_2, self.srf_sboard, (x+5, y+1)) # shadow
-                self.fonts[enums.S_F_GREEN].render(text_2, self.srf_sboard, (x+4, y))
+                self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+5, y+1)) # shadow
+                self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x+4, y))

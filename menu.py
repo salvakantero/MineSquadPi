@@ -32,7 +32,8 @@ from marqueetext import MarqueeText
 class Menu():
     def __init__(self, game):
         self.game = game        
-        self.srf_menu = game.srf_menu           
+        self.srf_menu = game.srf_menu
+        self.tip = 'Use mouse, joypad, or cursors and SPACE/ENTER to select'        
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
         # players
@@ -109,8 +110,8 @@ class Menu():
         for i, option in enumerate(options):
             self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
-        self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[0], 12, y-55, 1)
+        self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
+                        self.tip, self.menu_pages[0], 12, y-55, 1)
 
 
     def page_1(self): # high scores
@@ -124,8 +125,8 @@ class Menu():
                 fb = self.game.fonts[enums.S_B_WHITE] # small gray font for the background
                 ff = self.game.fonts[enums.S_F_WHITE] # small white font for the foreground
             else: # odd index 
-                fb = self.game.fonts[enums.S_B_GREEN] # small dark green font for the background
-                ff = self.game.fonts[enums.S_F_GREEN] # small green font for the foreground
+                fb = self.game.fonts[enums.S_B_BROWN] # small dark green font for the background
+                ff = self.game.fonts[enums.S_F_BROWN] # small green font for the foreground
             # names
             self.shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[1], 50, y, 1)
             # dates and scores
@@ -140,7 +141,7 @@ class Menu():
         self.age = '23'
         self.origin = 'Brighton (England)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 15, 1)
         self.draw_chars(115, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
@@ -152,7 +153,7 @@ class Menu():
         self.age = '20'
         self.origin = 'Glasgow (Scotland)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 15, 1)
         self.draw_chars(10, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
@@ -164,7 +165,7 @@ class Menu():
         self.age = '25'
         self.origin = 'Cleveland (USA)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
                          'N O R M A N', self.menu_pages[4], 125, 15, 1)
         self.draw_chars(125, 4)
         self.menu_pages[4].blit(self.img_norman, (10, 0))
@@ -197,30 +198,29 @@ class Menu():
         elif self.game.config.data['full_screen'] == enums.X720: value = '16:9'
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[6], x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
         # scanlines filter 
         if self.game.config.data['scanlines']: value = 'ON'
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+20, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
         # view
         if self.game.config.data['view'] == enums.ISO: value = 'ISOMETRIC' 
         else: value = 'ZENITHAL'
         self.shaded_text(fb, ff, 'View:', self.menu_pages[6], x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
         # control keys
         if self.game.config.data['control'] == enums.CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
         self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+115, y+60, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+60, 1)
         # exit
         self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+80, 1)
+        self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
+                self.tip, self.menu_pages[6], 12, 5, 1)
         
-        self.shaded_text(self.game.fonts[enums.S_B_GREEN], self.game.fonts[enums.S_F_GREEN], 
-                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', self.menu_pages[6], 12, y+105, 1)
-
 
     def show(self):
         # help text
@@ -327,9 +327,9 @@ class Menu():
             if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_pointer, (55, 56 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (56, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (34, -39 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (35, -39 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:
