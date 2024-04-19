@@ -76,22 +76,23 @@ class Game():
         self.img_background = pygame.image.load('images/assets/screen_back.png').convert()        
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
-        # common fonts. S = small F = foreground B = background
+
+        # common fonts. S = small L = large F = foreground B = background
         self.fonts = {
+            # small fonts
             enums.S_F_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['SAND1'], True),
             enums.S_B_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], False),
-            
             enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE1'], True),
             enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
 
+            #large fonts
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE1'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
-
             enums.L_F_RED: Font('images/fonts/large_font.png', constants.PALETTE['RED0'], True),
             enums.L_B_RED: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False),
-
             enums.L_F_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
             enums.L_B_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False)}
+        
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
          # playlist with the 12 available tracks

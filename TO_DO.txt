@@ -24,7 +24,7 @@ HECHO
 Notas
 =====
 
-- Isométrico basado en buscaminas (con una versión 2D)
+- Isométrico basado en buscaminas (con una versión preliminar 2D cenital)
 
 - Tres personajes a elegir:
     Blaze: Velocidad normal, resistencia normal (Es un chico normal)
@@ -72,8 +72,8 @@ Notas
     Regalos: puntuación extra
         Chuche #1    50
         Chuche #2    75
-        Rubí        100
-        Diamante    200
+        Diamante    100
+        Rubí rojo   200
 
 - Enemigos:
     Se pasean por el mapa de manera lineal, aleatoria, o persiguen al jugador (pero lentos)
