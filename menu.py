@@ -230,11 +230,7 @@ class Menu():
         # credit text     
         marquee_credits = MarqueeText(
             self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
-            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 1800)
-                
-        # main theme song
-        #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        #pygame.mixer.music.play()
+            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2100)
     
         # some local variables are initialised
         selected_option = enums.START # option where the cursor is located
