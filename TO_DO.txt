@@ -5,7 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - adaptar la base de RedPlanet para MineSquad, eliminar lo innecesario
-- menú de inicio
+
 
 BUGS
 ====
@@ -18,7 +18,7 @@ POR HACER
 HECHO
 =====
 06/04/2024 - paleta pseudopico-8 con 48 colores
-
+21/04/2024 - menú de inicio
 
 
 Notas
