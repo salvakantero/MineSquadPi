@@ -62,8 +62,10 @@ while True:
         game.status = enums.RUNNING
         game.floating_text.y = 0
         game.win_secuence = 0
+        for hotspot in constants.HOTSPOT_DATA:
+            hotspot[3] = True # all visible hotspots
+            
         if game.new:
-            for hotspot in constants.HOTSPOT_DATA: hotspot[3] = True # all visible hotspots
             map.number = 0 # current map
             scoreboard.game_percent = 0 # percentage of completed gameplay
         else: # load the last checkpoint
@@ -72,17 +74,17 @@ while True:
             d = game.checkpoint.data
             map.number = d['map_number']
             scoreboard.game_percent = d['game_percent']
-            player.lives = d['player_lives']
-            player.ammo = d['player_ammo']
-            player.keys = d['player_keys']
-            player.TNT = d['player_TNT']
-            player.oxygen = d['player_oxygen']
-            player.facing_right = d['player_facing_right']
-            player.rect = d['player_rect']
-            player.score = d['player_score']
-            constants.HOTSPOT_DATA = d['hotspot_data']
-            player.invincible = True
-            player.invincible_time_from = pygame.time.get_ticks()
+            ####player.lives = d['player_lives']
+            ####player.ammo = d['player_ammo']
+            ####player.keys = d['player_keys']
+            ####player.TNT = d['player_TNT']
+            ####player.oxygen = d['player_oxygen']
+            ####player.facing_right = d['player_facing_right']
+            ####player.rect = d['player_rect']
+            ####player.score = d['player_score']
+            ####constants.HOTSPOT_DATA = d['hotspot_data']
+            ####player.invincible = True
+            ####player.invincible_time_from = pygame.time.get_ticks()
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -101,11 +103,15 @@ while True:
                         # restores the music if the game continues
                         if game.music_status == enums.UNMUTED:
                             pygame.mixer.music.unpause()                            
-                # mutes the music, or vice versa
-                if event.key == game.config.mute_key :
-                    game.music_status = enums.UNMUTED if game.music_status == enums.MUTED else enums.MUTED
-                    pygame.mixer.music.play() if game.music_status == enums.UNMUTED else pygame.mixer.music.fadeout(1200)
-                    
+                # mutes the music, or vice versa               
+                if event.key == game.config.mute_key:
+                    if game.music_status == enums.MUTED:
+                        game.music_status = enums.UNMUTED
+                        pygame.mixer.music.play()
+                    else:
+                        game.music_status = enums.MUTED
+                        pygame.mixer.music.fadeout(1200)
+        
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)

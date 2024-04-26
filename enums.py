@@ -31,7 +31,7 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 UNMUTED, MUTED = 0, 1
 # player states
 IDLE, WALKING, JUMPING, FALLING = 0, 1, 2, 3
-# enemy types (and platform)
+# enemy types
 NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
 # fanty enemy states
 IDLE, CHASING, RETREATING = 0, 1, 2

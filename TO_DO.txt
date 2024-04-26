@@ -4,14 +4,18 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- propiedades de la clase PLAYER
 - adaptar la base de RedPlanet para MineSquad, eliminar lo innecesario
 
 
 BUGS
 ====
 
+
 POR HACER
 =========
+- selección del jugador al comenzar la partida
+- un tema musical tranquílo para cada nivel
 
 
 
