@@ -68,11 +68,6 @@ class Intro():
         self.sfx_logo.play()
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
-
-        # main theme song
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        pygame.mixer.music.play()
-
         # fade out
         self.srf_aux.fill(constants.PALETTE["BLACK0"]) # black background
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)

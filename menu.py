@@ -223,6 +223,9 @@ class Menu():
         
 
     def show(self):
+        # main theme song
+        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        pygame.mixer.music.play()
         # help text
         marquee_help = MarqueeText(
             self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
