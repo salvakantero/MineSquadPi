@@ -118,7 +118,7 @@ class Game():
                 pygame.image.load('images/sprites/fanty1.png').convert_alpha()]}
         self.hotspot_images = {
             enums.SHIELD: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
-            enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
+            enums.XRAY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.BURGER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
@@ -161,7 +161,7 @@ class Game():
             enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')}
         self.sfx_hotspot = {
             enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
-            enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
+            enums.XRAY: pygame.mixer.Sound('sounds/fx/sfx_x_ray.wav'),
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
             enums.BURGER: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
@@ -495,9 +495,7 @@ class Game():
                 if hotspot.type == enums.SHIELD:
                     self.floating_text.text = '+50 '
                     player.score += 50
-                elif hotspot.type == enums.KEY:
-                    player.keys += 1
-                    scoreboard.game_percent += 2
+                elif hotspot.type == enums.XRAY:
                     self.floating_text.text = '+125'
                     player.score += 125
                 elif hotspot.type == enums.AMMO:
@@ -520,7 +518,6 @@ class Game():
                         'game_percent' : scoreboard.game_percent,
                         'player_lives' : player.energy,
                         'player_ammo' : player.ammo,
-                        'player_keys' : player.keys,
                         'player_facing_right' : player.facing_right,
                         'player_rect' : player.rect,
                         'player_score' : player.score,

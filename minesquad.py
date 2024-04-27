@@ -76,7 +76,6 @@ while True:
             scoreboard.game_percent = d['game_percent']
             ####player.lives = d['player_lives']
             ####player.ammo = d['player_ammo']
-            ####player.keys = d['player_keys']
             ####player.facing_right = d['player_facing_right']
             ####player.rect = d['player_rect']
             ####player.score = d['player_score']

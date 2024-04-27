@@ -33,19 +33,10 @@ class Scoreboard():
         self.fonts = game.fonts
         self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
+        self.game_percent = 0
         # icons
         self.energy_icon = pygame.image.load('images/sprites/player0.png').convert()
         self.hotspot_images = game.hotspot_images
-
-        # Game Percentage %
-        # ----------------------------
-        # TNT           15 * 3     45%
-        # Keys           9 * 2     18%
-        # Locate TNT     1 * 5      5%
-        # Detonator      1 * 5      5%
-        #                         ----
-        # TOTAL:                  100%
-        self.game_percent = 0
 
 
     # draws the name of the map and other data
@@ -76,8 +67,8 @@ class Scoreboard():
         # icons
         self.srf_sboard.blit(self.energy_icon, (0, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (82, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.KEY], (145, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.SHIELD], (186, 2))
+        #self.srf_sboard.blit(self.hotspot_images[enums.XRAY], (145, 2))
+        #self.srf_sboard.blit(self.hotspot_images[enums.SHIELD], (186, 2))
         # fixed texts
         self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
         self.shaded_text('\'15', 220, 6)
@@ -105,8 +96,6 @@ class Scoreboard():
             self.shaded_text(player.energy, 20, 6)
             self.clear_zone(100)
             self.shaded_text(player.ammo, 102, 6)
-            self.clear_zone(164)
-            self.shaded_text(player.keys, 166, 6)
             self.needs_updating = False
                        
             if self.map_info_timer > 0:  # time to show the game percentage

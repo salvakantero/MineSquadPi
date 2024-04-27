@@ -198,14 +198,14 @@ class Map():
             self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
             self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
 
-        # add a checkpoint at the empty position of the keys
-        elif hotspot[0] == enums.KEY:
+        # add a checkpoint at the empty position of the x-rays
+        elif hotspot[0] == enums.XRAY:
             if self.game.new: 
                 hotspot[0] = enums.CHECKPOINT
                 hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[enums.CHECKPOINT])
                 self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
                 self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
-                constants.HOTSPOT_DATA[self.number][0] = enums.KEY # restores its original type
+                constants.HOTSPOT_DATA[self.number][0] = enums.XRAY # restores its original type
             else: # does not re-display the checkpoint just loaded
                 self.game.new = True
 

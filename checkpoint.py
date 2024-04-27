@@ -37,7 +37,6 @@ class Checkpoint():
             'game_percent' : 0,
             'player_lives' : 10,
             'player_ammo' : 10,
-            'player_keys' : 0,
             'player_facing_right' : True,
             'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
             'player_score' : 0,

@@ -151,9 +151,6 @@ class Player(pygame.sprite.Sprite):
             # press fire or left mouse button
             if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
                 self.performs_shot()
-            # press action
-            if key_state[self.game.config.action_key]:
-                self.performs_action()
 
 
     # player status according to movement
