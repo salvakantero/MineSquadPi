@@ -43,8 +43,6 @@ class Map():
         self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
         self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
-        # to generate the pile of explosives
-        self.img_TNT = game.hotspot_images[enums.TNT]
 
 
     # loads a map and draws it on screen
@@ -211,14 +209,14 @@ class Map():
             else: # does not re-display the checkpoint just loaded
                 self.game.new = True
 
-        # sometimes adds an extra score at the empty position of the TNT
-        elif hotspot[0] == enums.TNT:            
+        # sometimes adds an extra score at the empty position of the SHIELD
+        elif hotspot[0] == enums.SHIELD:            
             hotspot[0] = random.randint(5,9) # 5 = Burger, 6 = Cake, 7 = Donut, 8-9 = None
             if hotspot[0] < 8:
                 hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
                 self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
                 self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
-            constants.HOTSPOT_DATA[self.number][0] = enums.TNT # restores its original type
+            constants.HOTSPOT_DATA[self.number][0] = enums.SHIELD # restores its original type
 
         # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map

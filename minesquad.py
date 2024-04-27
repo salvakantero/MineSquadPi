@@ -77,8 +77,6 @@ while True:
             ####player.lives = d['player_lives']
             ####player.ammo = d['player_ammo']
             ####player.keys = d['player_keys']
-            ####player.TNT = d['player_TNT']
-            ####player.oxygen = d['player_oxygen']
             ####player.facing_right = d['player_facing_right']
             ####player.rect = d['player_rect']
             ####player.score = d['player_score']
@@ -131,7 +129,7 @@ while True:
         game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)
 
         # game over?
-        if player.lives == 0 or player.oxygen < 0:           
+        if player.energy == 0:           
             game.over()
             game.update_high_score_table(player.score)
             game.status = enums.OVER

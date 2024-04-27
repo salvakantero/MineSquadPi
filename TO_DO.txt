@@ -15,7 +15,9 @@ BUGS
 POR HACER
 =========
 - selección del jugador al comenzar la partida
-- un tema musical tranquílo para cada nivel
+- un tema musical tranquilo para cada nivel
+- objeto escudo (invencibilidad)
+- objeto rayos x (mayor rango de visión)
 
 
 
@@ -72,7 +74,8 @@ Notas
     Se distribuyen por el mapa aleatoriamente.
     Vida extra: +1
     Munición: permite disparar (+20)
-    Gafas rayos X: se destapan 2 filas más de celdas cercanas al player
+    Rayos X: se destapan 2 filas más de celdas cercanas al player (30 secs.)
+    Escudo: invencible (30 secs.)
     Regalos: puntuación extra
         Chuche #1    50
         Chuche #2    75

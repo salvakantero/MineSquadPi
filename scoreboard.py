@@ -34,7 +34,7 @@ class Scoreboard():
         self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.lives_icon = pygame.image.load('images/sprites/player0.png').convert()
+        self.energy_icon = pygame.image.load('images/sprites/player0.png').convert()
         self.hotspot_images = game.hotspot_images
 
         # Game Percentage %
@@ -74,11 +74,10 @@ class Scoreboard():
         # delete the entire scoreboard
         self.srf_sboard.fill((0,0,0))
         # icons
-        self.srf_sboard.blit(self.lives_icon, (0, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.OXYGEN], (42, 2))
+        self.srf_sboard.blit(self.energy_icon, (0, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (82, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.KEY], (145, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.TNT], (186, 2))
+        self.srf_sboard.blit(self.hotspot_images[enums.SHIELD], (186, 2))
         # fixed texts
         self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
         self.shaded_text('\'15', 220, 6)
@@ -103,15 +102,11 @@ class Scoreboard():
         if self.needs_updating:
             # player data
             self.clear_zone(18)
-            self.shaded_text(player.lives, 20, 6)
-            self.clear_zone(60)
-            self.shaded_text(player.oxygen, 62, 6)
+            self.shaded_text(player.energy, 20, 6)
             self.clear_zone(100)
             self.shaded_text(player.ammo, 102, 6)
             self.clear_zone(164)
             self.shaded_text(player.keys, 166, 6)
-            self.clear_zone(204)
-            self.shaded_text(player.TNT, 206, 6)
             self.needs_updating = False
                        
             if self.map_info_timer > 0:  # time to show the game percentage

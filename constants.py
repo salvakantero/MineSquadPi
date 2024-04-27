@@ -42,8 +42,6 @@ GRAVITY = 0.180 # acceleration of gravity for the player
 MAX_Y_SPEED = 2.9 # maximum limit for vertical speed
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
-MAX_OXYGEN = 99 # oxygen units per refill
-OXYGEN_TIME = 2000 # time of each oxygen unit (+-2 secs.)
 
 # animated tiles
 ANIM_TILES = {
@@ -322,50 +320,39 @@ ENEMIES_DATA = [
 # index = map number; (type, x, y, visible?)
 HOTSPOT_DATA = [
     [enums.AMMO, 13, 3, True],
-    [enums.TNT, 13, 7, True],
-    [enums.OXYGEN, 5, 7, True],
-    [enums.TNT, 1, 7, True],
+    [enums.SHIELD, 13, 7, True],
+    [enums.SHIELD, 1, 7, True],
     [enums.KEY, 13, 1, True],
     [enums.KEY, 7, 8, True],
-    [enums.TNT, 5, 3, True],
-    [enums.OXYGEN, 10, 7, True],
+    [enums.SHIELD, 5, 3, True],
     [enums.AMMO, 11, 3, True],
-    [enums.TNT, 13, 6, True],
+    [enums.SHIELD, 13, 6, True],
     [enums.KEY, 6, 8, True],
-    [enums.TNT, 6, 1, True],
-    [enums.OXYGEN, 5, 4, True],
+    [enums.SHIELD, 6, 1, True],
     [enums.AMMO, 8, 4, True],
-    [enums.OXYGEN, 1, 2, True],
-    [enums.TNT, 2, 8, True],
+    [enums.SHIELD, 2, 8, True],
     [enums.KEY, 13, 3, True],
     [enums.KEY, 12, 2, True],
     [enums.AMMO, 1, 7, True],
-    [enums.OXYGEN, 6, 7, True],
-    [enums.TNT, 1, 3, True],
+    [enums.SHIELD, 1, 3, True],
     [enums.AMMO, 13, 4, True],
-    [enums.OXYGEN, 12, 2, True],
     [enums.AMMO, 8, 2, True],
-    [enums.TNT, 13, 6, True],
+    [enums.SHIELD, 13, 6, True],
     [enums.KEY, 1, 8, True],
-    [enums.OXYGEN, 5, 2, True],
-    [enums.TNT, 7, 2, True],
+    [enums.SHIELD, 7, 2, True],
     [enums.AMMO, 1, 5, True],
-    [enums.TNT, 7, 8, True],
+    [enums.SHIELD, 7, 8, True],
     [enums.KEY, 7, 8, True],
     [enums.AMMO, 1, 6, True],
     [enums.KEY, 6, 7, True],
-    [enums.OXYGEN, 11, 2, True],
-    [enums.TNT, 2, 3, True],
-    [enums.OXYGEN, 4, 7, True],
+    [enums.SHIELD, 2, 3, True],
     [enums.KEY, 12, 6, True],
-    [enums.TNT, 12, 1, True],
+    [enums.SHIELD, 12, 1, True],
     [enums.AMMO, 6, 1, True],
-    [enums.TNT, 13, 4, True],
-    [enums.OXYGEN, 5, 7, True],
-    [enums.TNT, 3, 2, True],
+    [enums.SHIELD, 13, 4, True],
+    [enums.SHIELD, 3, 2, True],
     [enums.AMMO, 4, 6, True],
-    [enums.TNT, 9, 8, True],
-    [enums.OXYGEN, 1, 2, True]
+    [enums.SHIELD, 9, 8, True],
 ]   
 
 # help for the main menu

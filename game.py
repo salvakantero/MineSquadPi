@@ -117,10 +117,9 @@ class Game():
                 pygame.image.load('images/sprites/fanty0.png').convert_alpha(),
                 pygame.image.load('images/sprites/fanty1.png').convert_alpha()]}
         self.hotspot_images = {
-            enums.TNT: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
+            enums.SHIELD: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.KEY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.OXYGEN: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
             enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.BURGER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
@@ -161,10 +160,9 @@ class Game():
             enums.AVIRUS: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
             enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')}
         self.sfx_hotspot = {
-            enums.TNT: pygame.mixer.Sound('sounds/fx/sfx_TNT.wav'),
+            enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.KEY: pygame.mixer.Sound('sounds/fx/sfx_key.wav'),
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.OXYGEN: pygame.mixer.Sound('sounds/fx/sfx_oxygen.wav'),
             enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
             enums.BURGER: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
             enums.CAKE: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
@@ -467,8 +465,7 @@ class Game():
                 if player.rect.bottom - 2 < platform.rect.top:               
                     player.rect.bottom = platform.rect.top
                     # stops the fall
-                    player.direction.y = 0                    
-                    player.on_ground = True                                        
+                    player.direction.y = 0                                                         
                     # horizontal platform?
                     if platform.vy == 0:
                         # if the movement keys are not pressed
@@ -495,10 +492,8 @@ class Game():
                 self.groups[enums.ALL].add(blast)                
                 self.sfx_hotspot[hotspot.type].play()
                 # manages the object according to the type
-                if hotspot.type == enums.TNT:
-                    player.TNT += 1
-                    scoreboard.game_percent += 3
-                    self.floating_text.text = '+50 ' + str(player.TNT) + '/15'
+                if hotspot.type == enums.SHIELD:
+                    self.floating_text.text = '+50 '
                     player.score += 50
                 elif hotspot.type == enums.KEY:
                     player.keys += 1
@@ -509,10 +504,6 @@ class Game():
                     player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
                     self.floating_text.text = '+75'
                     player.score += 75
-                elif hotspot.type == enums.OXYGEN:
-                    player.oxygen = constants.MAX_OXYGEN
-                    self.floating_text.text = '+100'
-                    player.score += 100
                 elif hotspot.type == enums.BURGER:
                     self.floating_text.text = '+500'
                     player.score += 500
@@ -527,11 +518,9 @@ class Game():
                     self.checkpoint.data = {
                         'map_number' : map_number,
                         'game_percent' : scoreboard.game_percent,
-                        'player_lives' : player.lives,
+                        'player_lives' : player.energy,
                         'player_ammo' : player.ammo,
                         'player_keys' : player.keys,
-                        'player_TNT' : player.TNT,
-                        'player_oxygen' : player.oxygen,
                         'player_facing_right' : player.facing_right,
                         'player_rect' : player.rect,
                         'player_score' : player.score,
