@@ -120,8 +120,19 @@ class Player(pygame.sprite.Sprite):
             # without lateral movement
             elif axis_x == 0.0:
                 self.direction.x = 0
+            # press down
+            if axis_y > 0.5:
+                self.direction.y = 1
+                self.facing_down = True
+            # press up
+            elif axis_y < -0.5:
+                self.direction.y = -1
+                self.facing_down = False
+            # without vertical movement
+            elif axis_y == 0.0:
+                self.direction.y = 0
             # press fire
-            if self.game.joystick.get_button(1) or self.game.joystick.get_button(2):
+            if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
                 self.performs_shot()
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
@@ -136,6 +147,17 @@ class Player(pygame.sprite.Sprite):
             # without lateral movement
             elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
                 self.direction.x = 0
+            # press down
+            if key_state[self.game.config.down_key]:
+                self.direction.y = 1
+                self.facing_down = True
+            # press up
+            elif key_state[self.game.config.up_key]:
+                self.direction.y = -1
+                self.facing_down = False
+            # without vertical movement
+            elif not key_state[self.game.config.down_key] and not key_state[self.game.config.up_key]:
+                self.direction.y = 0
             #=================================================================
             # BETA trick
             #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
@@ -150,8 +172,10 @@ class Player(pygame.sprite.Sprite):
 
     # player status according to movement
     def get_state(self):
-        if self.direction.x != 0: # is moving
-            self.state = enums.WALKING
+        if self.direction.x != 0: # is moving on x
+            self.state = enums.WALKING_X
+        elif self.direction.y != 0: # is moving on y
+            self.state = enums.WALKING_Y
         else: # x does not change. Stopped
             self.state = enums.IDLE
 
@@ -180,13 +204,8 @@ class Player(pygame.sprite.Sprite):
 
 
     def vertical_mov(self):        
-        # applies acceleration of gravity up to the vertical speed limit.
-        # a fall speed limit is necessary to avoid affecting collisions.
-        if self.direction.y < constants.MAX_Y_SPEED:
-            self.direction.y += constants.GRAVITY
-            
         # gets the new rectangle after applying the movement and check for collision
-        y_temp = self.rect.y + self.direction.y
+        y_temp = self.rect.y + (self.direction.y * self.y_speed)
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
             (constants.TILE_SIZE, constants.TILE_SIZE))  
 
@@ -200,21 +219,20 @@ class Player(pygame.sprite.Sprite):
                 # obstacles, stops the player from all directions --------------      
                 if self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
                     self.direction.y = 0
-                # toxic waste and lava, one life less --------------------------           
+                # killer tile, one life less -----------------------------------           
                 elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
-
         if not collision:
             self.rect.y = y_temp # apply the new Y position
 
 
     def animate(self):
         # animation
-        if (self.state == enums.WALKING):
-            self.animation_speed = 6 # running fast
+        if (self.state == enums.IDLE):
+            self.animation_speed = 16 # breathing
         else:
-            self.animation_speed = 16 # breathing, jumping, falling
+            self.animation_speed = 6 # running fast
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -225,13 +243,13 @@ class Player(pygame.sprite.Sprite):
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
         if self.firing == 0: # normal sequence of images
-            if self.facing_right:
+            if self.facing_right or self.facing_down:
                 self.image = self.image_list[self.state][self.frame_index]
             else: # reflects the image when looking to the left
                 self.image = pygame.transform.flip(self.image_list[self.state][self.frame_index], True, False)
         else: # frame firing
             self.firing -= 1
-            if self.facing_right: self.image = self.img_firing
+            if self.facing_right or self.facing_down: self.image = self.img_firing
             else: self.image = pygame.transform.flip(self.img_firing, True, False)            
         # invincible effect (the player blinks)
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
