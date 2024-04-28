@@ -41,7 +41,7 @@ class Player(pygame.sprite.Sprite):
         self.x_speed = 2 # movement in the x-axis (pixels)
         self.y_speed = 2 # movement in the y-axis (pixels)
         self.state = enums.IDLE # to know the animation to be applied
-        self.facing_right = True # to know if the sprite needs to be mirrored 
+        self.facing_right = True # to know if the sprite needs to be mirrored
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2,5 secs.)
@@ -66,7 +66,8 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
-        self.rect = self.image.get_rect(topleft = (26,112))  # initial position
+        self.rect = self.image.get_rect(topleft = ( # initial position
+            constants.MAP_UNSCALED_SIZE[0]//2, constants.MAP_UNSCALED_SIZE[1]-constants.TILE_SIZE))
         # the FIRING state is independent of the other states and requires 
         # a specific image for a certain number of frames
         self.firing = 0 # frame counter
@@ -123,11 +124,9 @@ class Player(pygame.sprite.Sprite):
             # press down
             if axis_y > 0.5:
                 self.direction.y = 1
-                self.facing_down = True
             # press up
             elif axis_y < -0.5:
                 self.direction.y = -1
-                self.facing_down = False
             # without vertical movement
             elif axis_y == 0.0:
                 self.direction.y = 0
@@ -150,11 +149,9 @@ class Player(pygame.sprite.Sprite):
             # press down
             if key_state[self.game.config.down_key]:
                 self.direction.y = 1
-                self.facing_down = True
             # press up
             elif key_state[self.game.config.up_key]:
                 self.direction.y = -1
-                self.facing_down = False
             # without vertical movement
             elif not key_state[self.game.config.down_key] and not key_state[self.game.config.up_key]:
                 self.direction.y = 0
@@ -243,13 +240,13 @@ class Player(pygame.sprite.Sprite):
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
         if self.firing == 0: # normal sequence of images
-            if self.facing_right or self.facing_down:
+            if self.facing_right:
                 self.image = self.image_list[self.state][self.frame_index]
             else: # reflects the image when looking to the left
                 self.image = pygame.transform.flip(self.image_list[self.state][self.frame_index], True, False)
         else: # frame firing
             self.firing -= 1
-            if self.facing_right or self.facing_down: self.image = self.img_firing
+            if self.facing_right: self.image = self.img_firing
             else: self.image = pygame.transform.flip(self.img_firing, True, False)            
         # invincible effect (the player blinks)
         if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255

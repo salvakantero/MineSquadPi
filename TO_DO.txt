@@ -14,6 +14,7 @@ BUGS
 
 POR HACER
 =========
+- movimiento del player por tile
 - selección del jugador al comenzar la partida
 - un tema musical tranquilo para cada nivel
 - tiles que matan (definir y aplicar)
