@@ -39,45 +39,40 @@ class Player(pygame.sprite.Sprite):
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.x_speed = 2 # movement in the x-axis (pixels)
+        self.y_speed = 2 # movement in the y-axis (pixels)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored 
         self.invincible = False # invincible after losing a life
         self.invincible_time_from = 0 # tick number where invincibility begins
         self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2,5 secs.)
-        # image/animation        
+        # image/animation
         self.image_list = {
             # sequences of animations for the player depending on its status
             enums.IDLE: [
                 pygame.image.load('images/sprites/player0.png').convert_alpha(),
                 pygame.image.load('images/sprites/player1.png').convert_alpha()],
-            enums.WALKING: [
+            enums.WALKING_X: [
                 pygame.image.load('images/sprites/player2.png').convert_alpha(),
                 pygame.image.load('images/sprites/player0.png').convert_alpha(),
                 pygame.image.load('images/sprites/player3.png').convert_alpha(),
                 pygame.image.load('images/sprites/player0.png').convert_alpha()],
-            enums.JUMPING: [
-                pygame.image.load('images/sprites/player4.png').convert_alpha()],
-            enums.FALLING: [
-                pygame.image.load('images/sprites/player5.png').convert_alpha()]}
+            enums.WALKING_Y: [
+                pygame.image.load('images/sprites/player2.png').convert_alpha(),
+                pygame.image.load('images/sprites/player0.png').convert_alpha(),
+                pygame.image.load('images/sprites/player3.png').convert_alpha(),
+                pygame.image.load('images/sprites/player0.png').convert_alpha()],
+        }
         self.frame_index = 0 # frame number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
-        self.rect = self.image.get_rect(topleft = (16,112))  # initial position
+        self.rect = self.image.get_rect(topleft = (26,112))  # initial position
         # the FIRING state is independent of the other states and requires 
         # a specific image for a certain number of frames
         self.firing = 0 # frame counter
         self.img_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # sounds
-        self.sfx_jump = (
-            pygame.mixer.Sound('sounds/fx/sfx_jump1.wav'),
-            pygame.mixer.Sound('sounds/fx/sfx_jump2.wav'),
-            pygame.mixer.Sound('sounds/fx/sfx_jump3.wav'),
-            pygame.mixer.Sound('sounds/fx/sfx_jump4.wav'))
-        for i in range(4): self.sfx_jump[i].set_volume(0.3)
-        self.sfx_landing = pygame.mixer.Sound('sounds/fx/sfx_landing.wav')
-        self.sfx_landing.set_volume(0.2)
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
         self.sfx_shot.set_volume(0.7)
         self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')

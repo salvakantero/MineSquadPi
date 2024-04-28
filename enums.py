@@ -30,7 +30,7 @@ UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 # music states
 UNMUTED, MUTED = 0, 1
 # player states
-IDLE, WALKING, JUMPING, FALLING = 0, 1, 2, 3
+IDLE, WALKING_X, WALKING_Y = 0, 1, 2
 # enemy types
 NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
 # fanty enemy states
