@@ -91,3 +91,4 @@ class Configuration():
             else:
                 self.data['control'] == enums.CLASSIC
         return joystick
+    

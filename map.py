@@ -41,7 +41,7 @@ class Map():
         self.last = -1 # last map loaded
         self.tilemap_rect_list = [] # list of tile rects (except for transparent ones)
         self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
-        self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
+        #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
 
 
@@ -96,7 +96,7 @@ class Map():
     def draw_map(self):
         self.tilemap_rect_list.clear()
         self.tilemap_behaviour_list.clear()
-        self.anim_tiles_list.clear()
+        #self.anim_tiles_list.clear()
         # scroll through the map data
         for y in range(0, self.map_data['height']):
             for x in range(0, self.map_data['width']):
@@ -124,25 +124,25 @@ class Map():
 
                 # generates the list of animated tiles of the current map
                 # (frame_1, frame_2, x, y, num_frame)
-                if t['image'] in constants.ANIM_TILES.keys():                
-                    self.anim_tiles_list.append(
-                        [tile, pygame.image.load('images/tiles/' 
-                        + constants.ANIM_TILES[t['image']]).convert(), 
-                        tileRect.topleft[0], tileRect.topleft[1], 0])
+                #if t['image'] in constants.ANIM_TILES.keys():                
+                #    self.anim_tiles_list.append(
+                #        [tile, pygame.image.load('images/tiles/' 
+                #        + constants.ANIM_TILES[t['image']]).convert(), 
+                #        tileRect.topleft[0], tileRect.topleft[1], 0])
 
 
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 
     # anim_tiles_list = (frame_1, frame_2, x, y, num_frame)
-    def animate_tiles(self):
-        for anim_tile in self.anim_tiles_list: # for each animated tile on the map
-            if random.randint(0,24) == 0: # 4% chance of changing frame
-                tile = anim_tile[0+anim_tile[4]] # select image according to frame number
-                tileRect = tile.get_rect()
-                tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
-                self.game.srf_map_bk.blit(tile, tileRect) # draws on the background image
-                # update frame number (0,1)
-                anim_tile[4] = (anim_tile[4] + 1) % 2
+    #def animate_tiles(self):
+    #    for anim_tile in self.anim_tiles_list: # for each animated tile on the map
+    #        if random.randint(0,24) == 0: # 4% chance of changing frame
+    #            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
+    #            tileRect = tile.get_rect()
+    #            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
+    #            self.game.srf_map_bk.blit(tile, tileRect) # draws on the background image
+    #           # update frame number (0,1)
+    #            anim_tile[4] = (anim_tile[4] + 1) % 2
 
 
     # checks if the map needs to be changed (depending on the player's XY position)

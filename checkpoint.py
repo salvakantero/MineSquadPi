@@ -21,10 +21,8 @@
 #
 # ==============================================================================
 
-import pygame
 import pickle
 import os
-import constants
 
 
 class Checkpoint():
@@ -34,13 +32,6 @@ class Checkpoint():
         # allow a checkpoint to be loaded even if the file does not exist.
         self.data = {
             'map_number' : 0,
-            'game_percent' : 0,
-            'player_lives' : 10,
-            'player_ammo' : 10,
-            'player_facing_right' : True,
-            'player_rect' : pygame.Rect(16,112, constants.TILE_SIZE, constants.TILE_SIZE),
-            'player_score' : 0,
-            'hotspot_data' : constants.HOTSPOT_DATA
         }
 
 

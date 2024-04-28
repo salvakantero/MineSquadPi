@@ -67,21 +67,11 @@ while True:
             
         if game.new:
             map.number = 0 # current map
-            scoreboard.game_percent = 0 # percentage of completed gameplay
         else: # load the last checkpoint
             game.checkpoint.load() # loading the file
             #assigns the loaded data to the objects
             d = game.checkpoint.data
             map.number = d['map_number']
-            scoreboard.game_percent = d['game_percent']
-            ####player.lives = d['player_lives']
-            ####player.ammo = d['player_ammo']
-            ####player.facing_right = d['player_facing_right']
-            ####player.rect = d['player_rect']
-            ####player.score = d['player_score']
-            ####constants.HOTSPOT_DATA = d['hotspot_data']
-            ####player.invincible = True
-            ####player.invincible_time_from = pygame.time.get_ticks()
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -135,7 +125,7 @@ while True:
             continue
         
         # change the frame of the animated tiles
-        map.animate_tiles()
+        #map.animate_tiles()
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))

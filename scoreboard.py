@@ -32,7 +32,6 @@ class Scoreboard():
         self.fonts = game.fonts
         self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
-        self.game_percent = 0
         # icons
         self.energy_icon = pygame.image.load('images/sprites/player0.png').convert()
         self.hotspot_images = game.hotspot_images
@@ -46,11 +45,6 @@ class Scoreboard():
         text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/20'        
         self.fonts[enums.S_B_BROWN].render(text_1, self.srf_sboard, (x+1, y+1)) # shadow
         self.fonts[enums.S_F_BROWN].render(text_1, self.srf_sboard, (x, y))
-        # prints a fixed text (for the percentage of the game completed)
-        y = 30
-        text_2 = 'COMPLETED..'
-        self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
-        self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x, y))
 
 
     # draws a text with its shadow
@@ -97,13 +91,6 @@ class Scoreboard():
             self.shaded_text(player.ammo, 102, 6)
             self.needs_updating = False
                        
-            # show the game percentage
-            x = constants.SBOARD_UNSCALED_SIZE[0] - 13
-            y = 30
-            pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((x, y),(8, 8))) # clears the above content
-            text = str(self.game_percent).rjust(2, '0') + ';' # ; = %            
-            self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
-            self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
             # show score and high
             x = 0
             y = 22

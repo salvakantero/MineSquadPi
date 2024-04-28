@@ -515,7 +515,6 @@ class Game():
                     self.floating_text.text = 'Checkpoint'                    
                     self.checkpoint.data = {
                         'map_number' : map_number,
-                        'game_percent' : scoreboard.game_percent,
                         'player_lives' : player.energy,
                         'player_ammo' : player.ammo,
                         'player_facing_right' : player.facing_right,
