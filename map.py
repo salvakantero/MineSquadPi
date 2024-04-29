@@ -110,12 +110,10 @@ class Map():
 
                 # generates the list of rects and behaviour of the current map
                 # from T16.png to T35.png: blocking tiles (OBSTABLE)
-                # T40.png: platform tile (PLATFORM)
                 # from T70.png to T75.png: tiles that kill (KILLER)
                 tn = self.get_tile_number(t['image'])            
                 behaviour = enums.NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.OBSTACLE
-                elif tn == 40:              behaviour = enums.PLATFORM_TILE
                 elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.NO_ACTION:
@@ -163,7 +161,6 @@ class Map():
         elif player.rect.y < (-constants.TILE_SIZE):
             self.number -= 5
             player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
-            player.direction.y = constants.JUMP_VALUE
         # player disappears from underneath
         #appearing at the top of the new map
         elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
@@ -198,26 +195,6 @@ class Map():
             self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
             self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
 
-        # add a checkpoint at the empty position of the x-rays
-        elif hotspot[0] == enums.XRAY:
-            if self.game.new: 
-                hotspot[0] = enums.CHECKPOINT
-                hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[enums.CHECKPOINT])
-                self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
-                self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
-                constants.HOTSPOT_DATA[self.number][0] = enums.XRAY # restores its original type
-            else: # does not re-display the checkpoint just loaded
-                self.game.new = True
-
-        # sometimes adds an extra score at the empty position of the SHIELD
-        elif hotspot[0] == enums.SHIELD:            
-            hotspot[0] = random.randint(5,9) # 5 = Burger, 6 = Cake, 7 = Donut, 8-9 = None
-            if hotspot[0] < 8:
-                hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-                self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
-                self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
-            constants.HOTSPOT_DATA[self.number][0] = enums.SHIELD # restores its original type
-
         # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map
         # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
@@ -228,9 +205,7 @@ class Map():
                 self.game.groups[enums.ALL].add(enemy) # to update/draw it
                 # enemy sprite? add to the enemy group
                 if enemy_data[6] != enums.PLATFORM_SPR:
-                    self.game.groups[enums.ENEMIES].add(enemy) # to check for collisions
-                else: # platform sprite? add to the platform group
-                    self.game.groups[enums.PLATFORM].add(enemy) # to check for collisions                
+                    self.game.groups[enums.ENEMIES].add(enemy) # to check for collisions               
 
 
 

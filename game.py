@@ -120,10 +120,10 @@ class Game():
             enums.SHIELD: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.XRAY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.CHECKPOINT: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
-            enums.BURGER: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
-            enums.CAKE: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.DONUT: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.SWEET1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.SWEET2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
+            enums.DIAMOND: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
+            enums.RUBY: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -163,10 +163,10 @@ class Game():
             enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.XRAY: pygame.mixer.Sound('sounds/fx/sfx_x_ray.wav'),
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.CHECKPOINT: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.BURGER: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
-            enums.CAKE: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
-            enums.DONUT: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
+            enums.SWEET1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
+            enums.SWEET2: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
+            enums.DIAMOND: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
+            enums.RUBY: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -457,22 +457,6 @@ class Game():
 
     # collisions between the player and mobile platforms, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number):
-        # player and mobile platform
-        if self.groups[enums.PLATFORM].sprite is not None: # there is a platform on the map
-            if pygame.sprite.spritecollide(player, self.groups[enums.PLATFORM], False, pygame.sprite.collide_rect_ratio(1.15)):
-                platform = self.groups[enums.PLATFORM].sprite                
-                # the player is above the platform?
-                if player.rect.bottom - 2 < platform.rect.top:               
-                    player.rect.bottom = platform.rect.top
-                    # stops the fall
-                    player.direction.y = 0                                                         
-                    # horizontal platform?
-                    if platform.vy == 0:
-                        # if the movement keys are not pressed
-                        # takes the movement of the platform
-                        key_state = pygame.key.get_pressed()
-                        if not key_state[self.config.left_key] and not key_state[self.config.right_key]:
-                            player.rect.x += platform.vx
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
@@ -511,17 +495,17 @@ class Game():
                 elif hotspot.type == enums.DONUT:
                     self.floating_text.text = '+200'
                     player.score += 200                                        
-                elif hotspot.type == enums.CHECKPOINT:                    
-                    self.floating_text.text = 'Checkpoint'                    
-                    self.checkpoint.data = {
-                        'map_number' : map_number,
-                        'player_lives' : player.energy,
-                        'player_ammo' : player.ammo,
-                        'player_facing_right' : player.facing_right,
-                        'player_rect' : player.rect,
-                        'player_score' : player.score,
-                        'hotspot_data' : constants.HOTSPOT_DATA }
-                    self.checkpoint.save() 
+                #elif hotspot.type == enums.CHECKPOINT:                    
+                #    self.floating_text.text = 'Checkpoint'                    
+                #    self.checkpoint.data = {
+                #        'map_number' : map_number,
+                #        'player_lives' : player.energy,
+                #        'player_ammo' : player.ammo,
+                #        'player_facing_right' : player.facing_right,
+                #        'player_rect' : player.rect,
+                #        'player_score' : player.score,
+                #        'hotspot_data' : constants.HOTSPOT_DATA }
+                #    self.checkpoint.save() 
 
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE

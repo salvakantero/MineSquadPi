@@ -36,7 +36,7 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area (windo
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 
 # player
-TIME_REM = 20000 # remaining shield and x-rays time (+-20 secs.)
+TIME_REMAINING = 20000 # remaining shield and x-rays time (+-20 secs.)
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
 

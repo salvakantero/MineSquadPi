@@ -43,8 +43,8 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.invincible = False # invincible after losing a life
-        self.invincible_time_from = 0 # tick number where invincibility begins
-        self.invincible_time_to = constants.INVINCIBLE_TIME # time of invincibility (2,5 secs.)
+        self.timer_from = 0 # tick number where invincibility begins
+        self.timer_to = constants.TIME_REMAINING # time of invincibility (2,5 secs.)
         # image/animation
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -188,8 +188,7 @@ class Player(pygame.sprite.Sprite):
         # it is necessary to check all colliding tiles.
         for tile in self.map.tilemap_rect_list:
             index += 1
-            if tile.colliderect(temp_rect) \
-            and self.map.tilemap_behaviour_list[index] != enums.PLATFORM_TILE:
+            if tile.colliderect(temp_rect):
                 collision = True
                 if self.direction.x < 0: # adjusts to the right of the tile
                     self.rect.left = tile.right
@@ -259,13 +258,13 @@ class Player(pygame.sprite.Sprite):
             self.energy -= 1
             self.sfx_death.play()
             self.invincible = True
-            self.invincible_time_from = pygame.time.get_ticks()
+            self.timer_from = pygame.time.get_ticks()
 
 
     # controls the invincibility time
     def invincibility_timer(self):
         if self.invincible:
-            if (pygame.time.get_ticks() - self.invincible_time_from) >= self.invincible_time_to:
+            if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
                 self.invincible = False
 
 

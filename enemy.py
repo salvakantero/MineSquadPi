@@ -24,9 +24,6 @@
 # ==============================================================================
 
 import pygame
-import math
-import enums
-import constants
 
 
 class Enemy(pygame.sprite.Sprite):
@@ -44,12 +41,6 @@ class Enemy(pygame.sprite.Sprite):
         self.vy = enemy_data[5]
         # enemy type; Infected, Avirus, Pelusoid, Fanty, Platform
         self.type = enemy_data[6]
-        # additional attributes for the enemy Fanty
-        if self.type == enums.FANTY:            
-            self.state = enums.IDLE          
-            self.sight_distance = 64 # pixels/frame
-            self.acceleration = 0.04 #0.05 # pixels/frame
-            self.max_speed = 2 # pixels/frame
         # player's current position (some enemies look at the player)
         self.player = player_rect
         # images
