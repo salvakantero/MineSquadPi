@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- propiedades de la clase PLAYER
 - adaptar la base de RedPlanet para MineSquad, eliminar lo innecesario
 
 
@@ -18,6 +17,7 @@ POR HACER
 - selección del jugador al comenzar la partida
 - un tema musical tranquilo para cada nivel
 - tiles que matan (definir y aplicar)
+- tiles animados
 - objeto escudo (invencibilidad)
 - objeto rayos x (mayor rango de visión)
 
