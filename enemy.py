@@ -39,7 +39,8 @@ class Enemy(pygame.sprite.Sprite):
         # speed (pixels per frame)
         self.vx = enemy_data[4]
         self.vy = enemy_data[5]
-        # enemy type; Infected, Avirus, Pelusoid, Fanty, Platform
+        # enemy type: SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, 
+        # HABALI, WOLF, SOLDIER3, CITIZEN1, CITIZEN2, SOLDIER4
         self.type = enemy_data[6]
         # player's current position (some enemies look at the player)
         self.player = player_rect

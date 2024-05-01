@@ -101,21 +101,15 @@ class Game():
         # to avoid loading from disk during game play.
         self.enemy_images = {
             # animation sequence of the enemies depending on their type
-            enums.INFECTED: [
-                pygame.image.load('images/sprites/infected0.png').convert_alpha(),
-                pygame.image.load('images/sprites/infected1.png').convert_alpha()],
-            enums.PELUSOID: [
-                pygame.image.load('images/sprites/pelusoid0.png').convert_alpha(),
-                pygame.image.load('images/sprites/pelusoid1.png').convert_alpha()],
-            enums.AVIRUS: [
-                pygame.image.load('images/sprites/avirus0.png').convert_alpha(),
-                pygame.image.load('images/sprites/avirus1.png').convert_alpha()],
-            enums.PLATFORM_SPR: [
-                pygame.image.load('images/sprites/platform0.png').convert_alpha(),
-                pygame.image.load('images/sprites/platform1.png').convert_alpha()],
-            enums.FANTY: [
-                pygame.image.load('images/sprites/fanty0.png').convert_alpha(),
-                pygame.image.load('images/sprites/fanty1.png').convert_alpha()]}
+            enums.SCORPION: [
+                pygame.image.load('images/sprites/scorpion_0.png').convert_alpha(),
+                pygame.image.load('images/sprites/scorpion_1.png').convert_alpha()],
+            enums.SNAKE: [
+                pygame.image.load('images/sprites/snake_0.png').convert_alpha(),
+                pygame.image.load('images/sprites/snake_1.png').convert_alpha()],
+            enums.SOLDIER1: [
+                pygame.image.load('images/sprites/soldier1_0.png').convert_alpha(),
+                pygame.image.load('images/sprites/soldier1_1.png').convert_alpha()]}
         self.hotspot_images = {
             enums.SHIELD: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.XRAY: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
@@ -155,10 +149,10 @@ class Game():
         self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
         self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
         self.sfx_enemy_down = {
-            enums.INFECTED: pygame.mixer.Sound('sounds/fx/sfx_exp_infected.wav'),
-            enums.PELUSOID: pygame.mixer.Sound('sounds/fx/sfx_exp_pelusoid.wav'),
-            enums.AVIRUS: pygame.mixer.Sound('sounds/fx/sfx_exp_avirus.wav'),
-            enums.FANTY: pygame.mixer.Sound('sounds/fx/sfx_exp_fanty.wav')}
+            1: pygame.mixer.Sound('sounds/fx/sfx_exp1.wav'),
+            2: pygame.mixer.Sound('sounds/fx/sfx_exp2.wav'),
+            3: pygame.mixer.Sound('sounds/fx/sfx_exp3.wav'),
+            4: pygame.mixer.Sound('sounds/fx/sfx_exp4.wav')}
         self.sfx_hotspot = {
             enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.XRAY: pygame.mixer.Sound('sounds/fx/sfx_x_ray.wav'),
@@ -416,7 +410,7 @@ class Game():
 
     # everything blows up and our player wins the game
     def win(self, score):
-        sounds = [enums.INFECTED, enums.PELUSOID, enums.AVIRUS, enums.FANTY]
+        sounds = [enums.SCORPION, enums.SNAKE, enums.SOLDIER1]
         # first frame (from 350 to 1)...
         if self.win_secuence == 350:
             # eliminate the remaining enemies
@@ -533,21 +527,21 @@ class Game():
                     self.shake = [10, 6]
                     self.shake_timer = 14
                     # creates an explosion and assigns a score according to the type of enemy
-                    if enemy.type == enums.INFECTED:
+                    if enemy.type == enums.SCORPION:
                         blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
                         self.floating_text.text = '+25'
                         player.score += 25
                     else: # flying enemies
                         blast = Explosion(enemy.rect.center, self.blast_images[0])
-                        if enemy.type == enums.AVIRUS: 
+                        if enemy.type == enums.SNAKE: 
                             self.floating_text.text = '+50'
                             player.score += 50
-                        elif enemy.type == enums.PELUSOID: 
+                        elif enemy.type == enums.SOLDIER1: 
                             self.floating_text.text = '+75'
                             player.score += 75
-                        else: # fanty
-                            self.floating_text.text = '+100'
-                            player.score += 100
+                        #else: # fanty
+                        #    self.floating_text.text = '+100'
+                        #    player.score += 100
                     self.groups[enums.ALL].add(blast)                    
                     self.sfx_enemy_down[enemy.type].play()
                     # floating text position

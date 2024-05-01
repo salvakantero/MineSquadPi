@@ -144,28 +144,28 @@ class Map():
 
 
     # checks if the map needs to be changed (depending on the player's XY position)
-    def check_change(self, player):
+    #def check_change(self, player):
         # player disappears on the left
         # appearing from the right on the new map
-        if player.rect.x < -(constants.TILE_SIZE-8):
-            self.number -= 1
-            player.rect.right = constants.MAP_UNSCALED_SIZE[0]
+        #if player.rect.x < -(constants.TILE_SIZE-8):
+        #    self.number -= 1
+        #    player.rect.right = constants.MAP_UNSCALED_SIZE[0]
         # player disappears on the right
         # appearing from the left on the new map
-        elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 8:
-            self.number += 1
-            player.rect.left = 0
+        #elif player.rect.x > constants.MAP_UNSCALED_SIZE[0] - 8:
+        #    self.number += 1
+        #    player.rect.left = 0
         # player disappears over the top
         # appearing at the bottom of the new map 
         # and jumps again to facilitate the return
-        elif player.rect.y < (-constants.TILE_SIZE):
-            self.number -= 5
-            player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
+        #elif player.rect.y < (-constants.TILE_SIZE):
+        #    self.number -= 5
+        #    player.rect.bottom = constants.MAP_UNSCALED_SIZE[1]            
         # player disappears from underneath
         #appearing at the top of the new map
-        elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
-            self.number += 5
-            player.rect.top = 0
+        #elif player.rect.y > constants.MAP_UNSCALED_SIZE[1]:
+        #    self.number += 5
+        #    player.rect.top = 0
 
 
     # does everything necessary to change the map and add enemies and hotspots.
@@ -195,7 +195,7 @@ class Map():
             self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
             self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
 
-        # add enemies (and mobile platforms) to the map reading from 'ENEMIES_DATA' list.
+        # add enemies to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map
         # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
         for i in range(3):
@@ -203,9 +203,7 @@ class Map():
             if enemy_data[6] != enums.NONE:
                 enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
                 self.game.groups[enums.ALL].add(enemy) # to update/draw it
-                # enemy sprite? add to the enemy group
-                if enemy_data[6] != enums.PLATFORM_SPR:
-                    self.game.groups[enums.ENEMIES].add(enemy) # to check for collisions               
+                self.game.groups[enums.ENEMIES].add(enemy) # to check for collisions               
 
 
 

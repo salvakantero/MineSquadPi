@@ -145,7 +145,7 @@ while True:
             
         # check map change using player's coordinates
         # if the player leaves, the map number changes
-        map.check_change(player)
+        #map.check_change(player)
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_F_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))

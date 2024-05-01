@@ -23,27 +23,42 @@
 
 # tile behaviours
 NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 3, 4 
+
 # game states
 RUNNING, OVER = 0, 1
+
 # directions of movement
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+
 # music states
 UNMUTED, MUTED = 0, 1
+
 # player states
 IDLE, WALKING_X, WALKING_Y = 0, 1, 2
+
 # enemy types
-NONE, INFECTED, PELUSOID, AVIRUS, PLATFORM_SPR, FANTY = 0, 1, 2, 3, 4, 5
+NONE, SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, HABALI, \
+WOLF, SOLDIER3, CITIZEN1, CITIZEN2, SOLDIER4 = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+
 # hotspot types
 SHIELD, XRAY, AMMO, LIFE, SWEET1, SWEET2, DIAMOND, RUBY = 0, 1, 2, 3, 4, 5, 6, 7
+
 # fonts; S=small L=large F=foreground B=background
-S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, L_F_RED, L_B_RED, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, L_F_WHITE, L_B_WHITE, \
+L_F_RED, L_B_RED, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
+
 # menu
-START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, VIEW, CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
+START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, VIEW, \
+CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
+
 # keyboard control types
 CLASSIC, GAMER, RETRO, JOYSTICK = 0, 1, 2, 3
+
 # sprite groups
 ALL, ENEMIES, HOTSPOT, SHOT = 0, 1, 2, 4
+
 # full screen modes
 OFF, X600, X720 = 0, 1, 2
+
 # views
 ISO, ZENITH = 0, 1

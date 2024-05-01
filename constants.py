@@ -122,11 +122,18 @@ PALETTE = {
 
 # enemies per map (x1, y1, x2, y2, vx, vy, type)
 # types:
-#	1) Infected
-#	2) Pelusoid
-#	3) Arachnovirus
-#	4) Mobile platform
-#	5) Fanty
+#	1) SCORPION 
+#   2) SNAKE
+#   3) SOLDIER1
+#   4) CRAB
+#   5) PROJECTILE
+#   6) SOLDIER2
+#   7) HABALI
+#   8) WOLF
+#   9) SOLDIER3
+#  10) CITIZEN1
+#  11) CITIZEN2
+#  12) SOLDIER4
 ENEMIES_DATA = [
     #-----------LEVEL 1-------------
     # 0

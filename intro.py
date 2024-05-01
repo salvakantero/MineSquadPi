@@ -59,6 +59,7 @@ class Intro():
 
     def play(self):
         pygame.time.wait(500)
+        
         # PlayOnRetro logo
         # fade in
         self.srf_menu.fill(constants.PALETTE["BLACK0"]) # black background
