@@ -79,10 +79,6 @@ class Scoreboard():
 
     # update the data (only if it has been invalidated)
     def update(self, player):
-        # timer for the shared zone (map info or score)
-        if self.map_info_timer > 0: 
-            self.map_info_timer -= 1
-
         if self.needs_updating:
             # player data
             self.clear_zone(18)
@@ -91,14 +87,15 @@ class Scoreboard():
             self.shaded_text(player.ammo, 102, 6)
             self.needs_updating = False
                        
-            # show score and high
             x = 0
             y = 22
-            pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((185, y),(54, 15))) # clears the above content
+            # clears the above content
+            pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((185, y),(54, 15)))
+            # show score
             text = 'SCORE: ' + str(player.score).rjust(6, '0')
             self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
             self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
-            # high score
+            # show high score
             y = 30
             score = self.hi if self.hi > player.score else player.score
             text_2 = 'HIGH: ' + str(score).rjust(6, '0')

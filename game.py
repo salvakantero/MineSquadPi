@@ -49,6 +49,7 @@ class Game():
         self.win_secuence = 0 # animated sequence on winning (if > 0)
         self.status = enums.OVER # start from menu
         self.music_status = enums.UNMUTED # Music!
+        self.loop_counter = 0 # main loop cycles for various uses
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
@@ -64,7 +65,6 @@ class Game():
             pygame.sprite.Group(), # all sprites (to display them)
             pygame.sprite.Group(), # enemies
             pygame.sprite.GroupSingle(), # hotspot
-            pygame.sprite.GroupSingle(), # mobile platform
             pygame.sprite.GroupSingle()] # shot
         # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN

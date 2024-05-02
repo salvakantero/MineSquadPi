@@ -60,6 +60,7 @@ while True:
         # reset variables
         map.last = -1 # map before the current map
         game.status = enums.RUNNING
+        game.loop_counter = 0
         game.floating_text.y = 0
         game.win_secuence = 0
         for hotspot in constants.HOTSPOT_DATA:
@@ -112,9 +113,9 @@ while True:
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
 
-        # collision between player and mobile platform, martians and hotspot        
+        # collision between player and enemies or hotspots      
         game.check_player_collisions(player, scoreboard, map.number)
-        # collision between bullets and martians or map tiles
+        # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)
 
         # game over?
@@ -148,7 +149,9 @@ while True:
         #map.check_change(player)
 
         # TEST ZONE ================================================================================
-        game.fonts[enums.S_F_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
+        game.fonts[enums.S_B_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
         # ==========================================================================================
-
+        
+        # increases the loop counter, up to a maximum of 10000 loops
+        game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
         game.update_screen()

@@ -24,7 +24,6 @@
 
 import pygame
 import pygame.joystick
-from math import sin
 import constants
 import enums
 from shot import Shot
@@ -33,18 +32,21 @@ from shot import Shot
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
-        # default values for Blaze
-        self.energy = 10 # lives remaining
+        # common values
         self.ammo = 10 # unused ammunition collected
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
-        self.x_speed = 2 # movement in the x-axis (pixels)
-        self.y_speed = 2 # movement in the y-axis (pixels)
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
-        self.invincible = False # invincible after losing a life
-        self.timer_from = 0 # tick number where invincibility begins
-        self.timer_to = constants.TIME_REMAINING # time of invincibility (2,5 secs.)
+        self.invincible = False # invincible after losing a life or take a shield
+        self.timer_from = 0 # tick number when the shield effect or x-ray effect begins
+        self.timer_to = constants.TIME_REMAINING # time of shield, x-ray (20 secs.)
+
+        # default values for Blaze
+        self.energy = 10 # lives remaining
+        self.x_speed = 2 # movement in the x-axis (pixels)
+        self.y_speed = 2 # movement in the y-axis (pixels)
+
         # image/animation
         self.image_list = {
             # sequences of animations for the player depending on its status
@@ -246,10 +248,16 @@ class Player(pygame.sprite.Sprite):
         else: # frame firing
             self.firing -= 1
             if self.facing_right: self.image = self.img_firing
-            else: self.image = pygame.transform.flip(self.img_firing, True, False)            
+            else: self.image = pygame.transform.flip(self.img_firing, True, False)
+
         # invincible effect (the player blinks)
-        if self.invincible: self.image.set_alpha(self.wave_value()) # 0 or 255
-        else: self.image.set_alpha(255) # without transparency
+        if self.invincible:
+            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
+                self.image.set_alpha(0)
+            else: 
+                self.image.set_alpha(255)
+        else:
+            self.image.set_alpha(255) # without transparency
     
 
     # subtracts one life and applies temporary invincibility
@@ -259,19 +267,14 @@ class Player(pygame.sprite.Sprite):
             self.sfx_death.play()
             self.invincible = True
             self.timer_from = pygame.time.get_ticks()
+            self.timer_from -= (constants.TIME_REMAINING - 5000)  # 5 secs.
 
 
-    # controls the invincibility time
-    def invincibility_timer(self):
+    # controls the hotspot time
+    def check_timer(self):
         if self.invincible:
             if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
                 self.invincible = False
-
-
-    # returns the value 0 or 255 depending on the number of ticks.
-    def wave_value(self):
-        if sin(pygame.time.get_ticks()) >= 0: return 255
-        else: return 0
 
 
     def update(self):
@@ -280,4 +283,4 @@ class Player(pygame.sprite.Sprite):
         self.horizontal_mov()
         self.vertical_mov()
         self.animate()
-        self.invincibility_timer()
+        self.check_timer()

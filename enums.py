@@ -22,7 +22,7 @@
 # ==============================================================================
 
 # tile behaviours
-NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 3, 4 
+NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 2, 3 
 
 # game states
 RUNNING, OVER = 0, 1
@@ -55,7 +55,7 @@ CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
 CLASSIC, GAMER, RETRO, JOYSTICK = 0, 1, 2, 3
 
 # sprite groups
-ALL, ENEMIES, HOTSPOT, SHOT = 0, 1, 2, 4
+ALL, ENEMIES, HOTSPOT, SHOT = 0, 1, 2, 3
 
 # full screen modes
 OFF, X600, X720 = 0, 1, 2

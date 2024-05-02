@@ -179,8 +179,7 @@ class Map():
         # refresh the scoreboard area
         scoreboard.reset()
         scoreboard.map_info(self.number)
-        scoreboard.map_info_timer = 150 # shows the map info for a few seconds
-        scoreboard.invalidate()      
+        scoreboard.invalidate()
         # reset the sprite groups  
         for group in self.game.groups: group.empty()
         # removes any possible floating text

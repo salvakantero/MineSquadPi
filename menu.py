@@ -250,8 +250,6 @@ class Menu():
             # draws the background image
             self.srf_menu.blit(self.img_menu, (0,0))
 
-
-
             # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
