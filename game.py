@@ -116,8 +116,8 @@ class Game():
             enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.SWEET1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.SWEET2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
-            enums.DIAMOND: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.RUBY: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.COIN: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
+            enums.CHOCO: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -159,8 +159,8 @@ class Game():
             enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.SWEET1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
             enums.SWEET2: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
-            enums.DIAMOND: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
-            enums.RUBY: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
+            enums.COIN: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
+            enums.CHOCO: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]

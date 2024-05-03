@@ -15,11 +15,13 @@ POR HACER
 =========
 - disparos horizontales y verticales
 - selección del jugador al comenzar la partida
+- mapas más altos que la pantalla y scroll vertical
 - un tema musical tranquilo para cada nivel
 - tiles que matan (definir y aplicar)
 - tiles animados
 - objeto escudo (invencibilidad)
 - objeto rayos x (mayor rango de visión)
+- fondos IA para la vista 16:9
 
 
 HECHO
