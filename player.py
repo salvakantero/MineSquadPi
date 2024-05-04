@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.ammo = 10 # unused ammunition collected
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
-        self.steps = 0 # check that the distance does not exceed the size of the tile.
+        self.steps = -1 # check that the distance does not exceed the size of the tile.
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.invincible = False # invincible after losing a life or take a shield
@@ -45,8 +45,7 @@ class Player(pygame.sprite.Sprite):
 
         # default values for Blaze
         self.energy = 10 # lives remaining
-        self.x_speed = 1 # movement in the x-axis (pixels)
-        self.y_speed = 1 # movement in the y-axis (pixels)
+        self.speed = 1 # pixels per step
 
         # image/animation
         self.image_list = {
@@ -71,10 +70,6 @@ class Player(pygame.sprite.Sprite):
         self.image = self.image_list[self.state][0] # 1st frame of the animation
         self.rect = self.image.get_rect(topleft = ( # initial position
             constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
-        # the FIRING state is independent of the other states and requires 
-        # a specific image for a certain number of frames
-        self.firing = 0 # frame counter
-        self.img_firing = pygame.image.load('images/sprites/player6.png').convert_alpha()
         self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
         # sounds
         self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
@@ -91,21 +86,20 @@ class Player(pygame.sprite.Sprite):
     # common code from joystick or keyboard to perform the shot
     def performs_shot(self):
         if self.ammo > 0:       
-            if self.firing <= 0 and self.game.groups[enums.SHOT].sprite == None: # no shots on screen
+            if self.game.groups[enums.SHOT].sprite == None: # no shots on screen
                 shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
                 self.game.groups[enums.SHOT].add(shot)
                 self.game.groups[enums.ALL].add(shot)
                 self.sfx_shot.play()
                 self.ammo -= 1
                 self.scoreboard.invalidate()
-                self.firing = 12 # frames drawing the image "firing".
         else: # no bullets
             self.sfx_no_ammo.play()
 
 
     # keyboard/mouse/joystick keystroke input
     def get_input(self):
-        if self.steps == 0:
+        if self.steps < 0:
             if self.game.joystick is not None: # manages the joystick/joypad/gamepad
                 # obtains the possible movement of the axes. A value greater than +-0.5 
                 # is considered as intentional movement. The values obtained range from -1 to 1.
@@ -139,32 +133,38 @@ class Player(pygame.sprite.Sprite):
                     self.performs_shot()
             else: # manages keystrokes
                 key_state = pygame.key.get_pressed()
-                # press right
-                if key_state[self.game.config.right_key]:
-                    self.direction.x = 1
-                    self.steps = 1
+                # press up
+                if key_state[self.game.config.up_key]:
+                    self.direction.y = -1
+                    self.steps += 1
+                    self.facing_right = False
+                    return
+                # press down
+                elif key_state[self.game.config.down_key]:
+                    self.direction.y = 1
+                    self.steps += 1
                     self.facing_right = True
                     return
                 # press left
                 elif key_state[self.game.config.left_key]:
                     self.direction.x = -1
-                    self.steps = 1
+                    self.steps += 1
                     self.facing_right = False
                     return
-                # without lateral movement
-                elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
-                    self.direction.x = 0
-                # press down
-                if key_state[self.game.config.down_key]:
-                    self.direction.y = 1
-                    self.steps = 1
-                # press up
-                elif key_state[self.game.config.up_key]:
-                    self.direction.y = -1
-                    self.steps = 1
-                # without vertical movement
-                elif not key_state[self.game.config.down_key] and not key_state[self.game.config.up_key]:
-                    self.direction.y = 0
+                # press right
+                elif key_state[self.game.config.right_key]:
+                    self.direction.x = 1
+                    self.steps += 1
+                    self.facing_right = True
+                    return
+                else:
+                    self.direction.x = 0 # without horizontal movement
+                    self.direction.y = 0 # without vertical movement
+                
+                # press fire or left mouse button
+                if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
+                    self.performs_shot()
+
                 #=================================================================
                 # BETA trick
                 #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
@@ -172,12 +172,13 @@ class Player(pygame.sprite.Sprite):
                 #        self.lives += 1
                 #        self.scoreboard.invalidate() 
                 # ================================================================          
-                # press fire or left mouse button
-                if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
-                    self.performs_shot()
 
-        if self.steps > 0: self.steps += 1
-        if self.steps > constants.TILE_SIZE: self.steps = 0
+        # number of steps
+        if self.steps >= 0: 
+            self.steps += 1
+        # if it exceeds the tile size, it stops
+        if self.steps >= constants.TILE_SIZE-1: 
+            self.steps = -1
 
 
     # player status according to movement
@@ -192,7 +193,7 @@ class Player(pygame.sprite.Sprite):
 
     def horizontal_mov(self):
         # gets the new rect after applying the movement and check for collision
-        x_temp = self.rect.x + (self.direction.x * self.x_speed)
+        x_temp = self.rect.x + (self.direction.x * self.speed)
         temp_rect = pygame.Rect((x_temp, self.rect.y),
             (constants.TILE_SIZE, constants.TILE_SIZE))
 
@@ -214,7 +215,7 @@ class Player(pygame.sprite.Sprite):
 
     def vertical_mov(self):        
         # gets the new rectangle after applying the movement and check for collision
-        y_temp = self.rect.y + (self.direction.y * self.y_speed)
+        y_temp = self.rect.y + (self.direction.y * self.speed)
         temp_rect = pygame.Rect((self.rect.x, y_temp), 
             (constants.TILE_SIZE, constants.TILE_SIZE))  
 
@@ -251,24 +252,19 @@ class Player(pygame.sprite.Sprite):
         if self.frame_index > len(self.image_list[self.state]) - 1:
             self.frame_index = 0 # reset the frame number
         # assigns image according to frame, status and direction
-        if self.firing == 0: # normal sequence of images
-            if self.facing_right:
-                self.image = self.image_list[self.state][self.frame_index]
-            else: # reflects the image when looking to the left
-                self.image = pygame.transform.flip(self.image_list[self.state][self.frame_index], True, False)
-        else: # frame firing
-            self.firing -= 1
-            if self.facing_right: self.image = self.img_firing
-            else: self.image = pygame.transform.flip(self.img_firing, True, False)
-
+        if self.facing_right:
+            self.image = self.image_list[self.state][self.frame_index]
+        else: # reflects the image when looking to the left
+            self.image = pygame.transform.flip(
+                self.image_list[self.state][self.frame_index], True, False)
         # invincible effect (player blinks)
         if self.invincible:
             if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-                self.image.set_alpha(0)
+                self.image.set_alpha(0) # visible
             else: 
-                self.image.set_alpha(255)
+                self.image.set_alpha(255) # no visible
         else:
-            self.image.set_alpha(255) # without transparency
+            self.image.set_alpha(255)
     
 
     # subtracts one life and applies temporary invincibility
