@@ -36,7 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.ammo = 10 # unused ammunition collected
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
-        self.steps = 0 # to control 16 px. of movement per keystroke
+        self.steps = 0 # check that the distance does not exceed the size of the tile.
         self.state = enums.IDLE # to know the animation to be applied
         self.facing_right = True # to know if the sprite needs to be mirrored
         self.invincible = False # invincible after losing a life or take a shield
@@ -144,23 +144,24 @@ class Player(pygame.sprite.Sprite):
                     self.direction.x = 1
                     self.steps = 1
                     self.facing_right = True
+                    return
                 # press left
                 elif key_state[self.game.config.left_key]:
                     self.direction.x = -1
                     self.steps = 1
                     self.facing_right = False
+                    return
                 # without lateral movement
-                elif not key_state[self.game.config.right_key] \
-                    and not key_state[self.game.config.left_key] \
-                    and self.steps == 16:
+                elif not key_state[self.game.config.right_key] and not key_state[self.game.config.left_key]:
                     self.direction.x = 0
-                    self.steps = 0
                 # press down
                 if key_state[self.game.config.down_key]:
                     self.direction.y = 1
+                    self.steps = 1
                 # press up
                 elif key_state[self.game.config.up_key]:
                     self.direction.y = -1
+                    self.steps = 1
                 # without vertical movement
                 elif not key_state[self.game.config.down_key] and not key_state[self.game.config.up_key]:
                     self.direction.y = 0
@@ -175,6 +176,9 @@ class Player(pygame.sprite.Sprite):
                 if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
                     self.performs_shot()
 
+        if self.steps > 0: self.steps += 1
+        if self.steps > constants.TILE_SIZE: self.steps = 0
+
 
     # player status according to movement
     def get_state(self):
@@ -187,7 +191,6 @@ class Player(pygame.sprite.Sprite):
 
 
     def horizontal_mov(self):
-        if self.steps > 0: self.steps += 1
         # gets the new rect after applying the movement and check for collision
         x_temp = self.rect.x + (self.direction.x * self.x_speed)
         temp_rect = pygame.Rect((x_temp, self.rect.y),
