@@ -50,9 +50,12 @@ class Player(pygame.sprite.Sprite):
         # image/animation
         self.image_list = {
             # sequences of animations for the player depending on its status
-            enums.IDLE: [
+            enums.IDLE_LEFT: [
                 pygame.image.load('images/sprites/player0.png').convert_alpha(),
                 pygame.image.load('images/sprites/player1.png').convert_alpha()],
+            enums.IDLE_RIGHT: [
+                pygame.image.load('images/sprites/player4.png').convert_alpha(),
+                pygame.image.load('images/sprites/player5.png').convert_alpha()],
             enums.WALKING_X: [
                 pygame.image.load('images/sprites/player2.png').convert_alpha(),
                 pygame.image.load('images/sprites/player0.png').convert_alpha(),
