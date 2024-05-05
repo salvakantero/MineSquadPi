@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - disparos horizontales y verticales
-- no reflejar sprites
 
 
 BUGS
@@ -14,6 +13,7 @@ BUGS
 
 POR HACER
 =========
+- animación del player con el IDLE impar??
 - optimizar detección de colisiones con TILES
 - selección del jugador al comenzar la partida
 - mapas más altos que la pantalla y scroll vertical

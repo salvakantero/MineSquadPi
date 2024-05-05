@@ -56,7 +56,7 @@ while True:
         pygame.mixer.music.stop()
         game.jukebox.shuffle()
         # create the player
-        player = Player(game, map, scoreboard)
+        player = Player(enums.BLAZE, game, map, scoreboard)
         # reset variables
         map.last = -1 # map before the current map
         game.status = enums.RUNNING

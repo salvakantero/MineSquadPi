@@ -21,20 +21,24 @@
 #
 # ==============================================================================
 
-# tile behaviours
-NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 2, 3 
-
 # game states
 RUNNING, OVER = 0, 1
-
-# directions of movement
-UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 
 # music states
 UNMUTED, MUTED = 0, 1
 
+# players
+BLAZE, PIPER, NORMAN = 0, 1, 2
+
 # player states
-IDLE, WALKING_X, WALKING_Y = 0, 1, 2
+IDLE_UP, IDLE_DOWN, IDLE_LEFT, IDLE_RIGHT, \
+WALK_UP, WALK_DOWN, WALK_LEFT, WALK_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7
+
+# directions of movement
+UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+
+# tile behaviours
+NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 2, 3 
 
 # enemy types
 NONE, SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, HABALI, \
