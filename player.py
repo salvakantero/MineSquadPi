@@ -295,7 +295,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.get_input()
         self.get_state()
-        self.horizontal_mov()
-        self.vertical_mov()
+        if self.state == enums.WALKING_X: self.horizontal_mov()
+        if self.state == enums.WALKING_Y: self.vertical_mov()
         self.animate()
         self.check_timer()
