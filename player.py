@@ -135,31 +135,30 @@ class Player(pygame.sprite.Sprite):
                 key_state = pygame.key.get_pressed()
                 # press up
                 if key_state[self.game.config.up_key]:
-                    self.direction.y = -1
+                    self.direction = 0, -1
                     self.steps += 1
                     self.facing_right = False
                     return
                 # press down
                 elif key_state[self.game.config.down_key]:
-                    self.direction.y = 1
+                    self.direction = 0, 1
                     self.steps += 1
                     self.facing_right = True
                     return
                 # press left
                 elif key_state[self.game.config.left_key]:
-                    self.direction.x = -1
+                    self.direction = -1, 0
                     self.steps += 1
                     self.facing_right = False
                     return
                 # press right
                 elif key_state[self.game.config.right_key]:
-                    self.direction.x = 1
+                    self.direction = 1, 0
                     self.steps += 1
                     self.facing_right = True
                     return
                 else:
-                    self.direction.x = 0 # without horizontal movement
-                    self.direction.y = 0 # without vertical movement
+                    self.direction = 0, 0 # without movement
                 
                 # press fire or left mouse button
                 if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
