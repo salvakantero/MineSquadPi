@@ -98,71 +98,80 @@ class Player(pygame.sprite.Sprite):
 
 
     # keyboard/mouse/joystick keystroke input
-    def get_input(self):
-        if self.steps < 0:
-            if self.game.joystick is not None: # manages the joystick/joypad/gamepad
+    def get_input(self):      
+        if self.game.joystick is not None: # manages the joystick/joypad/gamepad
+            # press fire
+            if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
+                self.performs_shot()
+            if self.steps < 0: # if it is not moving
                 # obtains the possible movement of the axes. A value greater than +-0.5 
                 # is considered as intentional movement. The values obtained range from -1 to 1.
                 axis_x = self.game.joystick.get_axis(0)
                 axis_y = self.game.joystick.get_axis(1)
                 # eliminates false movements
                 if abs(axis_x) < 0.1: axis_x = 0.0
-                if abs(axis_y) < 0.1: axis_y = 0.0            
-                # press right
-                if axis_x > 0.5:
-                    self.direction.x = 1
+                if abs(axis_y) < 0.1: axis_y = 0.0    
+                # press up
+                if axis_y < -0.5:
+                    self.direction.update(0, -1)
+                    self.steps += 1
+                    self.facing_right = False
+                    return
+                # press down
+                elif axis_y > 0.5:
+                    self.direction.update(0, 1)
+                    self.steps += 1
                     self.facing_right = True
+                    return
                 # press left
                 elif axis_x < -0.5:
-                    self.direction.x = -1
+                    self.direction.update(-1, 0)
+                    self.steps += 1
                     self.facing_right = False
-                # without lateral movement
-                elif axis_x == 0.0:
-                    self.direction.x = 0
-                # press down
-                if axis_y > 0.5:
-                    self.direction.y = 1
-                # press up
-                elif axis_y < -0.5:
-                    self.direction.y = -1
-                # without vertical movement
-                elif axis_y == 0.0:
-                    self.direction.y = 0
-                # press fire
-                if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
-                    self.performs_shot()
-            else: # manages keystrokes
-                key_state = pygame.key.get_pressed()
+                    return
+                # press right
+                elif axis_x > 0.5:
+                    self.direction.update(1, 0)
+                    self.steps += 1
+                    self.facing_right = True
+                    return
+                # without movement
+                else:
+                    self.direction.update(0, 0)
+
+        else: # manages keystrokes
+            key_state = pygame.key.get_pressed()
+            # press fire or left mouse button
+            if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
+                self.performs_shot()
+            if self.steps < 0: # if it is not moving
                 # press up
                 if key_state[self.game.config.up_key]:
-                    self.direction = 0, -1
+                    self.direction.update(0, -1)
                     self.steps += 1
                     self.facing_right = False
                     return
                 # press down
                 elif key_state[self.game.config.down_key]:
-                    self.direction = 0, 1
+                    self.direction.update(0, 1)
                     self.steps += 1
                     self.facing_right = True
                     return
                 # press left
                 elif key_state[self.game.config.left_key]:
-                    self.direction = -1, 0
+                    self.direction.update(-1, 0)
                     self.steps += 1
                     self.facing_right = False
                     return
                 # press right
                 elif key_state[self.game.config.right_key]:
-                    self.direction = 1, 0
+                    self.direction.update(1, 0)
                     self.steps += 1
                     self.facing_right = True
                     return
+                # without movement
                 else:
-                    self.direction = 0, 0 # without movement
-                
-                # press fire or left mouse button
-                if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
-                    self.performs_shot()
+                    self.direction.update(0, 0)
 
                 #=================================================================
                 # BETA trick
@@ -172,12 +181,12 @@ class Player(pygame.sprite.Sprite):
                 #        self.scoreboard.invalidate() 
                 # ================================================================          
 
-        # number of steps
+        # distance travelled control
         if self.steps >= 0: 
-            self.steps += 1
-        # if it exceeds the tile size, it stops
+            self.steps += 1 # continue walking
+        # if it exceeds the tile size...
         if self.steps >= constants.TILE_SIZE-1: 
-            self.steps = -1
+            self.steps = -1 # it stops
 
 
     # player status according to movement
@@ -186,7 +195,7 @@ class Player(pygame.sprite.Sprite):
             self.state = enums.WALKING_X
         elif self.direction.y != 0: # is moving on y
             self.state = enums.WALKING_Y
-        else: # x does not change. Stopped
+        else: # stopped
             self.state = enums.IDLE
 
 
