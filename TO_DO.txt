@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- optimizar detección de colisiones con TILES
 - disparos horizontales y verticales
 
 
@@ -14,7 +15,6 @@ BUGS
 POR HACER
 =========
 - animación del player con el IDLE impar??
-- optimizar detección de colisiones con TILES
 - selección del jugador al comenzar la partida
 - mapas más altos que la pantalla y scroll vertical
 - un tema musical tranquilo para cada nivel

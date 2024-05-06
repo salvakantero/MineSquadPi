@@ -48,12 +48,12 @@ class Player(pygame.sprite.Sprite):
         if who_is == enums.BLAZE:
             self.energy = 10
             self.speed = 1
-        if who_is == enums.PIPER:
+        elif who_is == enums.PIPER:
             self.energy = 5
-            self.speed = 2
+            self.speed = 1
         else:
             self.energy = 15
-            self.speed = .5
+            self.speed = 1
 
         # sequences of animations for the player depending on its status
         path = 'images/sprites/player/' + str(who_is) + '/'
@@ -145,35 +145,30 @@ class Player(pygame.sprite.Sprite):
                 # press up
                 if axis_y < -0.5:
                     self.direction.update(0, -1)
-                    self.steps += 1
-                    self.state = enums.WALK_UP
                     self.look_at = enums.UP
+                    self.steps += 1
                     return
                 # press down
                 elif axis_y > 0.5:
                     self.direction.update(0, 1)
-                    self.steps += 1
-                    self.state = enums.WALK_DOWN
                     self.look_at = enums.DOWN
+                    self.steps += 1
                     return
                 # press left
                 elif axis_x < -0.5:
                     self.direction.update(-1, 0)
-                    self.steps += 1
-                    self.state = enums.WALK_LEFT
                     self.look_at = enums.LEFT
+                    self.steps += 1
                     return
                 # press right
                 elif axis_x > 0.5:
                     self.direction.update(1, 0)
-                    self.steps += 1
-                    self.state = enums.WALK_RIGHT
                     self.look_at = enums.RIGHT
+                    self.steps += 1
                     return
                 # without movement
                 else:
                     self.direction.update(0, 0)
-                    self.state = self.look_at
 
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
@@ -184,35 +179,30 @@ class Player(pygame.sprite.Sprite):
                 # press up
                 if key_state[self.game.config.up_key]:
                     self.direction.update(0, -1)
-                    self.steps += 1
-                    self.state = enums.WALK_UP
                     self.look_at = enums.UP
+                    self.steps += 1
                     return
                 # press down
                 elif key_state[self.game.config.down_key]:
                     self.direction.update(0, 1)
-                    self.steps += 1
-                    self.state = enums.WALK_DOWN
                     self.look_at = enums.DOWN
+                    self.steps += 1
                     return
                 # press left
                 elif key_state[self.game.config.left_key]:
                     self.direction.update(-1, 0)
-                    self.steps += 1
-                    self.state = enums.WALK_LEFT
                     self.look_at = enums.LEFT
+                    self.steps += 1
                     return
                 # press right
                 elif key_state[self.game.config.right_key]:
                     self.direction.update(1, 0)
-                    self.steps += 1
-                    self.state = enums.WALK_RIGHT
                     self.look_at = enums.RIGHT
+                    self.steps += 1
                     return
                 # without movement
                 else:
                     self.direction.update(0, 0)
-                    self.state = self.look_at
 
                 #=================================================================
                 # BETA trick
@@ -231,13 +221,13 @@ class Player(pygame.sprite.Sprite):
 
 
     # player status according to movement
-    #def get_state(self):
-    #    if self.direction.x == 0 and self.direction.y == 0:
-    #        self.state = enums.IDLE
-    #    if self.direction.y < 0:    self.state = enums.WALK_UP
-    #    elif self.direction.y > 0:  self.state = enums.WALK_DOWN
-    #    elif self.direction.x > 0:  self.state = enums.WALK_RIGHT
-    #    elif self.direction.x < 0:  self.state = enums.WALK_LEFT
+    def get_state(self):
+        if self.direction.x == 0 and self.direction.y == 0:
+            self.state = self.look_at
+        elif self.direction.y < 0:  self.state = enums.WALK_UP
+        elif self.direction.y > 0:  self.state = enums.WALK_DOWN
+        elif self.direction.x > 0:  self.state = enums.WALK_RIGHT
+        elif self.direction.x < 0:  self.state = enums.WALK_LEFT
 
 
     def horizontal_mov(self):
@@ -331,8 +321,8 @@ class Player(pygame.sprite.Sprite):
 
     def update(self):
         self.get_input()
-        #self.get_state()
-        self.horizontal_mov()
-        self.vertical_mov()
+        self.get_state()
+        if self.direction.x != 0: self.horizontal_mov()
+        if self.direction.y != 0: self.vertical_mov()
         self.animate()
         self.check_timer()
