@@ -42,5 +42,6 @@ class Shot(pygame.sprite.Sprite):
         if self.vector.x != 0: self.rect.x += self.vector.x
         elif self.vector.y != 0: self.rect.y += self.vector.y
         # removes the bullet if it has reached the limits of the screen
-        if self.rect.x < 0 or self.rect.x > constants.MAP_UNSCALED_SIZE[0]:
+        if self.rect.x < 0 or self.rect.x > constants.MAP_UNSCALED_SIZE[0] \
+        or self.rect.y < 0 or self.rect.y > constants.MAP_UNSCALED_SIZE[1]:
             self.kill()
