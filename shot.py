@@ -34,7 +34,8 @@ class Shot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center = pos.center)
         if vector.x > 0: self.rect.x = pos.right
         elif vector.x < 0: self.rect.x = pos.left - self.rect.width
-        elif vector.y > 0: self.rect.y = pos.bottom + self.rect.height
+        elif vector.y < 0: self.rect.y -= pos.height
+        elif vector.y > 0: self.rect.y += pos.height
         
 
     def update(self):
