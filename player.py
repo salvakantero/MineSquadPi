@@ -118,7 +118,13 @@ class Player(pygame.sprite.Sprite):
     def performs_shot(self):
         if self.ammo > 0:       
             if self.game.groups[enums.SHOT].sprite == None: # no shots on screen
-                shot = Shot(self.rect, self.facing_right, self.img_bullet, 4)
+                # direction of the shot
+                vector = pygame.math.Vector2(0, -2) # UP
+                if self.look_at == enums.DOWN: vector.update(0, 2)
+                elif self.look_at == enums.LEFT: vector.update(-2, 0)
+                elif self.look_at == enums.RIGHT: vector.update(2, 0)
+                # shot creation
+                shot = Shot(self.rect, vector, self.img_bullet)
                 self.game.groups[enums.SHOT].add(shot)
                 self.game.groups[enums.ALL].add(shot)
                 self.sfx_shot.play()

@@ -26,21 +26,21 @@ import constants
 
 
 class Shot(pygame.sprite.Sprite):
-    def __init__(self, pos, facing_right, img_bullet, speed):
+    def __init__(self, pos, vector, img_bullet):
         super().__init__()
-        self.facing_right = facing_right
-        self.speed = speed # pixels per frame
+        self.vector = vector # direction and speed
         self.image = img_bullet
-        # positions the bullet in front of the weapon
+        # starting position
         self.rect = self.image.get_rect(center = pos.center)
-        if facing_right: self.rect.x = pos.right
-        else: self.rect.x = pos.left - self.rect.width
+        if vector.x > 0: self.rect.x = pos.right
+        elif vector.x < 0: self.rect.x = pos.left - self.rect.width
+        elif vector.y > 0: self.rect.y = pos.bottom + self.rect.height
         
-        
+
     def update(self):
         # moves the bullet according to the direction
-        if self.facing_right: self.rect.x += self.speed
-        else: self.rect.x -= self.speed 
-        # eliminates the bullet if it has reached the sides of the screen
+        if self.vector.x != 0: self.rect.x += self.vector.x
+        elif self.vector.y != 0: self.rect.y += self.vector.y
+        # removes the bullet if it has reached the limits of the screen
         if self.rect.x < 0 or self.rect.x > constants.MAP_UNSCALED_SIZE[0]:
             self.kill()
