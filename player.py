@@ -124,7 +124,7 @@ class Player(pygame.sprite.Sprite):
                 elif self.look_at == enums.LEFT: vector.update(-2, 0)
                 elif self.look_at == enums.RIGHT: vector.update(2, 0)
                 # shot creation
-                shot = Shot(self.rect, vector, self.img_bullet)
+                shot = Shot(self.rect, vector, self.game.srf_map, self.img_bullet)
                 self.game.groups[enums.SHOT].add(shot)
                 self.game.groups[enums.ALL].add(shot)
                 self.sfx_shot.play()
