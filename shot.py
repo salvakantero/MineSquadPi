@@ -25,22 +25,22 @@ import pygame
 
 
 class Shot(pygame.sprite.Sprite):
-    def __init__(self, pos, vector, srf_map, img_bullet):
+    def __init__(self, sprite_rect, map_rect, vector, img_bullet):
         super().__init__()
         self.vector = vector # direction and speed
-        self.srf_map = srf_map # map surface
+        self.map_rect = map_rect # map surface
         self.image = img_bullet
         # starting position
-        self.rect = self.image.get_rect(center = pos.center)
-        if vector.x > 0: self.rect.x = pos.right
-        elif vector.x < 0: self.rect.x = pos.left - self.rect.width
-        elif vector.y < 0: self.rect.y -= pos.height
-        elif vector.y > 0: self.rect.y += pos.height
+        self.rect = self.image.get_rect(center = sprite_rect.center)
+        if vector.x > 0: self.rect.x = sprite_rect.right
+        elif vector.x < 0: self.rect.x = sprite_rect.left - self.rect.width
+        elif vector.y < 0: self.rect.y -= sprite_rect.height
+        elif vector.y > 0: self.rect.y += sprite_rect.height
         
 
     def update(self):
         # moves the bullet according to the direction
         self.rect.move_ip(self.vector)
         # removes the bullet if it has reached the limits of the screen
-        if not self.srf_map.get_rect().colliderect(self.rect):
+        if not self.map_rect.colliderect(self.rect):
             self.kill()
