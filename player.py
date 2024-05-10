@@ -249,10 +249,10 @@ class Player(pygame.sprite.Sprite):
             index += 1
             if tile.colliderect(temp_rect):
                 collision = True
-                if self.direction.x < 0: # adjusts to the right of the tile
-                    self.rect.left = tile.right
-                elif self.direction.x > 0: # adjusts to the left of the tile
-                    self.rect.right = tile.left
+                # killer tile, one life less          
+                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
+                    self.loses_life()
+                    self.scoreboard.invalidate()
                 break # stop the loop after the collision is detected
         if not collision:
             self.rect.x = x_temp # apply the new X position
@@ -271,13 +271,11 @@ class Player(pygame.sprite.Sprite):
             index += 1
             if tile.colliderect(temp_rect):
                 collision = True
-                # obstacles, stops the player from all directions --------------      
-                if self.map.tilemap_behaviour_list[index] == enums.OBSTACLE:
-                    self.direction.y = 0
-                # killer tile, one life less -----------------------------------           
-                elif self.map.tilemap_behaviour_list[index] == enums.KILLER:
+                # killer tile, one life less          
+                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
+                break;
         if not collision:
             self.rect.y = y_temp # apply the new Y position
 
