@@ -39,6 +39,8 @@ V_MARGIN = 20 # vertical distance between the edge and the playing area (windowe
 TIME_REMAINING = 20000 # remaining shield and x-rays time (+-20 secs.)
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
+ANIM_SPEED_IDLE = 16 # loops between each frame change
+ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position
 PLAYER_X_INI = (MAP_UNSCALED_SIZE[0] // 2) - (TILE_SIZE // 2)
 PLAYER_Y_INI = MAP_UNSCALED_SIZE[1] - TILE_SIZE

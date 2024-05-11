@@ -43,18 +43,33 @@ class Player(pygame.sprite.Sprite):
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect or x-ray effect begins
         self.timer_to = constants.TIME_REMAINING # time of shield, x-ray (20 secs.)
-
         # character-specific values
-        if who_is == enums.BLAZE:
-            self.energy = 10
-            self.speed = 1
-        elif who_is == enums.PIPER:
-            self.energy = 5
-            self.speed = 1
-        else:
-            self.energy = 15
-            self.speed = 1
+        self.energy, self.speed = self.set_player_attributes()
+        # sequences of animations for the player depending on its status
+        self.load_player_images(self.who_is)
+        self.frame_index = 0 # frame number
+        self.animation_timer = 16 # timer to change frame
+        self.animation_speed = 16 # frame dwell time
+        self.image = self.image_list[self.state][0] # 1st frame of the animation
+        self.rect = self.image.get_rect(topleft = ( # initial position
+            constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
+        # FX sounds
+        self.load_sounds()
+        # objects and others
+        self.game = game
+        self.map = map
+        self.scoreboard = scoreboard
 
+
+    # set energy and speed based on player type
+    def set_player_attributes(self):
+        if self.who_is == enums.BLAZE:      return 10, 1
+        elif self.who_is == enums.PIPER:    return  5, 2
+        else:                               return 15, 1
+
+
+    # Load player images for animations
+    def load_player_images(self, who_is):
         # sequences of animations for the player depending on its status
         path = 'images/sprites/player/' + str(who_is) + '/'
         self.image_list = {
@@ -95,36 +110,31 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load(path + 'player15.png').convert_alpha(),
                 pygame.image.load(path + 'player12.png').convert_alpha()],
         }
-        self.frame_index = 0 # frame number
-        self.animation_timer = 16 # timer to change frame
-        self.animation_speed = 16 # frame dwell time
-        self.image = self.image_list[self.state][0] # 1st frame of the animation
-        self.rect = self.image.get_rect(topleft = ( # initial position
-            constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
-        self.img_bullet = pygame.image.load('images/sprites/bullet.png').convert_alpha()
-        # sounds
-        self.sfx_shot = pygame.mixer.Sound('sounds/fx/sfx_shot.wav')
+            
+
+    # Load sounds for the player
+    def load_sounds(self):
+        sound_path = 'sounds/fx/'
+        self.sfx_shot = pygame.mixer.Sound(sound_path + 'sfx_shot.wav')
         self.sfx_shot.set_volume(0.7)
-        self.sfx_no_ammo = pygame.mixer.Sound('sounds/fx/sfx_no_ammo.wav')
+        self.sfx_no_ammo = pygame.mixer.Sound(sound_path + 'sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
-        self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav') # touched by an enemy    
-        # objects and others
-        self.game = game
-        self.map = map
-        self.scoreboard = scoreboard
+        self.sfx_death = pygame.mixer.Sound(sound_path + 'sfx_death.wav')  # Touched by an enemy
 
 
     # common code from joystick or keyboard to perform the shot
     def performs_shot(self):
         if self.ammo > 0:       
-            if self.game.groups[enums.SHOT].sprite == None: # no shots on screen
+            if not self.game.groups[enums.SHOT].sprite: # no shots on screen
                 # direction of the shot
-                vector = pygame.math.Vector2(0, -2) # UP
-                if self.look_at == enums.DOWN: vector.update(0, 2)
-                elif self.look_at == enums.LEFT: vector.update(-2, 0)
-                elif self.look_at == enums.RIGHT: vector.update(2, 0)
+                dir_vectors = {
+                    enums.UP: pygame.math.Vector2(0, -2),
+                    enums.DOWN: pygame.math.Vector2(0, 2),
+                    enums.LEFT: pygame.math.Vector2(-2, 0),
+                    enums.RIGHT: pygame.math.Vector2(2, 0) }
+                vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
                 # shot creation
-                shot = Shot(self.rect, self.game.srf_map.get_rect(), vector, self.img_bullet)
+                shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
                 self.game.groups[enums.SHOT].add(shot)
                 self.game.groups[enums.ALL].add(shot)
                 self.sfx_shot.play()
@@ -280,12 +290,23 @@ class Player(pygame.sprite.Sprite):
             self.rect.y = y_temp # apply the new Y position
 
 
+    # invincible effect (player blinks)
+    def handle_invincibility_effect(self):
+        if self.invincible:
+            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
+                self.image.set_alpha(0) # visible
+            else: 
+                self.image.set_alpha(255) # no visible
+        else:
+            self.image.set_alpha(255)
+
+
     def animate(self):
         # animation
-        if (self.state <= enums.IDLE_RIGHT):
-            self.animation_speed = 16 # breathing
-        else:
-            self.animation_speed = 6 # running fast
+        if (self.state <= enums.IDLE_RIGHT): # breathing
+            self.animation_speed = constants.ANIM_SPEED_IDLE
+        else: # walking
+            self.animation_speed = constants.ANIM_SPEED_WALK
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
@@ -297,14 +318,8 @@ class Player(pygame.sprite.Sprite):
         # assigns image according to frame, status and direction
         self.image = self.image_list[self.state][self.frame_index]
         # invincible effect (player blinks)
-        if self.invincible:
-            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-                self.image.set_alpha(0) # visible
-            else: 
-                self.image.set_alpha(255) # no visible
-        else:
-            self.image.set_alpha(255)
-    
+        self.handle_invincibility_effect()
+
 
     # subtracts one life and applies temporary invincibility
     def loses_life(self):
