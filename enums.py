@@ -34,6 +34,9 @@ BLAZE, PIPER, NORMAN = 0, 1, 2
 IDLE_UP, IDLE_DOWN, IDLE_LEFT, IDLE_RIGHT, \
 WALK_UP, WALK_DOWN, WALK_LEFT, WALK_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7
 
+#coordinate axes
+HORIZONTAL, VERTICAL = 0, 1
+
 # directions of movement
 UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
 

@@ -246,48 +246,41 @@ class Player(pygame.sprite.Sprite):
         elif self.direction.x < 0:  self.state = enums.WALK_LEFT
 
 
+    # gets the new rect after applying the movement and check for collision
+    def move(self, axis):
+        if axis == enums.HORIZONTAL:
+            temp_rect = pygame.Rect((self.rect.x + self.direction.x * self.speed, self.rect.y),
+                                    (constants.TILE_SIZE, constants.TILE_SIZE))
+            temp_pos = self.rect.x
+        else: # vertical
+            temp_rect = pygame.Rect((self.rect.x, self.rect.y + self.direction.y * self.speed),
+                                    (constants.TILE_SIZE, constants.TILE_SIZE))
+            temp_pos = self.rect.y
+
+        collision = False
+        # it is necessary to check all colliding tiles.
+        for index, tile in enumerate(self.map.tilemap_rect_list):
+            if tile.colliderect(temp_rect):
+                collision = True
+                # killer tile, one life less 
+                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
+                    self.loses_life()
+                    self.scoreboard.invalidate()
+                break
+        # Apply the new position if no collision occurs
+        if not collision:
+            if axis == enums.HORIZONTAL:
+                self.rect.x = temp_pos + self.direction.x * self.speed
+            else: # vertical
+                self.rect.y = temp_pos + self.direction.y * self.speed
+
+
     def horizontal_mov(self):
-        # gets the new rect after applying the movement and check for collision
-        x_temp = self.rect.x + (self.direction.x * self.speed)
-        temp_rect = pygame.Rect((x_temp, self.rect.y),
-            (constants.TILE_SIZE, constants.TILE_SIZE))
-
-        collision = False # True if at least one tile collides
-        index = -1 # index of the colliding tile to obtain its type
-        # it is necessary to check all colliding tiles.
-        for tile in self.map.tilemap_rect_list:
-            index += 1
-            if tile.colliderect(temp_rect):
-                collision = True
-                # killer tile, one life less          
-                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
-                    self.loses_life()
-                    self.scoreboard.invalidate()
-                break # stop the loop after the collision is detected
-        if not collision:
-            self.rect.x = x_temp # apply the new X position
+        self.move(enums.HORIZONTAL)
 
 
-    def vertical_mov(self):        
-        # gets the new rectangle after applying the movement and check for collision
-        y_temp = self.rect.y + (self.direction.y * self.speed)
-        temp_rect = pygame.Rect((self.rect.x, y_temp), 
-            (constants.TILE_SIZE, constants.TILE_SIZE))  
-
-        collision = False # True if at least one tile collides
-        index = -1 # index of the colliding tile to obtain its type
-        # it is necessary to check all colliding tiles.
-        for tile in self.map.tilemap_rect_list:
-            index += 1
-            if tile.colliderect(temp_rect):
-                collision = True
-                # killer tile, one life less          
-                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
-                    self.loses_life()
-                    self.scoreboard.invalidate()
-                break;
-        if not collision:
-            self.rect.y = y_temp # apply the new Y position
+    def vertical_mov(self):
+        self.move(enums.VERTICAL)
 
 
     # invincible effect (player blinks)
