@@ -143,7 +143,7 @@ class Player(pygame.sprite.Sprite):
         else: # no bullets
             self.sfx_no_ammo.play()
 
-
+    """
     # keyboard/mouse/joystick keystroke input
     def get_input(self):      
         if self.game.joystick is not None: # manages the joystick/joypad/gamepad
@@ -234,6 +234,63 @@ class Player(pygame.sprite.Sprite):
         # if it exceeds the tile size...
         if self.steps >= constants.TILE_SIZE-1: 
             self.steps = -1 # it stops
+    """
+
+    def get_input(self):
+        def handle_joystick_movement():
+            if self.steps < 0:
+                axis_x = self.game.joystick.get_axis(0)
+                axis_y = self.game.joystick.get_axis(1)
+
+                def eliminate_false_movements(value):
+                    return value if abs(value) >= 0.1 else 0.0
+
+                axis_x = eliminate_false_movements(axis_x)
+                axis_y = eliminate_false_movements(axis_y)
+
+                directions = [
+                    (0, -1, enums.UP),
+                    (0, 1, enums.DOWN),
+                    (-1, 0, enums.LEFT),
+                    (1, 0, enums.RIGHT)
+                ]
+
+                for dx, dy, look_at in directions:
+                    if axis_x > 0.5 or axis_y > 0.5:
+                        self.direction.update(dx, dy)
+                        self.look_at = look_at
+                        self.steps += 1
+                        return
+
+                self.direction.update(0, 0)
+
+        if self.game.joystick is not None:
+            handle_joystick_movement()
+        else:
+            key_state = pygame.key.get_pressed()
+
+            key_directions = {
+                self.game.config.up_key: (0, -1, enums.UP),
+                self.game.config.down_key: (0, 1, enums.DOWN),
+                self.game.config.left_key: (-1, 0, enums.LEFT),
+                self.game.config.right_key: (1, 0, enums.RIGHT)
+            }
+
+            for key, (dx, dy, look_at) in key_directions.items():
+                if key_state[key]:
+                    self.direction.update(dx, dy)
+                    self.look_at = look_at
+                    self.steps += 1
+                    return
+
+            self.direction.update(0, 0)
+
+        if self.steps >= 0:
+            self.steps += 1
+
+        if self.steps >= constants.TILE_SIZE - 1:
+            self.steps = -1
+
 
 
     # player status according to movement
