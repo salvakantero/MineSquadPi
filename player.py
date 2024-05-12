@@ -143,9 +143,17 @@ class Player(pygame.sprite.Sprite):
         else: # no bullets
             self.sfx_no_ammo.play()
 
-    """
+
     # keyboard/mouse/joystick keystroke input
-    def get_input(self):      
+    def get_input(self): 
+        def update_steps():
+            # distance travelled control
+            if self.steps >= 0: 
+                self.steps += 1 # continue walking
+            # if it exceeds the tile size...
+            if self.steps >= constants.TILE_SIZE-1: 
+                self.steps = -1 # it stops
+
         if self.game.joystick is not None: # manages the joystick/joypad/gamepad
             # press fire
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
@@ -156,8 +164,10 @@ class Player(pygame.sprite.Sprite):
                 axis_x = self.game.joystick.get_axis(0)
                 axis_y = self.game.joystick.get_axis(1)
                 # eliminates false movements
-                if abs(axis_x) < 0.1: axis_x = 0.0
-                if abs(axis_y) < 0.1: axis_y = 0.0    
+                def eliminate_false_movements(value):
+                    return value if abs(value) >= 0.1 else 0.0
+                axis_x = eliminate_false_movements(axis_x)
+                axis_y = eliminate_false_movements(axis_y)
                 # press up
                 if axis_y < -0.5:
                     self.direction.update(0, -1)
@@ -185,7 +195,6 @@ class Player(pygame.sprite.Sprite):
                 # without movement
                 else:
                     self.direction.update(0, 0)
-
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
             # press fire or left mouse button
@@ -229,68 +238,7 @@ class Player(pygame.sprite.Sprite):
                 # ================================================================          
 
         # distance travelled control
-        if self.steps >= 0: 
-            self.steps += 1 # continue walking
-        # if it exceeds the tile size...
-        if self.steps >= constants.TILE_SIZE-1: 
-            self.steps = -1 # it stops
-    """
-
-    def get_input(self):
-        def handle_joystick_movement():
-            if self.steps < 0:
-                axis_x = self.game.joystick.get_axis(0)
-                axis_y = self.game.joystick.get_axis(1)
-
-                def eliminate_false_movements(value):
-                    return value if abs(value) >= 0.1 else 0.0
-
-                axis_x = eliminate_false_movements(axis_x)
-                axis_y = eliminate_false_movements(axis_y)
-
-                directions = [
-                    (0, -1, enums.UP),
-                    (0, 1, enums.DOWN),
-                    (-1, 0, enums.LEFT),
-                    (1, 0, enums.RIGHT)
-                ]
-
-                for dx, dy, look_at in directions:
-                    if axis_x > 0.5 or axis_y > 0.5:
-                        self.direction.update(dx, dy)
-                        self.look_at = look_at
-                        self.steps += 1
-                        return
-
-                self.direction.update(0, 0)
-
-        if self.game.joystick is not None:
-            handle_joystick_movement()
-        else:
-            key_state = pygame.key.get_pressed()
-
-            key_directions = {
-                self.game.config.up_key: (0, -1, enums.UP),
-                self.game.config.down_key: (0, 1, enums.DOWN),
-                self.game.config.left_key: (-1, 0, enums.LEFT),
-                self.game.config.right_key: (1, 0, enums.RIGHT)
-            }
-
-            for key, (dx, dy, look_at) in key_directions.items():
-                if key_state[key]:
-                    self.direction.update(dx, dy)
-                    self.look_at = look_at
-                    self.steps += 1
-                    return
-
-            self.direction.update(0, 0)
-
-        if self.steps >= 0:
-            self.steps += 1
-
-        if self.steps >= constants.TILE_SIZE - 1:
-            self.steps = -1
-
+        update_steps()
 
 
     # player status according to movement
@@ -340,18 +288,16 @@ class Player(pygame.sprite.Sprite):
         self.move(enums.VERTICAL)
 
 
-    # invincible effect (player blinks)
-    def handle_invincibility_effect(self):
-        if self.invincible:
-            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-                self.image.set_alpha(0) # visible
-            else: 
-                self.image.set_alpha(255) # no visible
-        else:
-            self.image.set_alpha(255)
-
-
     def animate(self):
+        # invincible effect (player blinks)
+        def handle_invincibility_effect():
+            if self.invincible:
+                if (self.game.loop_counter >> 3) & 1 == 0: # % 8
+                    self.image.set_alpha(0) # visible
+                else: 
+                    self.image.set_alpha(255) # no visible
+            else:
+                self.image.set_alpha(255)
         # animation
         if (self.state <= enums.IDLE_RIGHT): # breathing
             self.animation_speed = constants.ANIM_SPEED_IDLE
@@ -368,7 +314,7 @@ class Player(pygame.sprite.Sprite):
         # assigns image according to frame, status and direction
         self.image = self.image_list[self.state][self.frame_index]
         # invincible effect (player blinks)
-        self.handle_invincibility_effect()
+        handle_invincibility_effect()
 
 
     # subtracts one life and applies temporary invincibility

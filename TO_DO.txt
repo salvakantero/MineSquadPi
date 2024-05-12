@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- optimizar detección de colisiones con TILES
 
 
 BUGS
@@ -28,6 +27,7 @@ POR HACER
 
 HECHO
 =====
+12/05/2024 - optimizar clase PLAYER
 08/05/2024 - disparos horizontales y verticales
 05/05/2024 - movimiento del player de tile a tile
 02/05/2024 - intermitencia de invisibilidad más suave, por múltiplo de nº de loop
