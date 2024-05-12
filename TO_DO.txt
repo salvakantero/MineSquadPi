@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- aplicar técnicas de buscaminas al mapa
 
 
 BUGS
@@ -15,14 +16,14 @@ POR HACER
 - graficos de BLAZE
 - animación del player con el IDLE impar??
 - selección del jugador al comenzar la partida
-- mapas más altos que la pantalla y scroll vertical
-- un tema musical tranquilo para cada nivel
 - tiles que matan (definir y aplicar)
 - tiles animados
 - objeto escudo (invencibilidad)
 - objeto rayos x (mayor rango de visión)
 - fondos IA para la vista 16:9
 - técnicas QUADTREE para detección de colisiones
+- mapas más altos que la pantalla y scroll vertical
+- un tema musical tranquilo para cada nivel
 
 
 HECHO
