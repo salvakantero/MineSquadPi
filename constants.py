@@ -30,10 +30,12 @@ MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
 MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
 MAP_SCALED_SIZE = 720, 480 # map size scaled x3 (windowed mode)
 MAP_UNSCALED_SIZE = 240, 160 # map size (unscaled)
+MAP_TILE_SIZE = 15, 10 # map size in tiles
 SBOARD_SCALED_SIZE = 720, 114 # scoreboard size scaled x3 (windowed mode)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
+NUM_MINES = 5, 6, 8, 10, 12 # number of mines per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield and x-rays time (+-20 secs.)

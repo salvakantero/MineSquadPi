@@ -43,12 +43,14 @@ class Map():
         self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
+        self.mine_data = []
 
 
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
         self.draw_map() # draws the tile map on the screen
+        self.generate_mines() # randomly places mines on the map.
 
 
     # dump the tiled file into mapdata
@@ -90,6 +92,26 @@ class Map():
     def find_data(self, lst, key, value):
         matches = [d for d in lst if d[key] == value]
         return matches[0] if matches else None
+
+
+    # función para generar las minas en el mapa de juego
+    def generate_mines(self):
+        # tablero de 15x10 ceros
+        self.mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
+        # lista de minas (x posiciones aleatorias en el tablero)
+        mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
+                              constants.NUM_MINES[self.number])
+        for mine in mines:
+            # según el nº de casilla obtiene la fila,columna
+            row, col = divmod(mine, constants.MAP_TILE_SIZE[0])
+            # marca la casilla con mina (-1)
+            self.mine_data[row][col] = -1
+            # marca las casillas adyacentes
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0] \
+                        and self.mine_data[i][j] != -1:
+                        self.mine_data[i][j] += 1
 
 
     # draws the tile map on the screen
