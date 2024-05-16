@@ -50,7 +50,7 @@ class Map():
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
         self.draw_map() # draws the tile map on the screen
-        self.generate_mines() # randomly places mines on the map.
+        self.mine_data = self.generate_mines() # randomly places mines on the map.
 
 
     # dump the tiled file into mapdata
@@ -97,21 +97,31 @@ class Map():
     # función para generar las minas en el mapa de juego
     def generate_mines(self):
         # tablero de 15x10 ceros
-        self.mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
+        mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
+
+        # Lista de todos los índices de tiles
+        all_tiles = range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1])
+        # Eliminar los índices de los tiles no transitables
+        transitables_indices = [i for i in all_tiles if i not in self.tilemap_rect_list]
+        # Lista de minas (15 posiciones aleatorias en los tiles transitables)
+        mines = random.sample(transitables_indices, constants.NUM_MINES[self.number])
+
         # lista de minas (x posiciones aleatorias en el tablero)
-        mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
-                              constants.NUM_MINES[self.number])
+        #mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
+        #                      constants.NUM_MINES[self.number])
         for mine in mines:
             # según el nº de casilla obtiene la fila,columna
             row, col = divmod(mine, constants.MAP_TILE_SIZE[0])
             # marca la casilla con mina (-1)
-            self.mine_data[row][col] = -1
+            mine_data[row][col] = -1
             # marca las casillas adyacentes
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
-                    if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0] \
-                        and self.mine_data[i][j] != -1:
-                        self.mine_data[i][j] += 1
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] \
+                        and 0 <= j < constants.MAP_TILE_SIZE[0] \
+                        and mine_data[i][j] != -1:
+                        mine_data[i][j] += 1
+        return mine_data
 
 
     # draws the tile map on the screen
