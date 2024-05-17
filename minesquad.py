@@ -116,7 +116,7 @@ while True:
         # collision between player and enemies or hotspots      
         game.check_player_collisions(player, scoreboard, map.number)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard, map.tilemap_rect_list)
+        game.check_bullet_collisions(player, scoreboard, map.tilemap_info)
 
         # game over?
         if player.energy == 0:           

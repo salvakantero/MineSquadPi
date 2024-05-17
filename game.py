@@ -511,11 +511,11 @@ class Game():
                 return
 
 
-    def check_bullet_collisions(self, player, scoreboard, tilemap_rect_list):  
+    def check_bullet_collisions(self, player, scoreboard, tilemap_info):  
         # bullets and map tiles
         if self.groups[enums.SHOT].sprite is not None: # shot in progress
             bullet_rect = self.groups[enums.SHOT].sprite.rect
-            for tile in tilemap_rect_list:
+            for tile, _ in tilemap_info:
                 if tile.colliderect(bullet_rect):
                     self.groups[enums.SHOT].sprite.kill()
                     break                                      

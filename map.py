@@ -39,8 +39,7 @@ class Map():
         self.game = game
         self.number = 0 # current map
         self.last = -1 # last map loaded
-        self.tilemap_rect_list = [] # list of tile rects (except for transparent ones)
-        self.tilemap_behaviour_list = [] # list of tile behaviours (obstacle, platform, etc.)
+        self.tilemap_info = [] # list of tile rects and behaviours (except for transparent ones)
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         self.mine_data = []
@@ -98,17 +97,9 @@ class Map():
     def generate_mines(self):
         # tablero de 15x10 ceros
         mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
-
-        # Lista de todos los índices de tiles
-        all_tiles = range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1])
-        # Eliminar los índices de los tiles no transitables
-        transitables_indices = [i for i in all_tiles if i not in self.tilemap_rect_list]
-        # Lista de minas (15 posiciones aleatorias en los tiles transitables)
-        mines = random.sample(transitables_indices, constants.NUM_MINES[self.number])
-
         # lista de minas (x posiciones aleatorias en el tablero)
-        #mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
-        #                      constants.NUM_MINES[self.number])
+        mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
+                              constants.NUM_MINES[self.number])
         for mine in mines:
             # según el nº de casilla obtiene la fila,columna
             row, col = divmod(mine, constants.MAP_TILE_SIZE[0])
@@ -126,8 +117,7 @@ class Map():
 
     # draws the tile map on the screen
     def draw_map(self):
-        self.tilemap_rect_list.clear()
-        self.tilemap_behaviour_list.clear()
+        self.tilemap_info.clear()
         #self.anim_tiles_list.clear()
         # scroll through the map data
         for y in range(0, self.map_data['height']):
@@ -141,7 +131,7 @@ class Map():
                 self.game.srf_map.blit(tile, tileRect)
 
                 # generates the list of rects and behaviour of the current map
-                # from T16.png to T35.png: blocking tiles (OBSTABLE)
+                # from T16.png to T35.png: blocking tiles (OBSTACLE)
                 # from T70.png to T75.png: tiles that kill (KILLER)
                 tn = self.get_tile_number(t['image'])            
                 behaviour = enums.NO_ACTION
@@ -149,8 +139,7 @@ class Map():
                 elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.NO_ACTION:
-                    self.tilemap_rect_list.append(tileRect)
-                    self.tilemap_behaviour_list.append(behaviour)
+                    self.tilemap_info.append((tileRect, behaviour))
 
                 # generates the list of animated tiles of the current map
                 # (frame_1, frame_2, x, y, num_frame)

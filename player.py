@@ -264,14 +264,15 @@ class Player(pygame.sprite.Sprite):
 
         collision = False
         # it is necessary to check all colliding tiles.
-        for index, tile in enumerate(self.map.tilemap_rect_list):
-            if tile.colliderect(temp_rect):
+        for tileRect, behaviour in self.map.tilemap_info:
+            if tileRect.colliderect(temp_rect):
                 collision = True
                 # killer tile, one life less 
-                if self.map.tilemap_behaviour_list[index] == enums.KILLER:
+                if behaviour == enums.KILLER:
                     self.loses_life()
                     self.scoreboard.invalidate()
                 break
+
         # Apply the new position if no collision occurs
         if not collision:
             if axis == enums.HORIZONTAL:
