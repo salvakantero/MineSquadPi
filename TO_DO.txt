@@ -167,25 +167,3 @@ pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
 Para generar un tar.gz:
 tar cvzf RedPlanetPi.tar.gz RedPlanetPi
-
-
-Booty Review
-
-1. ¿Te acuerdas del Booty original de antaño?
-Ya lo creo. 
-Supongo que mi primer contacto fue en algún momento del año 85, en su versión Spectrum.
-Nunca lo conseguí acabar. Me parecía muy difícil pero era uno de los pocos juegos en el 
-que tenía claro el objetivo a conseguir y el % de juego completado. Y le eché bastantes 
-horas.
-
-2. Qué crees que lo hizo tan popular?
-Aunque ya en su época me parecía mejorable en gráficos y animaciones, el juego era 
-razonablemente rápido, colorido y muy adictivo.
-
-3. Cómo surgió el remake?
-4. ¿Qué cambios introdujo?
-5. ¿Recuerdas la música de Booty? Era tan molesta jaja
-6. ¿Consideraste rehacer el efecto de mar brillante de la pantalla de título?
-7. ¿Has hecho algún otro remake, o estás considerando hacer alguno más?
-8. ¿Has considerado añadir algo más a tu remake?
-9. ¿Algo más sobre el remake de Booty/Booty que creas que pueda interesar a los lectores?
