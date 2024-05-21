@@ -93,24 +93,27 @@ class Map():
         return matches[0] if matches else None
 
 
-    # función para generar las minas en el mapa de juego
-    def generate_mines(self):
-        # tablero de 15x10 ceros
+    # function to generate mines on the game map
+    def generate_mines(self):      
+        tile_data = self.map_data['data'] # list of tiles that make up the map
+        walkable_tiles = [] # list of passable tiles (from tile_data)
+        for row_index, row in enumerate(tile_data):
+            for col_index, tile in enumerate(row):
+                if tile < 15: # If number of tile less than 15, is passable
+                    walkable_tiles.append((row_index, col_index))
+        # initial mine map with all its values at 0
         mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
-        # lista de minas (x posiciones aleatorias en el tablero)
-        mines = random.sample(range(constants.MAP_TILE_SIZE[0] * constants.MAP_TILE_SIZE[1]), 
-                              constants.NUM_MINES[self.number])
+        # choose random mine positions among the passable tiles
+        mines = random.sample(walkable_tiles, constants.NUM_MINES[self.number])
         for mine in mines:
-            # según el nº de casilla obtiene la fila,columna
-            row, col = divmod(mine, constants.MAP_TILE_SIZE[0])
-            # marca la casilla con mina (-1)
-            mine_data[row][col] = -1
-            # marca las casillas adyacentes
+            row, col = mine
+            mine_data[row][col] = -1 # mark the mine
+            # Increases the counter of adjacent tiles.
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
-                        and 0 <= j < constants.MAP_TILE_SIZE[0] \
-                        and mine_data[i][j] != -1:
+                    and 0 <= j < constants.MAP_TILE_SIZE[0] \
+                    and mine_data[i][j] != -1:
                         mine_data[i][j] += 1
         return mine_data
 
@@ -133,7 +136,7 @@ class Map():
                 # generates the list of rects and behaviour of the current map
                 # from T16.png to T35.png: blocking tiles (OBSTACLE)
                 # from T70.png to T75.png: tiles that kill (KILLER)
-                tn = self.get_tile_number(t['image'])            
+                tn = self.get_tile_number(t['image'])
                 behaviour = enums.NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
