@@ -96,15 +96,17 @@ class Map():
     # function to generate mines on the game map
     def generate_mines(self):      
         tile_data = self.map_data['data'] # list of tiles that make up the map
-        walkable_tiles = [] # list of passable tiles (from tile_data)
+        available_tiles = [] # list of tiles on which to lay mines
         for row_index, row in enumerate(tile_data):
             for col_index, tile in enumerate(row):
-                if tile < 15: # If number of tile less than 15, is passable
-                    walkable_tiles.append((row_index, col_index))
+                # if number of tile less than 15, is passable
+                # we will not use the two rows closest to the player.
+                if tile < 15 and row_index < len(tile_data) - 2:
+                    available_tiles.append((row_index, col_index))
         # initial mine map with all its values at 0
         mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
         # choose random mine positions among the passable tiles
-        mines = random.sample(walkable_tiles, constants.NUM_MINES[self.number])
+        mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
         for mine in mines:
             row, col = mine
             mine_data[row][col] = -1 # mark the mine

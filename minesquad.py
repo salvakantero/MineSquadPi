@@ -104,7 +104,7 @@ while True:
         if map.number != map.last:
             map.change(player, scoreboard)
 
-        # everything blows up and our player wins the game
+        # our player wins the game
         if game.win_secuence > 0:
             game.win(player.score)         
             player.score += 15 # 350x15 = +5250 points
