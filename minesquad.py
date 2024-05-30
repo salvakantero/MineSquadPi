@@ -130,6 +130,10 @@ while True:
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
+
+        # draws the location of the mines (every 8 loops)
+        if (game.loop_counter >> 3) & 1 == 0: # % 8
+            map.draw_mine_data()
         
         # draws the sprites in their new positions
         game.groups[enums.ALL].draw(game.srf_map)

@@ -43,6 +43,8 @@ class Map():
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
         self.mine_data = []
+        self.revealed_tiles = [[False] * constants.MAP_TILE_SIZE[0] 
+                               for _ in range(constants.MAP_TILE_SIZE[1])]
 
 
     # loads a map and draws it on screen
@@ -153,6 +155,32 @@ class Map():
                 #        [tile, pygame.image.load('images/tiles/' 
                 #        + constants.ANIM_TILES[t['image']]).convert(), 
                 #        tileRect.topleft[0], tileRect.topleft[1], 0])
+
+
+    def reveal_tile(self, row, col):
+        # Check bounds
+        if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:
+            # Reveal this tile
+            self.revealed_tiles[row][col] = True
+            # If this tile has no mines around it, reveal adjacent tiles
+            if self.mine_data[row][col] == 0:
+                for i in range(row - 1, row + 2):
+                    for j in range(col - 1, col + 2):
+                        if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
+                            if not self.revealed_tiles[i][j]:
+                                self.reveal_tile(i, j)
+
+
+    def draw_mine_data(self):
+        font = pygame.font.Font(None, 24)  # Fuente para dibujar los números
+        for row_index, row in enumerate(self.mine_data):
+            for col_index, value in enumerate(row):
+                if value > 0:  # Solo dibuja números si hay minas cercanas
+                    text = font.render(str(value), True, (255, 0, 0))  # Crea el texto con color rojo
+                    text_rect = text.get_rect()
+                    text_rect.center = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2, 
+                                        row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                    self.game.srf_map.blit(text, text_rect)
 
 
     # select some of the animated tiles on the current map to change the frame
