@@ -33,7 +33,7 @@ class Intro():
         self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro logo  
         self.img_intro = pygame.image.load('images/assets/intro.png').convert() # background
         # sounds
-        self.sfx_logo = pygame.mixer.Sound('sounds/fx/sfx_logo.wav') # PlayOnRetro logo sound
+        self.sfx_logo = pygame.mixer.Sound('sounds/fx/sfx_logo.wav') # PlayOnRetro logo sfx
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
