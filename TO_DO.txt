@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-
+- visualizar los datos de minas en el mapa con el movimiento del player
 
 BUGS
 ====
@@ -12,18 +12,20 @@ BUGS
 
 POR HACER
 =========
-- visualizar los datos de minas en el mapa con el movimiento del player
 - graficos de BLAZE
+- graficos de PIPER
+- gráficos de NORMAN
 - animación del player con el IDLE impar??
 - selección del jugador al comenzar la partida
 - tiles que matan (definir y aplicar)
 - tiles animados
 - objeto escudo (invencibilidad)
-- objeto rayos x (mayor rango de visión)
+- objeto binoculares (mayor rango de visión)
 - fondos IA para la vista 16:9
-- técnicas QUADTREE para detección de colisiones
-- mapas más altos que la pantalla y scroll vertical
+- técnicas QUADTREE para detección de colisiones?
+- mapas más largos que la pantalla y scroll vertical
 - un tema musical tranquilo para cada nivel
+- cronómetro para descontar puntos al final de cada nivel
 
 
 HECHO

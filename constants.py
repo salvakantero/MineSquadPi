@@ -271,9 +271,11 @@ HOTSPOT_DATA = [
 ]   
 
 # help for the main menu
-HELP = 'Select (START NEW GAME) to start a game from the beginning '
-HELP += 'or (CONTINUE GAME) to continue the previous game from the last completed level! '
-HELP += '(ESC) to exit...'
+HELP = 'Press a menu option to continue or ESC to exit...     '
+HELP += 'Mark all the mines in each level with the available flags '
+HELP += 'as quickly as possible to clear the way for your troops. '
+HELP += 'To do so, use the proximity information displayed on the screen. '
+HELP += 'Watch out! a horde of enemies is waiting to make things difficult for you... '
 
 # credits for the main menu
 CREDITS  = 'Mine Squad Pi v1.0 (2024)     '
