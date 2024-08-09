@@ -41,8 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.IDLE_UP # to know the animation to be applied
         self.look_at = enums.UP # where the player looks
         self.invincible = False # invincible after losing a life or take a shield
-        self.timer_from = 0 # tick number when the shield effect or x-ray effect begins
-        self.timer_to = constants.TIME_REMAINING # time of shield, x-ray (20 secs.)
+        self.timer_from = 0 # tick number when the shield effect or binoculars effect begins
+        self.timer_to = constants.TIME_REMAINING # time of shield, binoculars (20 secs.)
         # character-specific values
         self.energy, self.speed = self.set_player_attributes()
         # sequences of animations for the player depending on its status
@@ -301,7 +301,7 @@ class Player(pygame.sprite.Sprite):
                 self.image.set_alpha(255)
         # animation
         if (self.state <= enums.IDLE_RIGHT): # breathing
-            self.animation_speed = constants.ANIM_SPEED_IDLE
+            self.animation_speed = constants.ANIM_SPEED_IDLE # slower
         else: # walking
             self.animation_speed = constants.ANIM_SPEED_WALK
         self.animation_timer += 1

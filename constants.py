@@ -38,7 +38,7 @@ V_MARGIN = 20 # vertical distance between the edge and the playing area (windowe
 NUM_MINES = 5, 6, 8, 10, 12 # number of mines per map
 
 # player
-TIME_REMAINING = 20000 # remaining shield and x-rays time (+-20 secs.)
+TIME_REMAINING = 20000 # remaining shield and binoculars time (+-20 secs.)
 MAX_AMMO = 50 # maximum number of bullets
 AMMO_ROUND = 20 # bullets per reload
 ANIM_SPEED_IDLE = 16 # loops between each frame change
@@ -237,31 +237,31 @@ HOTSPOT_DATA = [
     [enums.AMMO, 13, 3, True],
     [enums.SHIELD, 13, 7, True],
     [enums.SHIELD, 1, 7, True],
-    [enums.XRAY, 13, 1, True],
-    [enums.XRAY, 7, 8, True],
+    [enums.BIN, 13, 1, True],
+    [enums.BIN, 7, 8, True],
     [enums.SHIELD, 5, 3, True],
     [enums.AMMO, 11, 3, True],
     [enums.SHIELD, 13, 6, True],
-    [enums.XRAY, 6, 8, True],
+    [enums.BIN, 6, 8, True],
     [enums.SHIELD, 6, 1, True],
     [enums.AMMO, 8, 4, True],
     [enums.SHIELD, 2, 8, True],
-    [enums.XRAY, 13, 3, True],
-    [enums.XRAY, 12, 2, True],
+    [enums.BIN, 13, 3, True],
+    [enums.BIN, 12, 2, True],
     [enums.AMMO, 1, 7, True],
     [enums.SHIELD, 1, 3, True],
     [enums.AMMO, 13, 4, True],
     [enums.AMMO, 8, 2, True],
     [enums.SHIELD, 13, 6, True],
-    [enums.XRAY, 1, 8, True],
+    [enums.BIN, 1, 8, True],
     [enums.SHIELD, 7, 2, True],
     [enums.AMMO, 1, 5, True],
     [enums.SHIELD, 7, 8, True],
-    [enums.XRAY, 7, 8, True],
+    [enums.BIN, 7, 8, True],
     [enums.AMMO, 1, 6, True],
-    [enums.XRAY, 6, 7, True],
+    [enums.BIN, 6, 7, True],
     [enums.SHIELD, 2, 3, True],
-    [enums.XRAY, 12, 6, True],
+    [enums.BIN, 12, 6, True],
     [enums.SHIELD, 12, 1, True],
     [enums.AMMO, 6, 1, True],
     [enums.SHIELD, 13, 4, True],

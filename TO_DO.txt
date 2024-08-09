@@ -88,7 +88,7 @@ Notas
     Se distribuyen por el mapa aleatoriamente.
     Vida extra: +1
     Munición: permite disparar (+20)
-    Rayos X: se destapan 2 filas más de celdas cercanas al player (30 secs.)
+    Binoculares: se destapan 2 filas más de celdas cercanas al player (30 secs.)
     Escudo: invencible (30 secs.)
     Regalos: puntuación extra
         Chuche #1    50

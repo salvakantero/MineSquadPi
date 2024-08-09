@@ -65,9 +65,9 @@ while True:
         game.win_secuence = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[3] = True # all visible hotspots
-            
-        if game.new:
-            map.number = 0 # current map
+        # current map
+        if game.new: # start a new game
+            map.number = 0
         else: # load the last checkpoint
             game.checkpoint.load() # loading the file
             #assigns the loaded data to the objects

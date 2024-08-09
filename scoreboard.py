@@ -61,7 +61,7 @@ class Scoreboard():
         # icons
         self.srf_sboard.blit(self.energy_icon, (0, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (82, 2))
-        #self.srf_sboard.blit(self.hotspot_images[enums.XRAY], (145, 2))
+        #self.srf_sboard.blit(self.hotspot_images[enums.BIN], (145, 2))
         #self.srf_sboard.blit(self.hotspot_images[enums.SHIELD], (186, 2))
         # fixed texts
         self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
