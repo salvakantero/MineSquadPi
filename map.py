@@ -172,15 +172,12 @@ class Map():
 
 
     def draw_mine_data(self):
-        font = pygame.font.Font(None, 24)  # Fuente para dibujar los números
         for row_index, row in enumerate(self.mine_data):
             for col_index, value in enumerate(row):
-                if value > 0:  # Solo dibuja números si hay minas cercanas
-                    text = font.render(str(value), True, (255, 0, 0))  # Crea el texto con color rojo
-                    text_rect = text.get_rect()
-                    text_rect.center = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2, 
-                                        row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                    self.game.srf_map.blit(text, text_rect)
+                if value > 0 and self.revealed_tiles[row_index, col_index]:
+                    x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 1
+                    y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 3
+                    self.game.fonts[enums.S_F_RED].render(str(value), self.game.srf_map, (x,y))
 
 
     # select some of the animated tiles on the current map to change the frame

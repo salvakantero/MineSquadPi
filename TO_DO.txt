@@ -30,6 +30,7 @@ POR HACER
 
 HECHO
 =====
+11/08/2024 - visualizar los datos de minas en el mapa con fuentes propias (no del sistema)
 21/05/2024 - aplicar datos de minas al mapa al estilo buscaminas
 12/05/2024 - optimizar clase PLAYER
 08/05/2024 - disparos horizontales y verticales
