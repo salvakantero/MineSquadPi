@@ -42,14 +42,15 @@ class Map():
         self.tilemap_info = [] # list of tile rects and behaviours (except for transparent ones)
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {}
+        self.revealed_tiles = {}
         self.mine_data = []
-        self.revealed_tiles = [[False] * constants.MAP_TILE_SIZE[0] 
-                               for _ in range(constants.MAP_TILE_SIZE[1])]
 
 
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
+        self.revealed_tiles = [[False] * constants.MAP_TILE_SIZE[0] 
+                               for _ in range(constants.MAP_TILE_SIZE[1])]
         self.draw_map() # draws the tile map on the screen
         self.mine_data = self.generate_mines() # randomly places mines on the map.
 

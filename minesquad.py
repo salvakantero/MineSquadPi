@@ -68,6 +68,7 @@ while True:
         # current map
         if game.new: # start a new game
             map.number = 0
+            map.revealed_tiles
         else: # load the last checkpoint
             game.checkpoint.load() # loading the file
             #assigns the loaded data to the objects
