@@ -174,7 +174,7 @@ class Map():
     def draw_mine_data(self):
         for row_index, row in enumerate(self.mine_data):
             for col_index, value in enumerate(row):
-                if value > 0 and self.revealed_tiles[row_index, col_index]:
+                if value > 0 and self.revealed_tiles[row_index][col_index]:
                     x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 1
                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 3
                     self.game.fonts[enums.S_F_RED].render(str(value), self.game.srf_map, (x,y))

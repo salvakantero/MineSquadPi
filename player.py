@@ -279,7 +279,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x = temp_pos + self.direction.x * self.speed
             else: # vertical
                 self.rect.y = temp_pos + self.direction.y * self.speed
-
+            self.map.reveal_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
 
     def horizontal_mov(self):
         self.move(enums.HORIZONTAL)
