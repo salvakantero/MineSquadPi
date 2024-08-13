@@ -4,15 +4,15 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- visualizar los datos de minas en el mapa con el movimiento del player
+- graficos de BLAZE
+
 
 BUGS
 ====
-
+- minas matan al player
 
 POR HACER
 =========
-- graficos de BLAZE
 - graficos de PIPER
 - gráficos de NORMAN
 - animación del player con el IDLE impar??
@@ -30,6 +30,7 @@ POR HACER
 
 HECHO
 =====
+13/08/2024 - visualizar los datos de minas en el mapa con el movimiento del player
 11/08/2024 - visualizar los datos de minas en el mapa con fuentes propias (no del sistema)
 21/05/2024 - aplicar datos de minas al mapa al estilo buscaminas
 12/05/2024 - optimizar clase PLAYER

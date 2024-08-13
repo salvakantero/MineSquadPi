@@ -162,14 +162,14 @@ class Map():
         # Check bounds
         if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:
             # Reveal this tile
-            self.revealed_tiles[row][col] = True
-            # If this tile has no mines around it, reveal adjacent tiles
+            #self.revealed_tiles[row][col] = True
+            # If this tile has no mines around it, reveal adjacent tiles            
             if self.mine_data[row][col] == 0:
                 for i in range(row - 1, row + 2):
                     for j in range(col - 1, col + 2):
                         if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
                             if not self.revealed_tiles[i][j]:
-                                self.reveal_tile(i, j)
+                                self.revealed_tiles[i][j] = True
 
 
     def draw_mine_data(self):
