@@ -41,9 +41,9 @@ class Map():
         self.last = -1 # last map loaded
         self.tilemap_info = [] # list of tile rects and behaviours (except for transparent ones)
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
-        self.map_data = {}
-        self.revealed_tiles = {}
-        self.mine_data = []
+        self.map_data = {} # tiles that make up the map
+        self.revealed_tiles = {} # tiles trodden by the player
+        self.mine_data = [] # location of the mines on the map
 
 
     # loads a map and draws it on screen
@@ -161,25 +161,25 @@ class Map():
     def reveal_tile(self, row, col):
         # Check bounds
         if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:
-            # Reveal this tile
-            #self.revealed_tiles[row][col] = True
-            # If this tile has no mines around it, reveal adjacent tiles            
-            if self.mine_data[row][col] == 0:
-                for i in range(row - 1, row + 2):
-                    for j in range(col - 1, col + 2):
-                        if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
-                            if not self.revealed_tiles[i][j]:
-                                self.revealed_tiles[i][j] = True
+            # reveal adjacent tiles            
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
+                        if not self.revealed_tiles[i][j]:
+                            self.revealed_tiles[i][j] = True
 
 
     def draw_mine_data(self):
+        tile_data = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.mine_data):
             for col_index, value in enumerate(row):
-                if value > 0 and self.revealed_tiles[row_index][col_index]:
-                    x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 1
-                    y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2) - 3
-                    self.game.fonts[enums.S_F_RED].render(str(value), self.game.srf_map, (x,y))
-
+                if value > 0 \
+                and self.revealed_tiles[row_index][col_index] \
+                and tile_data[row_index][col_index] < 15:
+                    x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                    y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                    self.game.fonts[enums.S_B_GREEN].render(str(value), self.game.srf_map, (x-1,y-3))
+                    self.game.fonts[enums.S_F_GREEN].render(str(value), self.game.srf_map, (x-2,y-4))
 
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 
@@ -238,6 +238,8 @@ class Map():
         self.game.floating_text.y = 0
         # add the player  
         self.game.groups[enums.ALL].add(player)
+        self.reveal_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
+                         constants.PLAYER_X_INI // constants.TILE_SIZE)
 
         # add the hotspot (if available)
         #hotspot = constants.HOTSPOT_DATA[self.number]
