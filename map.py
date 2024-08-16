@@ -49,10 +49,10 @@ class Map():
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
+        self.mine_data = self.generate_mines() # randomly places mines on the map.
         self.revealed_tiles = [[False] * constants.MAP_TILE_SIZE[0] 
                                for _ in range(constants.MAP_TILE_SIZE[1])]
         self.draw_map() # draws the tile map on the screen
-        self.mine_data = self.generate_mines() # randomly places mines on the map.
 
 
     # dump the tiled file into mapdata
@@ -145,6 +145,7 @@ class Map():
                 behaviour = enums.NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
+                elif self.mine_data[y][x] == -1: behaviour = enums.KILLER
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.NO_ACTION:
                     self.tilemap_info.append((tileRect, behaviour))
@@ -160,8 +161,7 @@ class Map():
 
     def reveal_tile(self, row, col):
         # Check bounds
-        if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:
-            # reveal adjacent tiles            
+        if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:          
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
@@ -178,8 +178,8 @@ class Map():
                 and tile_data[row_index][col_index] < 15:
                     x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                    self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-3,y-6))
-                    self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-4,y-7))
+                    self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
+                    self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
 
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 

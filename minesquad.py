@@ -154,7 +154,7 @@ while True:
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (228, 154))
-        #game.fonts[enums.S_B_WHITE].render(str(player.steps), game.srf_sboard, (100, 25))
+        #game.fonts[enums.S_B_WHITE].render(str(player.state), game.srf_sboard, (100, 25))
         # ==========================================================================================
         
         # increases the loop counter, up to a maximum of 10000 loops

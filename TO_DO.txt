@@ -4,8 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- explosión al pisar mina
 - graficos de BLAZE
-- minas matan al player
 
 
 BUGS
@@ -31,16 +31,17 @@ POR HACER
 
 HECHO
 =====
-13/08/2024 - visualizar los datos de minas en el mapa con el movimiento del player
-11/08/2024 - visualizar los datos de minas en el mapa con fuentes propias (no del sistema)
-21/05/2024 - aplicar datos de minas al mapa al estilo buscaminas
-12/05/2024 - optimizar clase PLAYER
-08/05/2024 - disparos horizontales y verticales
-05/05/2024 - movimiento del player de tile a tile
-02/05/2024 - intermitencia de invisibilidad más suave, por múltiplo de nº de loop
-02/05/2024 - usar la base de RedPlanet y adaptarla para MineSquad
-21/04/2024 - menú de inicio
-06/04/2024 - paleta pseudopico-8 con 48 colores
+16/08/24 - minas matan al player
+13/08/24 - visualizar los datos de minas en el mapa con el movimiento del player
+11/08/24 - visualizar los datos de minas en el mapa con fuentes propias (no del sistema)
+21/05/24 - aplicar datos de minas al mapa al estilo buscaminas
+12/05/24 - optimizar clase PLAYER
+08/05/24 - disparos horizontales y verticales
+05/05/24 - movimiento del player de tile a tile
+02/05/24 - intermitencia de invisibilidad más suave, por múltiplo de nº de loop
+02/05/24 - usar la base de RedPlanet y adaptarla para MineSquad
+21/04/24 - menú de inicio
+06/04/24 - paleta pseudopico-8 con 48 colores
 
 
 

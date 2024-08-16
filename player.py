@@ -269,6 +269,7 @@ class Player(pygame.sprite.Sprite):
                 collision = True
                 # killer tile, one life less 
                 if behaviour == enums.KILLER:
+                    collision = False
                     self.loses_life()
                     self.scoreboard.invalidate()
                 break
@@ -281,6 +282,7 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = temp_pos + self.direction.y * self.speed
             if self.steps < 0:
                 self.map.reveal_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
+
 
     def horizontal_mov(self):
         self.move(enums.HORIZONTAL)
