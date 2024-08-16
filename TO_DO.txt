@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- números grandes para datos de minas?
 - graficos de BLAZE
 - minas matan al player
 

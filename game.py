@@ -86,12 +86,11 @@ class Game():
             enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN0'], True),
-
             #large fonts
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE1'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
             enums.L_F_RED: Font('images/fonts/large_font.png', constants.PALETTE['RED0'], True),
-            enums.L_B_RED: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False),
+            enums.L_B_BLACK: Font('images/fonts/large_font.png', constants.PALETTE['BLACK1'], True),
             enums.L_F_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
             enums.L_B_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False)}
         

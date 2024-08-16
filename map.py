@@ -178,8 +178,8 @@ class Map():
                 and tile_data[row_index][col_index] < 15:
                     x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                    self.game.fonts[enums.S_B_GREEN].render(str(value), self.game.srf_map, (x-1,y-3))
-                    self.game.fonts[enums.S_F_GREEN].render(str(value), self.game.srf_map, (x-2,y-4))
+                    self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-3,y-6))
+                    self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-4,y-7))
 
     # select some of the animated tiles on the current map to change the frame
     # and apply to the surface. 

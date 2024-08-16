@@ -141,7 +141,7 @@ class Menu():
         self.age = '23'
         self.origin = 'Brighton (England)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 15, 1)
         self.draw_chars(115, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
@@ -153,7 +153,7 @@ class Menu():
         self.age = '20'
         self.origin = 'Glasgow (Scotland)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 15, 1)
         self.draw_chars(10, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
@@ -165,7 +165,7 @@ class Menu():
         self.age = '25'
         self.origin = 'Cleveland (USA)'
 
-        self.shaded_text(self.game.fonts[enums.L_B_RED], self.game.fonts[enums.L_F_RED], 
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'N O R M A N', self.menu_pages[4], 125, 15, 1)
         self.draw_chars(125, 4)
         self.menu_pages[4].blit(self.img_norman, (10, 0))
