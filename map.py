@@ -42,16 +42,12 @@ class Map():
         self.tilemap_info = [] # list of tile rects and behaviours (except for transparent ones)
         #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {} # tiles that make up the map
-        self.revealed_tiles = {} # tiles trodden by the player
-        self.mine_data = [] # location of the mines on the map
 
 
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_map('maps/map{}.json'.format(self.number))
-        self.mine_data = self.generate_mines() # randomly places mines on the map.
-        self.revealed_tiles = [[False] * constants.MAP_TILE_SIZE[0] 
-                               for _ in range(constants.MAP_TILE_SIZE[1])]
+        self.map_data['mines'] = self.generate_mines() # randomly places mines on the map
         self.draw_map() # draws the tile map on the screen
 
 
@@ -80,6 +76,9 @@ class Map():
             path = data['tiles'][tile]['image']
             data['tiles'][tile]['image'] = os.path.basename(path)
             data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
+        # tiles trodden by the player
+        self.map_data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
+                                           for _ in range(constants.MAP_TILE_SIZE[1])]
         return data
 
 
