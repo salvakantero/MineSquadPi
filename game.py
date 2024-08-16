@@ -453,6 +453,7 @@ class Game():
     # collisions between the player and mines, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number):
         # player and mines
+        '''
         for tileRect, behaviour in self.map.tilemap_info:
             if tileRect.colliderect(player):
                 if behaviour == enums.KILLER:
@@ -465,7 +466,7 @@ class Game():
                     self.sfx_enemy_down[0].play()
                     self.loses_life()
                     self.scoreboard.invalidate()
-                return
+                return'''
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):

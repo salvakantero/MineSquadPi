@@ -77,8 +77,8 @@ class Map():
             data['tiles'][tile]['image'] = os.path.basename(path)
             data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
         # tiles trodden by the player
-        self.map_data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
-                                           for _ in range(constants.MAP_TILE_SIZE[1])]
+        data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
+                                  for _ in range(constants.MAP_TILE_SIZE[1])]
         return data
 
 
@@ -144,7 +144,7 @@ class Map():
                 behaviour = enums.NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
-                elif self.mine_data[y][x] == -1: behaviour = enums.KILLER
+                elif self.map_data['mines'][y][x] == -1: behaviour = enums.KILLER
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.NO_ACTION:
                     self.tilemap_info.append((tileRect, behaviour))
@@ -164,16 +164,16 @@ class Map():
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
-                        if not self.revealed_tiles[i][j]:
-                            self.revealed_tiles[i][j] = True
+                        if not self.map_data['revealed_tiles'][i][j]:
+                            self.map_data['revealed_tiles'][i][j] = True
 
 
     def draw_mine_data(self):
         tile_data = self.map_data['data'] # list of tiles that make up the map
-        for row_index, row in enumerate(self.mine_data):
+        for row_index, row in enumerate(self.map_data['mines']):
             for col_index, value in enumerate(row):
                 if value > 0 \
-                and self.revealed_tiles[row_index][col_index] \
+                and self.map_data['revealed_tiles'][row_index][col_index] \
                 and tile_data[row_index][col_index] < 15:
                     x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
