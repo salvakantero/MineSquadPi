@@ -263,17 +263,11 @@ class Player(pygame.sprite.Sprite):
             temp_pos = self.rect.y
 
         collision = False
-        # it is necessary to check all colliding tiles.
+        # it is necessary to check all obstacle tiles.
         for tileRect, behaviour in self.map.tilemap_info:
             if tileRect.colliderect(temp_rect):
-                collision = True
-                # killer tile, one life less 
-                if behaviour == enums.KILLER:
-                    collision = False
-                    self.loses_life()
-                    self.scoreboard.invalidate()
+                if behaviour == enums.OBSTACLE: collision = True
                 break
-
         # Apply the new position if no collision occurs
         if not collision:
             if axis == enums.HORIZONTAL:

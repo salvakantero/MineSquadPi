@@ -450,8 +450,22 @@ class Game():
         self.win_secuence -= 1 # next frame
 
 
-    # collisions between the player and mobile platforms, enemies and hotspots
+    # collisions between the player and mines, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number):
+        # player and mines
+        for tileRect, behaviour in self.map.tilemap_info:
+            if tileRect.colliderect(player):
+                if behaviour == enums.KILLER:
+                    # shake the map
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
+                    # creates an explosion and assigns a score according to the type of enemy
+                    blast = Explosion([player.rect.centerx, player.rect.centery-4], self.blast_images[1])
+                    self.groups[enums.ALL].add(blast)     
+                    self.sfx_enemy_down[0].play()
+                    self.loses_life()
+                    self.scoreboard.invalidate()
+                return
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
