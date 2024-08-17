@@ -114,7 +114,7 @@ while True:
         game.groups[enums.ALL].update()
 
         # collision between player and enemies or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number)
+        game.check_player_collisions(player, scoreboard, map.number, map.map_data['tilemap_info'])
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard, map.map_data['tilemap_info'])
 

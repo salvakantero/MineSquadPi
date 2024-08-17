@@ -149,11 +149,11 @@ class Game():
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
         self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
         self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
-        self.sfx_enemy_down = {
-            1: pygame.mixer.Sound('sounds/fx/sfx_exp1.wav'),
-            2: pygame.mixer.Sound('sounds/fx/sfx_exp2.wav'),
-            3: pygame.mixer.Sound('sounds/fx/sfx_exp3.wav'),
-            4: pygame.mixer.Sound('sounds/fx/sfx_exp4.wav')}
+        self.sfx_blast = {
+            1: pygame.mixer.Sound('sounds/fx/sfx_blast1.wav'),
+            2: pygame.mixer.Sound('sounds/fx/sfx_blast2.wav'),
+            3: pygame.mixer.Sound('sounds/fx/sfx_blast3.wav'),
+            4: pygame.mixer.Sound('sounds/fx/sfx_blast4.wav')}
         self.sfx_hotspot = {
             enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.BIN: pygame.mixer.Sound('sounds/fx/sfx_bin.wav'),
@@ -419,7 +419,7 @@ class Game():
                 enemy.kill()
                 blast = Explosion([enemy.rect.centerx, enemy.rect.centery], self.blast_images[0])              
                 self.groups[enums.ALL].add(blast)                    
-                self.sfx_enemy_down[1].play()                
+                self.sfx_blast[1].play()                
                 self.shake = [10, 6] # shake the map
                 self.shake_timer = 14            
         # intermediate frames. Generates multiple random explosions
@@ -427,7 +427,7 @@ class Game():
             blast = Explosion((random.randint(30, constants.MAP_UNSCALED_SIZE[0]-10), 
                 random.randint(10, constants.MAP_UNSCALED_SIZE[0]-10)), self.blast_images[0])              
             self.groups[enums.ALL].add(blast)                    
-            self.sfx_enemy_down[random.choice(sounds)].play()            
+            self.sfx_blast[random.choice(sounds)].play()            
             self.shake = [10, 6] # shake the map
             self.shake_timer = 14
         # last frame!
@@ -451,22 +451,21 @@ class Game():
 
 
     # collisions between the player and mines, enemies and hotspots
-    def check_player_collisions(self, player, scoreboard, map_number):
+    def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
         # player and mines
-        '''
-        for tileRect, behaviour in self.map.tilemap_info:
+        for tileRect, behaviour in tilemap_info:
             if tileRect.colliderect(player):
                 if behaviour == enums.KILLER:
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
-                    # creates an explosion and assigns a score according to the type of enemy
+                    # creates an explosion
                     blast = Explosion([player.rect.centerx, player.rect.centery-4], self.blast_images[1])
                     self.groups[enums.ALL].add(blast)     
-                    self.sfx_enemy_down[0].play()
-                    self.loses_life()
-                    self.scoreboard.invalidate()
-                return'''
+                    self.sfx_blast[4].play()
+                    player.loses_life()
+                    scoreboard.invalidate()
+                return
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
@@ -559,7 +558,7 @@ class Game():
                         #    self.floating_text.text = '+100'
                         #    player.score += 100
                     self.groups[enums.ALL].add(blast)                    
-                    self.sfx_enemy_down[enemy.type].play()
+                    self.sfx_blast[enemy.type].play()
                     # floating text position
                     self.floating_text.x = enemy.rect.x
                     self.floating_text.y = enemy.rect.y
