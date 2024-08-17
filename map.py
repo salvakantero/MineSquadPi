@@ -39,20 +39,18 @@ class Map():
         self.game = game
         self.number = 0 # current map
         self.last = -1 # last map loaded
-        self.tilemap_info = [] # list of tile rects and behaviours (except for transparent ones)
-        #self.anim_tiles_list = [] # (frame_1, frame_2, x, y, num_frame)
         self.map_data = {} # tiles that make up the map
 
 
     # loads a map and draws it on screen
     def load(self):
-        self.map_data = self.process_map('maps/map{}.json'.format(self.number))
+        self.map_data = self.process_json('maps/map{}.json'.format(self.number))
         self.map_data['mines'] = self.generate_mines() # randomly places mines on the map
         self.draw_map() # draws the tile map on the screen
 
 
     # dump the tiled file into mapdata
-    def process_map(self, map_file):
+    def process_json(self, map_file):
         # reads the entire contents of the json
         with open(map_file) as json_data:
             data_readed = json.load(json_data)
@@ -79,6 +77,8 @@ class Map():
         # tiles trodden by the player
         data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
                                   for _ in range(constants.MAP_TILE_SIZE[1])]
+        # rect and behaviour of each tile
+        data['tilemap_info'] = []
         return data
 
 
@@ -124,8 +124,7 @@ class Map():
 
     # draws the tile map on the screen
     def draw_map(self):
-        self.tilemap_info.clear()
-        #self.anim_tiles_list.clear()
+        #self.map_data['tilemap_info'].clear()
         # scroll through the map data
         for y in range(0, self.map_data['height']):
             for x in range(0, self.map_data['width']):
@@ -147,15 +146,7 @@ class Map():
                 elif self.map_data['mines'][y][x] == -1: behaviour = enums.KILLER
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.NO_ACTION:
-                    self.tilemap_info.append((tileRect, behaviour))
-
-                # generates the list of animated tiles of the current map
-                # (frame_1, frame_2, x, y, num_frame)
-                #if t['image'] in constants.ANIM_TILES.keys():                
-                #    self.anim_tiles_list.append(
-                #        [tile, pygame.image.load('images/tiles/' 
-                #        + constants.ANIM_TILES[t['image']]).convert(), 
-                #        tileRect.topleft[0], tileRect.topleft[1], 0])
+                    self.map_data['tilemap_info'].append((tileRect, behaviour))
 
 
     def reveal_tile(self, row, col):
@@ -179,19 +170,6 @@ class Map():
                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
                     self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
                     self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
-
-    # select some of the animated tiles on the current map to change the frame
-    # and apply to the surface. 
-    # anim_tiles_list = (frame_1, frame_2, x, y, num_frame)
-    #def animate_tiles(self):
-    #    for anim_tile in self.anim_tiles_list: # for each animated tile on the map
-    #        if random.randint(0,24) == 0: # 4% chance of changing frame
-    #            tile = anim_tile[0+anim_tile[4]] # select image according to frame number
-    #            tileRect = tile.get_rect()
-    #            tileRect.topleft = (anim_tile[2], anim_tile[3]) # sets the xy position
-    #            self.game.srf_map_bk.blit(tile, tileRect) # draws on the background image
-    #           # update frame number (0,1)
-    #            anim_tile[4] = (anim_tile[4] + 1) % 2
 
 
     # checks if the map needs to be changed (depending on the player's XY position)

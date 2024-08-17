@@ -47,18 +47,6 @@ ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 PLAYER_X_INI = (MAP_UNSCALED_SIZE[0] // 2) - (TILE_SIZE // 2)
 PLAYER_Y_INI = MAP_UNSCALED_SIZE[1] - TILE_SIZE
 
-
-# animated tiles
-#ANIM_TILES = {
-#    # frame_1   frame_2
-#    'T4.png' : 'T80.png',   # computer 1
-#    'T8.png' : 'T81.png',   # computer 2
-#    'T9.png' : 'T82.png',   # corpse
-#    'T70.png' : 'T83.png',  # toxic waste
-#    'T71.png' : 'T84.png'   # lava
-#}
-
-
 # colour palette (similar to Pico8 tones)
 # 0 = darker, 1 = original, 2 = lighter
 PALETTE = {

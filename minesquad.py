@@ -116,7 +116,7 @@ while True:
         # collision between player and enemies or hotspots      
         game.check_player_collisions(player, scoreboard, map.number)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard, map.tilemap_info)
+        game.check_bullet_collisions(player, scoreboard, map.map_data['tilemap_info'])
 
         # game over?
         if player.energy == 0:           
@@ -124,9 +124,6 @@ while True:
             game.update_high_score_table(player.score)
             game.status = enums.OVER
             continue
-        
-        # change the frame of the animated tiles
-        #map.animate_tiles()
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
