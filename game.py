@@ -453,14 +453,16 @@ class Game():
     # collisions between the player and mines, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
         # player and mines
-        for tileRect, behaviour in tilemap_info:
+        for index, (tileRect, behaviour) in enumerate(tilemap_info):
             if tileRect.colliderect(player):
                 if behaviour == enums.KILLER:
+                    # eliminates the mine
+                    tilemap_info[index] = (tileRect, enums.NO_ACTION)
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
                     # creates an explosion
-                    blast = Explosion([player.rect.centerx, player.rect.centery-4], self.blast_images[1])
+                    blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
                     self.groups[enums.ALL].add(blast)     
                     self.sfx_blast[4].play()
                     player.loses_life()
