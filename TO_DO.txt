@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- explosión al pisar mina
 - graficos de BLAZE
 
 
@@ -31,6 +30,7 @@ POR HACER
 
 HECHO
 =====
+18/08/24 - explosión al pisar mina
 16/08/24 - minas matan al player
 13/08/24 - visualizar los datos de minas en el mapa con el movimiento del player
 11/08/24 - visualizar los datos de minas en el mapa con fuentes propias (no del sistema)
