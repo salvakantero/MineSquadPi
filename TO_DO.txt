@@ -5,6 +5,10 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
+- gráfico de baliza
+- gráfico de tile reventado (mina ya usada)
+- colocación de balizas
+- colocación de tiles reventados
 
 
 BUGS
@@ -13,12 +17,13 @@ BUGS
 
 POR HACER
 =========
+- cambio de color para los tiles visitados?
 - graficos de PIPER
 - gráficos de NORMAN
 - animación del player con el IDLE impar??
 - selección del jugador al comenzar la partida
 - tiles que matan (definir y aplicar)
-- tiles animados
+- objetos para puntuar
 - objeto escudo (invencibilidad)
 - objeto binoculares (mayor rango de visión)
 - fondos IA para la vista 16:9
@@ -26,7 +31,7 @@ POR HACER
 - mapas más largos que la pantalla y scroll vertical
 - un tema musical tranquilo para cada nivel
 - cronómetro para descontar puntos al final de cada nivel
-
+- convertir a vista ISO
 
 HECHO
 =====
