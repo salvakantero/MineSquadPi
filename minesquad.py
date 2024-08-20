@@ -63,6 +63,7 @@ while True:
         game.loop_counter = 0
         game.floating_text.y = 0
         game.win_secuence = 0
+        game.los_secuence = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[3] = True # all visible hotspots
         # current map
@@ -113,17 +114,21 @@ while True:
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.ALL].update()
 
-        # collision between player and enemies or hotspots      
+        # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data['tilemap_info'])
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard, map.map_data['tilemap_info'])
 
         # game over?
-        if player.energy == 0:           
-            game.over()
-            game.update_high_score_table(player.score)
-            game.status = enums.OVER
-            continue
+        if player.energy <= 0:
+            player.energy = 0
+            if game.los_secuence == 0: # blast animation completed                           
+                game.over()
+                game.update_high_score_table(player.score)
+                game.status = enums.OVER
+                continue
+            else: # blast animation in progress
+                game.los_secuence = game.los_secuence - 1
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))

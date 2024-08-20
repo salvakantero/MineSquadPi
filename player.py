@@ -63,9 +63,9 @@ class Player(pygame.sprite.Sprite):
 
     # set energy and speed based on player type
     def set_player_attributes(self):
-        if self.who_is == enums.BLAZE:      return 10, 1
-        elif self.who_is == enums.PIPER:    return  5, 2
-        else:                               return 15, 1
+        if self.who_is == enums.PIPER:      return  8, 2
+        elif self.who_is == enums.BLAZE:    return 12, 1
+        else:                               return 16, 0
 
 
     # Load player images for animations
@@ -316,13 +316,14 @@ class Player(pygame.sprite.Sprite):
 
 
     # subtracts one life and applies temporary invincibility
-    def loses_life(self):
+    def loses_life(self, value):
         if not self.invincible:
-            self.energy -= 1
+            self.energy -= value
             self.sfx_death.play()
-            self.invincible = True
-            self.timer_from = pygame.time.get_ticks()
-            self.timer_from -= (constants.TIME_REMAINING - 5000)  # 5 secs.
+            if self.energy >= 0:
+                self.invincible = True
+                self.timer_from = pygame.time.get_ticks()
+                self.timer_from -= (constants.TIME_REMAINING - 5000)  # 5 secs.
 
 
     # controls the hotspot time

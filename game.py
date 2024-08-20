@@ -47,6 +47,7 @@ class Game():
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # when 'False', load the last checkpoint
         self.win_secuence = 0 # animated sequence on winning (if > 0)
+        self.los_secuence = 0 # animated sequence on losing (if > 0)
         self.status = enums.OVER # start from menu
         self.music_status = enums.UNMUTED # Music!
         self.loop_counter = 0 # main loop cycles for various uses
@@ -465,13 +466,14 @@ class Game():
                     blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
                     self.groups[enums.ALL].add(blast)     
                     self.sfx_blast[4].play()
-                    player.loses_life()
+                    player.loses_life(20) # game over
+                    self.los_secuence = 70 # allows to end the animation of the explosion
                     scoreboard.invalidate()
                 return
         # player and martians
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
-                player.loses_life()        
+                player.loses_life(1)        
                 scoreboard.invalidate() # redraws the scoreboard
                 return        
         # player and hotspot

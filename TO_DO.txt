@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- energía del player
 - graficos de BLAZE
 - gráfico de baliza
 - gráfico de tile reventado (mina ya usada)
