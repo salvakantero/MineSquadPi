@@ -6,9 +6,8 @@ EN PROCESO
 ==========
 - energía del player
 - graficos de BLAZE
-- gráfico de baliza
 - gráfico de tile reventado (mina ya usada)
-- colocación de balizas
+- colocación de balizas/banderas
 - colocación de tiles reventados
 
 
@@ -36,6 +35,7 @@ POR HACER
 
 HECHO
 =====
+21/08/24 - gráfico de baliza/bandera
 18/08/24 - explosión al pisar mina
 16/08/24 - minas matan al player
 13/08/24 - visualizar los datos de minas en el mapa con el movimiento del player
