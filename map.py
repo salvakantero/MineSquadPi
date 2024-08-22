@@ -166,10 +166,15 @@ class Map():
                 if value > 0 \
                 and self.map_data['revealed_tiles'][row_index][col_index] \
                 and tile_data[row_index][col_index] < 15:
-                    x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                    y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                    self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
-                    self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
+                    if value == 9: # mine deactivated (flag)
+                        x = (col_index * constants.TILE_SIZE)
+                        y = (row_index * constants.TILE_SIZE)
+                        self.game.srf_map.blit(self.game.flag, (x,y))
+                    else: # proximity information
+                        x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                        y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                        self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
+                        self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
 
 
     # checks if the map needs to be changed (depending on the player's XY position)

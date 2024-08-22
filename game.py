@@ -101,6 +101,7 @@ class Game():
         self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
+        self.flag_image = pygame.image.load('images/sprites/flag.png').convert_alpha()
         self.enemy_images = {
             # animation sequence of the enemies depending on their type
             enums.SCORPION: [
