@@ -33,8 +33,9 @@ class Scoreboard():
         self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.energy_icon = pygame.image.load(
-            'images/sprites/player/0/player0.png').convert()
+        self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert()
+        self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha();
+        self.flag_image = game.flag_image
         self.hotspot_images = game.hotspot_images
 
 

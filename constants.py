@@ -35,7 +35,8 @@ SBOARD_SCALED_SIZE = 720, 114 # scoreboard size scaled x3 (windowed mode)
 SBOARD_UNSCALED_SIZE = 240, 38 # scoreboard size (unscaled)
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
-NUM_MINES = 5, 6, 8, 10, 12 # number of mines per map
+NUM_MINES = 6, 8, 10, 12, 14 # number of mines per map
+NUM_FLAGS = 10, 11, 12, 13, 14 # number of flags per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield and binoculars time (+-20 secs.)

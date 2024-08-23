@@ -4,12 +4,9 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- tile behaviours
-- energía del player
+- marcador con info de minas/banderas
 - graficos de BLAZE
-- gráfico de tile reventado (mina ya usada)
 - colocación de balizas/banderas
-- colocación de tiles reventados
 
 
 BUGS
@@ -18,6 +15,10 @@ BUGS
 
 POR HACER
 =========
+- tile behaviours
+- barra de energía del player
+- gráfico de tile reventado (mina ya usada)
+- colocación de tiles reventados
 - cambio de color para los tiles visitados?
 - graficos de PIPER
 - gráficos de NORMAN
@@ -36,6 +37,7 @@ POR HACER
 
 HECHO
 =====
+22/08/24 - gráfico de mina
 21/08/24 - gráfico de baliza/bandera
 18/08/24 - explosión al pisar mina
 16/08/24 - minas matan al player
