@@ -48,7 +48,8 @@ class Game():
         self.new = True # when 'False', load the last checkpoint
         self.win_secuence = 0 # animated sequence on winning (if > 0)
         self.los_secuence = 0 # animated sequence on losing (if > 0)
-        self.flags = 0 # flags per level
+        self.remaining_flags = 0 # available flags
+        self.remaining_mines = 0 # mines to be deactivated
         self.status = enums.OVER # start from menu
         self.music_status = enums.UNMUTED # Music!
         self.loop_counter = 0 # main loop cycles for various uses
