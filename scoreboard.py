@@ -32,6 +32,8 @@ class Scoreboard():
         self.fonts = game.fonts
         self.hi = game.high_scores[0][2]
         self.needs_updating = False # redrawing of the data if True
+        self.remaining_flags = game.remaining_flags
+        self.remaining_mines = game.remaining_mines
         # icons
         self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert()
         self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha();
@@ -62,11 +64,10 @@ class Scoreboard():
         # icons
         self.srf_sboard.blit(self.energy_icon, (0, 2))
         self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (82, 2))
-        #self.srf_sboard.blit(self.hotspot_images[enums.BIN], (145, 2))
-        #self.srf_sboard.blit(self.hotspot_images[enums.SHIELD], (186, 2))
+        self.srf_sboard.blit(self.flag_image, (160, 2))
+        self.srf_sboard.blit(self.landmine_image, (200, 2))
         # fixed texts
         self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
-        self.shaded_text('\'15', 220, 6)
 
 
     # forces the redrawing of the data
@@ -87,6 +88,8 @@ class Scoreboard():
             self.shaded_text(player.energy, 20, 6)
             self.clear_zone(100)
             self.shaded_text(player.ammo, 102, 6)
+            self.shaded_text(self.remaining_flags, 180, 6)
+            self.shaded_text(self.remaining_mines, 220, 6)
             self.needs_updating = False
                        
             x = 0
