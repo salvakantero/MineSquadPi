@@ -4,8 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- marcador de una sola línea
-- marcador con info de minas y banderas
 - graficos de BLAZE
 - colocación de balizas/banderas
 
@@ -37,8 +35,11 @@ POR HACER
 - cronómetro para descontar puntos al final de cada nivel
 - convertir a vista ISO
 
+
 HECHO
 =====
+24/08/24 - marcador con info de minas y banderas
+24/08/24 - marcador EN una sola línea
 22/08/24 - gráfico de mina
 21/08/24 - gráfico de baliza/bandera
 18/08/24 - explosión al pisar mina
