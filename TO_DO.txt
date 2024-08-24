@@ -4,7 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- marcador con info de minas/banderas
+- marcador de una sola línea
+- marcador con info de minas y banderas
 - graficos de BLAZE
 - colocación de balizas/banderas
 
@@ -15,6 +16,7 @@ BUGS
 
 POR HACER
 =========
+- info de mapa al inicio de nivel
 - tile behaviours
 - barra de energía del player
 - gráfico de tile reventado (mina ya usada)

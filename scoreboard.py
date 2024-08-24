@@ -41,16 +41,6 @@ class Scoreboard():
         self.hotspot_images = game.hotspot_images
 
 
-    # draws the name of the map and other data
-    def map_info(self, map_number):
-        # print map number
-        x = constants.SBOARD_UNSCALED_SIZE[0] - 55
-        y = 22
-        text_1 = 'SCREEN.....' + str(map_number+1).rjust(2, '0') + '/20'        
-        self.fonts[enums.S_B_BROWN].render(text_1, self.srf_sboard, (x+1, y+1)) # shadow
-        self.fonts[enums.S_F_BROWN].render(text_1, self.srf_sboard, (x, y))
-
-
     # draws a text with its shadow
     def shaded_text(self, data, x, y):       
         self.fonts[enums.L_B_WHITE].render(str(data).rjust(2, '0'), self.srf_sboard, (x, y))  # shadow
@@ -63,11 +53,11 @@ class Scoreboard():
         self.srf_sboard.fill((0,0,0))
         # icons
         self.srf_sboard.blit(self.energy_icon, (0, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (82, 2))
-        self.srf_sboard.blit(self.flag_image, (160, 2))
-        self.srf_sboard.blit(self.landmine_image, (200, 2))
+        self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (75, 2))
+        self.srf_sboard.blit(self.flag_image, (120, 2))
+        self.srf_sboard.blit(self.landmine_image, (160, 2))
         # fixed texts
-        self.shaded_text('\'' + str(constants.MAX_AMMO), 116, 6) # ' = /
+        self.shaded_text('\'' + str(constants.MAX_AMMO), 86, 6) # ' = /
 
 
     # forces the redrawing of the data

@@ -212,7 +212,7 @@ class Map():
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
         # refresh the scoreboard area
         scoreboard.reset()
-        scoreboard.map_info(self.number)
+        #scoreboard.map_info(self.number)
         scoreboard.invalidate()
         # reset the sprite groups  
         for group in self.game.groups: group.empty()
