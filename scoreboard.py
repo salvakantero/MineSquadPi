@@ -51,13 +51,11 @@ class Scoreboard():
     def reset(self):
         # delete the entire scoreboard
         self.srf_sboard.fill((0,0,0))
-        # icons
+        # draw icons
         self.srf_sboard.blit(self.energy_icon, (0, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (75, 2))
-        self.srf_sboard.blit(self.flag_image, (120, 2))
-        self.srf_sboard.blit(self.landmine_image, (160, 2))
-        # fixed texts
-        self.shaded_text('\'' + str(constants.MAX_AMMO), 86, 6) # ' = /
+        self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (70, 2))
+        self.srf_sboard.blit(self.flag_image, (132, 2))
+        self.srf_sboard.blit(self.landmine_image, (165, 2))
 
 
     # forces the redrawing of the data
@@ -77,22 +75,21 @@ class Scoreboard():
             self.clear_zone(18)
             self.shaded_text(player.energy, 20, 6)
             self.clear_zone(100)
-            self.shaded_text(player.ammo, 102, 6)
-            self.shaded_text(self.remaining_flags, 180, 6)
-            self.shaded_text(self.remaining_mines, 220, 6)
+            self.shaded_text(player.ammo, 90, 6)
+            self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
+            self.shaded_text(self.remaining_flags, 150, 6)
+            self.shaded_text(self.remaining_mines, 184, 6)
             self.needs_updating = False
                        
-            x = 0
-            y = 22
-            # clears the above content
-            pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((185, y),(54, 15)))
+            x = 204
+            y = 3
             # show score
-            text = 'SCORE: ' + str(player.score).rjust(6, '0')
+            text = 'SC:' + str(player.score).rjust(6, '0')
             self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
             self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
             # show high score
-            y = 30
+            y = 11
             score = self.hi if self.hi > player.score else player.score
-            text_2 = 'HIGH: ' + str(score).rjust(6, '0')
-            self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+5, y+1)) # shadow
-            self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x+4, y))
+            text_2 = 'HI:' + str(score).rjust(6, '0')
+            self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
+            self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x, y))
