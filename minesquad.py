@@ -74,8 +74,8 @@ while True:
             #assigns the loaded data to the objects
             d = game.checkpoint.data
             map.number = d['map_number']
-        remaining_mines = constants.NUM_MINES[map.number]
-        remaining_flags = constants.NUM_FLAGS[map.number]
+        game.remaining_mines = constants.NUM_MINES[map.number]
+        game.remaining_flags = constants.NUM_FLAGS[map.number]
     else: # game running
         # event management
         for event in pygame.event.get():

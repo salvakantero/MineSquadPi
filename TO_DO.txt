@@ -4,8 +4,9 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- graficos de BLAZE
 - colocación de balizas/banderas
+- info de mapa al inicio de nivel
+- graficos de BLAZE
 
 
 BUGS
@@ -14,7 +15,6 @@ BUGS
 
 POR HACER
 =========
-- info de mapa al inicio de nivel
 - tile behaviours
 - barra de energía del player
 - gráfico de tile reventado (mina ya usada)

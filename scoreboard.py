@@ -28,34 +28,30 @@ import enums
 
 class Scoreboard():
     def __init__(self, game):
-        self.srf_sboard = game.srf_sboard
-        self.fonts = game.fonts
-        self.hi = game.high_scores[0][2]
+        self.game = game
         self.needs_updating = False # redrawing of the data if True
-        self.remaining_flags = game.remaining_flags
-        self.remaining_mines = game.remaining_mines
         # icons
         self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert()
         self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha()
-        self.flag_image = game.flag_image
-        self.hotspot_images = game.hotspot_images
 
 
     # draws a text with its shadow
     def shaded_text(self, data, x, y):       
-        self.fonts[enums.L_B_WHITE].render(str(data).rjust(2, '0'), self.srf_sboard, (x, y))  # shadow
-        self.fonts[enums.L_F_WHITE].render(str(data).rjust(2, '0'), self.srf_sboard, (x-2, y-2))
+        self.game.fonts[enums.L_B_WHITE].render(
+            str(data).rjust(2, '0'), self.game.srf_sboard, (x, y))  # shadow
+        self.game.fonts[enums.L_F_WHITE].render(
+            str(data).rjust(2, '0'), self.game.srf_sboard, (x-2, y-2))
 
 
     # draws the entire scoreboard
     def reset(self):
         # delete the entire scoreboard
-        self.srf_sboard.fill((0,0,0))
+        self.game.srf_sboard.fill((0,0,0))
         # draw icons
-        self.srf_sboard.blit(self.energy_icon, (0, 2))
-        self.srf_sboard.blit(self.hotspot_images[enums.AMMO], (70, 2))
-        self.srf_sboard.blit(self.flag_image, (130, 2))
-        self.srf_sboard.blit(self.landmine_image, (165, 2))
+        self.game.srf_sboard.blit(self.energy_icon, (0, 2))
+        self.game.srf_sboard.blit(self.game.hotspot_images[enums.AMMO], (70, 2))
+        self.game.srf_sboard.blit(self.game.flag_image, (130, 2))
+        self.game.srf_sboard.blit(self.landmine_image, (165, 2))
 
 
     # forces the redrawing of the data
@@ -65,7 +61,7 @@ class Scoreboard():
 
     # clean the previous data
     def clear_zone(self, x):
-        pygame.draw.rect(self.srf_sboard, constants.PALETTE['BLACK0'], ((x, 4),(13, 12)))
+        pygame.draw.rect(self.game.srf_sboard, constants.PALETTE['BLACK0'], ((x, 4),(13, 12)))
 
 
     # update the data (only if it has been invalidated)
@@ -78,20 +74,25 @@ class Scoreboard():
             self.shaded_text(player.ammo, 90, 6)
             self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
             self.clear_zone(146)
-            self.shaded_text(self.remaining_flags, 148, 6)
+            self.shaded_text(self.game.remaining_flags, 148, 6)
             self.clear_zone(182)
-            self.shaded_text(self.remaining_mines, 184, 6)
+            self.shaded_text(self.game.remaining_mines, 184, 6)
             self.needs_updating = False
                        
             x = 204
             y = 3
             # show score
             text = 'SC:' + str(player.score).rjust(6, '0')
-            self.fonts[enums.S_B_BROWN].render(text, self.srf_sboard, (x+1, y+1)) # shadow
-            self.fonts[enums.S_F_BROWN].render(text, self.srf_sboard, (x, y))
+            self.game.fonts[enums.S_B_BROWN].render(
+                text, self.game.srf_sboard, (x+1, y+1)) # shadow
+            self.game.fonts[enums.S_F_BROWN].render(
+                text, self.game.srf_sboard, (x, y))
             # show high score
             y = 11
-            score = self.hi if self.hi > player.score else player.score
+            hi = self.game.high_scores[0][2]
+            score = hi if hi > player.score else player.score
             text_2 = 'HI:' + str(score).rjust(6, '0')
-            self.fonts[enums.S_B_BROWN].render(text_2, self.srf_sboard, (x+1, y+1)) # shadow
-            self.fonts[enums.S_F_BROWN].render(text_2, self.srf_sboard, (x, y))
+            self.game.fonts[enums.S_B_BROWN].render(
+                text_2, self.game.srf_sboard, (x+1, y+1)) # shadow
+            self.game.fonts[enums.S_F_BROWN].render(
+                text_2, self.game.srf_sboard, (x, y))
