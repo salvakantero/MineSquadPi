@@ -123,7 +123,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # common code from joystick or keyboard to perform the shot
-    def performs_shot(self):
+    def fire(self):
         if self.ammo > 0:       
             if not self.game.groups[enums.SHOT].sprite: # no shots on screen
                 # direction of the shot
@@ -144,6 +144,10 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_ammo.play()
 
 
+    def flag(self):
+        pass
+
+
     # keyboard/mouse/joystick keystroke input
     def get_input(self): 
         def update_steps():
@@ -155,9 +159,13 @@ class Player(pygame.sprite.Sprite):
                 self.steps = -1 # it stops
 
         if self.game.joystick is not None: # manages the joystick/joypad/gamepad
-            # press fire
+            # press fire buttons
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
-                self.performs_shot()
+                self.fire()
+            # press flag buttons
+            if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
+                self.flag()
+
             if self.steps < 0: # if it is not moving
                 # obtains the possible movement of the axes. A value greater than +-0.5 
                 # is considered as intentional movement. The values obtained range from -1 to 1.
@@ -195,11 +203,15 @@ class Player(pygame.sprite.Sprite):
                 # without movement
                 else:
                     self.direction.update(0, 0)
+
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
             # press fire or left mouse button
             if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
-                self.performs_shot()
+                self.fire()
+            # press flag or right mouse button
+            if key_state[self.game.config.flag_key] or pygame.mouse.get_pressed()[1]:
+                self.flag()
             if self.steps < 0: # if it is not moving
                 # press up
                 if key_state[self.game.config.up_key]:
