@@ -145,6 +145,10 @@ class Player(pygame.sprite.Sprite):
 
 
     def flag(self):
+        if self.game.remaining_flags > 0:
+            self.sfx_flag.play()
+            self.game.remaining_flags -= 1
+            self.scoreboard.invalidate
         pass
 
 
