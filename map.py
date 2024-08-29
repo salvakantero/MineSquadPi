@@ -169,7 +169,7 @@ class Map():
                     if value == 9: # mine deactivated (flag)
                         x = (col_index * constants.TILE_SIZE)
                         y = (row_index * constants.TILE_SIZE)
-                        self.game.srf_map.blit(self.game.flag, (x,y))
+                        self.game.srf_map.blit(self.game.flag_image, (x,y))
                     else: # proximity information
                         x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
                         y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
