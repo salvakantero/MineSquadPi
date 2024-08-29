@@ -120,6 +120,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(sound_path + 'sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
         self.sfx_death = pygame.mixer.Sound(sound_path + 'sfx_death.wav')  # Touched by an enemy
+        self.sfx_flag = pygame.mixer.Sound(sound_path + "sfx_shot.wav")
 
 
     # common code from joystick or keyboard to perform the shot
@@ -148,9 +149,9 @@ class Player(pygame.sprite.Sprite):
         if self.game.remaining_flags > 0:
             self.sfx_flag.play()
             self.game.remaining_flags -= 1
-            self.scoreboard.invalidate
-        pass
-
+            self.scoreboard.invalidate()
+        else: # no flags
+            self.sfx_no_ammo.play()
 
     # keyboard/mouse/joystick keystroke input
     def get_input(self): 
@@ -214,7 +215,7 @@ class Player(pygame.sprite.Sprite):
             if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
                 self.fire()
             # press flag or right mouse button
-            if key_state[self.game.config.flag_key] or pygame.mouse.get_pressed()[1]:
+            if key_state[self.game.config.flag_key] or pygame.mouse.get_pressed()[2]:
                 self.flag()
             if self.steps < 0: # if it is not moving
                 # press up
