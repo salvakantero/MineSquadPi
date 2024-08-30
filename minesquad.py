@@ -95,13 +95,19 @@ while True:
                         if game.music_status == enums.UNMUTED:
                             pygame.mixer.music.unpause()                            
                 # mutes the music, or vice versa               
-                if event.key == game.config.mute_key:
+                elif event.key == game.config.mute_key:
                     if game.music_status == enums.MUTED:
                         game.music_status = enums.UNMUTED
                         pygame.mixer.music.play()
                     else:
                         game.music_status = enums.MUTED
                         pygame.mixer.music.fadeout(1200)
+                # press fire or left mouse button
+                elif event.key == game.config.fire_key or pygame.mouse.get_pressed()[0]:
+                    player.fire()
+                # press flag or right mouse button
+                elif event.key == game.config.flag_key or pygame.mouse.get_pressed()[2]:
+                    player.place_flag()
         
         # change the map if necessary
         if map.number != map.last:

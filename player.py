@@ -123,7 +123,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_flag = pygame.mixer.Sound(sound_path + "sfx_shot.wav")
 
 
-    # common code from joystick or keyboard to perform the shot
+    # common code for a shot to be fired
     def fire(self):
         if self.ammo > 0:       
             if not self.game.groups[enums.SHOT].sprite: # no shots on screen
@@ -145,19 +145,22 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_ammo.play()
 
 
-    def flag(self):
+    # common code for placing a flag
+    def place_flag(self):
         if self.game.remaining_flags > 0:
             offsets = {
                 enums.UP: (0, -1), enums.DOWN: (0, 1),
-                enums.LEFT: (-1, 0), enums.RIGHT: (1, 0)
-            }
+                enums.LEFT: (-1, 0), enums.RIGHT: (1, 0) }
+            # places the flag in front of where the player is facing
             offset_x, offset_y = offsets.get(self.look_at, (0, 0))  
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
+            # if there is no flag on the tile
             if self.map.map_data['mines'][y][x] != 9:
+                # if there is a mine in the marked tile
                 if self.map.map_data['mines'][y][x] == -1:
                     self.game.remaining_mines -= 1
-                self.map.map_data['mines'][y][x] = 9
+                self.map.map_data['mines'][y][x] = 9 # place the flag
                 self.sfx_flag.play()
                 self.game.remaining_flags -= 1
                 self.scoreboard.invalidate()
@@ -181,7 +184,7 @@ class Player(pygame.sprite.Sprite):
                 self.fire()
             # press flag buttons
             if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
-                self.flag()
+                self.place_flag()
 
             if self.steps < 0: # if it is not moving
                 # obtains the possible movement of the axes. A value greater than +-0.5 
@@ -223,12 +226,6 @@ class Player(pygame.sprite.Sprite):
 
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
-            # press fire or left mouse button
-            if key_state[self.game.config.fire_key] or pygame.mouse.get_pressed()[0]:
-                self.fire()
-            # press flag or right mouse button
-            if key_state[self.game.config.flag_key] or pygame.mouse.get_pressed()[2]:
-                self.flag()
             if self.steps < 0: # if it is not moving
                 # press up
                 if key_state[self.game.config.up_key]:
