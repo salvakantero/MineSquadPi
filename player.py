@@ -154,10 +154,13 @@ class Player(pygame.sprite.Sprite):
             offset_x, offset_y = offsets.get(self.look_at, (0, 0))  
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
-            self.map.map_data['mines'][y][x] = 9
-            self.sfx_flag.play()
-            self.game.remaining_flags -= 1
-            self.scoreboard.invalidate()
+            if self.map.map_data['mines'][y][x] != 9:
+                if self.map.map_data['mines'][y][x] == -1:
+                    self.game.remaining_mines -= 1
+                self.map.map_data['mines'][y][x] = 9
+                self.sfx_flag.play()
+                self.game.remaining_flags -= 1
+                self.scoreboard.invalidate()
         else: # no flags
             self.sfx_no_ammo.play()
 
