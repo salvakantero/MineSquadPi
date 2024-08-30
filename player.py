@@ -147,8 +147,11 @@ class Player(pygame.sprite.Sprite):
 
     def flag(self):
         if self.game.remaining_flags > 0:
-            self.map.map_data['data'][
-                self.rect.y // constants.TILE_SIZE][self.rect.x // constants.TILE_SIZE] = 9
+            offset_x = 0
+            offset_y = 0            
+            x = (self.rect.x // constants.TILE_SIZE) + offset_x
+            y = (self.rect.y // constants.TILE_SIZE) + offset_y
+            self.map.map_data['mines'][y][x] = 9
             self.sfx_flag.play()
             self.game.remaining_flags -= 1
             self.scoreboard.invalidate()
