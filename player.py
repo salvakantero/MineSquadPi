@@ -147,8 +147,11 @@ class Player(pygame.sprite.Sprite):
 
     def flag(self):
         if self.game.remaining_flags > 0:
-            offset_x = 0
-            offset_y = 0            
+            offsets = {
+                enums.UP: (0, -1), enums.DOWN: (0, 1),
+                enums.LEFT: (-1, 0), enums.RIGHT: (1, 0)
+            }
+            offset_x, offset_y = offsets.get(self.look_at, (0, 0))  
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
             self.map.map_data['mines'][y][x] = 9
@@ -157,6 +160,7 @@ class Player(pygame.sprite.Sprite):
             self.scoreboard.invalidate()
         else: # no flags
             self.sfx_no_ammo.play()
+
 
     # keyboard/mouse/joystick keystroke input
     def get_input(self): 
