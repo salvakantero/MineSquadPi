@@ -38,8 +38,8 @@ class Player(pygame.sprite.Sprite):
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.steps = -1 # check that the distance does not exceed the size of the tile.
-        self.state = enums.IDLE_UP # to know the animation to be applied
-        self.look_at = enums.UP # where the player looks
+        self.state = enums.PS_IDLE_UP # to know the animation to be applied
+        self.look_at = enums.D_UP # where the player looks
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect or binoculars effect begins
         self.timer_to = constants.TIME_REMAINING # time of shield, binoculars (20 secs.)
@@ -63,8 +63,8 @@ class Player(pygame.sprite.Sprite):
 
     # set energy and speed based on player type
     def set_player_attributes(self):
-        if self.who_is == enums.PIPER:      return  8, 2
-        elif self.who_is == enums.BLAZE:    return 12, 1
+        if self.who_is == enums.PL_PIPER:   return  8, 2
+        elif self.who_is == enums.PL_BLAZE: return 12, 1
         else:                               return 16, 0
 
 
@@ -74,37 +74,37 @@ class Player(pygame.sprite.Sprite):
         path = 'images/sprites/player/' + str(who_is) + '/'
         self.image_list = {
             #----------------------------------------------------------#
-            enums.IDLE_UP: [
+            enums.PS_IDLE_UP: [
                 pygame.image.load(path + 'player0.png').convert_alpha(),
                 pygame.image.load(path + 'player1.png').convert_alpha()],
-            enums.WALK_UP: [
+            enums.PS_WALK_UP: [
                 pygame.image.load(path + 'player2.png').convert_alpha(),
                 pygame.image.load(path + 'player0.png').convert_alpha(),
                 pygame.image.load(path + 'player3.png').convert_alpha(),
                 pygame.image.load(path + 'player0.png').convert_alpha()],
             #----------------------------------------------------------#
-            enums.IDLE_DOWN: [
+            enums.PS_IDLE_DOWN: [
                 pygame.image.load(path + 'player4.png').convert_alpha(),
                 pygame.image.load(path + 'player5.png').convert_alpha()],
-            enums.WALK_DOWN: [
+            enums.PS_WALK_DOWN: [
                 pygame.image.load(path + 'player6.png').convert_alpha(),
                 pygame.image.load(path + 'player4.png').convert_alpha(),
                 pygame.image.load(path + 'player7.png').convert_alpha(),
                 pygame.image.load(path + 'player4.png').convert_alpha()],
             #----------------------------------------------------------#
-            enums.IDLE_LEFT: [
+            enums.PS_IDLE_LEFT: [
                 pygame.image.load(path + 'player8.png').convert_alpha(),
                 pygame.image.load(path + 'player9.png').convert_alpha()],
-            enums.WALK_LEFT: [
+            enums.PS_WALK_LEFT: [
                 pygame.image.load(path + 'player10.png').convert_alpha(),
                 pygame.image.load(path + 'player8.png').convert_alpha(),
                 pygame.image.load(path + 'player11.png').convert_alpha(),
                 pygame.image.load(path + 'player8.png').convert_alpha()],
             #----------------------------------------------------------#
-            enums.IDLE_RIGHT: [
+            enums.PS_IDLE_RIGHT: [
                 pygame.image.load(path + 'player12.png').convert_alpha(),
                 pygame.image.load(path + 'player13.png').convert_alpha()],
-            enums.WALK_RIGHT: [
+            enums.PS_WALK_RIGHT: [
                 pygame.image.load(path + 'player14.png').convert_alpha(),
                 pygame.image.load(path + 'player12.png').convert_alpha(),
                 pygame.image.load(path + 'player15.png').convert_alpha(),
@@ -126,18 +126,18 @@ class Player(pygame.sprite.Sprite):
     # common code for a shot to be fired
     def fire(self):
         if self.ammo > 0:       
-            if not self.game.groups[enums.SHOT].sprite: # no shots on screen
+            if not self.game.groups[enums.SG_SHOT].sprite: # no shots on screen
                 # direction of the shot
                 dir_vectors = {
-                    enums.UP: pygame.math.Vector2(0, -2),
-                    enums.DOWN: pygame.math.Vector2(0, 2),
-                    enums.LEFT: pygame.math.Vector2(-2, 0),
-                    enums.RIGHT: pygame.math.Vector2(2, 0) }
+                    enums.D_UP: pygame.math.Vector2(0, -2),
+                    enums.D_DOWN: pygame.math.Vector2(0, 2),
+                    enums.D_LEFT: pygame.math.Vector2(-2, 0),
+                    enums.D_RIGHT: pygame.math.Vector2(2, 0) }
                 vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
                 # shot creation
                 shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
-                self.game.groups[enums.SHOT].add(shot)
-                self.game.groups[enums.ALL].add(shot)
+                self.game.groups[enums.SG_SHOT].add(shot)
+                self.game.groups[enums.SG_ALL].add(shot)
                 self.sfx_shot.play()
                 self.ammo -= 1
                 self.scoreboard.invalidate()
@@ -149,8 +149,8 @@ class Player(pygame.sprite.Sprite):
     def place_flag(self):
         if self.game.remaining_flags > 0:
             offsets = {
-                enums.UP: (0, -1), enums.DOWN: (0, 1),
-                enums.LEFT: (-1, 0), enums.RIGHT: (1, 0) }
+                enums.D_UP: (0, -1), enums.D_DOWN: (0, 1),
+                enums.D_LEFT: (-1, 0), enums.D_RIGHT: (1, 0) }
             # places the flag in front of where the player is facing
             offset_x, offset_y = offsets.get(self.look_at, (0, 0))  
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
@@ -199,25 +199,25 @@ class Player(pygame.sprite.Sprite):
                 # press up
                 if axis_y < -0.5:
                     self.direction.update(0, -1)
-                    self.look_at = enums.UP
+                    self.look_at = enums.D_UP
                     self.steps += 1
                     return
                 # press down
                 elif axis_y > 0.5:
                     self.direction.update(0, 1)
-                    self.look_at = enums.DOWN
+                    self.look_at = enums.D_DOWN
                     self.steps += 1
                     return
                 # press left
                 elif axis_x < -0.5:
                     self.direction.update(-1, 0)
-                    self.look_at = enums.LEFT
+                    self.look_at = enums.D_LEFT
                     self.steps += 1
                     return
                 # press right
                 elif axis_x > 0.5:
                     self.direction.update(1, 0)
-                    self.look_at = enums.RIGHT
+                    self.look_at = enums.D_RIGHT
                     self.steps += 1
                     return
                 # without movement
@@ -230,25 +230,25 @@ class Player(pygame.sprite.Sprite):
                 # press up
                 if key_state[self.game.config.up_key]:
                     self.direction.update(0, -1)
-                    self.look_at = enums.UP
+                    self.look_at = enums.D_UP
                     self.steps += 1
                     return
                 # press down
                 elif key_state[self.game.config.down_key]:
                     self.direction.update(0, 1)
-                    self.look_at = enums.DOWN
+                    self.look_at = enums.D_DOWN
                     self.steps += 1
                     return
                 # press left
                 elif key_state[self.game.config.left_key]:
                     self.direction.update(-1, 0)
-                    self.look_at = enums.LEFT
+                    self.look_at = enums.D_LEFT
                     self.steps += 1
                     return
                 # press right
                 elif key_state[self.game.config.right_key]:
                     self.direction.update(1, 0)
-                    self.look_at = enums.RIGHT
+                    self.look_at = enums.D_RIGHT
                     self.steps += 1
                     return
                 # without movement
@@ -271,15 +271,15 @@ class Player(pygame.sprite.Sprite):
     def get_state(self):
         if self.direction.x == 0 and self.direction.y == 0:
             self.state = self.look_at
-        elif self.direction.y < 0:  self.state = enums.WALK_UP
-        elif self.direction.y > 0:  self.state = enums.WALK_DOWN
-        elif self.direction.x > 0:  self.state = enums.WALK_RIGHT
-        elif self.direction.x < 0:  self.state = enums.WALK_LEFT
+        elif self.direction.y < 0:  self.state = enums.PS_WALK_UP
+        elif self.direction.y > 0:  self.state = enums.PS_WALK_DOWN
+        elif self.direction.x > 0:  self.state = enums.PS_WALK_RIGHT
+        elif self.direction.x < 0:  self.state = enums.PS_WALK_LEFT
 
 
     # gets the new rect after applying the movement and check for collision
     def move(self, axis):
-        if axis == enums.HORIZONTAL:
+        if axis == enums.CA_HORIZONTAL:
             temp_rect = pygame.Rect((self.rect.x + self.direction.x * self.speed, self.rect.y),
                                     (constants.TILE_SIZE, constants.TILE_SIZE))
             temp_pos = self.rect.x
@@ -292,11 +292,11 @@ class Player(pygame.sprite.Sprite):
         # it is necessary to check all obstacle tiles.
         for tileRect, behaviour in self.map.map_data['tilemap_info']:
             if tileRect.colliderect(temp_rect):
-                if behaviour == enums.OBSTACLE: collision = True
+                if behaviour == enums.TB_OBSTACLE: collision = True
                 break
         # Apply the new position if no collision occurs
         if not collision:
-            if axis == enums.HORIZONTAL:
+            if axis == enums.CA_HORIZONTAL:
                 self.rect.x = temp_pos + self.direction.x * self.speed
             else: # vertical
                 self.rect.y = temp_pos + self.direction.y * self.speed
@@ -305,11 +305,11 @@ class Player(pygame.sprite.Sprite):
 
 
     def horizontal_mov(self):
-        self.move(enums.HORIZONTAL)
+        self.move(enums.CA_HORIZONTAL)
 
 
     def vertical_mov(self):
-        self.move(enums.VERTICAL)
+        self.move(enums.CA_VERTICAL)
 
 
     def animate(self):
@@ -323,7 +323,7 @@ class Player(pygame.sprite.Sprite):
             else:
                 self.image.set_alpha(255)
         # animation
-        if (self.state <= enums.IDLE_RIGHT): # breathing
+        if (self.state <= enums.PS_IDLE_RIGHT): # breathing
             self.animation_speed = constants.ANIM_SPEED_IDLE # slower
         else: # walking
             self.animation_speed = constants.ANIM_SPEED_WALK

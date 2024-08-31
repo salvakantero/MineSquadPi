@@ -193,11 +193,11 @@ class Menu():
         ff = self.game.fonts[enums.L_F_BROWN] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
-        # full screen
-        if self.game.config.data['full_screen'] == enums.X600: value = '4:3'
-        elif self.game.config.data['full_screen'] == enums.X720: value = '16:9'
-        else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Full Screen:', self.menu_pages[6], x, y, 1)
+        # screen mode
+        if self.game.config.data['screen_mode'] == enums.SM_X600: value = '4:3'
+        elif self.game.config.data['screen_mode'] == enums.SM_X720: value = '16:9'
+        else: value = 'WINDOW'
+        self.shaded_text(fb, ff, 'Screen mode:', self.menu_pages[6], x, y, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
         # scanlines filter 
         if self.game.config.data['scanlines']: value = 'ON'
@@ -205,14 +205,14 @@ class Menu():
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
         # view
-        if self.game.config.data['view'] == enums.ISO: value = 'ISOMETRIC' 
+        if self.game.config.data['view'] == enums.V_ISO: value = 'ISOMETRIC' 
         else: value = 'ZENITHAL'
         self.shaded_text(fb, ff, 'View:', self.menu_pages[6], x, y+40, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
         # control keys
-        if self.game.config.data['control'] == enums.CLASSIC: value = 'CLASSIC' 
-        elif self.game.config.data['control'] == enums.GAMER: value = 'GAMER'
-        elif self.game.config.data['control'] == enums.RETRO: value = 'RETRO'
+        if self.game.config.data['control'] == enums.CT_CLASSIC: value = 'CLASSIC' 
+        elif self.game.config.data['control'] == enums.CT_GAMER: value = 'GAMER'
+        elif self.game.config.data['control'] == enums.CT_RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
         self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+60, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+60, 1)
@@ -236,7 +236,7 @@ class Menu():
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2100)
     
         # some local variables are initialised
-        selected_option = enums.START # option where the cursor is located
+        selected_option = enums.MO_START # option where the cursor is located
         confirmed_option = False # 'True' when a selected option is confirmed
         menu_page = 0 # page displayed (0 to 4 automatically. 5 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
@@ -256,7 +256,7 @@ class Menu():
                 if menu_page > 5: menu_page = 0 # reset
                 page_timer = 0 # and reset the timer
                 y = -(constants.MENU_UNSCALED_SIZE[1]) # again in the upper margin
-                selected_option = enums.START
+                selected_option = enums.MO_START
             elif page_timer >= 470: # time almost exceeded?
                 y -= 6 # scrolls the page up (is disappearing)
             elif y < 0: # as long as the page does not reach the upper margin
@@ -286,14 +286,14 @@ class Menu():
                         # Main menu?
                         elif menu_page == 0 and not confirmed_option:                            
                             # the cursor down or joystick down has been pressed
-                            if selected_option < enums.EXIT \
+                            if selected_option < enums.MO_EXIT \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
                             or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5)):
                                 selected_option += 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                             # the cursor up or joystick up has been pressed
-                            elif selected_option > enums.START \
+                            elif selected_option > enums.MO_START \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_UP) \
                             or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5)):
                                 selected_option -= 1
@@ -302,14 +302,14 @@ class Menu():
                         # Options menu
                         elif menu_page == 6 and not confirmed_option:
                             # the cursor down or joystick down has been pressed
-                            if selected_option < enums.EXIT_OPTIONS \
+                            if selected_option < enums.MO_EXIT_OPTIONS \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
                             or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5)):
                                 selected_option += 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
                             # the cursor up or joystick up has been pressed
-                            elif selected_option > enums.FULLSCREEN \
+                            elif selected_option > enums.MO_SCREEN_MODE \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_UP) \
                             or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value < -0.5)):
                                 selected_option -= 1
@@ -331,34 +331,34 @@ class Menu():
                 # an option was confirmed?
                 if confirmed_option:
                     # main menu page
-                    if selected_option == enums.START:
+                    if selected_option == enums.MO_START:
                         self.game.new = True
                         return                        
-                    elif selected_option == enums.LOAD:
+                    elif selected_option == enums.MO_LOAD:
                         self.game.new = False
                         return
-                    elif selected_option == enums.OPTIONS:
+                    elif selected_option == enums.MO_OPTIONS:
                         # reinitialises common variables and loads the page
                         y = -(constants.MENU_UNSCALED_SIZE[1])
-                        selected_option = enums.FULLSCREEN
+                        selected_option = enums.MO_SCREEN_MODE
                         menu_page = 6
-                    elif selected_option == enums.EXIT:
+                    elif selected_option == enums.MO_EXIT:
                         self.game.exit()
 
                     # options menu page
-                    elif selected_option == enums.FULLSCREEN:  # 0 = off, 1 = 4:3, 2 = 16:9
-                        self.game.config.data['full_screen'] = (self.game.config.data['full_screen'] + 1) % 3
-                    elif selected_option == enums.SCANLINES: # 0 = no, 1 = yes
+                    elif selected_option == enums.MO_SCREEN_MODE:  # 0 = window, 1 = 4:3, 2 = 16:9
+                        self.game.config.data['screen_mode'] = (self.game.config.data['screen_mode'] + 1) % 3
+                    elif selected_option == enums.MO_SCANLINES: # 0 = no, 1 = yes
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 2
-                    elif selected_option == enums.VIEW: # 0 = isometric, 1 = zenithal
+                    elif selected_option == enums.MO_VIEW: # 0 = isometric, 1 = zenithal
                         self.game.config.data['view'] = (self.game.config.data['view'] + 1) % 2
-                    elif selected_option == enums.CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
+                    elif selected_option == enums.MO_CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
-                    elif selected_option == enums.EXIT_OPTIONS:
+                    elif selected_option == enums.MO_EXIT_OPTIONS:
                         y = -(constants.MENU_UNSCALED_SIZE[1])
                         menu_page = 0
-                        selected_option = enums.START
+                        selected_option = enums.MO_START
 
                     # common values for pages 1 and 6
                     confirmed_option = False

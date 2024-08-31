@@ -49,17 +49,17 @@ map = Map(game)
 
 # Main loop
 while True:
-    if game.status == enums.OVER: # game not running
+    if game.status == enums.GS_OVER: # game not running
         # creates and displays the initial menu
         game.show_menu()         
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         game.jukebox.shuffle()
         # create the player
-        player = Player(enums.BLAZE, game, map, scoreboard)
+        player = Player(enums.PL_BLAZE, game, map, scoreboard)
         # reset variables
         map.last = -1 # map before the current map
-        game.status = enums.RUNNING
+        game.status = enums.GS_RUNNING
         game.loop_counter = 0
         game.floating_text.y = 0
         game.win_secuence = 0
@@ -86,21 +86,21 @@ while True:
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
                      # stops the music when the game is paused
-                    if game.music_status == enums.UNMUTED:
+                    if game.music_status == enums.MS_UNMUTED:
                         pygame.mixer.music.pause()
                     if game.confirm_exit():
-                        game.status = enums.OVER # go to the main menu
+                        game.status = enums.GS_OVER # go to the main menu
                     else:
                         # restores the music if the game continues
-                        if game.music_status == enums.UNMUTED:
+                        if game.music_status == enums.MS_UNMUTED:
                             pygame.mixer.music.unpause()                            
                 # mutes the music, or vice versa               
                 elif event.key == game.config.mute_key:
-                    if game.music_status == enums.MUTED:
-                        game.music_status = enums.UNMUTED
+                    if game.music_status == enums.MS_MUTED:
+                        game.music_status = enums.MS_UNMUTED
                         pygame.mixer.music.play()
                     else:
-                        game.music_status = enums.MUTED
+                        game.music_status = enums.MS_MUTED
                         pygame.mixer.music.fadeout(1200)
                 # press fire or left mouse button
                 elif event.key == game.config.fire_key or pygame.mouse.get_pressed()[0]:
@@ -120,7 +120,7 @@ while True:
             scoreboard.invalidate()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
-        game.groups[enums.ALL].update()
+        game.groups[enums.SG_ALL].update()
 
         # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data['tilemap_info'])
@@ -133,7 +133,7 @@ while True:
             if game.los_secuence == 0: # blast animation completed                           
                 game.over()
                 game.update_high_score_table(player.score)
-                game.status = enums.OVER
+                game.status = enums.GS_OVER
                 continue
             else: # blast animation in progress
                 game.los_secuence = game.los_secuence - 1
@@ -145,7 +145,7 @@ while True:
         map.draw_mine_data()
         
         # draws the sprites in their new positions
-        game.groups[enums.ALL].draw(game.srf_map)
+        game.groups[enums.SG_ALL].draw(game.srf_map)
 
         # updates the floating text, only if needed (y>0)
         game.floating_text.update()
@@ -154,7 +154,7 @@ while True:
         scoreboard.update(player)
 
         # next track in the playlist if the music has been stopped
-        if game.music_status == enums.UNMUTED:
+        if game.music_status == enums.MS_UNMUTED:
             game.jukebox.update()
             
         # check map change using player's coordinates

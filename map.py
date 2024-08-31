@@ -124,7 +124,7 @@ class Map():
 
     # draws the tile map on the screen
     def draw_map(self):
-        #self.map_data['tilemap_info'].clear()
+        self.map_data['tilemap_info'].clear()
         # scroll through the map data
         for y in range(0, self.map_data['height']):
             for x in range(0, self.map_data['width']):
@@ -140,12 +140,12 @@ class Map():
                 # from T16.png to T35.png: blocking tiles (OBSTACLE)
                 # from T70.png to T75.png: tiles that kill (KILLER)
                 tn = self.get_tile_number(t['image'])
-                behaviour = enums.NO_ACTION
-                if tn >= 16 and tn <= 35:   behaviour = enums.OBSTACLE
-                elif tn >= 70 and tn <= 75: behaviour = enums.KILLER
-                elif self.map_data['mines'][y][x] == -1: behaviour = enums.KILLER
+                behaviour = enums.TB_NO_ACTION
+                if tn >= 16 and tn <= 35:   behaviour = enums.TB_OBSTACLE
+                elif tn >= 70 and tn <= 75: behaviour = enums.TB_KILLER
+                elif self.map_data['mines'][y][x] == -1: behaviour = enums.TB_MINE
                 # is only added to the list if there is an active behaviour
-                if behaviour != enums.NO_ACTION:
+                if behaviour != enums.TB_NO_ACTION:
                     self.map_data['tilemap_info'].append((tileRect, behaviour))
 
 
@@ -219,7 +219,7 @@ class Map():
         # removes any possible floating text
         self.game.floating_text.y = 0
         # add the player  
-        self.game.groups[enums.ALL].add(player)
+        self.game.groups[enums.SG_ALL].add(player)
         self.reveal_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
                          constants.PLAYER_X_INI // constants.TILE_SIZE)
 

@@ -22,26 +22,29 @@
 # ==============================================================================
 
 # game states
-RUNNING, OVER = 0, 1
+GS_RUNNING, GS_OVER = 0, 1
 
 # music states
-UNMUTED, MUTED = 0, 1
+MS_UNMUTED, MS_MUTED = 0, 1
 
 # players
-BLAZE, PIPER, NORMAN = 0, 1, 2
+PL_BLAZE, PL_PIPER, PL_NORMAN = 0, 1, 2
 
 # player states
-IDLE_UP, IDLE_DOWN, IDLE_LEFT, IDLE_RIGHT, \
-WALK_UP, WALK_DOWN, WALK_LEFT, WALK_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7
+PS_IDLE_UP, PS_IDLE_DOWN, PS_IDLE_LEFT, PS_IDLE_RIGHT, \
+PS_WALK_UP, PS_WALK_DOWN, PS_WALK_LEFT, PS_WALK_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7
 
 #coordinate axes
-HORIZONTAL, VERTICAL = 0, 1
+CA_HORIZONTAL, CA_VERTICAL = 0, 1
 
 # directions of movement
-UP, DOWN, LEFT, RIGHT = 0, 1, 2, 3
+D_UP, D_DOWN, D_LEFT, D_RIGHT = 0, 1, 2, 3
 
 # tile behaviours
-NO_ACTION, OBSTACLE, ITEM, KILLER = 0, 1, 2, 3
+TB_NO_ACTION, TB_OBSTACLE, TB_MINE, TB_ITEM, TB_KILLER = 0, 1, 2, 3, 4
+
+# map data [mines]
+MD_FREE, MD_FLAG, MD_MINE = 0, 9, 10
 
 # enemy types
 NONE, SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, HABALI, \
@@ -55,17 +58,17 @@ S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, S_F_GREEN, S_B_GREEN, L_F_WHITE, L_B
 L_F_RED, L_B_BLACK, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
 # menu
-START, LOAD, OPTIONS, EXIT, FULLSCREEN, SCANLINES, VIEW, \
-CONTROL, EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
+MO_START, MO_LOAD, MO_OPTIONS, MO_EXIT, MO_SCREEN_MODE, MO_SCANLINES, MO_VIEW, \
+MO_CONTROL, MO_EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7, 8
 
 # keyboard control types
-CLASSIC, GAMER, RETRO, JOYSTICK = 0, 1, 2, 3
+CT_CLASSIC, CT_GAMER, CT_RETRO, CT_JOYSTICK = 0, 1, 2, 3
 
 # sprite groups
-ALL, ENEMIES, HOTSPOT, SHOT = 0, 1, 2, 3
+SG_ALL, SG_ENEMIES, SG_HOTSPOT, SG_SHOT = 0, 1, 2, 3
 
-# full screen modes
-OFF, X600, X720 = 0, 1, 2
+# screen modes
+SM_WINDOW, SM_X600, SM_X720 = 0, 1, 2
 
 # views
-ISO, ZENITH = 0, 1
+V_ISO, V_ZENITH = 0, 1

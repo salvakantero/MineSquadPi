@@ -33,10 +33,10 @@ class Configuration():
         self.filename = 'config.dat'
         self.data = { 
             # default values
-            'full_screen' : 0, # 0 = off, 1 = 4:3 800x600, 2 = 16:9 1280x720
+            'screen_mode' : 0, # 0 = window, 1 = 4:3(800x600), 2 = 16:9(1280x720)
             'scanlines' : True,
             'view' : 1, # 0 = isometric, 1 = zenithal
-            'control' : enums.CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
+            'control' : enums.CT_CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
         }
         # default values for controls (classic layout)
         self.up_key = pygame.K_UP
@@ -65,17 +65,17 @@ class Configuration():
 
     # assigns the keys corresponding to the selected layout
     def apply_controls(self):
-        if self.data['control'] == enums.CLASSIC or self.data['control'] == enums.JOYSTICK:
+        if self.data['control'] == enums.CT_CLASSIC or self.data['control'] == enums.CT_JOYSTICK:
             self.up_key = pygame.K_UP
             self.down_key = pygame.K_DOWN
             self.left_key = pygame.K_LEFT
             self.right_key = pygame.K_RIGHT
-        elif self.data['control'] == enums.GAMER:
+        elif self.data['control'] == enums.CT_GAMER:
             self.up_key = pygame.K_w
             self.down_key = pygame.K_s
             self.left_key = pygame.K_a
             self.right_key = pygame.K_d
-        elif self.data['control'] == enums.RETRO:
+        elif self.data['control'] == enums.CT_RETRO:
             self.up_key = pygame.K_q
             self.down_key = pygame.K_a
             self.left_key = pygame.K_o
@@ -85,11 +85,11 @@ class Configuration():
     # create a joystick/joypad/gamepad object
     def prepare_joystick(self):
         joystick = None
-        if self.data['control'] == enums.JOYSTICK:
+        if self.data['control'] == enums.CT_JOYSTICK:
             if pygame.joystick.get_count() > 0:
                 joystick = pygame.joystick.Joystick(0)
                 joystick.init()
             else:
-                self.data['control'] == enums.CLASSIC
+                self.data['control'] == enums.CT_CLASSIC
         return joystick
     
