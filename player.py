@@ -156,11 +156,11 @@ class Player(pygame.sprite.Sprite):
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
             # if there is no flag on the tile
-            if self.map.map_data['mines'][y][x] != 9:
+            if self.map.map_data['mines'][y][x] != enums.MD_FLAG:
                 # if there is a mine in the marked tile
-                if self.map.map_data['mines'][y][x] == -1:
+                if self.map.map_data['mines'][y][x] == enums.MD_MINE:
                     self.game.remaining_mines -= 1
-                self.map.map_data['mines'][y][x] = 9 # place the flag
+                self.map.map_data['mines'][y][x] = enums.MD_FLAG # place the flag
                 self.sfx_flag.play()
                 self.game.remaining_flags -= 1
                 self.scoreboard.invalidate()

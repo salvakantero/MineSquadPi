@@ -74,10 +74,10 @@ class Map():
             path = data['tiles'][tile]['image']
             data['tiles'][tile]['image'] = os.path.basename(path)
             data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
-        # tiles trodden by the player
+        # tiles trodden by the player (to fill in later)
         data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
                                   for _ in range(constants.MAP_TILE_SIZE[1])]
-        # rect and behaviour of each tile
+        # rect and behaviour of each tile (to fill in later)
         data['tilemap_info'] = []
         return data
 
@@ -106,18 +106,19 @@ class Map():
                 if tile < 15 and row_index < len(tile_data) - 2:
                     available_tiles.append((row_index, col_index))
         # initial mine map with all its values at 0
-        mine_data = [[0] * constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
+        mine_data = [[enums.MD_FREE] * 
+                     constants.MAP_TILE_SIZE[0] for _ in range(constants.MAP_TILE_SIZE[1])]
         # choose random mine positions among the passable tiles
         mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
         for mine in mines:
             row, col = mine
-            mine_data[row][col] = -1 # mark the mine
+            mine_data[row][col] = enums.MD_MINE # mark the mine
             # Increases the counter of adjacent tiles.
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
                     and 0 <= j < constants.MAP_TILE_SIZE[0] \
-                    and mine_data[i][j] != -1:
+                    and mine_data[i][j] != enums.MD_MINE:
                         mine_data[i][j] += 1
         return mine_data
 
@@ -143,7 +144,7 @@ class Map():
                 behaviour = enums.TB_NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.TB_OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.TB_KILLER
-                elif self.map_data['mines'][y][x] == -1: behaviour = enums.TB_MINE
+                elif self.map_data['mines'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.TB_NO_ACTION:
                     self.map_data['tilemap_info'].append((tileRect, behaviour))
@@ -163,10 +164,10 @@ class Map():
         tile_data = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.map_data['mines']):
             for col_index, value in enumerate(row):
-                if value > 0 \
+                if value > enums.MD_FREE \
                 and self.map_data['revealed_tiles'][row_index][col_index] \
                 and tile_data[row_index][col_index] < 15:
-                    if value == 9: # mine deactivated (flag)
+                    if value == enums.MD_FLAG: # mine deactivated
                         x = (col_index * constants.TILE_SIZE)
                         y = (row_index * constants.TILE_SIZE)
                         self.game.srf_map.blit(self.game.flag_image, (x,y))
