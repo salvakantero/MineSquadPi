@@ -47,7 +47,7 @@ class Game():
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # when 'False', load the last checkpoint
         self.win_secuence = 0 # animated sequence on winning (if > 0)
-        self.los_secuence = 0 # animated sequence on losing (if > 0)
+        self.loss_secuence = 0 # animated sequence on losing (if > 0)
         self.remaining_flags = 0 # available flags
         self.remaining_mines = 0 # mines to be deactivated
         self.status = enums.GS_OVER # start from menu
@@ -456,22 +456,25 @@ class Game():
 
     # collisions between the player and mines, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
-        # player and killer tiles
+        # player and killer tiles or mines
         for index, (tileRect, behaviour) in enumerate(tilemap_info):
             if tileRect.colliderect(player):
-                if behaviour == enums.TB_KILLER:
+                if behaviour == enums.TB_MINE:
                     # eliminates the mine
-                    #tilemap_info[index] = (tileRect, enums.NO_ACTION)
+                    tilemap_info[index] = (tileRect, enums.TB_NO_ACTION)
                     # shake the map
-                    #self.shake = [10, 6]
-                    #self.shake_timer = 14
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
                     # creates an explosion
-                    #blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
-                    #self.groups[enums.ALL].add(blast)     
-                    #self.sfx_blast[4].play()
+                    blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
+                    self.groups[enums.SG_ALL].add(blast)     
+                    self.sfx_blast[4].play()
+                    player.loses_life(20) # game over
+                    self.loss_secuence = 70 # allows to end the animation of the explosion
+                    scoreboard.invalidate()
+                elif behaviour == enums.TB_KILLER:
+                    self.sfx_locked_door.play()
                     player.loses_life(1)
-                    #player.loses_life(20) # game over
-                    #self.los_secuence = 70 # allows to end the animation of the explosion
                     scoreboard.invalidate()
                 return
         # player and martians
