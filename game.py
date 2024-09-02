@@ -455,13 +455,16 @@ class Game():
 
 
     # collisions between the player and mines, enemies and hotspots
-    def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
+    #def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
+    def check_player_collisions(self, player, scoreboard, map_number, tile_data):
         # player and killer tiles or mines
-        for index, (tileRect, behaviour) in enumerate(tilemap_info):
+        #for index, (tileRect, behaviour) in enumerate(tilemap_info):
+        for index, (tileRect, behaviour, *_) in enumerate(tile_data):
             if tileRect.colliderect(player):
                 if behaviour == enums.TB_MINE:
                     # eliminates the mine
-                    tilemap_info[index] = (tileRect, enums.TB_NO_ACTION)
+                    #tilemap_info[index] = (tileRect, enums.TB_NO_ACTION)
+                    tile_data[index] = (tileRect, enums.TB_NO_ACTION, *_)
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
@@ -539,12 +542,13 @@ class Game():
 
     def check_bullet_collisions(self, player, scoreboard, tilemap_info):  
         # bullets and map tiles
+        '''
         if self.groups[enums.SG_SHOT].sprite is not None: # shot in progress
             bullet_rect = self.groups[enums.SG_SHOT].sprite.rect
             for tile, _ in tilemap_info:
                 if tile.colliderect(bullet_rect):
                     self.groups[enums.SG_SHOT].sprite.kill()
-                    break                                      
+                    break '''                                   
         # bullets and martians
         if self.groups[enums.SG_SHOT].sprite is not None: # still shot in progress
             for enemy in self.groups[enums.SG_ENEMIES]:

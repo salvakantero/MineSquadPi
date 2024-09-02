@@ -39,14 +39,14 @@ class Map():
         self.game = game
         self.number = 0 # current map
         self.last = -1 # last map loaded
-        self.map_data = {} # tiles that make up the map
+        self.map_data = {} # all the information needed to build the map
 
 
     # loads a map and draws it on screen
     def load(self):
         self.map_data = self.process_json('maps/map{}.json'.format(self.number))
-        self.map_data['mines'] = self.generate_mines() # randomly places mines on the map
-        self.draw_map() # draws the tile map on the screen
+        #self.map_data['mines'] = self.generate_mines() # randomly places mines on the map
+        self.generate_map() # generates the tile information and draws them on the screen
 
 
     # dump the tiled file into mapdata
@@ -78,7 +78,8 @@ class Map():
         data['revealed_tiles'] = [[False] * constants.MAP_TILE_SIZE[0] 
                                   for _ in range(constants.MAP_TILE_SIZE[1])]
         # rect and behaviour of each tile (to fill in later)
-        data['tilemap_info'] = []
+        #data['tilemap_info'] = []
+        data['tile_data'] = []
         return data
 
 
@@ -123,9 +124,12 @@ class Map():
         return mine_data
 
 
-    # draws the tile map on the screen
-    def draw_map(self):
-        self.map_data['tilemap_info'].clear()
+    # generates the tile information and draws them on the screen
+    def generate_map(self):
+        #self.map_data['tilemap_info'].clear()
+        self.map_data['tile_data'].clear()
+        # randomly places mines on the map
+        mine_data = self.generate_mines()
         # scroll through the map data
         for y in range(0, self.map_data['height']):
             for x in range(0, self.map_data['width']):
@@ -144,10 +148,14 @@ class Map():
                 behaviour = enums.TB_NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.TB_OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.TB_KILLER
-                elif self.map_data['mines'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
+                #elif self.map_data['mines'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
                 # is only added to the list if there is an active behaviour
-                if behaviour != enums.TB_NO_ACTION:
-                    self.map_data['tilemap_info'].append((tileRect, behaviour))
+                #if behaviour != enums.TB_NO_ACTION:
+                #    self.map_data['tilemap_info'].append((tileRect, behaviour))
+
+                # para cada tile del mapa genera toda la información necesaria:
+                # (rect, behaviour, mine data, revealed)
+                self.map_data['tile_data'].append((tileRect, behaviour, mine_data[y][x], False)) 
 
 
     def reveal_tile(self, row, col):
@@ -156,8 +164,10 @@ class Map():
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] and 0 <= j < constants.MAP_TILE_SIZE[0]:
-                        if not self.map_data['revealed_tiles'][i][j]:
-                            self.map_data['revealed_tiles'][i][j] = True
+                        #if not self.map_data['revealed_tiles'][i][j]:
+                        #    self.map_data['revealed_tiles'][i][j] = True
+                        if not self.map_data['tile_data'][(i*constants.MAP_TILE_SIZE[0])+j][3]:
+                            self.map_data['tile_data'][(i*constants.MAP_TILE_SIZE[0])+j][3] = True
 
 
     def draw_mine_data(self):

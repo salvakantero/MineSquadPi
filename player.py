@@ -290,7 +290,8 @@ class Player(pygame.sprite.Sprite):
 
         collision = False
         # it is necessary to check all obstacle tiles.
-        for tileRect, behaviour in self.map.map_data['tilemap_info']:
+        #for tileRect, behaviour in self.map.map_data['tilemap_info']:
+        for tileRect, behaviour, *_ in self.map.map_data['tile_data']:
             if tileRect.colliderect(temp_rect):
                 if behaviour == enums.TB_OBSTACLE: collision = True
                 break

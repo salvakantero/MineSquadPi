@@ -123,9 +123,11 @@ while True:
         game.groups[enums.SG_ALL].update()
 
         # collision between player and enemies, mines or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number, map.map_data['tilemap_info'])
+        #game.check_player_collisions(player, scoreboard, map.number, map.map_data['tilemap_info'])
+        game.check_player_collisions(player, scoreboard, map.number, map.map_data['tile_data'])
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard, map.map_data['tilemap_info'])
+        #game.check_bullet_collisions(player, scoreboard, map.map_data['tilemap_info'])
+        game.check_bullet_collisions(player, scoreboard, map.map_data['tile_data'])
 
         # game over?
         if player.energy <= 0:
