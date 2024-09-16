@@ -49,7 +49,7 @@ class Game():
         self.win_secuence = 0 # animated sequence on winning (if > 0)
         self.loss_secuence = 0 # animated sequence on losing (if > 0)
         self.remaining_flags = 0 # available flags
-        self.remaining_mines = 0 # mines to be deactivated
+        self.remaining_mines = 0 # mines left (to be deactivated)
         self.status = enums.GS_OVER # start from menu
         self.music_status = enums.MS_UNMUTED # Music!
         self.loop_counter = 0 # main loop cycles for various uses
@@ -454,28 +454,25 @@ class Game():
         self.win_secuence -= 1 # next frame
 
 
-    # collisions between the player and mines, enemies and hotspots
-    #def check_player_collisions(self, player, scoreboard, map_number, tilemap_info):
-    def check_player_collisions(self, player, scoreboard, map_number, tile_data):
+    # collisions between the player and mines, killer tiles, enemies and hotspots
+    def check_player_collisions(self, player, scoreboard, map_number, map_data):
         # player and killer tiles or mines
-        #for index, (tileRect, behaviour) in enumerate(tilemap_info):
-        for index, (tileRect, behaviour, *_) in enumerate(tile_data):
+        for index, tileRect in enumerate(map_data['rects']):
             if tileRect.colliderect(player):
-                if behaviour == enums.TB_MINE:
+                if map_data['behaviours'][index] == enums.TB_MINE:
                     # eliminates the mine
-                    #tilemap_info[index] = (tileRect, enums.TB_NO_ACTION)
-                    tile_data[index] = (tileRect, enums.TB_NO_ACTION, *_)
+                    map_data['behaviours'][index] = enums.TB_NO_ACTION
                     # shake the map
                     self.shake = [10, 6]
                     self.shake_timer = 14
                     # creates an explosion
                     blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
-                    self.groups[enums.SG_ALL].add(blast)     
+                    self.groups[enums.SG_ALL].add(blast)   
                     self.sfx_blast[4].play()
                     player.loses_life(20) # game over
                     self.loss_secuence = 70 # allows to end the animation of the explosion
                     scoreboard.invalidate()
-                elif behaviour == enums.TB_KILLER:
+                elif map_data['behaviours'][index] == enums.TB_KILLER:
                     self.sfx_locked_door.play()
                     player.loses_life(1)
                     scoreboard.invalidate()
@@ -540,15 +537,7 @@ class Game():
                 return
 
 
-    def check_bullet_collisions(self, player, scoreboard, tilemap_info):  
-        # bullets and map tiles
-        '''
-        if self.groups[enums.SG_SHOT].sprite is not None: # shot in progress
-            bullet_rect = self.groups[enums.SG_SHOT].sprite.rect
-            for tile, _ in tilemap_info:
-                if tile.colliderect(bullet_rect):
-                    self.groups[enums.SG_SHOT].sprite.kill()
-                    break '''                                   
+    def check_bullet_collisions(self, player, scoreboard):                                  
         # bullets and martians
         if self.groups[enums.SG_SHOT].sprite is not None: # still shot in progress
             for enemy in self.groups[enums.SG_ENEMIES]:

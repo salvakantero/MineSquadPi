@@ -160,6 +160,15 @@ class Player(pygame.sprite.Sprite):
                 # if there is a mine in the marked tile
                 if self.map.map_data['mines'][y][x] == enums.MD_MINE:
                     self.game.remaining_mines -= 1
+                    # eliminates the mine in the behaviours list
+                    temp_rect = pygame.Rect(
+                        (x * constants.TILE_SIZE, y * constants.TILE_SIZE),
+                        (constants.TILE_SIZE, constants.TILE_SIZE))
+                    for index, tileRect in enumerate(self.map.map_data['rects']):
+                        if tileRect.colliderect(temp_rect) \
+                            and self.map.map_data['behaviours'][index] == enums.TB_MINE:
+                            self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
+                            break
                 self.map.map_data['mines'][y][x] = enums.MD_FLAG # place the flag
                 self.sfx_flag.play()
                 self.game.remaining_flags -= 1
@@ -290,10 +299,10 @@ class Player(pygame.sprite.Sprite):
 
         collision = False
         # it is necessary to check all obstacle tiles.
-        #for tileRect, behaviour in self.map.map_data['tilemap_info']:
-        for tileRect, behaviour, *_ in self.map.map_data['tile_data']:
+        for index, tileRect in enumerate(self.map.map_data['rects']):
             if tileRect.colliderect(temp_rect):
-                if behaviour == enums.TB_OBSTACLE: collision = True
+                if self.map.map_data['behaviours'][index] == enums.TB_OBSTACLE: 
+                    collision = True
                 break
         # Apply the new position if no collision occurs
         if not collision:
@@ -302,7 +311,7 @@ class Player(pygame.sprite.Sprite):
             else: # vertical
                 self.rect.y = temp_pos + self.direction.y * self.speed
             if self.steps < 0:
-                self.map.reveal_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
+                self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
 
 
     def horizontal_mov(self):
