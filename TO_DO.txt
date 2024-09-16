@@ -4,13 +4,13 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- eliminación de minas al colocar bandera
+- explosión al pisar mina (game over)
 - graficos de BLAZE
 
 
 BUGS
 ====
-
+- pixel en el prota del scoreboard
 
 POR HACER
 =========
@@ -39,7 +39,7 @@ HECHO
 =====
 31/08/24 - colocación de balizas/banderas
 24/08/24 - marcador con info de minas y banderas
-24/08/24 - marcador EN una sola línea
+24/08/24 - marcador en una sola línea
 22/08/24 - gráfico de mina
 21/08/24 - gráfico de baliza/bandera
 18/08/24 - explosión al pisar mina
