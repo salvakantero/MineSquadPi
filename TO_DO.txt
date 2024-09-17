@@ -13,6 +13,7 @@ BUGS
 
 POR HACER
 =========
+- fondos de color distinto al negro?
 - info de mapa al inicio de nivel
 - tile behaviours
 - barra de energía del player
