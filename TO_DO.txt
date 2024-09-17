@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- explosión al pisar mina (game over)
 - graficos de BLAZE
 
 

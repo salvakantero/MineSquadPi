@@ -63,7 +63,7 @@ while True:
         game.loop_counter = 0
         game.floating_text.y = 0
         game.win_secuence = 0
-        game.los_secuence = 0
+        game.loss_secuence = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[3] = True # all visible hotspots
         # current map
@@ -130,13 +130,13 @@ while True:
         # game over?
         if player.energy <= 0:
             player.energy = 0
-            if game.los_secuence == 0: # blast animation completed                           
+            if game.loss_secuence == 0: # blast animation completed                           
                 game.over()
                 game.update_high_score_table(player.score)
                 game.status = enums.GS_OVER
                 continue
             else: # blast animation in progress
-                game.los_secuence = game.los_secuence - 1
+                game.loss_secuence -= 1
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
