@@ -31,22 +31,28 @@ class Scoreboard():
         self.game = game
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert()
+        self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert_alpha()
         self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha()
-
+        # dark colour for each level: red, blue, green, gray
+        self.back_colour = ((100,10,10), (10,10,100), (10,100,10), (100,100,100))
+        self.stage_number = 0
 
     # draws a text with its shadow
     def shaded_text(self, data, x, y):       
-        self.game.fonts[enums.L_B_WHITE].render(
+        self.game.fonts[enums.L_B_BLACK].render(
             str(data).rjust(2, '0'), self.game.srf_sboard, (x, y))  # shadow
         self.game.fonts[enums.L_F_WHITE].render(
             str(data).rjust(2, '0'), self.game.srf_sboard, (x-2, y-2))
 
 
     # draws the entire scoreboard
-    def reset(self):
+    def reset(self, map_number):
+        # gets the stage number
+        if map_number > 11: self.stage_number = 3
+        elif map_number > 7: self.stage_number = 2
+        elif map_number > 3: self.stage_number = 1 
         # delete the entire scoreboard
-        self.game.srf_sboard.fill((0,0,0))
+        self.game.srf_sboard.fill(self.back_colour[self.stage_number])
         # draw icons
         self.game.srf_sboard.blit(self.energy_icon, (0, 2))
         self.game.srf_sboard.blit(self.game.hotspot_images[enums.AMMO], (70, 2))
@@ -61,7 +67,7 @@ class Scoreboard():
 
     # clean the previous data
     def clear_zone(self, x):
-        pygame.draw.rect(self.game.srf_sboard, constants.PALETTE['BLACK0'], ((x, 4),(13, 12)))
+        pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 4),(13, 12)))
 
 
     # update the data (only if it has been invalidated)

@@ -84,7 +84,7 @@ class Game():
         self.fonts = {
             # small fonts
             enums.S_F_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['SAND1'], True),
-            enums.S_B_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], False),
+            enums.S_B_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], True),
             enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE1'], True),
             enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),

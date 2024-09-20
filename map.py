@@ -51,7 +51,7 @@ class Map():
         # save the new background (empty of sprites)
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
         # refresh the scoreboard area
-        scoreboard.reset()
+        scoreboard.reset(self.number)
         #scoreboard.map_info(self.number)
         scoreboard.invalidate()
         # reset the sprite groups  

@@ -5,15 +5,14 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
-
+- adaptar marcador al color de fondo
 
 BUGS
 ====
-- pixel en el prota del scoreboard
+
 
 POR HACER
 =========
-- fondos de color distinto al negro?
 - info de mapa al inicio de nivel
 - tile behaviours
 - barra de energía del player
@@ -37,6 +36,7 @@ POR HACER
 
 HECHO
 =====
+20/09/24 - fondos de color distinto al negro en el marcador por cada nivel
 31/08/24 - colocación de balizas/banderas
 24/08/24 - marcador con info de minas y banderas
 24/08/24 - marcador en una sola línea
@@ -67,7 +67,7 @@ Notas
     Piper: Velocidad alta, resistencia baja (Es una chica)
     Norman: Velocidad baja, resistencia alta (Es un chico fortachón)
 
-- Escenarios (5 niveles cada uno):
+- Escenarios (4 niveles cada uno):
      
     Operación Torch (Norte de África):
     Fecha clave: Noviembre de 1942.

@@ -26,9 +26,9 @@ import pygame
 
 # creates a new font from an image path and a colour
 class Font():
-    def __init__(self, path, color, transparent):
+    def __init__(self, path, colour, transparent):
         self.path = path
-        self.color = color
+        self.colour = colour
         self.transparent = transparent # does not erase the background if True
         self.letters, self.letter_spacing, self.line_height = self.load_font_img()
         self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
@@ -42,10 +42,10 @@ class Font():
 
 
     # change one colour for another
-    def swap_color(self, image, old_color, new_color):
-        image.set_colorkey(old_color)
+    def swap_colour(self, image, old_colour, new_colour):
+        image.set_colorkey(old_colour)
         surf = image.copy()
-        surf.fill(new_color)
+        surf.fill(new_colour)
         surf.blit(image,(0,0))
         return surf
 
@@ -60,10 +60,10 @@ class Font():
 
     # generates the letters (and letter spacing) from the font image
     def load_font_img(self):
-        fg_color = (255, 0, 0) # original red
-        bg_color = (0, 0, 0) # black
+        fg_colour = (255, 0, 0) # original red
+        bg_colour = (0, 0, 0) # black
         font_img = pygame.image.load(self.path).convert() # load font image
-        font_img = self.swap_color(font_img, fg_color, self.color) # apply the requested font colour
+        font_img = self.swap_colour(font_img, fg_colour, self.colour) # apply the requested font colour
         last_x = 0
         letters = []
         letter_spacing = []
@@ -78,7 +78,7 @@ class Font():
         if self.transparent:
             # erases the background colour of each letter in the array
             for letter in letters:
-                letter.set_colorkey(bg_color) 
+                letter.set_colorkey(bg_colour) 
 
         return letters, letter_spacing, font_img.get_height()
 
