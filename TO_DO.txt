@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
-- adaptar marcador al color de fondo
 
 BUGS
 ====

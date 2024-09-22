@@ -48,13 +48,12 @@ class Scoreboard():
     # draws the entire scoreboard
     def reset(self, map_number):
         # gets the stage number
-        if map_number > 11: self.stage_number = 3
-        elif map_number > 7: self.stage_number = 2
-        elif map_number > 3: self.stage_number = 1 
+        if map_number != 0:
+            self.stage_number = (map_number - 1) // 4
         # delete the entire scoreboard
         self.game.srf_sboard.fill(self.back_colour[self.stage_number])
         # draw icons
-        self.game.srf_sboard.blit(self.energy_icon, (0, 2))
+        self.game.srf_sboard.blit(self.energy_icon, (2, 2))
         self.game.srf_sboard.blit(self.game.hotspot_images[enums.AMMO], (70, 2))
         self.game.srf_sboard.blit(self.game.flag_image, (130, 2))
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
@@ -75,7 +74,7 @@ class Scoreboard():
         if self.needs_updating:
             # player data
             self.clear_zone(18)
-            self.shaded_text(player.energy, 20, 6)
+            self.shaded_text(player.energy, 22, 6)
             self.clear_zone(88)
             self.shaded_text(player.ammo, 90, 6)
             self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
