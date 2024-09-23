@@ -471,6 +471,7 @@ class Game():
                     self.sfx_blast[4].play()
                     player.loses_life(20) # game over
                     self.loss_secuence = 70 # allows to end the animation of the explosion
+                    self.groups[enums.SG_ALL].remove(player)
                     scoreboard.invalidate()
                 elif map_data['behaviours'][index] == enums.TB_KILLER:
                     self.sfx_locked_door.play()

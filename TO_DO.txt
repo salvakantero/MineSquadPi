@@ -5,21 +5,17 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
+- info de mapa al inicio de nivel
+- al pulsar mina y explotar no volver a mostrar al player
 
 BUGS
 ====
 
-
 POR HACER
 =========
-- info de mapa al inicio de nivel
-- tile behaviours
 - barra de energía del player
-- colocación de tiles reventados
-- cambio de color para los tiles visitados?
 - graficos de PIPER
 - gráficos de NORMAN
-- animación del player con el IDLE impar??
 - selección del jugador al comenzar la partida
 - tiles que matan (definir y aplicar)
 - objetos para puntuar
@@ -31,7 +27,6 @@ POR HACER
 - un tema musical tranquilo para cada nivel
 - cronómetro para descontar puntos al final de cada nivel
 - convertir a vista ISO
-
 
 HECHO
 =====
@@ -53,8 +48,6 @@ HECHO
 02/05/24 - usar la base de RedPlanet y adaptarla para MineSquad
 21/04/24 - menú de inicio
 06/04/24 - paleta pseudopico-8 con 48 colores
-
-
 
 Notas
 =====
