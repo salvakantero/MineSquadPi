@@ -112,14 +112,17 @@ while True:
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
-            game.message(map.stage_name[map.number], 'Level ' + str(map.number+1), True, False)
-            #pygame.mixer.music.stop()
-            #self.sfx_game_over.play()
+            scoreboard.update(player)
+            game.message(map.stage_name[map.number], 'Press a key to start level ' + str(map.number+1), True, False)
+            pygame.mixer.music.stop()
+            game.sfx_game_over.play()
+            # wait for a key
             pygame.event.clear(pygame.KEYDOWN)
             while True:
                 for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN:
-                        break # back to game
+                    if event.type == pygame.KEYDOWN: break
+                else: continue
+                break
 
         # our player wins the game
         if game.win_secuence > 0:

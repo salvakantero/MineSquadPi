@@ -40,7 +40,7 @@ class Map():
         self.number = 0 # current map
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
-        self.stage_name = ("OPERATION TORCH NORTH AFRICA", 
+        self.stage_name = ("Operation Torch (North Africa)", 
                            "D-Day (Normandy, France)", 
                            "Battle of the Bulge (The Ardennes, Belgium)", 
                            "Battle of Berlin, (Germany)")
