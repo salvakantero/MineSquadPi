@@ -6,6 +6,7 @@ EN PROCESO
 ==========
 - graficos de BLAZE
 - colores adecuados para game.Message
+- fondos IA para la vista 16:9 (1280x720)
 
 BUGS
 ====
@@ -20,7 +21,6 @@ POR HACER
 - objetos para puntuar
 - objeto escudo (invencibilidad)
 - objeto binoculares (mayor rango de visión)
-- fondos IA para la vista 16:9
 - técnicas QUADTREE para detección de colisiones?
 - mapas más largos que la pantalla y scroll vertical
 - un tema musical tranquilo para cada nivel

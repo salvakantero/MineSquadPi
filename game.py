@@ -363,8 +363,8 @@ class Game():
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # black window
         pygame.draw.rect(aux_surf, constants.PALETTE['BLACK0'],(x, y, width, height))
-        # blue border
-        #pygame.draw.rect(aux_surf, constants.PALETTE['DARK_BLUE1'],(x, y, width, height), 1)
+        # border
+        pygame.draw.rect(aux_surf, constants.PALETTE['RED0'],(x, y, width, height), 1)
         # draws the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)
