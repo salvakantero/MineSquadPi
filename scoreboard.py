@@ -88,11 +88,32 @@ class Scoreboard():
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
 
 
-    #
+    # 16-position multi-coloured energy bar
     def draw_energy_bar(self, energy):
         x = 22
-        y = 6        
-        pass
+        y = 6
+        rect_width = 2
+        rect_height = 10
+        spacing = 1
+        # Dibuja tantos rectángulos como energía tenga el jugador
+        for i in range(16):
+            # Determina el color basado en el índice del rectángulo
+            if i < 5:
+                color = constants.PALETTE['RED1']
+            elif i < 10:
+                color = constants.PALETTE['YELLOW1']
+            else:
+                color = constants.PALETTE['GREEN1']
+        
+            # Calcula la posición del rectángulo con separación
+            rect_x = x + i * (rect_width + spacing)
+            
+            # Dibuja solo si el índice es menor que la energía actual del jugador
+            if i < energy:
+                pygame.draw.rect(self.game.srf_sboard, color, (rect_x, y, rect_width, rect_height))
+            else:
+                # Para las posiciones sin energía, se puede dibujar un rectángulo vacío
+                pygame.draw.rect(self.game.srf_sboard, constants.PALETTE['BLACK0'], (rect_x, y, rect_width, rect_height), 2)
 
 
     # forces the redrawing of the data

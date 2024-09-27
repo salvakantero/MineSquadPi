@@ -62,7 +62,7 @@ class Intro():
         
         # PlayOnRetro logo
         # fade in
-        self.srf_menu.fill(constants.PALETTE["BLACK0"]) # black background
+        self.srf_menu.fill(constants.PALETTE['BLACK0']) # black background
         self.srf_aux.blit(self.img_logo, (0, 0))
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
         if self.main_key_pressed(): return # allows skipping the intro
@@ -70,13 +70,13 @@ class Intro():
         pygame.time.wait(1500)
         if self.main_key_pressed(): return
         # fade out
-        self.srf_aux.fill(constants.PALETTE["BLACK0"]) # black background
+        self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
         if self.main_key_pressed(): return # allows skipping the intro
 
         # MineSquad logo
         # fade in
-        self.srf_menu.fill(constants.PALETTE["BLACK0"])
+        self.srf_menu.fill(constants.PALETTE['BLACK0'])
         self.srf_aux.blit(self.img_intro, (0, 0))
         self.fades_surface(self.srf_menu, self.srf_aux, 45, 60)     
         if self.main_key_pressed(): return # allows skipping the intro
