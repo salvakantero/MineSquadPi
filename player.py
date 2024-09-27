@@ -63,9 +63,9 @@ class Player(pygame.sprite.Sprite):
 
     # set energy and speed based on player type
     def set_player_attributes(self):
-        if self.who_is == enums.PL_PIPER:   return  8, 2
+        if self.who_is == enums.PL_PIPER:   return  9, 2
         elif self.who_is == enums.PL_BLAZE: return 12, 1
-        else:                               return 16, 0
+        else:                               return 15, 0
 
 
     # Load player images for animations

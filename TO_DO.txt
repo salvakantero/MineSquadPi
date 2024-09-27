@@ -13,7 +13,6 @@ BUGS
 
 POR HACER
 =========
-- barra de energía del player
 - graficos de PIPER
 - gráficos de NORMAN
 - selección del jugador al comenzar la partida
@@ -29,7 +28,7 @@ POR HACER
 
 HECHO
 =====
-
+27/09/24 - barra de energía del player
 24/09/23 - info de mapa al inicio de nivel
 20/09/24 - fondos de color distinto al negro en el marcador por cada nivel
 31/08/24 - colocación de balizas/banderas

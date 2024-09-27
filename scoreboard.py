@@ -90,17 +90,17 @@ class Scoreboard():
 
     # 16-position multi-coloured energy bar
     def draw_energy_bar(self, energy):
-        x = 22
-        y = 6
+        x = 19
+        y = 7
         rect_width = 2
         rect_height = 10
         spacing = 1
         # Dibuja tantos rectángulos como energía tenga el jugador
-        for i in range(16):
+        for i in range(15):
             # Determina el color basado en el índice del rectángulo
-            if i < 5:
+            if i < 4:
                 color = constants.PALETTE['RED1']
-            elif i < 10:
+            elif i < 8:
                 color = constants.PALETTE['YELLOW1']
             else:
                 color = constants.PALETTE['GREEN1']
