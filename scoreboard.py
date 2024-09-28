@@ -42,10 +42,7 @@ class Scoreboard():
     def update(self, player):
         if self.needs_updating:
             # player data
-            #self.clear_zone(18)
-            #self.shaded_text(player.energy, 22, 6)
             self.draw_energy_bar(player.energy)
-
             self.clear_zone(88)
             self.shaded_text(player.ammo, 90, 6)
             self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
@@ -90,32 +87,24 @@ class Scoreboard():
 
     # 16-position multi-coloured energy bar
     def draw_energy_bar(self, energy):
-        x = 19
-        y = 7
-        rect_width = 2
-        rect_height = 10
-        spacing = 1
-        # Dibuja tantos rectángulos como energía tenga el jugador
-        for i in range(15):
-            # Determina el color basado en el índice del rectángulo
-            if i < 4:
-                color = constants.PALETTE['RED1']
-            elif i < 8:
-                color = constants.PALETTE['YELLOW1']
-            else:
-                color = constants.PALETTE['GREEN1']
-        
-            # Calcula la posición del rectángulo con separación
-            rect_x = x + i * (rect_width + spacing)
+        x, y = 20, 7
+        bar_units = 15
+        bar_unit_width, bar_unit_height = 2, 10
+        bar_unit_spacing = 1
+
+        # draw as many units as the player has energy
+        for i in range(bar_units):
+            # block colours: 4 reds, 4 yellows, the rest green
+            colors = [constants.PALETTE['RED1']] * 4 + \
+                    [constants.PALETTE['YELLOW1']] * 4 + \
+                    [constants.PALETTE['GREEN1']] * 7
+            # draws the bar units
+            rect_x = x + i * (bar_unit_width + bar_unit_spacing)
+            color = colors[i] if i < energy else constants.PALETTE['BLACK0']
+            pygame.draw.rect(self.game.srf_sboard, color, 
+                             (rect_x, y, bar_unit_width, bar_unit_height))
             
-            # Dibuja solo si el índice es menor que la energía actual del jugador
-            if i < energy:
-                pygame.draw.rect(self.game.srf_sboard, color, (rect_x, y, rect_width, rect_height))
-            else:
-                # Para las posiciones sin energía, se puede dibujar un rectángulo vacío
-                pygame.draw.rect(self.game.srf_sboard, constants.PALETTE['BLACK0'], (rect_x, y, rect_width, rect_height), 2)
-
-
+            
     # forces the redrawing of the data
     def invalidate(self):
         self.needs_updating = True
