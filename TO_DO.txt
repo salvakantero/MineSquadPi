@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
-- colores adecuados para game.Message
 - fondos IA para la vista 16:9 (1280x720)
 
 BUGS
@@ -28,6 +27,8 @@ POR HACER
 
 HECHO
 =====
+28/09/24 - colores adecuados para game.Message
+28/09/24 - gráfico de munición
 27/09/24 - barra de energía del player
 24/09/23 - info de mapa al inicio de nivel
 20/09/24 - fondos de color distinto al negro en el marcador por cada nivel

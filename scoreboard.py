@@ -44,12 +44,12 @@ class Scoreboard():
             # player data
             self.draw_energy_bar(player.energy)
             self.clear_zone(88)
-            self.shaded_text(player.ammo, 90, 6)
-            self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
+            self.shaded_text(player.ammo, 91, 6)
+            self.shaded_text('\'' + str(constants.MAX_AMMO), 107, 6) # ' = /
             self.clear_zone(146)
-            self.shaded_text(self.game.remaining_flags, 148, 6)
+            self.shaded_text(self.game.remaining_flags, 149, 6)
             self.clear_zone(182)
-            self.shaded_text(self.game.remaining_mines, 184, 6)
+            self.shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
                        
             x = 204

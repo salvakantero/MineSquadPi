@@ -85,12 +85,12 @@ class Game():
             # small fonts
             enums.S_F_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['SAND1'], True),
             enums.S_B_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], True),
-            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['WHITE1'], True),
+            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['GRAY2'], True),
             enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
             enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN0'], True),
             #large fonts
-            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['WHITE1'], True),
+            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['GRAY2'], True),
             enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
             enums.L_F_RED: Font('images/fonts/large_font.png', constants.PALETTE['RED0'], True),
             enums.L_B_BLACK: Font('images/fonts/large_font.png', constants.PALETTE['BLACK1'], True),
@@ -363,19 +363,17 @@ class Game():
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # black window
         pygame.draw.rect(aux_surf, constants.PALETTE['BLACK0'],(x, y, width, height))
-        # border
-        pygame.draw.rect(aux_surf, constants.PALETTE['RED0'],(x, y, width, height), 1)
         # draws the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)
         text_y = y + 5
         self.fonts[enums.L_B_WHITE].render(msg1, aux_surf, (text_x, text_y))
-        self.fonts[enums.L_F_WHITE].render(msg1, aux_surf, (text_x - 2, text_y - 2))
+        self.fonts[enums.L_F_WHITE].render(msg1, aux_surf, (text_x - 1, text_y - 1))
         # line 2
         text_x = (x + (width//2)) - (message2_len//2)
         text_y = y + 25
-        self.fonts[enums.S_B_BROWN].render(msg2, aux_surf, (text_x, text_y))
-        self.fonts[enums.S_F_BROWN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
+        self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
+        self.fonts[enums.S_F_GREEN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
