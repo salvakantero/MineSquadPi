@@ -76,7 +76,7 @@ class Game():
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         # wallpaper for the 16:9 screen mode
-        self.img_background = pygame.image.load('images/assets/wp0.png').convert()        
+        self.img_background = pygame.image.load('images/assets/wp5.png').convert()        
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
 
