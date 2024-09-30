@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-- limpieza de textos del marcador
+
 
 POR HACER
 =========
