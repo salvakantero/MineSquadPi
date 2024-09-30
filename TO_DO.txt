@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-
+- al colocar flag cambia el behaviour de los tiles adjacentes 
 
 POR HACER
 =========
