@@ -75,8 +75,8 @@ class Game():
         self.win_size = constants.WIN_SIZE
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
-        # wallpaper for the 16:9 screen mode
-        self.img_background = pygame.image.load('images/assets/wp5.png').convert()        
+        # default wallpaper for the 16:9 screen mode
+        self.set_background(-1)
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
 
@@ -207,7 +207,7 @@ class Game():
             self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
             self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-            # background image to fill in the black sides
+            # default background image to fill in the black sides
             self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
             self.apply_windowed_mode()
@@ -572,3 +572,16 @@ class Game():
                     # redraws the scoreboard
                     scoreboard.invalidate()
                     break
+    
+
+    def set_background(self, map_number):
+        if map_number >= 12: # Berlin
+            self.img_background =  pygame.image.load('images/assets/wp3.png').convert()
+        elif map_number >= 8: # Ardenas
+            self.img_background =  pygame.image.load('images/assets/wp2.png').convert()
+        elif map_number >= 4: # Normandy
+            self.img_background =  pygame.image.load('images/assets/wp1.png').convert()
+        elif map_number >= 0: # North Africa
+            self.img_background =  pygame.image.load('images/assets/wp0.png').convert()
+        else: # menu
+            self.img_background =  pygame.image.load('images/assets/wp5.png').convert()
