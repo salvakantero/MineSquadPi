@@ -5,7 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
-- fondos IA para la vista 16:9 (1280x720)
+- tiles que matan (definir y aplicar)
 
 BUGS
 ====
@@ -16,7 +16,6 @@ POR HACER
 - graficos de PIPER
 - gráficos de NORMAN
 - selección del jugador al comenzar la partida
-- tiles que matan (definir y aplicar)
 - objetos para puntuar
 - objeto escudo (invencibilidad)
 - objeto binoculares (mayor rango de visión)
@@ -28,6 +27,7 @@ POR HACER
 
 HECHO
 =====
+30/09/24 - fondos IA para la vista 16:9 (1280x720)
 28/09/24 - colores adecuados para game.Message
 28/09/24 - gráfico de munición
 27/09/24 - barra de energía del player

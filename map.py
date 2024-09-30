@@ -53,7 +53,7 @@ class Map():
         # load the wallpaper if necessary
         if self.game.config.data['screen_mode'] == enums.SM_X720: # 16:9
             self.game.set_background(self.number)
-            self.game.screen.blit(self.img_background, (0,0))
+            self.game.screen.blit(self.game.img_background, (0,0))
         # load the new map
         self.load()
         # save the new background (empty of sprites)
