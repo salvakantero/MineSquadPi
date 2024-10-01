@@ -40,10 +40,10 @@ class Map():
         self.number = 0 # current map
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
-        self.stage_name = ("Operation Torch (North Africa)", 
-                           "D-Day (Normandy, France)", 
-                           "Battle of the Bulge (The Ardennes, Belgium)", 
-                           "Battle of Berlin, (Germany)")
+        self.stage_name1 = ("Operation Torch", "D-Day", 
+                           "Battle of the Bulge", "Battle of Berlin")
+        self.stage_name2 = ("NORTH AFRICA, NOVEMBER 1942", "NORMANDY, JUNE 1944", 
+                           "THE ARDENNES, DECEMBER 1944", "GERMANY, APRIL 1945")        
 
 
     # does everything necessary to change the map and add enemies and hotspots.

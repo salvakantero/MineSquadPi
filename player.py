@@ -165,10 +165,10 @@ class Player(pygame.sprite.Sprite):
                         (x * constants.TILE_SIZE, y * constants.TILE_SIZE),
                         (constants.TILE_SIZE, constants.TILE_SIZE))
                     for index, tileRect in enumerate(self.map.map_data['rects']):
-                        if tileRect.colliderect(temp_rect) \
-                            and self.map.map_data['behaviours'][index] == enums.TB_MINE:
-                            self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
-                            break
+                        if tileRect.colliderect(temp_rect):
+                            if self.map.map_data['behaviours'][index] == enums.TB_MINE:
+                                self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
+                                break
                 self.map.map_data['mines'][y][x] = enums.MD_FLAG # place the flag
                 self.sfx_flag.play()
                 self.game.remaining_flags -= 1

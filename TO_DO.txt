@@ -87,10 +87,9 @@ Notas
     Algunas celdas contienen minas, pero el jugador no puede ver dónde están ubicadas.
     El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay debajo de las adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
-    Las celdas reveladas vacías se pintan con transparencia verde. Las que tienen números se pintan con transparencia roja.
     El color de los números dependerá del nivel/escenario.
-    El jugador puede marcar las celdas que piensa que contienen minas con una bandera o un símbolo similar.
-    Para cada mina hay una bandera, así que no puede fallar. A mayor nivel, más minas/banderas.
+    El jugador puede marcar las celdas que piensa que contienen minas con una bandera.
+    Hay un número limitado de banderas. A mayor nivel, más minas / menos banderas.
     El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina.
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
 
@@ -133,6 +132,13 @@ Notas
         persona #2      aleatoria   160
         soldado gris    persigue    400
 
+- Tiles que matan:
+    No permite pasar y pierde una porción de energía.
+    Desierto:   cactus
+    Normandía:  alambre de púas
+    Ardenas:    cepo
+    Berlín:     bomba caída
+
 - Detalles técnicos:
     - paleta similar a pico-8, en formato GPL
     - pantallas de fondo de 240x198 en formato PNG
@@ -170,9 +176,9 @@ R = 5
 X = 0
 Y = 3
 
-VSC: Cambiar fondo a negro:
+VSC: Cambiar fondo a casi negro:
 "workbench.colorCustomizations": {
-    "editor.background": "#000000"
+    "editor.background": "#060606"
 }
 
 Para compilar exe:
