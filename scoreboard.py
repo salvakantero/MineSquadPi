@@ -112,7 +112,7 @@ class Scoreboard():
 
     # clean the previous data
     def clear_zone(self, x):
-        pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 4),(13, 12)))
+        pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 4),(15, 14)))
 
 
     # draws a text with its shadow
