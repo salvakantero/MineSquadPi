@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - graficos de BLAZE
-- tiles que matan (definir y aplicar)
 
 BUGS
 ====
@@ -13,20 +12,31 @@ BUGS
 
 POR HACER
 =========
-- graficos de PIPER
-- gráficos de NORMAN
 - selección del jugador al comenzar la partida
 - objetos para puntuar
 - objeto escudo (invencibilidad)
 - objeto binoculares (mayor rango de visión)
 - técnicas QUADTREE para detección de colisiones?
 - mapas más largos que la pantalla y scroll vertical
-- un tema musical tranquilo para cada nivel
-- cronómetro para descontar puntos al final de cada nivel
+- tema musical corto inicio de nivel
+- tema musical corto de game over
+- 4 temas musicales tranquilos para cada nivel de cada stage
+- graficos de PIPER
+- gráficos de NORMAN
+- gráficos de tiles stage 1
+- gráficos de tiles stage 2
+- gráficos de tiles stage 3
+- gráficos de tiles stage 4
+- gráficos de hotspots
+- gráficos de enemigos stage 1
+- gráficos de enemigos stage 2
+- gráficos de enemigos stage 3
+- gráficos de enemigos stage 4
 - convertir a vista ISO
 
 HECHO
 =====
+02/10/24 - tiles que matan (definir y aplicar)
 30/09/24 - fondos IA para la vista 16:9 (1280x720)
 28/09/24 - colores adecuados para game.Message
 28/09/24 - gráfico de munición
