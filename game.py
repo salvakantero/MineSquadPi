@@ -467,6 +467,7 @@ class Game():
                     blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
                     self.groups[enums.SG_ALL].add(blast)   
                     self.sfx_blast[4].play()
+                    player.invincible = False
                     player.loses_life(20) # game over
                     self.loss_secuence = 70 # allows to end the animation of the explosion
                     self.groups[enums.SG_ALL].remove(player)

@@ -359,7 +359,7 @@ class Player(pygame.sprite.Sprite):
             if self.energy >= 0:
                 self.invincible = True
                 self.timer_from = pygame.time.get_ticks()
-                self.timer_from -= (constants.TIME_REMAINING - 5000)  # 5 secs.
+                self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
 
 
     # controls the hotspot time
