@@ -79,18 +79,18 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load(path + 'player1.png').convert_alpha()],
             enums.PS_WALK_UP: [
                 pygame.image.load(path + 'player2.png').convert_alpha(),
-                pygame.image.load(path + 'player0.png').convert_alpha(),
+                pygame.image.load(path + 'player1.png').convert_alpha(),
                 pygame.image.load(path + 'player3.png').convert_alpha(),
-                pygame.image.load(path + 'player0.png').convert_alpha()],
+                pygame.image.load(path + 'player1.png').convert_alpha()],
             #----------------------------------------------------------#
             enums.PS_IDLE_DOWN: [
                 pygame.image.load(path + 'player4.png').convert_alpha(),
                 pygame.image.load(path + 'player5.png').convert_alpha()],
             enums.PS_WALK_DOWN: [
                 pygame.image.load(path + 'player6.png').convert_alpha(),
-                pygame.image.load(path + 'player4.png').convert_alpha(),
+                pygame.image.load(path + 'player5.png').convert_alpha(),
                 pygame.image.load(path + 'player7.png').convert_alpha(),
-                pygame.image.load(path + 'player4.png').convert_alpha()],
+                pygame.image.load(path + 'player5.png').convert_alpha()],
             #----------------------------------------------------------#
             enums.PS_IDLE_LEFT: [
                 pygame.image.load(path + 'player8.png').convert_alpha(),

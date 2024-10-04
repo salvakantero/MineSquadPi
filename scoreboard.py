@@ -31,7 +31,7 @@ class Scoreboard():
         self.game = game
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.energy_icon = pygame.image.load('images/sprites/player/0/player0.png').convert_alpha()
+        self.energy_icon = pygame.image.load('images/sprites/player/0/player14.png').convert_alpha()
         self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha()
         # dark colour for each level: red, blue, green, gray
         self.back_colour = ((100,10,10), (10,10,100), (10,100,10), (100,100,100))
