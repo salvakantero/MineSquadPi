@@ -45,7 +45,7 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 
 # shows an intro
-game.show_intro()
+#game.show_intro()
 
 # Main loop
 while True:
@@ -179,7 +179,7 @@ while True:
         #map.check_change(player)
 
         # TEST ZONE ================================================================================
-        game.fonts[enums.S_B_WHITE].render(str(int(game.clock.get_fps())), game.srf_map, (233, 169))
+        game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (233, 169))
         #game.fonts[enums.S_B_WHITE].render(str(player.state), game.srf_sboard, (100, 25))
         # ==========================================================================================
         
