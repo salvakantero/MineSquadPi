@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- graficos de BLAZE
+
 
 BUGS
 ====
@@ -60,6 +60,7 @@ HECHO
 02/05/24 - usar la base de RedPlanet y adaptarla para MineSquad
 21/04/24 - menú de inicio
 06/04/24 - paleta pseudopico-8 con 48 colores
+18/04/24 - graficos de BLAZE
 
 Notas
 =====
