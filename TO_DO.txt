@@ -4,6 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- barra de energía del player
+- player no debe salir de los márgenes del mapa
 
 
 BUGS
@@ -22,31 +24,30 @@ POR HACER
 - tema musical corto de game over
 - 4 temas musicales tranquilos para cada nivel de cada stage
 - graficos de PIPER
-- gráficos de NORMAN
-- gráficos de tiles stage 1
-- gráficos de tiles stage 2
-- gráficos de tiles stage 3
-- gráficos de tiles stage 4
 - gráficos de hotspots
+- gráficos de tiles stage 1
 - gráficos de enemigos stage 1
+- gráficos de tiles stage 2
 - gráficos de enemigos stage 2
+- gráficos de tiles stage 3
 - gráficos de enemigos stage 3
+- gráficos de tiles stage 4
 - gráficos de enemigos stage 4
-- convertir a vista ISO
+
 
 HECHO
 =====
+19/04/25 - gráfico de mina
+18/04/25 - graficos de BLAZE
 02/10/24 - tiles que matan (definir y aplicar)
 30/09/24 - fondos IA para la vista 16:9 (1280x720)
 28/09/24 - colores adecuados para game.Message
 28/09/24 - gráfico de munición
-27/09/24 - barra de energía del player
 24/09/23 - info de mapa al inicio de nivel
 20/09/24 - fondos de color distinto al negro en el marcador por cada nivel
 31/08/24 - colocación de balizas/banderas
 24/08/24 - marcador con info de minas y banderas
 24/08/24 - marcador en una sola línea
-22/08/24 - gráfico de mina
 21/08/24 - gráfico de baliza/bandera
 18/08/24 - explosión al pisar mina
 16/08/24 - minas matan al player
@@ -60,17 +61,16 @@ HECHO
 02/05/24 - usar la base de RedPlanet y adaptarla para MineSquad
 21/04/24 - menú de inicio
 06/04/24 - paleta pseudopico-8 con 48 colores
-18/04/24 - graficos de BLAZE
+
 
 Notas
 =====
 
-- Isométrico basado en buscaminas (con una versión preliminar 2D cenital)
+- Cenital 2D basado en buscaminas
 
 - Tres personajes a elegir:
     Blaze: Velocidad normal, resistencia normal (Es un chico normal)
     Piper: Velocidad alta, resistencia baja (Es una chica)
-    Norman: Velocidad baja, resistencia alta (Es un chico fortachón)
 
 - Escenarios (4 niveles cada uno):
      

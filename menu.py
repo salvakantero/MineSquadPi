@@ -39,7 +39,6 @@ class Menu():
         # players
         self.img_blaze = pygame.image.load('images/assets/blaze.png').convert_alpha()
         self.img_piper = pygame.image.load('images/assets/piper.png').convert_alpha()
-        self.img_norman = pygame.image.load('images/assets/norman.png').convert_alpha()
         # controls
         self.img_classic = pygame.image.load('images/assets/classic.png').convert_alpha()
         self.img_gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
@@ -63,7 +62,7 @@ class Menu():
         # page 1: high scores
         # page 2: Blaze info
         # page 3: Piper info
-        # page 4: Norman info
+        # page 4: hotspots
         # page 5: control information
         # page 6: options
         self.menu_pages = []
@@ -75,7 +74,7 @@ class Menu():
         self.page_1()
         self.page_2()
         self.page_3()
-        self.page_4()
+        #self.page_4()
         self.page_5()
         
 
@@ -157,18 +156,6 @@ class Menu():
                          'P I P E R', self.menu_pages[3], 10, 15, 1)
         self.draw_chars(10, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
-
-
-    def page_4(self): # Norman info
-        self.speed = 2
-        self.strength = 5
-        self.age = '25'
-        self.origin = 'Cleveland (USA)'
-
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
-                         'N O R M A N', self.menu_pages[4], 125, 15, 1)
-        self.draw_chars(125, 4)
-        self.menu_pages[4].blit(self.img_norman, (10, 0))
 
 
     def page_5(self): # control info

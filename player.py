@@ -33,7 +33,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, who_is, game, map, scoreboard):
         super().__init__()
         # common values
-        self.who_is = who_is # Blaze = 0, Piper = 1, Norman = 2 
+        self.who_is = who_is # Blaze = 0, Piper = 1
         self.ammo = 10 # unused ammunition collected
         self.score = 0 # current game score
         self.direction = pygame.math.Vector2(0.0) # direction of movement
@@ -63,9 +63,8 @@ class Player(pygame.sprite.Sprite):
 
     # set energy and speed based on player type
     def set_player_attributes(self):
-        if self.who_is == enums.PL_PIPER:   return  9, 2
-        elif self.who_is == enums.PL_BLAZE: return 12, 1
-        else:                               return 15, 0
+        if self.who_is == enums.PL_PIPER:   return 10, 2
+        else:                               return 15, 1
 
 
     # Load player images for animations
