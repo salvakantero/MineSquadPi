@@ -75,21 +75,17 @@ Notas
 
 - Escenarios (4 niveles cada uno):
      
-    Batalla de El Alamein (Norte de África):
-    Fecha clave: Agosto de 1942.
+    Batalla de El Alamein (Egipto):
+    Fecha clave: Octubre de 1942.
     Contexto: Invasión aliada en el norte de África.
     
     Invasión del Día D (Normandía):
     Fecha clave: Junio de 1944.
     Contexto: Desembarco aliado en las playas de Normandía.
 
-    Batalla de las Ardenas:
+    Batalla de las Ardenas (Bélgica):
     Fecha clave: Enero de 1945.
     Contexto: Ofensiva alemana en la región de las Ardenas durante el invierno.
-
-    Avance Aliado hacia Berlín:
-    Fecha clave: 1944-1945 (fases finales de la guerra).
-    Contexto: Despeje de obstáculos y avance hacia la capital alemana.
 
 - Objetivo general: 
     Despejar el campo de juego sin activar ninguna mina.
@@ -124,25 +120,24 @@ Notas
 
     NIVEL               TIPO        PUNTOS
     ======================================
-    Desierto:
+    El Alamein: (desierto)
+        cactus          tile
         escorpión       lineal      10
         serpiente       aleatorio   20
         soldado marrón  persigue    50
 
-    Normandía:
+    Normandía: (playa)
+        alambre puas    tile
         cangrejo        aleatorio   20
         proyectil       lineal      40
         soldado verde   persigue    100
 
-    Ardenas:
+    Ardenas: (bosque nevado)
+        cepo            tile
         jabalí          lineal      40
         lobo            aleatorio   80
         soldado blanco  persigue    200
 
-    Berlín:
-        persona #1      aleatoria   80
-        persona #2      aleatoria   160
-        soldado gris    persigue    400
 
 - Tiles que matan:
     No permite pasar y pierde una porción de energía.
