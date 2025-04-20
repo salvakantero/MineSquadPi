@@ -136,7 +136,7 @@ class Menu():
 
     def page_2(self): # Blaze info        
         self.speed = 4
-        self.strength = 3
+        self.strength = 4
         self.age = '23'
         self.origin = 'Brighton (England)'
 
@@ -148,7 +148,7 @@ class Menu():
 
     def page_3(self): # Piper info
         self.speed = 5
-        self.strength = 2
+        self.strength = 3
         self.age = '20'
         self.origin = 'Glasgow (Scotland)'
 

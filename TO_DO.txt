@@ -11,7 +11,6 @@ EN PROCESO
 
 BUGS
 ====
-- reparto de estrellas para Blaze/Piper (8 estrellas)
 
 
 POR HACER
