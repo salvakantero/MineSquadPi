@@ -35,7 +35,6 @@ class Configuration():
             # default values
             'screen_mode' : 0, # 0 = window, 1 = 4:3(800x600), 2 = 16:9(1280x720)
             'scanlines' : True,
-            'view' : 1, # 0 = isometric, 1 = zenithal
             'control' : enums.CT_CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
         }
         # default values for controls (classic layout)

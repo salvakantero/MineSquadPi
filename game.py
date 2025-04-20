@@ -576,13 +576,11 @@ class Game():
     
 
     def set_background(self, map_number):
-        if map_number >= 12: # Berlin
-            self.img_background =  pygame.image.load('images/assets/wp3.png').convert()
-        elif map_number >= 8: # Ardenas
+        if map_number >= 8: # Ardenas
             self.img_background =  pygame.image.load('images/assets/wp2.png').convert()
         elif map_number >= 4: # Normandy
             self.img_background =  pygame.image.load('images/assets/wp1.png').convert()
         elif map_number >= 0: # North Africa
             self.img_background =  pygame.image.load('images/assets/wp0.png').convert()
         else: # menu
-            self.img_background =  pygame.image.load('images/assets/wp5.png').convert()
+            self.img_background =  pygame.image.load('images/assets/wp3.png').convert()

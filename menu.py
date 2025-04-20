@@ -4,7 +4,7 @@
 # Initial menu and additional information displayed on sliding pages
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -62,8 +62,8 @@ class Menu():
         # page 1: high scores
         # page 2: Blaze info
         # page 3: Piper info
-        # page 4: hotspots
-        # page 5: control information
+        # page 4: control information
+        # page 5: hotspots
         # page 6: options
         self.menu_pages = []
         for i in range(0, 7):
@@ -74,7 +74,7 @@ class Menu():
         self.page_1()
         self.page_2()
         self.page_3()
-        #self.page_4()
+        self.page_4()
         self.page_5()
         
 
@@ -158,7 +158,7 @@ class Menu():
         self.menu_pages[3].blit(self.img_piper, (120, 0))
 
 
-    def page_5(self): # control info
+    def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
             (self.img_classic, (30, 52), 'Classic', (39, 90)),
@@ -167,15 +167,21 @@ class Menu():
             (self.img_joypad, (53, 108), 'Joypad', (23, 123)),
             (self.img_common, (118, 108), 'Common keys', (180, 123))]
         
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[5], 90, 27, 1)        
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):
-            self.menu_pages[5].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
+            self.menu_pages[4].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
+
+
+    def page_5(self): # hotspots
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 90, 27, 1)
+        self.shaded_text(fb, ff, 'Work in progress...', self.menu_pages[5], 80, 60, 1)
 
 
     def page_6(self): # options
         # menu options      
-        x, y = 60, 45
+        x, y = 60, 60
         fb = self.game.fonts[enums.L_B_BROWN] # brown font for the background
         ff = self.game.fonts[enums.L_F_BROWN] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
@@ -191,28 +197,23 @@ class Menu():
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
-        # view
-        if self.game.config.data['view'] == enums.V_ISO: value = 'ISOMETRIC' 
-        else: value = 'ZENITHAL'
-        self.shaded_text(fb, ff, 'View:', self.menu_pages[6], x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
         # control keys
         if self.game.config.data['control'] == enums.CT_CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.CT_GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.CT_RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
-        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+60, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+60, 1)
+        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+40, 1)
+        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
         # exit
-        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+80, 1)
+        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                 self.tip, self.menu_pages[6], 12, 5, 1)
         
 
     def show(self):
         # main theme song
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        pygame.mixer.music.play()
+        #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        #pygame.mixer.music.play()
         # help text
         marquee_help = MarqueeText(
             self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
@@ -313,7 +314,7 @@ class Menu():
                 if menu_page == 0:
                     self.srf_menu.blit(self.img_pointer, (56, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (35, -39 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (35, -24 + (20*selected_option))) #-39
 
                 # an option was confirmed?
                 if confirmed_option:
@@ -337,8 +338,6 @@ class Menu():
                         self.game.config.data['screen_mode'] = (self.game.config.data['screen_mode'] + 1) % 3
                     elif selected_option == enums.MO_SCANLINES: # 0 = no, 1 = yes
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 2
-                    elif selected_option == enums.MO_VIEW: # 0 = isometric, 1 = zenithal
-                        self.game.config.data['view'] = (self.game.config.data['view'] + 1) % 2
                     elif selected_option == enums.MO_CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard

@@ -11,8 +11,7 @@ EN PROCESO
 
 BUGS
 ====
-- hueco en menú de Norman
-- eliminar opción de vista ISO
+- reparto de estrellas para Blaze/Piper (8 estrellas)
 
 
 POR HACER
