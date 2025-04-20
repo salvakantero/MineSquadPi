@@ -11,19 +11,20 @@ EN PROCESO
 
 BUGS
 ====
+- hueco en menú de Norman
+- eliminar opción de vista ISO
 
 
 POR HACER
 =========
+- poder quitar balizas
+- esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
 - objetos para puntuar
 - objeto escudo (invencibilidad)
 - objeto binoculares (mayor rango de visión)
 - técnicas QUADTREE para detección de colisiones?
-- mapas más largos que la pantalla y scroll vertical
-- tema musical corto inicio de nivel
-- tema musical corto de game over
-- 4 temas musicales tranquilos para cada nivel de cada stage
+- mapas definitivos, más largos que la pantalla (scroll vertical)
 - graficos de PIPER
 - gráficos de hotspots
 - gráficos de tiles stage 1
@@ -34,6 +35,9 @@ POR HACER
 - gráficos de enemigos stage 3
 - gráficos de tiles stage 4
 - gráficos de enemigos stage 4
+- tema musical corto inicio de nivel
+- tema musical corto de game over
+- 4 temas musicales tranquilos para cada nivel de cada stage
 
 
 HECHO
@@ -70,8 +74,8 @@ Notas
 - Cenital 2D basado en buscaminas
 
 - Dos personajes a elegir:
-    Blaze: Velocidad normal, resistencia alta (Es un chico normal)
-    Piper: Velocidad alta, resistencia baja (Es una chica)
+    Blaze: Hombre, velocidad normal, resistencia alta
+    Piper: Mujer, velocidad alta, resistencia baja
 
 - Escenarios (4 niveles cada uno):
      
@@ -96,9 +100,9 @@ Notas
     El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay debajo de las adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
     El color de los números dependerá del nivel/escenario.
-    El jugador puede marcar las celdas que piensa que contienen minas con una bandera.
+    El jugador puede marcar las celdas que piensa que contienen minas con una bandera (y desmarcar).
     Hay un número limitado de banderas. A mayor nivel, más minas / menos banderas.
-    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina.
+    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o toda su energía.
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
 
 - Objetos:
@@ -114,37 +118,32 @@ Notas
         Rubí rojo   200
 
 - Enemigos:
-    Se pasean por el mapa de manera lineal, aleatoria, o persiguen al jugador (pero lentos)
+    Se pasean por el mapa de manera lineal, aleatoria, o persiguen lentamente al jugador
     Dependiendo del nivel, cambian en tipo, número, velocidad y peligrosidad
     Todos mueren pero requieren más o menos disparos
 
     NIVEL               TIPO        PUNTOS
     ======================================
     El Alamein: (desierto)
-        cactus          tile
+        cactus          tile*
         escorpión       lineal      10
         serpiente       aleatorio   20
         soldado marrón  persigue    50
 
     Normandía: (playa)
-        alambre puas    tile
+        alambre puas    tile*
         cangrejo        aleatorio   20
         proyectil       lineal      40
-        soldado verde   persigue    100
+        soldado gris    persigue    100
 
     Ardenas: (bosque nevado)
-        cepo            tile
-        jabalí          lineal      40
-        lobo            aleatorio   80
+        cepo            tile*
+        esquiador       lineal      40
+        jabalí          aleatorio   80
         soldado blanco  persigue    200
 
+*Tiles que matan: No permiten pasar y pierde una porción de energía.
 
-- Tiles que matan:
-    No permite pasar y pierde una porción de energía.
-    Desierto:   cactus
-    Normandía:  alambre de púas
-    Ardenas:    cepo
-    Berlín:     bomba caída
 
 - Detalles técnicos:
     - paleta similar a pico-8, en formato GPL
