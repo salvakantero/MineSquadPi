@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- info tecla de baliza
+- info tecla de baliza (B de beacon)
 - poder quitar balizas (guardar la situación original)
 
 
