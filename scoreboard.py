@@ -4,7 +4,7 @@
 # Draws the scoreboard and refreshes its data.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -33,8 +33,8 @@ class Scoreboard():
         # icons
         self.energy_icon = pygame.image.load('images/sprites/player/0/player14.png').convert_alpha()
         self.landmine_image = pygame.image.load('images/sprites/landmine.png').convert_alpha()
-        # dark colour for each level: red, blue, green, gray
-        self.back_colour = ((100,10,10), (10,10,100), (10,100,10), (100,100,100))
+        # background dark colour for each level: red, blue, green
+        self.back_colour = ((100,10,10), (10,10,100), (10,100,10))
         self.stage_number = 0
 
 
@@ -88,16 +88,16 @@ class Scoreboard():
     # 16-position multi-coloured energy bar
     def draw_energy_bar(self, energy):
         x, y = 20, 7
-        bar_units = 15
+        bar_units = 14
         bar_unit_width, bar_unit_height = 2, 10
         bar_unit_spacing = 1
 
         # draw as many units as the player has energy
         for i in range(bar_units):
-            # block colours: 4 reds, 4 yellows, the rest green
+            # block colours: 4 reds, 4 yellows, 6 green
             colors = [constants.PALETTE['RED1']] * 4 + \
                     [constants.PALETTE['YELLOW1']] * 4 + \
-                    [constants.PALETTE['GREEN1']] * 7
+                    [constants.PALETTE['GREEN1']] * 6
             # draws the bar units
             rect_x = x + i * (bar_unit_width + bar_unit_spacing)
             color = colors[i] if i < energy else constants.PALETTE['BLACK0']

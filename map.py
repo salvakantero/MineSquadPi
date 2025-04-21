@@ -6,7 +6,7 @@
 # Each screen is a JSON file exported from "Tiled".
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -40,10 +40,10 @@ class Map():
         self.number = 0 # current map
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
-        self.stage_name1 = ("Operation Torch", "D-Day", 
-                           "Battle of the Bulge", "Battle of Berlin")
-        self.stage_name2 = ("NORTH AFRICA, NOVEMBER 1942", "NORMANDY, JUNE 1944", 
-                           "THE ARDENNES, DECEMBER 1944", "GERMANY, APRIL 1945")        
+        self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
+        self.stage_name2 = ("NORTH AFRICA, OCTOBER 1942", 
+                            "NORMANDY, JUNE 1944", 
+                            "THE ARDENNES, JANUARY 1945")        
 
 
     # does everything necessary to change the map and add enemies and hotspots.
@@ -60,7 +60,6 @@ class Map():
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
         # refresh the scoreboard area
         scoreboard.reset(self.number)
-        #scoreboard.map_info(self.number)
         scoreboard.invalidate()
         # reset the sprite groups  
         for group in self.game.groups: group.empty()

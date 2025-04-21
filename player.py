@@ -62,9 +62,9 @@ class Player(pygame.sprite.Sprite):
 
 
     # set energy and speed based on player type
-    def set_player_attributes(self):
+    def set_player_attributes(self):         # ENERGY  SPEED
         if self.who_is == enums.PL_PIPER:   return 10, 2
-        else:                               return 15, 1
+        else:                               return 14, 1
 
 
     # Load player images for animations
@@ -172,6 +172,9 @@ class Player(pygame.sprite.Sprite):
                 self.sfx_flag.play()
                 self.game.remaining_flags -= 1
                 self.scoreboard.invalidate()
+            # if there is a flag on the tile
+            else:
+                self.sfx_no_ammo.play()
         else: # no flags
             self.sfx_no_ammo.play()
 
@@ -287,6 +290,7 @@ class Player(pygame.sprite.Sprite):
 
     # gets the new rect after applying the movement and check for collision
     def move(self, axis):
+        collision = False
         if axis == enums.CA_HORIZONTAL:
             temp_rect = pygame.Rect((self.rect.x + self.direction.x * self.speed, self.rect.y),
                                     (constants.TILE_SIZE, constants.TILE_SIZE))
@@ -295,14 +299,16 @@ class Player(pygame.sprite.Sprite):
             temp_rect = pygame.Rect((self.rect.x, self.rect.y + self.direction.y * self.speed),
                                     (constants.TILE_SIZE, constants.TILE_SIZE))
             temp_pos = self.rect.y
-
-        collision = False
+            # check vertical screen limits
+            if temp_rect.top < 0 or temp_rect.bottom > constants.MAP_UNSCALED_SIZE[1]: 
+                collision = True                        
         # it is necessary to check all obstacle tiles.
-        for index, tileRect in enumerate(self.map.map_data['rects']):
-            if tileRect.colliderect(temp_rect):
-                if self.map.map_data['behaviours'][index] == enums.TB_OBSTACLE: 
-                    collision = True
-                break
+        if not collision:
+            for index, tileRect in enumerate(self.map.map_data['rects']):
+                if tileRect.colliderect(temp_rect):
+                    if self.map.map_data['behaviours'][index] == enums.TB_OBSTACLE:
+                        collision = True
+                    break
         # Apply the new position if no collision occurs
         if not collision:
             if axis == enums.CA_HORIZONTAL:

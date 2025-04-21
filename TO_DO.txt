@@ -4,9 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- barra de energía del player
-- player no debe salir de los márgenes del mapa
-- no permitir traspasar tiles matantes
+- info tecla de baliza
+- poder quitar balizas (guardar la situación original)
 
 
 BUGS
@@ -15,7 +14,6 @@ BUGS
 
 POR HACER
 =========
-- poder quitar balizas
 - esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
 - objetos para puntuar
@@ -40,6 +38,7 @@ POR HACER
 
 HECHO
 =====
+21/04/25 - player no debe salir de los márgenes del mapa
 19/04/25 - gráfico de mina
 18/04/25 - graficos de BLAZE
 02/10/24 - tiles que matan (definir y aplicar)
@@ -140,7 +139,7 @@ Notas
         jabalí          aleatorio   80
         soldado blanco  persigue    200
 
-*Tiles que matan: No permiten pasar y pierde una porción de energía.
+*Tiles que matan: Permiten pasar pero pierde una porción de energía.
 
 
 - Detalles técnicos:
