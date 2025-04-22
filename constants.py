@@ -36,7 +36,7 @@ MAP_TILE_SIZE = 15, 11 # map size in tiles
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 NUM_MINES = 8, 10, 12, 14 # number of mines per map
-NUM_FLAGS = 11, 12, 13, 14 # number of flags per map
+NUM_BEACONS = 11, 12, 13, 14 # number of flags/beacons per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield and binoculars time (+-20 secs.)
@@ -182,49 +182,27 @@ ENEMIES_DATA = [
 	(32, 64, 192, 64, 1, 0, 1),
 	(192, 32, 64, 32, -2, 0, 1)
 ]
-"""
+
 # hotspot data
 # index = map number; (type, x, y, visible?)
 HOTSPOT_DATA = [
-    [enums.AMMO, 13, 3, True],
-    [enums.SHIELD, 13, 7, True],
-    [enums.SHIELD, 1, 7, True],
-    [enums.BIN, 13, 1, True],
-    [enums.BIN, 7, 8, True],
-    [enums.SHIELD, 5, 3, True],
-    [enums.AMMO, 11, 3, True],
-    [enums.SHIELD, 13, 6, True],
-    [enums.BIN, 6, 8, True],
-    [enums.SHIELD, 6, 1, True],
-    [enums.AMMO, 8, 4, True],
-    [enums.SHIELD, 2, 8, True],
-    [enums.BIN, 13, 3, True],
-    [enums.BIN, 12, 2, True],
-    [enums.AMMO, 1, 7, True],
-    [enums.SHIELD, 1, 3, True],
-    [enums.AMMO, 13, 4, True],
-    [enums.AMMO, 8, 2, True],
-    [enums.SHIELD, 13, 6, True],
-    [enums.BIN, 1, 8, True],
-    [enums.SHIELD, 7, 2, True],
-    [enums.AMMO, 1, 5, True],
-    [enums.SHIELD, 7, 8, True],
-    [enums.BIN, 7, 8, True],
-    [enums.AMMO, 1, 6, True],
-    [enums.BIN, 6, 7, True],
-    [enums.SHIELD, 2, 3, True],
-    [enums.BIN, 12, 6, True],
-    [enums.SHIELD, 12, 1, True],
-    [enums.AMMO, 6, 1, True],
-    [enums.SHIELD, 13, 4, True],
-    [enums.SHIELD, 3, 2, True],
-    [enums.AMMO, 4, 6, True],
-    [enums.SHIELD, 9, 8, True],
+    [enums.HS_CANDY1, 13, 3, True],
+    [enums.HS_CANDY2, 13, 7, True],
+    [enums.HS_AMMO, 1, 7, True],
+    [enums.HS_SHIELD, 5, 3, True],
+    [enums.HS_LIFE, 11, 3, True],
+    [enums.HS_CHOCO, 13, 6, True],
+    [enums.HS_COINS, 6, 1, True],
+    [enums.HS_DISK, 8, 4, True],
+    [enums.HS_SHIELD, 2, 8, True],
+    [enums.HS_AMMO, 1, 7, True],
+    [enums.HS_SHIELD, 1, 3, True],
+    [enums.HS_AMMO, 13, 4, True]
 ]   
-"""
+
 # help for the main menu
 HELP = 'Press a menu option to continue or ESC to exit...     '
-HELP += 'Mark all the mines in each level with the available flags '
+HELP += 'Mark all the mines in each level with the available beacons '
 HELP += 'as quickly as possible to clear the way for your troops. '
 HELP += 'To do so, use the proximity information displayed on the screen. '
 HELP += 'Watch out! a horde of enemies is waiting to make things difficult for you... '

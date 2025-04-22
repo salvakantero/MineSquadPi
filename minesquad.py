@@ -79,7 +79,7 @@ while True:
             d = game.checkpoint.data
             map.number = d['map_number']
         game.remaining_mines = constants.NUM_MINES[map.number]
-        game.remaining_flags = constants.NUM_FLAGS[map.number]
+        game.remaining_beacons = constants.NUM_BEACONS[map.number]
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -109,9 +109,9 @@ while True:
                 # press fire or left mouse button
                 elif event.key == game.config.fire_key or pygame.mouse.get_pressed()[0]:
                     player.fire()
-                # press flag or right mouse button
-                elif event.key == game.config.flag_key or pygame.mouse.get_pressed()[2]:
-                    player.place_flag()
+                # press beacon or right mouse button
+                elif event.key == game.config.beacon_key or pygame.mouse.get_pressed()[2]:
+                    player.place_beacon()
         
         # change the map if necessary
         if map.number != map.last:

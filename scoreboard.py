@@ -47,7 +47,7 @@ class Scoreboard():
             self.shaded_text(player.ammo, 91, 6)
             self.shaded_text('\'' + str(constants.MAX_AMMO), 107, 6) # ' = /
             self.clear_zone(147)
-            self.shaded_text(self.game.remaining_flags, 149, 6)
+            self.shaded_text(self.game.remaining_beacons, 149, 6)
             self.clear_zone(183)
             self.shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
@@ -81,7 +81,7 @@ class Scoreboard():
         # draw icons
         self.game.srf_sboard.blit(self.energy_icon, (2, 2))
         self.game.srf_sboard.blit(self.game.hotspot_images[enums.AMMO], (70, 2))
-        self.game.srf_sboard.blit(self.game.flag_image, (130, 2))
+        self.game.srf_sboard.blit(self.game.beacon_image, (130, 2))
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
 
 

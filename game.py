@@ -48,7 +48,7 @@ class Game():
         self.new = True # when 'False', load the last checkpoint
         self.win_secuence = 0 # animated sequence on winning (if > 0)
         self.loss_secuence = 0 # animated sequence on losing (if > 0)
-        self.remaining_flags = 0 # available flags
+        self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
         self.status = enums.GS_OVER # start from menu
         self.music_status = enums.MS_UNMUTED # Music!
@@ -103,26 +103,27 @@ class Game():
         self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
-        self.flag_image = pygame.image.load('images/sprites/flag.png').convert_alpha()
+        self.beacon_image = pygame.image.load('images/sprites/beacon.png').convert_alpha()
         self.enemy_images = {
             # animation sequence of the enemies depending on their type
-            enums.SCORPION: [
+            enums.EN_SCORPION: [
                 pygame.image.load('images/sprites/scorpion_0.png').convert_alpha(),
                 pygame.image.load('images/sprites/scorpion_1.png').convert_alpha()],
-            enums.SNAKE: [
+            enums.EN_SNAKE: [
                 pygame.image.load('images/sprites/snake_0.png').convert_alpha(),
                 pygame.image.load('images/sprites/snake_1.png').convert_alpha()],
-            enums.SOLDIER1: [
+            enums.EN_SOLDIER1: [
                 pygame.image.load('images/sprites/soldier1_0.png').convert_alpha(),
                 pygame.image.load('images/sprites/soldier1_1.png').convert_alpha()]}
         self.hotspot_images = {
-            enums.SHIELD: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
-            enums.BIN: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
-            enums.AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.SWEET1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
-            enums.SWEET2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
-            enums.COIN: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.CHOCO: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.HS_LIFE: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
+            enums.HS_SHIELD: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
+            enums.HS_AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
+            enums.HS_DISK: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.HS_CANDY1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.HS_CANDY2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
+            enums.HS_COINS: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
+            enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -159,13 +160,14 @@ class Game():
             3: pygame.mixer.Sound('sounds/fx/sfx_blast3.wav'),
             4: pygame.mixer.Sound('sounds/fx/sfx_blast4.wav')}
         self.sfx_hotspot = {
-            enums.SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
-            enums.BIN: pygame.mixer.Sound('sounds/fx/sfx_bin.wav'),
-            enums.AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.SWEET1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.SWEET2: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
-            enums.COIN: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
-            enums.CHOCO: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
+            enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
+            enums.HS_LIFE: pygame.mixer.Sound('sounds/fx/sfx_bin.wav'),
+            enums.HS_AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
+            enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
+            enums.HS_CANDY1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
+            enums.HS_CANDY2: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
+            enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
+            enums.HS_COINS: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]

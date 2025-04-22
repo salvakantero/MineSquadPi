@@ -41,8 +41,8 @@ class Player(pygame.sprite.Sprite):
         self.state = enums.PS_IDLE_UP # to know the animation to be applied
         self.look_at = enums.D_UP # where the player looks
         self.invincible = False # invincible after losing a life or take a shield
-        self.timer_from = 0 # tick number when the shield effect or binoculars effect begins
-        self.timer_to = constants.TIME_REMAINING # time of shield, binoculars (20 secs.)
+        self.timer_from = 0 # tick number when the shield effect begins
+        self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)
         # character-specific values
         self.energy, self.speed = self.set_player_attributes()
         # sequences of animations for the player depending on its status
@@ -119,7 +119,7 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(sound_path + 'sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.8)
         self.sfx_death = pygame.mixer.Sound(sound_path + 'sfx_death.wav')  # Touched by an enemy
-        self.sfx_flag = pygame.mixer.Sound(sound_path + "sfx_shot.wav")
+        self.sfx_beacon = pygame.mixer.Sound(sound_path + "sfx_shot.wav")
 
 
     # common code for a shot to be fired
@@ -144,18 +144,18 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_ammo.play()
 
 
-    # common code for placing a flag
-    def place_flag(self):
-        if self.game.remaining_flags > 0:
+    # common code for placing a flag/beacon
+    def place_beacon(self):
+        if self.game.remaining_beacons > 0:
             offsets = {
                 enums.D_UP: (0, -1), enums.D_DOWN: (0, 1),
                 enums.D_LEFT: (-1, 0), enums.D_RIGHT: (1, 0) }
-            # places the flag in front of where the player is facing
-            offset_x, offset_y = offsets.get(self.look_at, (0, 0))  
+            # places the beacon in front of where the player is facing
+            offset_x, offset_y = offsets.get(self.look_at, (0, 0))
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
-            # if there is no flag on the tile
-            if self.map.map_data['mines'][y][x] != enums.MD_FLAG:
+            # if there is no beacon on the tile
+            if self.map.map_data['mines'][y][x] != enums.MD_BEACON:
                 # if there is a mine in the marked tile
                 if self.map.map_data['mines'][y][x] == enums.MD_MINE:
                     self.game.remaining_mines -= 1
@@ -168,14 +168,14 @@ class Player(pygame.sprite.Sprite):
                             if self.map.map_data['behaviours'][index] == enums.TB_MINE:
                                 self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
                                 break
-                self.map.map_data['mines'][y][x] = enums.MD_FLAG # place the flag
-                self.sfx_flag.play()
-                self.game.remaining_flags -= 1
+                self.map.map_data['mines'][y][x] = enums.MD_BEACON # place the beacon
+                self.sfx_beacon.play()
+                self.game.remaining_beacons -= 1
                 self.scoreboard.invalidate()
-            # if there is a flag on the tile
+            # if there is a beacon on the tile
             else:
                 self.sfx_no_ammo.play()
-        else: # no flags
+        else: # no beacons
             self.sfx_no_ammo.play()
 
 
@@ -193,9 +193,9 @@ class Player(pygame.sprite.Sprite):
             # press fire buttons
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
                 self.fire()
-            # press flag buttons
+            # press beacon buttons
             if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
-                self.place_flag()
+                self.place_beacon()
 
             if self.steps < 0: # if it is not moving
                 # obtains the possible movement of the axes. A value greater than +-0.5 
