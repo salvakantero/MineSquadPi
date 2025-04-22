@@ -80,7 +80,7 @@ class Scoreboard():
         self.game.srf_sboard.fill(self.back_colour[self.stage_number])
         # draw icons
         self.game.srf_sboard.blit(self.energy_icon, (2, 2))
-        self.game.srf_sboard.blit(self.game.hotspot_images[enums.AMMO], (70, 2))
+        self.game.srf_sboard.blit(self.game.hotspot_images[enums.HS_AMMO], (70, 2))
         self.game.srf_sboard.blit(self.game.beacon_image, (130, 2))
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
 

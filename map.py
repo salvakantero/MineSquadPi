@@ -73,16 +73,16 @@ class Map():
         hotspot = constants.HOTSPOT_DATA[self.number]
         if hotspot[3] == True: # visible/available?           
            hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-           self.game.groups[enums.ALL].add(hotspot_sprite) # to update/draw it
-           self.game.groups[enums.HOTSPOT].add(hotspot_sprite) # to check for collisions
+           self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
+           self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
         # add enemies to the map reading from 'ENEMIES_DATA' list.
         # a maximum of three enemies per map
         # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
         for i in range(3):
            enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
-           if enemy_data[6] != enums.NONE:
+           if enemy_data[6] != enums.EN_NONE:
                enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
-               self.game.groups[enums.ALL].add(enemy) # to update/draw it
+               self.game.groups[enums.SG_ALL].add(enemy) # to update/draw it
 
 
     # loads a map from the json file, and draws it on screen
