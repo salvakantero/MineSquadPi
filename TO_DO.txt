@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- intro sin PAUSE
 - poder quitar balizas (guardar la situación original)
 
 
@@ -14,6 +13,7 @@ BUGS
 
 POR HACER
 =========
+- intro sin PAUSE
 - checkpoint al final de cada nivel
 - esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
