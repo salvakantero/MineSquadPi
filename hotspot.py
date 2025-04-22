@@ -5,7 +5,7 @@
 # and animates it with an up-and-down movement.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -30,7 +30,7 @@ class Hotspot(pygame.sprite.Sprite):
     def __init__(self, hotspot_data, image):
         super().__init__()
         # hotspot_data = [type, x, y, _]
-        self.type = hotspot_data[0] # SHIELD, BINOCULARS, AMMO, SWEET1, SWEET2, COIN, CHOCOLATE
+        self.type = hotspot_data[0] # LIFE, SHIELD, AMMO, CANDY1, CANDY2, CHOCOLATE, COINS
         self.x = hotspot_data[1]
         self.y = hotspot_data[2]
         self.y_offset = 0 # to animate the hotspot (up and down)

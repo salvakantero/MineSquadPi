@@ -1,10 +1,10 @@
 
 # ==============================================================================
 # .::Explosion class::.
-# Creates, destroys, and draws during its lifecycle an explosion.
+# Creates, destroys, and draws an explosion during its lifecycle.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by

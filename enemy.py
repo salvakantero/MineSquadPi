@@ -6,7 +6,7 @@
 # and boundary coordinates.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -39,8 +39,10 @@ class Enemy(pygame.sprite.Sprite):
         # speed (pixels per frame)
         self.vx = enemy_data[4]
         self.vy = enemy_data[5]
-        # enemy type: SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, 
-        # HABALI, WOLF, SOLDIER3, CITIZEN1, CITIZEN2, SOLDIER4
+        # enemy type: 
+        # SCORPION, SNAKE, SOLDIER1
+        # CRAB, PROJECTILE, SOLDIER2
+        # SKIER, HABALI, SOLDIER3
         self.type = enemy_data[6]
         # player's current position (some enemies look at the player)
         self.player = player_rect

@@ -4,7 +4,7 @@
 # Values that are named to clarify the source code.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -44,16 +44,16 @@ D_UP, D_DOWN, D_LEFT, D_RIGHT = 0, 1, 2, 3
 TB_NO_ACTION, TB_OBSTACLE, TB_MINE, TB_KILLER = 0, 1, 2, 3
 
 # map data [mines]
-MD_MINE, MD_FREE, MD_FLAG = -1, 0, 9
+MD_MINE, MD_FREE, MD_BEACON = -1, 0, 9
 
 # enemy types
-NONE, SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, HABALI, \
-WOLF, SOLDIER3, CITIZEN1, CITIZEN2, SOLDIER4 = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+NONE, SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, HABALI, SOLDIER3 \
+= 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 
 # hotspot types
-SHIELD, BIN, AMMO, LIFE, SWEET1, SWEET2, COIN, CHOCO = 0, 1, 2, 3, 4, 5, 6, 7
+LIFE, SHIELD, AMMO, DISK, CANDY1, CANDY2, CHOCO, COINS = 0, 1, 2, 3, 4, 5, 6, 7
 
-# fonts; S=small L=large F=foreground B=background
+# fonts; S=small L=large / F=foreground B=background
 S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, S_F_GREEN, S_B_GREEN, L_F_WHITE, L_B_WHITE, \
 L_F_RED, L_B_BLACK, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 

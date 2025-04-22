@@ -4,7 +4,7 @@
 # Values that do not change are named to clarify the source code.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -25,18 +25,18 @@ import enums
 
 # game screen
 WIN_SIZE = 800, 640 # main window size (windowed mode)
-TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
-MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
 MAP_SCALED_SIZE = 720, 528 # map size scaled x3 (windowed mode)
-MAP_UNSCALED_SIZE = 240, 176 # map size (unscaled)
-MAP_TILE_SIZE = 15, 11 # map size in tiles
 SBOARD_SCALED_SIZE = 720, 66 # scoreboard size scaled x3 (windowed mode)
+MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
+MAP_UNSCALED_SIZE = 240, 176 # map size (unscaled)
 SBOARD_UNSCALED_SIZE = 240, 22 # scoreboard size (unscaled)
+TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
+MAP_TILE_SIZE = 15, 11 # map size in tiles
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
-NUM_MINES = 6, 8, 10, 12, 14 # number of mines per map
-NUM_FLAGS = 10, 11, 12, 13, 14 # number of flags per map
+NUM_MINES = 8, 10, 12, 14 # number of mines per map
+NUM_FLAGS = 11, 12, 13, 14 # number of flags per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield and binoculars time (+-20 secs.)
@@ -121,15 +121,14 @@ PALETTE = {
 #	1) SCORPION 
 #   2) SNAKE
 #   3) SOLDIER1
+# -----------------
 #   4) CRAB
 #   5) PROJECTILE
 #   6) SOLDIER2
-#   7) HABALI
-#   8) WOLF
+# -----------------
+#   7) SKIER
+#   8) HABALI
 #   9) SOLDIER3
-#  10) CITIZEN1
-#  11) CITIZEN2
-#  12) SOLDIER4
 ENEMIES_DATA = [
     #-----------LEVEL 1-------------
     # 0
@@ -148,78 +147,42 @@ ENEMIES_DATA = [
 	(160, 48, 32, 48, -2, 0, 1),
 	(16, 80, 208, 112, 2, 2, 3),
 	(0, 0, 0, 0, 0, 0, 0),
-    # 4
-	(64, 80, 64, 16, 0, -1, 3),
-	(144, 16, 144, 128, 0, 1, 3),
-	(208, 112, 208, 96, 0, 0, 5),
-  
     #-----------LEVEL 2-------------
-    # 5
+    # 4
     (32, 96, 32, 112, 0, 0, 5),
 	(192, 16, 128, 128, -1, 1, 2),
 	(0, 0, 0, 0, 0, 0, 0),
-    # 6
+    # 5
     (176, 48, 64, 48, -.5, 0, 1),
 	(48, 128, 32, 16, -1, -1, 3),
 	(64, 48, 176, 48, 1, 0, 1),
-    # 7
+    # 6
     (64, 16, 80, 128, 1, 1, 2),
 	(96, 32, 160, 32, 1, 0, 1),
 	(16, 96, 16, 16, 0, -1, 3),
-    # 8
+    # 7
     (48, 112, 208, 80, 1, -1, 2),
 	(192, 48, 48, 16, -2, -2, 2),
 	(16, 80, 16, 16, 0, -.5, 3),
-    # 9
-	(32, 48, 192, 48, 1, 0, 1),
-	(160, 112, 112, 112, -1, 0, 1),
-    (192, 48, 32, 48, -1, 0, 1),
-
     #-----------LEVEL 3-------------
-    # 10
+    # 8
 	(80, 128, 112, 128, 0, 0, 5),
 	(112, 112, 144, 112, 1, 0, 2),
 	(0, 0, 0, 0, 0, 0, 0),
-    # 11
+    # 9
 	(192, 64, 32, 32, -1, -1, 2),
 	(48, 128, 224, 112, 1, -1, 2),
 	(16, 64, 32, 64, 0, 0, 5),
-    # 12
+    # 10
 	(160, 128, 160, 16, 0, -2, 3),
 	(112, 32, 112, 128, 0, 2, 3),
 	(64, 128, 16, 16, -2, -2, 2),
-    # 13
+    # 11
 	(176, 96, 32, 96, -2, 0, 1),
 	(32, 64, 192, 64, 1, 0, 1),
-	(192, 32, 64, 32, -2, 0, 1),
-    # 14
-	(64, 16, 64, 128, 0, 2, 3),
-	(112, 128, 112, 16, 0, -2, 3),
-	(16, 112, 16, 16, 0, -2, 3),
-
-    #-----------LEVEL 4-------------
-    # 15
-	(112, 144, 112, 32, 0, -1, 4),
-	(208, 144, 16, 48, -.5, -.5, 3),
-	(128, 16, 128, 144, 0, 2, 3),
-    # 16
-	(160, 128, 96, 128, -1, 0, 3),
-	(208, 128, 208, 96, 0, -.5, 3),
-	(80, 112, 128, 112, .5, 0, 0),
-    # 17
-	(64, 128, 48, 32, -1, -1, 2),
-	(208, 128, 208, 32, 0, -2, 3),
-	(128, 32, 160, 112, 1, 1, 2),
-    # 18
-	(16, 32, 32, 128, 1, 1, 2),
-	(128, 128, 128, 32, 0, -2, 3),
-	(160, 32, 160, 128, 0, 2, 3),
-    # 19
-	(48, 32, 192, 64, 2, 2, 2),
-	(48, 128, 192, 128, 2, 0, 1),
-	(192, 96, 64, 96, -1, 0, 1),
+	(192, 32, 64, 32, -2, 0, 1)
 ]
-
+"""
 # hotspot data
 # index = map number; (type, x, y, visible?)
 HOTSPOT_DATA = [
@@ -258,7 +221,7 @@ HOTSPOT_DATA = [
     [enums.AMMO, 4, 6, True],
     [enums.SHIELD, 9, 8, True],
 ]   
-
+"""
 # help for the main menu
 HELP = 'Press a menu option to continue or ESC to exit...     '
 HELP += 'Mark all the mines in each level with the available flags '

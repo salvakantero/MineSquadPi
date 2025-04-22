@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- info tecla de baliza (B de beacon)
+- intro sin PAUSE
 - poder quitar balizas (guardar la situación original)
 
 
@@ -14,6 +14,7 @@ BUGS
 
 POR HACER
 =========
+- checkpoint al final de cada nivel
 - esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
 - objetos para puntuar
@@ -38,6 +39,7 @@ POR HACER
 
 HECHO
 =====
+22/04/25 - info tecla de baliza (B de beacon)
 21/04/25 - player no debe salir de los márgenes del mapa
 19/04/25 - gráfico de mina
 18/04/25 - graficos de BLAZE
@@ -104,15 +106,15 @@ Notas
 
 - Objetos:
     Se distribuyen por el mapa aleatoriamente.
-    Vida extra: +1
-    Munición: permite disparar (+20)
-    Binoculares: se destapan 2 filas más de celdas cercanas al player (30 secs.)
-    Escudo: invencible (30 secs.)
+    -Vida extra: +1 barra de energía
+    -Escudo: invencible (30 secs)
+    -Munición: permite disparar (+10)
+    -Disco: checkpoint para no repetir nivel anterior
     Regalos: puntuación extra
-        Chuche #1    50
-        Chuche #2    75
-        Diamante    100
-        Rubí rojo   200
+        -Chuche #1    50
+        -Chuche #2    75
+        -Bombón      100
+        -Monedas     200
 
 - Enemigos:
     Se pasean por el mapa de manera lineal, aleatoria, o persiguen lentamente al jugador

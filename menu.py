@@ -163,9 +163,9 @@ class Menu():
         layouts = [
             (self.img_classic, (30, 52), 'Classic', (39, 90)),
             (self.img_gamer, (95, 52), 'Gamer', (104, 90)),
-            (self.img_retro, (160, 52), 'Retro', (169, 90)),
-            (self.img_joypad, (53, 108), 'Joypad', (23, 123)),
-            (self.img_common, (118, 108), 'Common keys', (180, 123))]
+            (self.img_retro, (160, 52), 'Retro', (170, 90)),
+            (self.img_joypad, (53, 108), 'Joypad', (70, 146)),
+            (self.img_common, (119, 108), 'Common keys', (131, 146))]
         
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):
@@ -314,7 +314,7 @@ class Menu():
                 if menu_page == 0:
                     self.srf_menu.blit(self.img_pointer, (56, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (35, -24 + (20*selected_option))) #-39
+                    self.srf_menu.blit(self.img_pointer, (35, -24 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:

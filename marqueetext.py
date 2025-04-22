@@ -5,7 +5,7 @@
 # at a given position and speed.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -35,7 +35,7 @@ class MarqueeText():
 
     # update the xy position
     def update(self):
-        # draws the text in the new position       
+        # draws the text in the new position
         self.x -= self.speed
         self.font.render(self.text, self.surface, (self.x, self.y))
         # resets when a certain number of pixels are shifted

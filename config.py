@@ -5,7 +5,7 @@
 # Makes the configuration accessible from the attributes of the class.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -43,7 +43,7 @@ class Configuration():
         self.left_key = pygame.K_LEFT
         self.right_key = pygame.K_RIGHT
         # the following values are independent of the layout
-        self.flag_key = pygame.K_f
+        self.beacon_key = pygame.K_b
         self.fire_key = pygame.K_SPACE
         self.mute_key = pygame.K_m
 
