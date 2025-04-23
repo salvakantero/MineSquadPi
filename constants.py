@@ -39,9 +39,9 @@ NUM_MINES = 8, 10, 12, 14 # number of mines per map
 NUM_BEACONS = 11, 12, 13, 14 # number of flags/beacons per map
 
 # player
-TIME_REMAINING = 20000 # remaining shield and binoculars time (+-20 secs.)
-MAX_AMMO = 50 # maximum number of bullets
-AMMO_ROUND = 20 # bullets per reload
+TIME_REMAINING = 20000 # remaining shield time (+-20 secs.)
+MAX_AMMO = 20 # maximum number of bullets
+AMMO_ROUND = 10 # bullets per reload
 ANIM_SPEED_IDLE = 16 # loops between each frame change
 ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position

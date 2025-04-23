@@ -4,7 +4,7 @@
 # One class to rule them all
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2024 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -46,8 +46,8 @@ class Game():
         self.config.load()
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # when 'False', load the last checkpoint
-        self.win_secuence = 0 # animated sequence on winning (if > 0)
-        self.loss_secuence = 0 # animated sequence on losing (if > 0)
+        self.win_sequence = 0 # animated sequence on winning (if > 0)
+        self.loss_sequence = 0 # animated sequence on losing (if > 0)
         self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
         self.status = enums.GS_OVER # start from menu
@@ -62,7 +62,7 @@ class Game():
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # surface to save the previous map (transition effect between screens)
-        self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        #self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # sprite control groups (for collision detection)
         self.groups = [
             pygame.sprite.Group(), # all sprites (to display them)
@@ -122,8 +122,8 @@ class Game():
             enums.HS_DISK: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.HS_CANDY1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.HS_CANDY2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
-            enums.HS_COINS: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
+            enums.HS_COINS: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -160,8 +160,8 @@ class Game():
             3: pygame.mixer.Sound('sounds/fx/sfx_blast3.wav'),
             4: pygame.mixer.Sound('sounds/fx/sfx_blast4.wav')}
         self.sfx_hotspot = {
-            enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.HS_LIFE: pygame.mixer.Sound('sounds/fx/sfx_bin.wav'),
+            enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.HS_AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.HS_CANDY1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
@@ -199,6 +199,7 @@ class Game():
             self.v_margin = 4            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
         else: # full screen at low resolution not available
+            self.message('Resolution 800x600 not supported', 'Window mode was restored.', True, False)
             self.apply_windowed_mode()
 
 
@@ -212,6 +213,7 @@ class Game():
             # default background image to fill in the black sides
             self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
+            self.message('Resolution 1280x720 not supported', 'Window mode was restored.', True, False)
             self.apply_windowed_mode()
 
 
@@ -222,7 +224,7 @@ class Game():
         elif self.config.data['screen_mode'] == enums.SM_X720: # 16:9
             self.apply_screen_mode_X720()
         else:
-            self.apply_windowed_mode()         
+            self.apply_windowed_mode()        
 
 
     # load the high scores table
@@ -413,45 +415,22 @@ class Game():
                     return # back to menu
 
 
-    # everything blows up and our player wins the game
+    # our player wins the game. End sequence
     def win(self, score):
-        sounds = [enums.SCORPION, enums.SNAKE, enums.SOLDIER1]
-        # first frame (from 350 to 1)...
-        if self.win_secuence == 350:
-            # eliminate the remaining enemies
-            for enemy in self.groups[enums.SG_ENEMIES]:
-                enemy.kill()
-                blast = Explosion([enemy.rect.centerx, enemy.rect.centery], self.blast_images[0])              
-                self.groups[enums.SG_ALL].add(blast)                    
-                self.sfx_blast[1].play()                
-                self.shake = [10, 6] # shake the map
-                self.shake_timer = 14            
-        # intermediate frames. Generates multiple random explosions
-        elif self.win_secuence % random.randint(2, 8) == 0:
-            blast = Explosion((random.randint(30, constants.MAP_UNSCALED_SIZE[0]-10), 
-                random.randint(10, constants.MAP_UNSCALED_SIZE[0]-10)), self.blast_images[0])              
-            self.groups[enums.SG_ALL].add(blast)                    
-            self.sfx_blast[random.choice(sounds)].play()            
-            self.shake = [10, 6] # shake the map
-            self.shake_timer = 14
-        # last frame!
-        elif self.win_secuence == 1:
-            self.shake_timer = 1 # clean the edges
-            self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
-            # main theme song again
-            pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-            pygame.mixer.music.play()
-            # wait for a key
-            pygame.event.clear(pygame.KEYDOWN)
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        self.exit()
-                    if event.type == pygame.KEYDOWN:                  
-                        self.update_high_score_table(score)
-                        self.status = enums.GS_OVER
-                        return # back to the main menu                       
-        self.win_secuence -= 1 # next frame
+        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
+        # main theme song again
+        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        pygame.mixer.music.play()
+        # wait for a key
+        pygame.event.clear(pygame.KEYDOWN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.exit()
+                if event.type == pygame.KEYDOWN:                  
+                    self.update_high_score_table(score)
+                    self.status = enums.GS_OVER
+                    return # back to the main menu                       
 
 
     # collisions between the player and mines, killer tiles, enemies and hotspots
@@ -471,7 +450,7 @@ class Game():
                     self.sfx_blast[4].play()
                     player.invincible = False
                     player.loses_life(20) # game over
-                    self.loss_secuence = 70 # allows to end the animation of the explosion
+                    self.loss_sequence = 70 # allows to end the animation of the explosion
                     self.groups[enums.SG_ALL].remove(player)
                     scoreboard.invalidate()
                 elif map_data['behaviours'][index] == enums.TB_KILLER:
@@ -479,7 +458,7 @@ class Game():
                     player.loses_life(1)
                     scoreboard.invalidate()
                 return
-        # player and martians
+        # player and enemies
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.SG_ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_life(1)        
@@ -498,36 +477,40 @@ class Game():
                 self.groups[enums.SG_ALL].add(blast)                
                 self.sfx_hotspot[hotspot.type].play()
                 # manages the object according to the type
-                if hotspot.type == enums.SHIELD:
-                    self.floating_text.text = '+50 '
-                    player.score += 50
-                elif hotspot.type == enums.BIN:
-                    self.floating_text.text = '+125'
-                    player.score += 125
+                if hotspot.type == enums.HS_LIFE:
+                    self.floating_text.text = 'Health'
+                    player.energy = player.set_player_attributes()
+                elif hotspot.type == enums.SHIELD:
+                    self.floating_text.text = 'Shield'
+                    player.invincible = True
                 elif hotspot.type == enums.AMMO:
                     player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
+                    self.floating_text.text = 'Ammo'
+
+                elif hotspot.type == enums.HS_CANDY1:
+                    self.floating_text.text = '+50'
+                    player.score += 50
+                elif hotspot.type == enums.HS_CANDY2:
                     self.floating_text.text = '+75'
-                    player.score += 75
-                elif hotspot.type == enums.BURGER:
-                    self.floating_text.text = '+500'
-                    player.score += 500
-                elif hotspot.type == enums.CAKE:
-                    self.floating_text.text = '+350'
-                    player.score += 350
-                elif hotspot.type == enums.DONUT:
+                    player.score += 75                    
+                elif hotspot.type == enums.HS_CHOCO:
+                    self.floating_text.text = '+100'
+                    player.score += 100
+                elif hotspot.type == enums.HS_COINS:
                     self.floating_text.text = '+200'
-                    player.score += 200                                        
-                #elif hotspot.type == enums.CHECKPOINT:                    
-                #    self.floating_text.text = 'Checkpoint'                    
-                #    self.checkpoint.data = {
-                #        'map_number' : map_number,
-                #        'player_lives' : player.energy,
-                #        'player_ammo' : player.ammo,
-                #        'player_facing_right' : player.facing_right,
-                #        'player_rect' : player.rect,
-                #        'player_score' : player.score,
-                #        'hotspot_data' : constants.HOTSPOT_DATA }
-                #    self.checkpoint.save() 
+                    player.score += 200   
+
+                elif hotspot.type == enums.HS_DISK:                    
+                    self.floating_text.text = 'Checkpoint'                    
+                    self.checkpoint.data = {
+                        'map_number' : map_number,
+                        'player_lives' : player.energy,
+                        'player_ammo' : player.ammo,
+                        'player_facing_right' : player.facing_right,
+                        'player_rect' : player.rect,
+                        'player_score' : player.score,
+                        'hotspot_data' : constants.HOTSPOT_DATA }
+                    self.checkpoint.save() 
 
                 scoreboard.invalidate()
                 self.floating_text.x = hotspot.x*constants.TILE_SIZE
@@ -540,7 +523,7 @@ class Game():
 
 
     def check_bullet_collisions(self, player, scoreboard):                                  
-        # bullets and martians
+        # bullets and enemies
         if self.groups[enums.SG_SHOT].sprite is not None: # still shot in progress
             for enemy in self.groups[enums.SG_ENEMIES]:
                 if enemy.rect.colliderect(self.groups[enums.SG_SHOT].sprite):        
