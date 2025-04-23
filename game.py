@@ -199,7 +199,6 @@ class Game():
             self.v_margin = 4            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
         else: # full screen at low resolution not available
-            self.message('Resolution 800x600 not supported', 'Window mode was restored.', True, False)
             self.apply_windowed_mode()
 
 
@@ -213,7 +212,6 @@ class Game():
             # default background image to fill in the black sides
             self.screen.blit(self.img_background, (0,0))
         else: # full screen at low resolution not available
-            self.message('Resolution 1280x720 not supported', 'Window mode was restored.', True, False)
             self.apply_windowed_mode()
 
 

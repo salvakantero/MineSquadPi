@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- poder quitar balizas (guardar la situación original)
 
 
 BUGS
@@ -13,6 +12,8 @@ BUGS
 
 POR HACER
 =========
+- poder quitar balizas (guardar la situación original)
+- no configurar resoluciones no válidas
 - intro sin PAUSE
 - checkpoint al final de cada nivel
 - esqueleto del player tras explosión
