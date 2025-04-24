@@ -20,7 +20,6 @@ POR HACER
 - selección del jugador al comenzar la partida
 - objetos para puntuar
 - objeto escudo (invencibilidad)
-- objeto binoculares (mayor rango de visión)
 - técnicas QUADTREE para detección de colisiones?
 - mapas definitivos, más largos que la pantalla (scroll vertical)
 - graficos de PIPER
