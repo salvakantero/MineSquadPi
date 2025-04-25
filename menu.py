@@ -32,7 +32,7 @@ from marqueetext import MarqueeText
 class Menu():
     def __init__(self, game):
         self.game = game        
-        self.srf_menu = game.srf_menu
+        self.srf_intro = game.srf_intro
         self.tip = 'Use mouse, joypad, or cursors and SPACE/ENTER to select'        
         # background
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
@@ -216,12 +216,12 @@ class Menu():
         #pygame.mixer.music.play()
         # help text
         marquee_help = MarqueeText(
-            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
-            self.srf_menu.get_height() - 26, .8, constants.HELP, 2400)
+            self.srf_intro, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
+            self.srf_intro.get_height() - 26, .8, constants.HELP, 2400)
         # credit text     
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
-            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2100)
+            self.srf_intro, Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
+            self.srf_intro.get_height() - 8, .5, constants.CREDITS, 2100)
     
         # some local variables are initialised
         selected_option = enums.MO_START # option where the cursor is located
@@ -236,7 +236,7 @@ class Menu():
             page_timer += 1
 
             # draws the background image
-            self.srf_menu.blit(self.img_menu, (0,0))
+            self.srf_intro.blit(self.img_menu, (0,0))
 
             # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
@@ -250,7 +250,7 @@ class Menu():
             elif y < 0: # as long as the page does not reach the upper margin
                 y += 6 # scrolls the page up (is appearing)           
              # draw one of the 6 menu pages
-            self.srf_menu.blit(self.menu_pages[menu_page], (0, y))
+            self.srf_intro.blit(self.menu_pages[menu_page], (0, y))
 
             # ====================== keyboard/gamepad management =======================
             for event in pygame.event.get():
@@ -312,9 +312,9 @@ class Menu():
             if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_pointer, (56, 56 + (20*selected_option)))
+                    self.srf_intro.blit(self.img_pointer, (56, 56 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (35, -24 + (20*selected_option)))
+                    self.srf_intro.blit(self.img_pointer, (35, -24 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:

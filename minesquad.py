@@ -45,7 +45,7 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 
 # shows an intro
-#game.show_intro()
+game.show_intro()
 
 # Main loop
 while True:

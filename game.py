@@ -54,7 +54,7 @@ class Game():
         self.music_status = enums.MS_UNMUTED # Music!
         self.loop_counter = 0 # main loop cycles for various uses
         # area covered by the menu
-        self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+        self.srf_intro = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
         self.srf_map = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # surface to save the generated map without sprites (background for each frame)
@@ -119,7 +119,7 @@ class Game():
             enums.HS_LIFE: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
             enums.HS_SHIELD: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.HS_AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.HS_DISK: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.HS_DISK: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
             enums.HS_CANDY1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
             enums.HS_CANDY2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
@@ -312,7 +312,7 @@ class Game():
         if self.status == enums.GS_OVER:
             # scale the menu
             self.screen.blit(pygame.transform.scale(
-                self.srf_menu, constants.MENU_SCALED_SIZE),
+                self.srf_intro, constants.MENU_SCALED_SIZE),
                 (self.h_margin, self.v_margin))
         else:
             # scale the scoreboard
@@ -541,9 +541,6 @@ class Game():
                         elif enemy.type == enums.SOLDIER1: 
                             self.floating_text.text = '+75'
                             player.score += 75
-                        #else: # fanty
-                        #    self.floating_text.text = '+100'
-                        #    player.score += 100
                     self.groups[enums.SG_ALL].add(blast)                    
                     self.sfx_blast[enemy.type].play()
                     # floating text position

@@ -28,7 +28,7 @@ import constants
 class Intro():
     def __init__(self, game):
         self.game = game
-        self.srf_menu = game.srf_menu
+        self.srf_intro = game.srf_menu
         # images
         self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro logo  
         self.img_intro = pygame.image.load('images/assets/intro.png').convert() # background
@@ -36,16 +36,6 @@ class Intro():
         self.sfx_logo = pygame.mixer.Sound('sounds/fx/sfx_logo.wav') # PlayOnRetro logo sfx
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
-
-
-    # the ESC, RETURN or SPACE key has been pressed.
-    def main_key_pressed(self):
-        for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE \
-                    or event.key == pygame.K_RETURN \
-                    or event.key == pygame.K_SPACE:
-                        return True
 
 
     def fades_surface(self, target_surf, aux_surf, opacity, delay):
@@ -57,28 +47,83 @@ class Intro():
             pygame.time.wait(delay) # speed of transition
 
 
+    # the ESC, RETURN or SPACE key has been pressed.
+    # def main_key_pressed(self):
+    #     for event in pygame.event.get():
+    #             if event.type == pygame.KEYDOWN:
+    #                 if event.key == pygame.K_ESCAPE \
+    #                 or event.key == pygame.K_RETURN \
+    #                 or event.key == pygame.K_SPACE:
+    #                     return True
+                    
+
+    # def play(self):
+    #     pygame.time.wait(500)
+        
+    #     # PlayOnRetro logo
+    #     # fade in
+    #     self.srf_intro.fill(constants.PALETTE['BLACK0']) # black background
+    #     self.srf_aux.blit(self.img_logo, (0, 0))
+    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
+    #     if self.main_key_pressed(): return # allows skipping the intro
+    #     self.sfx_logo.play()
+    #     pygame.time.wait(1500)
+    #     if self.main_key_pressed(): return
+    #     # fade out
+    #     self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
+    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
+    #     if self.main_key_pressed(): return # allows skipping the intro
+
+    #     # MineSquad logo
+    #     # fade in
+    #     self.srf_intro.fill(constants.PALETTE['BLACK0'])
+    #     self.srf_aux.blit(self.img_intro, (0, 0))
+    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 60)     
+    #     if self.main_key_pressed(): return # allows skipping the intro
+    #     # pause for recreation. Ooohhh how wonderful!
+    #     pygame.time.wait(1500)
+
+
+    # wait for a duration while checking for skip keys
+    def wait_with_skip(self, milliseconds):        
+        start_time = pygame.time.get_ticks()
+        while pygame.time.get_ticks() - start_time < milliseconds:
+            if self.main_key_pressed():
+                return True
+            pygame.time.delay(10)  # reduce CPU usage
+        return False
+
+
+    # the ESC, RETURN or SPACE key has been pressed
+    def main_key_pressed(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_SPACE):
+                    return True
+            elif event.type == pygame.QUIT:
+                return True
+        return False
+
+
     def play(self):
         pygame.time.wait(500)
-        
+
         # PlayOnRetro logo
         # fade in
-        self.srf_menu.fill(constants.PALETTE['BLACK0']) # black background
+        self.srf_intro.fill(constants.PALETTE['BLACK0']) # black background
         self.srf_aux.blit(self.img_logo, (0, 0))
-        self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
-        if self.main_key_pressed(): return # allows skipping the intro
+        self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
         self.sfx_logo.play()
-        pygame.time.wait(1500)
-        if self.main_key_pressed(): return
+        if self.wait_with_skip(1500): return
         # fade out
         self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
-        self.fades_surface(self.srf_menu, self.srf_aux, 45, 12)
-        if self.main_key_pressed(): return # allows skipping the intro
+        self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
 
         # MineSquad logo
         # fade in
-        self.srf_menu.fill(constants.PALETTE['BLACK0'])
+        self.srf_intro.fill(constants.PALETTE['BLACK0'])
         self.srf_aux.blit(self.img_intro, (0, 0))
-        self.fades_surface(self.srf_menu, self.srf_aux, 45, 60)     
-        if self.main_key_pressed(): return # allows skipping the intro
-        # pause for recreation. Ooohhh how wonderful!
-        pygame.time.wait(1500)
+        self.fades_surface(self.srf_intro, self.srf_aux, 45, 60)
+        # pause for recreation. Waooouuu!
+        if self.wait_with_skip(1500): return
+

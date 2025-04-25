@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- intro sin WAIT
 
 
 BUGS
@@ -12,9 +13,10 @@ BUGS
 
 POR HACER
 =========
+- tipo de letra grande
+- icono de la aplicación
 - poder quitar balizas (guardar la situación original)
 - no configurar resoluciones no válidas
-- intro sin PAUSE
 - checkpoint al final de cada nivel
 - esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
@@ -22,16 +24,17 @@ POR HACER
 - objeto escudo (invencibilidad)
 - técnicas QUADTREE para detección de colisiones?
 - mapas definitivos, más largos que la pantalla (scroll vertical)
+- buscar la manera de mostrar la configuración del teclado al inicio del nivel
+
 - graficos de PIPER
 - gráficos de hotspots
-- gráficos de tiles stage 1
 - gráficos de enemigos stage 1
-- gráficos de tiles stage 2
 - gráficos de enemigos stage 2
-- gráficos de tiles stage 3
 - gráficos de enemigos stage 3
-- gráficos de tiles stage 4
-- gráficos de enemigos stage 4
+- gráficos de tiles stage 1
+- gráficos de tiles stage 2
+- gráficos de tiles stage 3
+
 - tema musical corto inicio de nivel
 - tema musical corto de game over
 - 4 temas musicales tranquilos para cada nivel de cada stage
