@@ -44,44 +44,7 @@ class Intro():
             aux_surf.set_alpha(z) # opacity is being applied
             target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
             self.game.update_screen() # draw target_surf
-            pygame.time.wait(delay) # speed of transition
-
-
-    # the ESC, RETURN or SPACE key has been pressed.
-    # def main_key_pressed(self):
-    #     for event in pygame.event.get():
-    #             if event.type == pygame.KEYDOWN:
-    #                 if event.key == pygame.K_ESCAPE \
-    #                 or event.key == pygame.K_RETURN \
-    #                 or event.key == pygame.K_SPACE:
-    #                     return True
-                    
-
-    # def play(self):
-    #     pygame.time.wait(500)
-        
-    #     # PlayOnRetro logo
-    #     # fade in
-    #     self.srf_intro.fill(constants.PALETTE['BLACK0']) # black background
-    #     self.srf_aux.blit(self.img_logo, (0, 0))
-    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
-    #     if self.main_key_pressed(): return # allows skipping the intro
-    #     self.sfx_logo.play()
-    #     pygame.time.wait(1500)
-    #     if self.main_key_pressed(): return
-    #     # fade out
-    #     self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
-    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
-    #     if self.main_key_pressed(): return # allows skipping the intro
-
-    #     # MineSquad logo
-    #     # fade in
-    #     self.srf_intro.fill(constants.PALETTE['BLACK0'])
-    #     self.srf_aux.blit(self.img_intro, (0, 0))
-    #     self.fades_surface(self.srf_intro, self.srf_aux, 45, 60)     
-    #     if self.main_key_pressed(): return # allows skipping the intro
-    #     # pause for recreation. Ooohhh how wonderful!
-    #     pygame.time.wait(1500)
+            self.wait_with_skip(delay)
 
 
     # wait for a duration while checking for skip keys
@@ -106,7 +69,7 @@ class Intro():
 
 
     def play(self):
-        pygame.time.wait(500)
+        self.wait_with_skip(500)
 
         # PlayOnRetro logo
         # fade in
