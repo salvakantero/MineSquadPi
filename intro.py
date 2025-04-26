@@ -44,15 +44,15 @@ class Intro():
             aux_surf.set_alpha(z) # opacity is being applied
             target_surf.blit(aux_surf, (0,0)) # the two surfaces come together to be drawn
             self.game.update_screen() # draw target_surf
-            self.wait_with_skip(delay)
+            if self.wait_with_skip(delay): return True
+        return False
 
 
     # wait for a duration while checking for skip keys
     def wait_with_skip(self, milliseconds):        
         start_time = pygame.time.get_ticks()
         while pygame.time.get_ticks() - start_time < milliseconds:
-            if self.main_key_pressed():
-                return True
+            if self.main_key_pressed(): return True
             pygame.time.delay(10)  # reduce CPU usage
         return False
 
@@ -69,24 +69,24 @@ class Intro():
 
 
     def play(self):
-        self.wait_with_skip(500)
+        if self.wait_with_skip(500): return True
 
         # PlayOnRetro logo
         # fade in
         self.srf_intro.fill(constants.PALETTE['BLACK0']) # black background
         self.srf_aux.blit(self.img_logo, (0, 0))
-        self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
+        if self.fades_surface(self.srf_intro, self.srf_aux, 45, 12): return True
         self.sfx_logo.play()
-        if self.wait_with_skip(1500): return
+        if self.wait_with_skip(1500): return True
         # fade out
         self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
-        self.fades_surface(self.srf_intro, self.srf_aux, 45, 12)
+        if self.fades_surface(self.srf_intro, self.srf_aux, 45, 12): return True
 
         # MineSquad logo
         # fade in
         self.srf_intro.fill(constants.PALETTE['BLACK0'])
         self.srf_aux.blit(self.img_intro, (0, 0))
-        self.fades_surface(self.srf_intro, self.srf_aux, 45, 60)
+        if self.fades_surface(self.srf_intro, self.srf_aux, 45, 60): return True
         # pause for recreation. Waooouuu!
-        if self.wait_with_skip(1500): return
+        if self.wait_with_skip(1500): return True
 

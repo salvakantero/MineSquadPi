@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- intro sin WAIT
+- icono de la aplicación
 
 
 BUGS
@@ -13,7 +13,6 @@ BUGS
 
 POR HACER
 =========
-- tipo de letra grande
 - icono de la aplicación
 - poder quitar balizas (guardar la situación original)
 - no configurar resoluciones no válidas
@@ -42,6 +41,7 @@ POR HACER
 
 HECHO
 =====
+26/04/25 - intro sin WAIT
 22/04/25 - info tecla de baliza (B de beacon)
 21/04/25 - player no debe salir de los márgenes del mapa
 19/04/25 - gráfico de mina
