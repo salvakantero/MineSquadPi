@@ -188,8 +188,8 @@ class Game():
         self.win_size = constants.WIN_SIZE
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         pygame.display.set_caption('.:: Mine Squad Pi ::.')
-        #icon = pygame.image.load('images/assets/intro3.png').convert_alpha()
-        #pygame.display.set_icon(icon)
+        icon = pygame.image.load('minesquad.png').convert_alpha()
+        pygame.display.set_icon(icon)
 
 
     # 4:3 (800x600) clear and faaaasssst!
@@ -198,7 +198,8 @@ class Game():
             self.win_size = 800, 600
             self.v_margin = 4            
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-        else: # full screen at low resolution not available
+        else: # screen resolution not available
+            self.config.data['screen_mode'] = enums.SM_WINDOW
             self.apply_windowed_mode()
 
 
@@ -211,7 +212,8 @@ class Game():
             self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
             # default background image to fill in the black sides
             self.screen.blit(self.img_background, (0,0))
-        else: # full screen at low resolution not available
+        else: # screen resolution not available
+            self.config.data['screen_mode'] = enums.SM_WINDOW
             self.apply_windowed_mode()
 
 

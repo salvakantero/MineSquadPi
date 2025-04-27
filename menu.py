@@ -354,8 +354,8 @@ class Menu():
                         # create joystick/joypad/gamepad object (if it exists)
                         self.game.joystick = self.game.config.prepare_joystick()                        
                         # saves and apply possible changes to the configuration
-                        self.game.config.save()  
-                        self.game.apply_display_settings()                     
+                        self.game.apply_display_settings()
+                        self.game.config.save()                       
                         # recreate the page with the new data
                         self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK0'])

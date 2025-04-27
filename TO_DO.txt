@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- icono de la aplicación
+- poder quitar balizas (guardar la situación original)
 
 
 BUGS
@@ -13,9 +13,6 @@ BUGS
 
 POR HACER
 =========
-- icono de la aplicación
-- poder quitar balizas (guardar la situación original)
-- no configurar resoluciones no válidas
 - checkpoint al final de cada nivel
 - esqueleto del player tras explosión
 - selección del jugador al comenzar la partida
@@ -41,6 +38,8 @@ POR HACER
 
 HECHO
 =====
+27/04/25 - no configurar resoluciones no válidas
+27/04/25 - icono de la aplicación
 26/04/25 - intro sin WAIT
 22/04/25 - info tecla de baliza (B de beacon)
 21/04/25 - player no debe salir de los márgenes del mapa
