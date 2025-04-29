@@ -114,8 +114,8 @@ class Map():
         # rects and behaviours of each tile (to fill in later)
         data['rects'] = []
         data['behaviours'] = []
-        # randomly places mines on the map
-        data['mines_info'], data['mines_pos'] = self.generate_mines(data['data'])
+        # randomly places mines on the map (generates mines and proximity info)
+        data['mines_info'] = self.generate_mines(data['data'])
         # tiles trodden by the player (marked as False by default)
         data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
                          for _ in range(constants.MAP_TILE_SIZE[1])]

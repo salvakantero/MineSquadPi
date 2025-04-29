@@ -4,7 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- poder quitar balizas (guardar la situación original)
+- simplificar datos del mapa
+- gráficos de hotspots
 
 
 BUGS
@@ -13,23 +14,32 @@ BUGS
 
 POR HACER
 =========
-- checkpoint al final de cada nivel
-- esqueleto del player tras explosión
+- mostrar la configuración del teclado al inicio del nivel
+- eskeleto del player tras explosión
 - selección del jugador al comenzar la partida
-- objetos para puntuar
-- objeto escudo (invencibilidad)
-- técnicas QUADTREE para detección de colisiones?
+- velocidad diferente para cada uno de los players
+- posicionar hotspots
+- posicionar enemigos
+- hotspot vida extra
+- hotspot escudo (invencibilidad)
+- hotspot munición
+- hotspot grabar partida
+- hotspots para puntuar
+- enemigos lineales
+- enemigos aleatorios
+- enemigos perseguidores
+- técnicas QUADTREE para detección de colisiones
 - mapas definitivos, más largos que la pantalla (scroll vertical)
-- buscar la manera de mostrar la configuración del teclado al inicio del nivel
 
-- graficos de PIPER
-- gráficos de hotspots
+- gráficos de PIPER
+- gráficos de eskeleto
 - gráficos de enemigos stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
 - gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
+- carátula POR
 
 - tema musical corto inicio de nivel
 - tema musical corto de game over
@@ -98,13 +108,13 @@ Notas
 - Campo de juego: 
     Campo de juego rectangular (vertical) dividido en celdas. Hay scroll vertical. 
     Algunas celdas contienen minas, pero el jugador no puede ver dónde están ubicadas.
-    El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay debajo de las adyacentes.
+    El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay en las celdas adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
     El color de los números dependerá del nivel/escenario.
-    El jugador puede marcar las celdas que piensa que contienen minas con una bandera (y desmarcar).
-    Hay un número limitado de banderas. A mayor nivel, más minas / menos banderas.
-    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o toda su energía.
-    La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas circundantes.
+    El jugador puede marcar las celdas que piensa que contienen minas con una bandera/baliza.
+    Hay un número limitado de balizas. A mayor nivel, más minas / menos balizas.
+    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o acaba toda su energía.
+    La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas adyacentes.
 
 - Objetos:
     Se distribuyen por el mapa aleatoriamente.
@@ -143,7 +153,7 @@ Notas
         jabalí          aleatorio   80
         soldado blanco  persigue    200
 
-*Tiles que matan: Permiten pasar pero pierde una porción de energía.
+*Tiles que matan: Permiten pasar pero pierde una unidad de energía.
 
 
 - Detalles técnicos:
