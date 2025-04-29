@@ -155,9 +155,9 @@ class Player(pygame.sprite.Sprite):
             x = (self.rect.x // constants.TILE_SIZE) + offset_x
             y = (self.rect.y // constants.TILE_SIZE) + offset_y
             # if there is no beacon on the tile
-            if self.map.map_data['mines'][y][x] != enums.MD_BEACON:
+            if self.map.map_data['mines_info'][y][x] != enums.MD_BEACON:
                 # if there is a mine in the marked tile
-                if self.map.map_data['mines'][y][x] == enums.MD_MINE:
+                if self.map.map_data['mines_info'][y][x] == enums.MD_MINE:
                     self.game.remaining_mines -= 1
                     # eliminates the mine in the behaviours list
                     temp_rect = pygame.Rect(
@@ -168,7 +168,7 @@ class Player(pygame.sprite.Sprite):
                             if self.map.map_data['behaviours'][index] == enums.TB_MINE:
                                 self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
                                 break
-                self.map.map_data['mines'][y][x] = enums.MD_BEACON # place the beacon
+                self.map.map_data['mines_info'][y][x] = enums.MD_BEACON # place the beacon
                 self.sfx_beacon.play()
                 self.game.remaining_beacons -= 1
                 self.scoreboard.invalidate()

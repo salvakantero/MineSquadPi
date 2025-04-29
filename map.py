@@ -69,20 +69,20 @@ class Map():
         self.game.groups[enums.SG_ALL].add(player)
         self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
                        constants.PLAYER_X_INI // constants.TILE_SIZE)
-        # add the hotspot (if available)
-        hotspot = constants.HOTSPOT_DATA[self.number]
-        if hotspot[3] == True: # visible/available?           
-           hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-           self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
-           self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
-        # add enemies to the map reading from 'ENEMIES_DATA' list.
-        # a maximum of three enemies per map
-        # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
-        for i in range(3):
-           enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
-           if enemy_data[6] != enums.EN_NONE:
-               enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
-               self.game.groups[enums.SG_ALL].add(enemy) # to update/draw it
+        # # add the hotspot (if available)
+        # hotspot = constants.HOTSPOT_DATA[self.number]
+        # if hotspot[3] == True: # visible/available?           
+        #    hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
+        #    self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
+        #    self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
+        # # add enemies to the map reading from 'ENEMIES_DATA' list.
+        # # a maximum of three enemies per map
+        # # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
+        # for i in range(3):
+        #    enemy_data = constants.ENEMIES_DATA[self.number*3 + i]
+        #    if enemy_data[6] != enums.EN_NONE:
+        #        enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[6]])
+        #        self.game.groups[enums.SG_ALL].add(enemy) # to update/draw it
 
 
     # loads a map from the json file, and draws it on screen
@@ -115,7 +115,7 @@ class Map():
         data['rects'] = []
         data['behaviours'] = []
         # randomly places mines on the map
-        data['mines'] = self.generate_mines(data['data'])
+        data['mines_info'], data['mines_pos'] = self.generate_mines(data['data'])
         # tiles trodden by the player (marked as False by default)
         data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
                          for _ in range(constants.MAP_TILE_SIZE[1])]
@@ -136,7 +136,7 @@ class Map():
                 behaviour = enums.TB_NO_ACTION
                 if tn >= 16 and tn <= 35:   behaviour = enums.TB_OBSTACLE
                 elif tn >= 70 and tn <= 75: behaviour = enums.TB_KILLER
-                elif data['mines'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
+                elif data['mines_info'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
                 # is only added to the list if there is an active behaviour
                 if behaviour != enums.TB_NO_ACTION:
                     data['rects'].append(tileRect)
@@ -169,12 +169,12 @@ class Map():
                     and 0 <= j < constants.MAP_TILE_SIZE[0] \
                     and mine_data[i][j] != enums.MD_MINE:
                         mine_data[i][j] += 1
-        return mine_data
+        return mine_data, mines
 
 
     def draw_mine_data(self):
         tilemap = self.map_data['data'] # list of tiles that make up the map
-        for row_index, row in enumerate(self.map_data['mines']):
+        for row_index, row in enumerate(self.map_data['mines_info']):
             for col_index, value in enumerate(row):
                 if value > enums.MD_FREE \
                 and self.map_data['marks'][row_index][col_index] \
