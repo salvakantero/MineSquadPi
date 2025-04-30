@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - gráficos de hotspots
-- mostrar la configuración del teclado al inicio del nivel
 
 
 BUGS
@@ -52,6 +51,7 @@ POR HACER
 
 HECHO
 =====
+30/04/25 - mostrar la configuración del teclado al inicio del nivel
 30/04/25 - velocidad diferente para cada uno de los players
 27/04/25 - no configurar resoluciones no válidas
 27/04/25 - icono de la aplicación
