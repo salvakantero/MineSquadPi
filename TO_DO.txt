@@ -4,8 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- simplificar datos del mapa
 - gráficos de hotspots
+- mostrar la configuración del teclado al inicio del nivel
 
 
 BUGS
@@ -14,22 +14,25 @@ BUGS
 
 POR HACER
 =========
-- mostrar la configuración del teclado al inicio del nivel
 - eskeleto del player tras explosión
 - selección del jugador al comenzar la partida
-- velocidad diferente para cada uno de los players
+- técnicas QUADTREE para detección de colisiones
+- mapas definitivos, más largos que la pantalla (scroll vertical)
+- secuencia al ganar
+- secuencia al perder
+
 - posicionar hotspots
 - posicionar enemigos
+
+- hotspots para puntuar
 - hotspot vida extra
 - hotspot escudo (invencibilidad)
 - hotspot munición
 - hotspot grabar partida
-- hotspots para puntuar
+
 - enemigos lineales
 - enemigos aleatorios
 - enemigos perseguidores
-- técnicas QUADTREE para detección de colisiones
-- mapas definitivos, más largos que la pantalla (scroll vertical)
 
 - gráficos de PIPER
 - gráficos de eskeleto
@@ -44,10 +47,12 @@ POR HACER
 - tema musical corto inicio de nivel
 - tema musical corto de game over
 - 4 temas musicales tranquilos para cada nivel de cada stage
+- tema musical marcha militar al finalizar cada stage
 
 
 HECHO
 =====
+30/04/25 - velocidad diferente para cada uno de los players
 27/04/25 - no configurar resoluciones no válidas
 27/04/25 - icono de la aplicación
 26/04/25 - intro sin WAIT

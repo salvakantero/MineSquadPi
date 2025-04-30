@@ -39,12 +39,6 @@ class Menu():
         # players
         self.img_blaze = pygame.image.load('images/assets/blaze.png').convert_alpha()
         self.img_piper = pygame.image.load('images/assets/piper.png').convert_alpha()
-        # controls
-        self.img_classic = pygame.image.load('images/assets/classic.png').convert_alpha()
-        self.img_gamer = pygame.image.load('images/assets/gamer.png').convert_alpha()
-        self.img_retro = pygame.image.load('images/assets/retro.png').convert_alpha()
-        self.img_joypad = pygame.image.load('images/assets/joypad.png').convert_alpha()
-        self.img_common = pygame.image.load('images/assets/common.png').convert_alpha()
         # auxiliar
         self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
         self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
@@ -161,11 +155,11 @@ class Menu():
     def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         layouts = [
-            (self.img_classic, (30, 52), 'Classic', (39, 90)),
-            (self.img_gamer, (95, 52), 'Gamer', (104, 90)),
-            (self.img_retro, (160, 52), 'Retro', (170, 90)),
-            (self.img_joypad, (53, 108), 'Joypad', (70, 146)),
-            (self.img_common, (119, 108), 'Common keys', (131, 146))]
+            (self.game.control_images[0], (30, 52), 'Classic', (39, 90)),
+            (self.game.control_images[1], (95, 52), 'Gamer', (104, 90)),
+            (self.game.control_images[2], (160, 52), 'Retro', (170, 90)),
+            (self.game.control_images[3], (53, 108), 'Joypad', (70, 146)),
+            (self.game.control_images[4], (119, 108), 'Common keys', (131, 146))]
         
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
         for i, (image, img_pos, text, text_pos) in enumerate(layouts):

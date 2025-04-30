@@ -61,8 +61,6 @@ class Game():
         self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
-        # surface to save the previous map (transition effect between screens)
-        #self.srf_map_bk_prev = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # sprite control groups (for collision detection)
         self.groups = [
             pygame.sprite.Group(), # all sprites (to display them)
@@ -124,6 +122,13 @@ class Game():
             enums.HS_CANDY2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
             enums.HS_COINS: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+        self.control_images = {
+            enums.CT_CLASSIC: pygame.image.load('images/assets/classic.png').convert_alpha(),
+            enums.CT_GAMER:  pygame.image.load('images/assets/gamer.png').convert_alpha(),
+            enums.CT_RETRO: pygame.image.load('images/assets/retro.png').convert_alpha(),
+            enums.CT_JOYSTICK: pygame.image.load('images/assets/joypad.png').convert_alpha(),
+            enums.CT_COMMON: pygame.image.load('images/assets/common.png').convert_alpha()
+        }
         self.blast_images = {
             0: [ # explosion 1: on the air
                 pygame.image.load('images/sprites/blast0.png').convert_alpha(),
@@ -147,7 +152,7 @@ class Game():
                 pygame.image.load('images/sprites/blast13.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast14.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}         
+                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}        
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav') 
@@ -246,7 +251,7 @@ class Game():
 
     # allows to enter the player's name
     def get_player_name(self):
-        self.message('You achieved a high score!', 'Enter your name...', False, False)
+        self.message('You achieved a high score!', 'Enter your name...', False, False, False)
         pygame.event.clear(pygame.KEYDOWN)
         name = ''
         while True:
@@ -265,7 +270,7 @@ class Game():
                     elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                         name = name[:-1]
                     # draws the current name
-                    self.message('You achieved a high score!', name.upper(), False, True)
+                    self.message('You achieved a high score!', name.upper(), False, True, False)
 
 
     # new high score??
@@ -291,7 +296,7 @@ class Game():
 
     # creates the initial Menu object
     def show_menu(self):
-        menu = Menu(self)
+        menu = Menu(self)        
         menu.show()
 
 
@@ -347,7 +352,7 @@ class Game():
 
 
     # displays a message, darkening the screen
-    def message(self, msg1, msg2, darken, muted):
+    def message(self, msg1, msg2, darken, muted, control_info):
         # obscures the surface of the map
         if darken:
             self.srf_map.set_alpha(120)
@@ -362,6 +367,10 @@ class Game():
         message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
         # width = length of the longest text + margin
         width = max(message1_len, message2_len) + 30
+        # extra width and height with control info
+        if control_info:
+            width = max(width, 140)
+            height = height + 40
         # calculates the position of the box
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
@@ -378,17 +387,21 @@ class Game():
         text_y = y + 25
         self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
         self.fonts[enums.S_F_GREEN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
+        # control info
+        if control_info:
+            aux_surf.blit(self.img_joypad, (x + 5, y + 30))
+            aux_surf.blit(self.img_common, (x + width - 70, y + 30))
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
-        self.update_screen() 
+        self.update_screen()
         if muted: self.sfx_click.play()
         else: self.sfx_message.play()
 
 
     # displays a message to confirm exit
     def confirm_exit(self):
-        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False)
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False, False)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
@@ -403,7 +416,7 @@ class Game():
     # displays a 'game over' message and waits
     def over(self):
         self.shake_timer = 1 # clean the edges 
-        self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True)
+        self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)
@@ -417,7 +430,7 @@ class Game():
 
     # our player wins the game. End sequence
     def win(self, score):
-        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True)
+        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False)
         # main theme song again
         pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         pygame.mixer.music.play()

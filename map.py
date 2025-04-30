@@ -169,7 +169,7 @@ class Map():
                     and 0 <= j < constants.MAP_TILE_SIZE[0] \
                     and mine_data[i][j] != enums.MD_MINE:
                         mine_data[i][j] += 1
-        return mine_data, mines
+        return mine_data
 
 
     def draw_mine_data(self):
