@@ -5,6 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - gráficos de hotspots
+- sistema para girar sin moverse
 
 
 BUGS
