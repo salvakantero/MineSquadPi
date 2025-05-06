@@ -89,7 +89,7 @@ class Game():
             enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN0'], True),
             #large fonts
             enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['GRAY2'], True),
-            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], False),
+            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], True),
             enums.L_F_RED: Font('images/fonts/large_font.png', constants.PALETTE['RED0'], True),
             enums.L_B_BLACK: Font('images/fonts/large_font.png', constants.PALETTE['BLACK1'], True),
             enums.L_F_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
@@ -355,10 +355,10 @@ class Game():
     def message(self, msg1, msg2, darken, muted, control_info):
         # obscures the surface of the map
         if darken:
-            self.srf_map.set_alpha(120)
+            self.srf_map.set_alpha(115)
             self.update_screen()
         # saves a copy of the darkened screen
-        aux_surf = pygame.Surface(constants.MAP_UNSCALED_SIZE)    
+        aux_surf = pygame.Surface((constants.MAP_UNSCALED_SIZE), pygame.SRCALPHA)    
         aux_surf.blit(self.srf_map, (0,0))
         # draws the light message on the dark background
         height = 36
@@ -374,8 +374,8 @@ class Game():
         # calculates the position of the box
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
-        # black window
-        pygame.draw.rect(aux_surf, constants.PALETTE['BLACK0'],(x, y, width, height))
+        # blackest window
+        pygame.draw.rect(aux_surf, (0, 0, 0, 195),(x, y, width, height))
         # draws the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)
