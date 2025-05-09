@@ -124,15 +124,15 @@ Notas
 
 - Objetos:
     Se distribuyen por el mapa aleatoriamente.
-    -Vida extra: +1 barra de energía
-    -Escudo: invencible (30 secs)
-    -Munición: permite disparar (+10)
-    -Disco: checkpoint para no repetir nivel anterior
+    (0) Vida extra: +1 barra de energía
+    (1) Escudo: invencible (30 secs)
+    (2) Munición: permite disparar (+10)
+    (3) Disco: checkpoint para no repetir nivel anterior
     Regalos: puntuación extra
-        -Chuche #1    50
-        -Chuche #2    75
-        -Bombón      100
-        -Monedas     200
+        (4) Chuche       50
+        (5) Manzana      75
+        (6) Chocolate   100
+        (7) Monedas     200
 
 - Enemigos:
     Se pasean por el mapa de manera lineal, aleatoria, o persiguen lentamente al jugador

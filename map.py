@@ -41,9 +41,9 @@ class Map():
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
         self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
-        self.stage_name2 = ("NORTH AFRICA, OCTOBER 1942", 
+        self.stage_name2 = ("EGYPT, OCTOBER 1942", 
                             "NORMANDY, JUNE 1944", 
-                            "THE ARDENNES, JANUARY 1945")        
+                            "ARDENNES FOREST, JANUARY 1945")        
 
 
     # does everything necessary to change the map and add enemies and hotspots.
@@ -69,12 +69,12 @@ class Map():
         self.game.groups[enums.SG_ALL].add(player)
         self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
                        constants.PLAYER_X_INI // constants.TILE_SIZE)
-        # # add the hotspot (if available)
-        # hotspot = constants.HOTSPOT_DATA[self.number]
-        # if hotspot[3] == True: # visible/available?           
-        #    hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-        #    self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
-        #    self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
+        # add the hotspot (if available)
+        hotspot = constants.HOTSPOT_DATA[self.number]
+        if hotspot[3] == True: # visible/available?           
+           hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
+           self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
+           self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
         # # add enemies to the map reading from 'ENEMIES_DATA' list.
         # # a maximum of three enemies per map
         # # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
