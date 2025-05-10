@@ -4,12 +4,12 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- sombre en el medidor de energía
 - sistema para girar sin moverse
 
 
 BUGS
 ====
-- limpieza de datos del marcador
 
 
 POR HACER

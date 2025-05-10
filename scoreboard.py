@@ -43,32 +43,29 @@ class Scoreboard():
         if self.needs_updating:
             # player data
             self.draw_energy_bar(player.energy)
-            self.clear_zone(89)
+            self.clear_zone(88, 15)
             self.shaded_text(player.ammo, 90, 6)
-            self.shaded_text('\'' + str(constants.MAX_AMMO), 106, 6) # ' = /
-            self.clear_zone(147)
+            self.shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
+            self.clear_zone(147, 15)
             self.shaded_text(self.game.remaining_beacons, 149, 6)
-            self.clear_zone(183)
+            self.clear_zone(183, 15)
             self.shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
                        
             x = 204
             y = 3
+            self.clear_zone(x, 34)
             # show score
             text = 'SC:' + str(player.score).rjust(6, '0')
-            self.game.fonts[enums.S_B_BROWN].render(
-                text, self.game.srf_sboard, (x+1, y+1)) # shadow
-            self.game.fonts[enums.S_F_BROWN].render(
-                text, self.game.srf_sboard, (x, y))
+            self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
+            self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
             # show high score
             y = 11
             hi = self.game.high_scores[0][2]
             score = hi if hi > player.score else player.score
-            text_2 = 'HI:' + str(score).rjust(6, '0')
-            self.game.fonts[enums.S_B_BROWN].render(
-                text_2, self.game.srf_sboard, (x+1, y+1)) # shadow
-            self.game.fonts[enums.S_F_BROWN].render(
-                text_2, self.game.srf_sboard, (x, y))
+            text = 'HI:' + str(score).rjust(6, '0')
+            self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
+            self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
 
 
     # draws the entire scoreboard
@@ -111,8 +108,8 @@ class Scoreboard():
 
 
     # clean the previous data
-    def clear_zone(self, x):
-        pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 4),(15, 14)))
+    def clear_zone(self, x, width):
+        pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 3),(width, 15)))
 
 
     # draws a text with its shadow
