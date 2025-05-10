@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- sombre en el medidor de energía
 - sistema para girar sin moverse
 
 
