@@ -4,12 +4,12 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de hotspots
 - sistema para girar sin moverse
 
 
 BUGS
 ====
+- limpieza de datos del marcador
 
 
 POR HACER
@@ -52,6 +52,7 @@ POR HACER
 
 HECHO
 =====
+10/06/25 - gráficos de hotspots
 30/04/25 - mostrar la configuración del teclado al inicio del nivel
 30/04/25 - velocidad diferente para cada uno de los players
 27/04/25 - no configurar resoluciones no válidas

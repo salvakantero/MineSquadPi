@@ -186,13 +186,13 @@ ENEMIES_DATA = [
 # hotspot data
 # index = map number; (type, x, y, visible?)
 HOTSPOT_DATA = [
-    [enums.HS_AMMO, 9, 3, True],
-    [enums.HS_CANDY2, 13, 7, True],
+    [enums.HS_COIN, 9, 3, True],
+    [enums.HS_CANDY, 13, 7, True],
     [enums.HS_AMMO, 1, 7, True],
     [enums.HS_SHIELD, 5, 3, True],
     [enums.HS_LIFE, 11, 3, True],
     [enums.HS_CHOCO, 13, 6, True],
-    [enums.HS_COINS, 6, 1, True],
+    [enums.HS_COIN, 6, 1, True],
     [enums.HS_DISK, 8, 4, True],
     [enums.HS_SHIELD, 2, 8, True],
     [enums.HS_AMMO, 1, 7, True],

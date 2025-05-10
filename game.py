@@ -118,10 +118,10 @@ class Game():
             enums.HS_SHIELD: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
             enums.HS_AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
             enums.HS_DISK: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
-            enums.HS_CANDY1: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
-            enums.HS_CANDY2: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
+            enums.HS_CANDY: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
+            enums.HS_APPLE: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
             enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.HS_COINS: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.HS_COIN: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
         self.control_images = {
             enums.CT_CLASSIC: pygame.image.load('images/assets/classic.png').convert_alpha(),
             enums.CT_GAMER:  pygame.image.load('images/assets/gamer.png').convert_alpha(),
@@ -169,10 +169,10 @@ class Game():
             enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.HS_AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
             enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.HS_CANDY1: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.HS_CANDY2: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
+            enums.HS_CANDY: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
+            enums.HS_APPLE: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
             enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
-            enums.HS_COINS: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
+            enums.HS_COIN: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions, big jumps)
         self.shake = [0, 0]
@@ -493,23 +493,23 @@ class Game():
                 if hotspot.type == enums.HS_LIFE:
                     self.floating_text.text = 'Health'
                     player.energy = player.set_player_attributes()
-                elif hotspot.type == enums.SHIELD:
+                elif hotspot.type == enums.HS_SHIELD:
                     self.floating_text.text = 'Shield'
                     player.invincible = True
-                elif hotspot.type == enums.AMMO:
+                elif hotspot.type == enums.HS_AMMO:
                     player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
                     self.floating_text.text = 'Ammo'
 
-                elif hotspot.type == enums.HS_CANDY1:
+                elif hotspot.type == enums.HS_CANDY:
                     self.floating_text.text = '+50'
                     player.score += 50
-                elif hotspot.type == enums.HS_CANDY2:
+                elif hotspot.type == enums.HS_APPLE:
                     self.floating_text.text = '+75'
                     player.score += 75                    
                 elif hotspot.type == enums.HS_CHOCO:
                     self.floating_text.text = '+100'
                     player.score += 100
-                elif hotspot.type == enums.HS_COINS:
+                elif hotspot.type == enums.HS_COIN:
                     self.floating_text.text = '+200'
                     player.score += 200   
 

@@ -30,7 +30,7 @@ class Hotspot(pygame.sprite.Sprite):
     def __init__(self, hotspot_data, image):
         super().__init__()
         # hotspot_data = [type, x, y, _]
-        self.type = hotspot_data[0] # LIFE, SHIELD, AMMO, CANDY1, CANDY2, CHOCOLATE, COINS
+        self.type = hotspot_data[0] # LIFE, SHIELD, AMMO, DISK, CANDY, APPLE, CHOCOLATE, COIN
         self.x = hotspot_data[1]
         self.y = hotspot_data[2]
         self.y_offset = 0 # to animate the hotspot (up and down)
