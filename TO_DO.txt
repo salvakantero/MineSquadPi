@@ -9,8 +9,6 @@ EN PROCESO
 
 BUGS
 ====
-- ventanas semitransparentes se solapan
-- no se puede cerrar ventana con X en algunos momentos
 
 
 POR HACER

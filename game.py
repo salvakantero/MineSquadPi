@@ -410,7 +410,7 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit()
-                if event.type == pygame.KEYDOWN:
+                elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:                    
                         return True # back to menu
                     return False # continue game
@@ -427,7 +427,7 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit()
-                if event.type == pygame.KEYDOWN:                  
+                elif event.type == pygame.KEYDOWN:                  
                     return # back to menu
 
 
@@ -443,7 +443,7 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.exit()
-                if event.type == pygame.KEYDOWN:                  
+                elif event.type == pygame.KEYDOWN:                  
                     self.update_high_score_table(score)
                     self.status = enums.GS_OVER
                     return # back to the main menu                       

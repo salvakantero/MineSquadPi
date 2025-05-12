@@ -86,7 +86,7 @@ while True:
             # exit when click on the X in the window
             if event.type == pygame.QUIT:
                 game.exit()
-            if event.type == pygame.KEYDOWN: # a key is pressed
+            elif event.type == pygame.KEYDOWN: # a key is pressed
                 # exit by pressing ESC key
                 if event.key == pygame.K_ESCAPE:
                      # stops the music when the game is paused
@@ -126,7 +126,8 @@ while True:
             pygame.event.clear(pygame.KEYDOWN)
             while True:
                 for event in pygame.event.get():
-                    if event.type == pygame.KEYDOWN: break
+                    if event.type == pygame.QUIT: game.exit()
+                    elif event.type == pygame.KEYDOWN: break
                 else: continue
                 break
 

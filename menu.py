@@ -251,7 +251,7 @@ class Menu():
                 if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
                 # a key or button has been pressed
-                if (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and y == 0:
+                elif (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and y == 0:
                     # active pages
                     if menu_page == 0 or menu_page == 6:
                         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
