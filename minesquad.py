@@ -119,7 +119,7 @@ while True:
             scoreboard.update(player)
             game.message(map.stage_name1[map.number], 
                          map.stage_name2[map.number] + 
-                         '. - LEVEL ' + str(map.number+1), True, False, True)
+                         '. - LEVEL ' + str(map.number+1), True, False, False, True)
             pygame.mixer.music.stop()
             game.sfx_game_over.play()
             # wait for a key

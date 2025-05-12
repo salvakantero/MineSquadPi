@@ -9,6 +9,8 @@ EN PROCESO
 
 BUGS
 ====
+- ventanas semitransparentes se solapan
+- no se puede cerrar ventana con X en algunos momentos
 
 
 POR HACER
@@ -132,7 +134,7 @@ Notas
         (4) Chuche       50
         (5) Manzana      75
         (6) Chocolate   100
-        (7) Monedas     200
+        (7) Moneda      200
 
 - Enemigos:
     Se pasean por el mapa de manera lineal, aleatoria, o persiguen lentamente al jugador

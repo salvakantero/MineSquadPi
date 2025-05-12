@@ -251,7 +251,7 @@ class Game():
 
     # allows to enter the player's name
     def get_player_name(self):
-        self.message('You achieved a high score!', 'Enter your name...', False, False, False)
+        self.message('You achieved a high score!', 'Enter your name...', False, False, True, False)
         pygame.event.clear(pygame.KEYDOWN)
         name = ''
         while True:
@@ -270,7 +270,7 @@ class Game():
                     elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                         name = name[:-1]
                     # draws the current name
-                    self.message('You achieved a high score!', name.upper(), False, True, False)
+                    self.message('You achieved a high score!', name.upper(), False, True, True, False)
 
 
     # new high score??
@@ -352,7 +352,7 @@ class Game():
 
 
     # displays a message, darkening the screen
-    def message(self, msg1, msg2, darken, muted, control_info):
+    def message(self, msg1, msg2, darken, muted, opaque, control_info):
         # obscures the surface of the map
         if darken:
             self.srf_map.set_alpha(115)
@@ -375,7 +375,10 @@ class Game():
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # blackest window
-        pygame.draw.rect(aux_surf, (0, 0, 0, 195),(x, y, width, height))
+        opacity = 195
+        if opaque:
+            opacity = 255
+        pygame.draw.rect(aux_surf, (0, 0, 0, opacity),(x, y, width, height))
         # draws the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)
@@ -401,7 +404,7 @@ class Game():
 
     # displays a message to confirm exit
     def confirm_exit(self):
-        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False, False)
+        self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False, False, False)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
@@ -416,7 +419,7 @@ class Game():
     # displays a 'game over' message and waits
     def over(self):
         self.shake_timer = 1 # clean the edges 
-        self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False)
+        self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()
         pygame.event.clear(pygame.KEYDOWN)
@@ -430,7 +433,7 @@ class Game():
 
     # our player wins the game. End sequence
     def win(self, score):
-        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False)
+        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False, False)
         # main theme song again
         pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         pygame.mixer.music.play()
