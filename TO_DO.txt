@@ -43,7 +43,7 @@ POR HACER
 - gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
-- carátula POR
+- carátula IA
 
 - tema musical corto inicio de nivel
 - tema musical corto de game over
@@ -96,7 +96,7 @@ Notas
     Blaze: Hombre, velocidad normal, resistencia alta
     Piper: Mujer, velocidad alta, resistencia baja
 
-- Escenarios (4 niveles cada uno):
+- Escenarios (4 "stages" cada "level"):
      
     Batalla de El Alamein (Egipto):
     Fecha clave: Octubre de 1942.
