@@ -5,6 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - sistema para girar sin moverse
+- gráficos de PIPER
+- carátula IA
 
 
 BUGS
@@ -33,7 +35,6 @@ POR HACER
 - enemigos aleatorios
 - enemigos perseguidores
 
-- gráficos de PIPER
 - gráficos de eskeleto
 - gráficos de enemigos stage 1
 - gráficos de enemigos stage 2
@@ -41,7 +42,6 @@ POR HACER
 - gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
-- carátula IA
 
 - tema musical corto inicio de nivel
 - tema musical corto de game over
