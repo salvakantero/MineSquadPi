@@ -106,13 +106,19 @@ while True:
                     else:
                         game.music_status = enums.MS_MUTED
                         pygame.mixer.music.fadeout(1200)
-                # press fire or left mouse button
-                elif event.key == game.config.fire_key or pygame.mouse.get_pressed()[0]:
+                # press fire
+                elif event.key == game.config.fire_key:
                     player.fire()
-                # press beacon or right mouse button
-                elif event.key == game.config.beacon_key or pygame.mouse.get_pressed()[2]:
+                # press beacon
+                elif event.key == game.config.beacon_key:
                     player.place_beacon()
-        
+            # mouse clicks
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # 1 = left click (fire)
+                    player.fire()
+                elif event.button == 3:  # 3 = right click (beacon)
+                    player.place_beacon()
+
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
