@@ -4,7 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- sistema para girar sin moverse
+- página de HotSpots
+- sistema para girar sin moverse (teclado/joystick)
 - gráficos de PIPER
 - carátula IA
 

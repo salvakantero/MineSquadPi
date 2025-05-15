@@ -43,6 +43,9 @@ class Player(pygame.sprite.Sprite):
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect begins
         self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)
+        self.is_turning = False # if 'True' apply a pause before movement
+        self.turn_timer = 0 # time before applying movement if it rotates
+        self.last_key_pressed = None # check that the key is still pressed
         # character-specific values
         self.energy, self.speed = self.set_player_attributes()
         # sequences of animations for the player depending on its status
@@ -235,41 +238,10 @@ class Player(pygame.sprite.Sprite):
                 else:
                     self.direction.update(0, 0)
 
-        # else: # manages keystrokes
-        #     key_state = pygame.key.get_pressed()
-        #     if self.steps < 0: # if it is not moving
-        #         # press up
-        #         if key_state[self.game.config.up_key]:
-        #             self.look_at = enums.D_UP
-        #             self.direction.update(0, -1)                    
-        #             self.steps += 1
-        #             return
-        #         # press down
-        #         elif key_state[self.game.config.down_key]:
-        #             self.look_at = enums.D_DOWN
-        #             self.direction.update(0, 1)
-        #             self.steps += 1
-        #             return
-        #         # press left
-        #         elif key_state[self.game.config.left_key]:
-        #             self.direction.update(-1, 0)
-        #             self.look_at = enums.D_LEFT
-        #             self.steps += 1
-        #             return
-        #         # press right
-        #         elif key_state[self.game.config.right_key]:
-        #             self.direction.update(1, 0)
-        #             self.look_at = enums.D_RIGHT
-        #             self.steps += 1
-        #             return
-        #         # without movement
-        #         else:
-        #             self.direction.update(0, 0)
-
         else: # manages keystrokes
             key_state = pygame.key.get_pressed()
-            if self.steps < 0: # if it is not moving
-                old_look_at = self.look_at  # Guardamos la dirección anterior
+            if self.steps < 0: # if it's not moving
+                previous_look_at = self.look_at
                 key_pressed = False
                 
                 # press up
@@ -292,55 +264,38 @@ class Player(pygame.sprite.Sprite):
                     self.look_at = enums.D_RIGHT
                     key_pressed = True
                     self.last_key_pressed = self.game.config.right_key
-                
-                # Si la dirección cambió, inicia el temporizador
-                if key_pressed and old_look_at != self.look_at:
-                    self.direction.update(0, 0)  # No movemos aún
+                                
+                # If direction changed, start the timer
+                if key_pressed and previous_look_at != self.look_at:
+                    self.direction.update(0, 0) # not moving yet
                     self.turn_timer = pygame.time.get_ticks()
                     self.is_turning = True
                     return
-                
-                # Si está en modo de giro y ha pasado suficiente tiempo
-                if hasattr(self, 'is_turning') and self.is_turning:
+                                
+                # If in turning mode and sufficient time has elapsed
+                if self.is_turning:
                     current_time = pygame.time.get_ticks()
-                    # Ajusta el tiempo de espera (200ms = 0.2 segundos)
-                    if current_time - self.turn_timer > 200:
-                        self.is_turning = False
-                        
-                        # Comprobamos si la tecla SIGUE presionada después del tiempo de espera
-                        # Solo avanzamos si la tecla continúa presionada
-                        if hasattr(self, 'last_key_pressed') and key_state[self.last_key_pressed]:
-                            if self.look_at == enums.D_UP:
-                                self.direction.update(0, -1)
-                                self.steps += 1
-                            elif self.look_at == enums.D_DOWN:
-                                self.direction.update(0, 1)
-                                self.steps += 1
-                            elif self.look_at == enums.D_LEFT:
-                                self.direction.update(-1, 0)
-                                self.steps += 1
-                            elif self.look_at == enums.D_RIGHT:
-                                self.direction.update(1, 0)
-                                self.steps += 1
+                    # waiting time (120ms)
+                    if current_time - self.turn_timer > 120:
+                        self.is_turning = False                        
+                        # we check if the key is still pressed after the timeout
+                        # (we only move forward if the key is still pressed)
+                        if key_state[self.last_key_pressed]:
+                            if self.look_at == enums.D_UP: self.direction.update(0, -1)
+                            elif self.look_at == enums.D_DOWN: self.direction.update(0, 1)
+                            elif self.look_at == enums.D_LEFT: self.direction.update(-1, 0)
+                            elif self.look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                            self.steps += 1
                     return
-                
-                # Si no está girando, comportamiento normal
-                if key_pressed:
-                    if self.look_at == enums.D_UP:
-                        self.direction.update(0, -1)
-                        self.steps += 1
-                    elif self.look_at == enums.D_DOWN:
-                        self.direction.update(0, 1)
-                        self.steps += 1
-                    elif self.look_at == enums.D_LEFT:
-                        self.direction.update(-1, 0)
-                        self.steps += 1
-                    elif self.look_at == enums.D_RIGHT:
-                        self.direction.update(1, 0)
-                        self.steps += 1
-                    return
-                # without movement
-                else:
+                                
+                if key_pressed: # immediate movement if not turning
+                    if self.look_at == enums.D_UP: self.direction.update(0, -1)
+                    elif self.look_at == enums.D_DOWN: self.direction.update(0, 1)
+                    elif self.look_at == enums.D_LEFT: self.direction.update(-1, 0)
+                    elif self.look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                    self.steps += 1
+                    return                
+                else: # without movement
                     self.direction.update(0, 0)
 
                 #=================================================================
