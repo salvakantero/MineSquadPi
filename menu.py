@@ -169,9 +169,24 @@ class Menu():
 
     def page_5(self): # hotspots
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 90, 27, 1)
-        self.shaded_text(fb, ff, 'Work in progress...', self.menu_pages[5], 80, 60, 1)
-
+        hotspots1 = [
+            (self.game.hotspot_images[enums.HS_LIFE], (40, 60), 'FULL ENERGY', (61, 66)),
+            (self.game.hotspot_images[enums.HS_SHIELD], (40, 80), 'INVULNERABLE', (61, 86)),
+            (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106)),
+            (self.game.hotspot_images[enums.HS_DISK], (40, 120), 'CHECKPOINT', (61, 126))]
+        hotspots2 = [
+            (self.game.hotspot_images[enums.HS_CANDY], (140, 60), 'CANDY +50', (161, 66)),
+            (self.game.hotspot_images[enums.HS_APPLE], (140, 80), 'APPLE +75', (161, 86)),
+            (self.game.hotspot_images[enums.HS_CHOCO], (140, 100), 'CHOCOLATE +100', (161, 106)),
+            (self.game.hotspot_images[enums.HS_COIN], (140, 120), 'COIN +200', (161, 126))]
+        
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 95, 27, 1)
+        for i, (image, img_pos, text, text_pos) in enumerate(hotspots1):
+            self.menu_pages[5].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
+        for i, (image, img_pos, text, text_pos) in enumerate(hotspots2):
+            self.menu_pages[5].blit(image, img_pos)
+            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
 
     def page_6(self): # options
         # menu options      

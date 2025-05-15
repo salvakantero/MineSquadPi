@@ -4,9 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- página de HotSpots
 - gráficos de PIPER
-- carátula IA
 
 
 BUGS
@@ -15,6 +13,7 @@ BUGS
 
 POR HACER
 =========
+- carátula IA
 - eskeleto del player tras explosión
 - selección del jugador al comenzar la partida
 - técnicas QUADTREE para detección de colisiones
@@ -51,6 +50,7 @@ POR HACER
 
 HECHO
 =====
+15/05/25 - página de menú de HotSpots
 15/05/25 - sistema para girar sin moverse (teclado/joystick)
 10/06/25 - gráficos de hotspots
 30/04/25 - mostrar la configuración del teclado al inicio del nivel
