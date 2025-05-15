@@ -46,6 +46,7 @@ class Player(pygame.sprite.Sprite):
         self.is_turning = False # if 'True' apply a pause before movement
         self.turn_timer = 0 # time before applying movement if it rotates
         self.last_key_pressed = None # check that the key is still pressed
+        self.last_direction = None # checks that the direction is maintained (joystick)
         # character-specific values
         self.energy, self.speed = self.set_player_attributes()
         # sequences of animations for the player depending on its status
@@ -193,6 +194,10 @@ class Player(pygame.sprite.Sprite):
                 self.steps = -1 # it stops
 
         if self.game.joystick is not None: # manages the joystick/joypad/gamepad
+            # eliminates false movements
+            def eliminate_false_movements(value):
+                return value if abs(value) >= 0.1 else 0.0
+            
             # press fire buttons
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
                 self.fire()
@@ -205,37 +210,51 @@ class Player(pygame.sprite.Sprite):
                 # is considered as intentional movement. The values obtained range from -1 to 1.
                 axis_x = self.game.joystick.get_axis(0)
                 axis_y = self.game.joystick.get_axis(1)
-                # eliminates false movements
-                def eliminate_false_movements(value):
-                    return value if abs(value) >= 0.1 else 0.0
                 axis_x = eliminate_false_movements(axis_x)
                 axis_y = eliminate_false_movements(axis_y)
-                # press up
-                if axis_y < -0.5:
-                    self.direction.update(0, -1)
-                    self.look_at = enums.D_UP
+
+                # determine new direction
+                new_look_at = None                
+                if axis_y < -0.5: new_look_at = enums.D_UP
+                elif axis_y > 0.5: new_look_at = enums.D_DOWN
+                elif axis_x < -0.5: new_look_at = enums.D_LEFT
+                elif axis_x > 0.5: new_look_at = enums.D_RIGHT
+
+                # if there is change of direction
+                if new_look_at is not None and new_look_at != self.look_at:
+                    self.look_at = new_look_at
+                    self.direction.update(0, 0)  # stop movement
+                    self.turn_timer = pygame.time.get_ticks()
+                    self.is_turning = True
+                    return # exit to wait for delay
+                
+                # if in turning mode and sufficient time has elapsed
+                if self.is_turning:
+                    current_time = pygame.time.get_ticks()
+                     # waiting time (120ms)
+                    if current_time - self.turn_timer > 120:
+                        self.is_turning = False
+                        # move only if the joystick holds direction
+                        if ( (new_look_at == enums.D_UP and axis_y < -0.5) or
+                            (new_look_at == enums.D_DOWN and axis_y > 0.5) or
+                            (new_look_at == enums.D_LEFT and axis_x < -0.5) or
+                            (new_look_at == enums.D_RIGHT and axis_x > 0.5) ):
+                            if new_look_at == enums.D_UP: self.direction.update(0, -1)
+                            elif new_look_at == enums.D_DOWN: self.direction.update(0, 1)
+                            elif new_look_at == enums.D_LEFT: self.direction.update(-1, 0)
+                            elif new_look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                            self.steps += 1
+                    return
+
+                # # immediate movement if not turning
+                if new_look_at is not None:
+                    if new_look_at == enums.D_UP: self.direction.update(0, -1)
+                    elif new_look_at == enums.D_DOWN: self.direction.update(0, 1)
+                    elif new_look_at == enums.D_LEFT: self.direction.update(-1, 0)
+                    elif new_look_at == enums.D_RIGHT: self.direction.update(1, 0)
                     self.steps += 1
                     return
-                # press down
-                elif axis_y > 0.5:
-                    self.direction.update(0, 1)
-                    self.look_at = enums.D_DOWN
-                    self.steps += 1
-                    return
-                # press left
-                elif axis_x < -0.5:
-                    self.direction.update(-1, 0)
-                    self.look_at = enums.D_LEFT
-                    self.steps += 1
-                    return
-                # press right
-                elif axis_x > 0.5:
-                    self.direction.update(1, 0)
-                    self.look_at = enums.D_RIGHT
-                    self.steps += 1
-                    return
-                # without movement
-                else:
+                else:  # no movement
                     self.direction.update(0, 0)
 
         else: # manages keystrokes
@@ -265,14 +284,14 @@ class Player(pygame.sprite.Sprite):
                     key_pressed = True
                     self.last_key_pressed = self.game.config.right_key
                                 
-                # If direction changed, start the timer
+                # if direction changed, start the timer
                 if key_pressed and previous_look_at != self.look_at:
                     self.direction.update(0, 0) # not moving yet
                     self.turn_timer = pygame.time.get_ticks()
                     self.is_turning = True
                     return
                                 
-                # If in turning mode and sufficient time has elapsed
+                # if in turning mode and sufficient time has elapsed
                 if self.is_turning:
                     current_time = pygame.time.get_ticks()
                     # waiting time (120ms)
@@ -295,7 +314,7 @@ class Player(pygame.sprite.Sprite):
                     elif self.look_at == enums.D_RIGHT: self.direction.update(1, 0)
                     self.steps += 1
                     return                
-                else: # without movement
+                else: # no movement
                     self.direction.update(0, 0)
 
                 #=================================================================
