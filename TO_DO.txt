@@ -5,6 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - gráficos de PIPER
+- siguiente nivel al desactivar todas las minas
 
 
 BUGS
