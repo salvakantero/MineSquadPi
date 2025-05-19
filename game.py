@@ -46,8 +46,6 @@ class Game():
         self.config.load()
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # when 'False', load the last checkpoint
-        self.win_sequence = 0 # animated sequence on winning (if > 0)
-        self.loss_sequence = 0 # animated sequence on losing (if > 0)
         self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
         self.status = enums.GS_OVER # start from menu
@@ -465,19 +463,18 @@ class Game():
                     self.groups[enums.SG_ALL].add(blast)   
                     self.sfx_blast[4].play()
                     player.invincible = False
-                    player.loses_life(20) # game over
-                    self.loss_sequence = 70 # allows to end the animation of the explosion
+                    player.loses_energy(20) # game over
                     self.groups[enums.SG_ALL].remove(player)
                     scoreboard.invalidate()
                 elif map_data['behaviours'][index] == enums.TB_KILLER:
                     self.sfx_locked_door.play()
-                    player.loses_life(1)
+                    player.loses_energy(1)
                     scoreboard.invalidate()
                 return
         # player and enemies
         if not player.invincible:
             if pygame.sprite.spritecollide(player, self.groups[enums.SG_ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
-                player.loses_life(1)        
+                player.loses_energy(1)        
                 scoreboard.invalidate() # redraws the scoreboard
                 return        
         # player and hotspot
@@ -494,14 +491,15 @@ class Game():
                 self.sfx_hotspot[hotspot.type].play()
                 # manages the object according to the type
                 if hotspot.type == enums.HS_LIFE:
-                    self.floating_text.text = 'Health'
-                    player.energy = player.set_player_attributes()
+                    self.floating_text.text = 'Full Energy'
+                    player.energy, _ = self.set_player_attributes()
                 elif hotspot.type == enums.HS_SHIELD:
                     self.floating_text.text = 'Shield'
                     player.invincible = True
+                    player.timer_from = pygame.time.get_ticks()         
                 elif hotspot.type == enums.HS_AMMO:
                     player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
-                    self.floating_text.text = 'Ammo'
+                    self.floating_text.text = 'Ammo +10'
 
                 elif hotspot.type == enums.HS_CANDY:
                     self.floating_text.text = '+50'

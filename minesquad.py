@@ -66,8 +66,6 @@ while True:
         game.status = enums.GS_RUNNING
         game.loop_counter = 0
         game.floating_text.y = 0
-        game.win_sequence = 0
-        game.loss_sequence = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[3] = True # all visible hotspots
         # current map
@@ -118,7 +116,10 @@ while True:
                     player.fire()
                 elif event.button == 3:  # 3 = right click (beacon)
                     player.place_beacon()
-
+        # check map completion
+        if game.remaining_mines == 0:
+            if map.number < 12: map.number += 1 
+            else: game.win()
         # change the map if necessary
         if map.number != map.last:
             map.change(player, scoreboard)
@@ -137,12 +138,6 @@ while True:
                 else: continue
                 break
 
-        # our player wins the game
-        if game.win_sequence > 0:
-            game.win(player.score)         
-            player.score += 15 # 350x15 = +5250 points
-            scoreboard.invalidate()
-
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()
 
@@ -152,16 +147,13 @@ while True:
         game.check_bullet_collisions(player, scoreboard)
 
         # game over?
-        if player.energy <= 0:
-            player.energy = 0
-            if game.loss_sequence == 0: # blast animation completed                           
-                game.over()
-                game.update_high_score_table(player.score)
-                game.status = enums.GS_OVER
-                continue
-            else: # blast animation in progress
-                game.loss_sequence -= 1
-
+        if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
+            if player.energy < 0: player.energy = 0
+            game.over()
+            game.update_high_score_table(player.score)
+            game.status = enums.GS_OVER
+            continue
+        
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
 

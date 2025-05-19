@@ -407,8 +407,8 @@ class Player(pygame.sprite.Sprite):
         handle_invincibility_effect()
 
 
-    # subtracts one life and applies temporary invincibility
-    def loses_life(self, value):
+    # subtracts one energy unit and applies temporary invincibility
+    def loses_energy(self, value):
         if not self.invincible:
             self.energy -= value
             self.sfx_death.play()

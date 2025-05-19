@@ -6,6 +6,11 @@ EN PROCESO
 ==========
 - gráficos de PIPER
 - siguiente nivel al desactivar todas las minas
+- halo mágico al recoger hotspot
+- hotspots para puntuar
+- hotspot vida extra
+- hotspot escudo (invencibilidad)
+- hotspot munición
 
 
 BUGS
@@ -25,10 +30,6 @@ POR HACER
 - posicionar hotspots
 - posicionar enemigos
 
-- hotspots para puntuar
-- hotspot vida extra
-- hotspot escudo (invencibilidad)
-- hotspot munición
 - hotspot grabar partida
 
 - enemigos lineales
