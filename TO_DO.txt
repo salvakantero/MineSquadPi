@@ -7,14 +7,13 @@ EN PROCESO
 - gráficos de PIPER
 - siguiente nivel al desactivar todas las minas
 - halo mágico al recoger hotspot
-- hotspots para puntuar
-- hotspot vida extra
-- hotspot escudo (invencibilidad)
-- hotspot munición
 
 
 BUGS
 ====
+- pilla hotspot desde el tile de arriba
+- no explota al pisar mina
+- gráfico CANDY defectuoso
 
 
 POR HACER
@@ -52,6 +51,10 @@ POR HACER
 
 HECHO
 =====
+19/05/25 - hotspot munición
+19/05/25 - hotspot escudo (invencibilidad)
+19/05/25 - hotspot energía máxima
+19/05/25 - hotspots para puntuar
 15/05/25 - página de menú de HotSpots
 15/05/25 - sistema para girar sin moverse (teclado/joystick)
 10/06/25 - gráficos de hotspots

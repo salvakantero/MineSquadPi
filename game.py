@@ -492,7 +492,7 @@ class Game():
                 # manages the object according to the type
                 if hotspot.type == enums.HS_LIFE:
                     self.floating_text.text = 'Full Energy'
-                    player.energy, _ = self.set_player_attributes()
+                    player.energy, _ = player.set_player_attributes()
                 elif hotspot.type == enums.HS_SHIELD:
                     self.floating_text.text = 'Shield'
                     player.invincible = True
