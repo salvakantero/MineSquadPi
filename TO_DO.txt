@@ -4,16 +4,15 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de PIPER
 - siguiente nivel al desactivar todas las minas
 - halo mágico al recoger hotspot
 
 
 BUGS
 ====
-- pilla hotspot desde el tile de arriba
-- no explota al pisar mina
-- gráfico CANDY defectuoso
+- pilla hotspot desde el tile de arriba ?
+- no explota al pisar mina              ?
+- gráfico CANDY cortado
 
 
 POR HACER
@@ -35,6 +34,7 @@ POR HACER
 - enemigos aleatorios
 - enemigos perseguidores
 
+- gráficos de PIPER
 - gráficos de eskeleto
 - gráficos de enemigos stage 1
 - gráficos de enemigos stage 2
@@ -43,6 +43,7 @@ POR HACER
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
 
+- efectos de sonido
 - tema musical corto inicio de nivel
 - tema musical corto de game over
 - 4 temas musicales tranquilos para cada nivel de cada stage

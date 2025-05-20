@@ -46,6 +46,7 @@ class Game():
         self.config.load()
         self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
         self.new = True # when 'False', load the last checkpoint
+        self.loss_sequence = 0 # animated sequence on losing (if > 0)
         self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
         self.status = enums.GS_OVER # start from menu
@@ -464,6 +465,7 @@ class Game():
                     self.sfx_blast[4].play()
                     player.invincible = False
                     player.loses_energy(20) # game over
+                    self.loss_sequence = 70 # allows to end the animation of the explosion
                     self.groups[enums.SG_ALL].remove(player)
                     scoreboard.invalidate()
                 elif map_data['behaviours'][index] == enums.TB_KILLER:
