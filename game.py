@@ -475,14 +475,15 @@ class Game():
                 return
         # player and enemies
         if not player.invincible:
-            if pygame.sprite.spritecollide(player, self.groups[enums.SG_ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
+            if pygame.sprite.spritecollide(player, self.groups[enums.SG_ENEMIES], False, 
+                                           pygame.sprite.collide_rect_ratio(0.60)):
                 player.loses_energy(1)        
                 scoreboard.invalidate() # redraws the scoreboard
                 return        
         # player and hotspot
         if self.groups[enums.SG_HOTSPOT].sprite is not None:
-            if player.rect.colliderect(self.groups[enums.SG_HOTSPOT].sprite):
-                #save_game = False
+            if pygame.sprite.spritecollide(player, self.groups[enums.SG_HOTSPOT], False, 
+                                           pygame.sprite.collide_rect_ratio(0.60)):
                 hotspot = self.groups[enums.SG_HOTSPOT].sprite
                 # shake the map (just a little)
                 self.shake = [4, 4]

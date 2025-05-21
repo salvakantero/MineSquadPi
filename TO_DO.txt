@@ -10,8 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- pilla hotspot desde el tile de arriba ?
-- no explota al pisar mina              ?
 - gráfico CANDY cortado
 
 
