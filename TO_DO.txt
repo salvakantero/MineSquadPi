@@ -10,7 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- gráfico CANDY cortado
 
 
 POR HACER
