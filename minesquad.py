@@ -123,7 +123,9 @@ while True:
             else: game.win()
         # change the map if necessary
         if map.number != map.last:
-            map.change(player, scoreboard)
+            map.change(player)
+            scoreboard.reset(map.number)
+            scoreboard.invalidate()
             scoreboard.update(player)
             game.message(map.stage_name1[map.number], 
                          map.stage_name2[map.number] + 

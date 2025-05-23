@@ -47,7 +47,7 @@ class Map():
 
 
     # does everything necessary to change the map and add enemies and hotspots.
-    def change(self, player, scoreboard):
+    def change(self, player):
         # sets the new map as the current one
         self.last = self.number
         # load the wallpaper if necessary
@@ -58,9 +58,6 @@ class Map():
         self.load()
         # save the new background (empty of sprites)
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
-        # refresh the scoreboard area
-        scoreboard.reset(self.number)
-        scoreboard.invalidate()
         # reset the sprite groups  
         for group in self.game.groups: group.empty()
         # removes any possible floating text
