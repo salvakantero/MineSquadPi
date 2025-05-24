@@ -61,12 +61,10 @@ while True:
         game.jukebox.shuffle()
         # create the player
         player = Player(enums.PL_BLAZE, game, map, scoreboard)
-        # reset variables
-        map.last = -1 # map before the current map
+        # reset some variables
+        map.last = -1
+        game.remaining_mines = -1
         game.status = enums.GS_RUNNING
-        game.loop_counter = 0
-        game.floating_text.y = 0
-        game.loss_sequence = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[3] = True # all visible hotspots
         # current map
@@ -77,8 +75,6 @@ while True:
             #assigns the loaded data to the objects
             d = game.checkpoint.data
             map.number = d['map_number']
-        game.remaining_mines = constants.NUM_MINES[map.number]
-        game.remaining_beacons = constants.NUM_BEACONS[map.number]
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -120,7 +116,7 @@ while True:
         # check map completion (12 levels from 0 to 11)
         if game.remaining_mines == 0:
             if map.number < 11: map.number += 1 
-            else: game.win()
+            else: game.win()                    
         # change the map if necessary
         if map.number != map.last:
             map.change(player)

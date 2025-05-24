@@ -187,7 +187,7 @@ ENEMIES_DATA = [
 # index = map number; (type, x, y, visible?)
 HOTSPOT_DATA = [
     [enums.HS_CANDY, 9, 6, True],
-    [enums.HS_CANDY, 13, 7, True],
+    [enums.HS_SHIELD, 10, 7, True],
     [enums.HS_AMMO, 1, 7, True],
     [enums.HS_SHIELD, 5, 3, True],
     [enums.HS_LIFE, 11, 3, True],

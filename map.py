@@ -41,8 +41,7 @@ class Map():
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
         self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
-        self.stage_name2 = ("EGYPT, OCTOBER 1942", 
-                            "NORMANDY, JUNE 1944", 
+        self.stage_name2 = ("EGYPT, OCTOBER 1942", "NORMANDY, JUNE 1944", 
                             "ARDENNES FOREST, JANUARY 1945")        
 
 
@@ -58,20 +57,26 @@ class Map():
         self.load()
         # save the new background (empty of sprites)
         self.game.srf_map_bk.blit(self.game.srf_map, (0,0))
+        # reset some vars
+        self.game.loop_counter = 0
+        self.game.floating_text.y = 0
+        self.game.loss_sequence = 0
         # reset the sprite groups  
         for group in self.game.groups: group.empty()
-        # removes any possible floating text
-        self.game.floating_text.y = 0
-        # add the player  
+        # add the player
         self.game.groups[enums.SG_ALL].add(player)
+        # marks the initial tile
         self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
                        constants.PLAYER_X_INI // constants.TILE_SIZE)
-        # add the hotspot (if available)
+        # sets the available mines and beacons for the map
+        self.game.remaining_mines = constants.NUM_MINES[self.number]
+        self.game.remaining_beacons = constants.NUM_BEACONS[self.number]
+        # add the hotspot
         hotspot = constants.HOTSPOT_DATA[self.number]
-        if hotspot[3] == True: # visible/available?           
-           hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-           self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
-           self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
+        #if hotspot[3] == True: # visible/available?           
+        hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
+        self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
+        self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
         # # add enemies to the map reading from 'ENEMIES_DATA' list.
         # # a maximum of three enemies per map
         # # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)
@@ -187,7 +192,7 @@ class Map():
                             str(value), self.game.srf_map, (x-2,y-6))
                         self.game.fonts[enums.L_F_RED].render(
                             str(value), self.game.srf_map, (x-3,y-7))
-    
+
 
     def mark_tile(self, row, col):
         # Check bounds
