@@ -123,8 +123,8 @@ while True:
             scoreboard.reset(map.number)
             scoreboard.invalidate()
             scoreboard.update(player)
-            game.message(map.stage_name1[map.number], 
-                         map.stage_name2[map.number] + 
+            game.message(map.stage_name1[map.stage], 
+                         map.stage_name2[map.stage] + 
                          '. - LEVEL ' + str(map.number+1), True, False, False, True)
             pygame.mixer.music.stop()
             game.sfx_game_over.play()
