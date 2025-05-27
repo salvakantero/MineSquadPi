@@ -368,7 +368,7 @@ class Game():
         width = max(message1_len, message2_len) + 30
         # extra width and height with control info
         if control_info:
-            width = max(width, 140)
+            width = max(width, 160)
             height = height + 50
         # calculates the position of the box
         x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
@@ -389,7 +389,7 @@ class Game():
         text_y = y + 25
         self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
         self.fonts[enums.S_F_GREEN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
-        # control info
+        # control images
         if control_info:
             aux_surf.blit(self.control_images[self.config.data['control']], (x + 15, y + 45))
             aux_surf.blit(self.control_images[4], (x + width - 85, y + 45))

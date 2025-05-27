@@ -10,9 +10,9 @@ EN PROCESO
 
 BUGS
 ====
-- ventana de info solapa gráficos del mando y el ratón
+- ventana de info solapa gráficos del mando y el ratón ?
 - player entra en tiles bloqueados si hay baliza pegada a la derecha
-- nº de stage
+- nº de stage ?
 
 
 POR HACER

@@ -339,7 +339,7 @@ class Player(pygame.sprite.Sprite):
         elif self.direction.x < 0:  self.state = enums.PS_WALK_LEFT
 
 
-    # gets the new rect after applying the movement and check for collision
+    # gets the new rect after applying the movement and check for collision    
     def move(self, axis):
         collision = False
         if axis == enums.CA_HORIZONTAL:
@@ -368,14 +368,6 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = temp_pos + self.direction.y * self.speed
             if self.steps < 0:
                 self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
-
-
-    def horizontal_mov(self):
-        self.move(enums.CA_HORIZONTAL)
-
-
-    def vertical_mov(self):
-        self.move(enums.CA_VERTICAL)
 
 
     def animate(self):
@@ -428,7 +420,7 @@ class Player(pygame.sprite.Sprite):
     def update(self):
         self.get_input()
         self.get_state()
-        if self.direction.x != 0: self.horizontal_mov()
-        if self.direction.y != 0: self.vertical_mov()
+        if self.direction.x != 0: self.move(enums.CA_HORIZONTAL)
+        if self.direction.y != 0: self.move(enums.CA_VERTICAL)
         self.animate()
         self.check_timer()
