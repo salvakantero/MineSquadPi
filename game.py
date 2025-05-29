@@ -32,7 +32,6 @@ from datetime import date
 from config import Configuration
 from font import Font
 from intro import Intro
-from menu import Menu
 from checkpoint import Checkpoint
 from jukebox import Jukebox
 from explosion import Explosion
@@ -73,7 +72,7 @@ class Game():
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         # default wallpaper for the 16:9 screen mode
-        self.set_background(-1)
+        # self.set_background(-1)
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
 
@@ -285,18 +284,6 @@ class Game():
     def exit(self):
         pygame.quit()
         sys.exit()
-
-
-    # shows an intro
-    def show_intro(self):
-        intro = Intro(self)
-        intro.play()
-
-
-    # creates the initial Menu object
-    def show_menu(self):
-        menu = Menu(self)        
-        menu.show()
 
 
     # draws scanlines
@@ -575,7 +562,7 @@ class Game():
     
 
     def set_background(self, map_number):
-        if map_number >= 8: # Ardenas
+        if map_number >= 8: # Ardennes
             self.img_background =  pygame.image.load('images/assets/wp2.png').convert()
         elif map_number >= 4: # Normandy
             self.img_background =  pygame.image.load('images/assets/wp1.png').convert()

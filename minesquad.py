@@ -29,6 +29,8 @@ import enums
 from game import Game
 from map import Map
 from scoreboard import Scoreboard
+from intro import Intro
+from menu import Menu
 from player import Player
 
 
@@ -37,25 +39,22 @@ pygame.init()
 pygame.mixer.init()
 pygame.mouse.set_visible(False)
 
-# creates the Game object, container for common variables and functions
-game = Game()
-# creates the Scoreboard object
+game = Game() # common variables and functions
 scoreboard = Scoreboard(game)
-# creates the Map object
 map = Map(game)
+intro = Intro(game)
+menu = Menu(game)
 
-# shows an intro
-#game.show_intro()
+intro.play() # shows an intro
 
 # Main loop
 while True:
-    if game.status == enums.GS_OVER: # game not running
+    if game.status == enums.GS_OVER: # game not running (menu)
         # default wallpaper for the 16:9 screen mode
         if game.config.data['screen_mode'] == enums.SM_X720: # 16:9
-            game.set_background(-1)
+            game.set_background(-1) # no level number (menu screen)
             game.screen.blit(game.img_background, (0,0))
-        # creates and displays the initial menu
-        game.show_menu()         
+        menu.show() # displays the main menu   
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         game.jukebox.shuffle()

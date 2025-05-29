@@ -32,35 +32,27 @@ from marqueetext import MarqueeText
 class Menu():
     def __init__(self, game):
         self.game = game        
-        self.srf_menu = game.srf_menu
+        self.srf_menu = game.srf_menu # surface
         self.tip = 'Use mouse, joypad, or cursors and SPACE/ENTER to select'        
-        # background
+        # images
         self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
-        # players
         self.img_blaze = pygame.image.load('images/assets/blaze.png').convert_alpha()
         self.img_piper = pygame.image.load('images/assets/piper.png').convert_alpha()
-        # auxiliar
         self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
         self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
         # sounds
         self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
-        # player characteristics
-        self.speed = 0
-        self.strength = 0
-        self.age = ''
-        self.origin = ''
-
 
         # page 0: menu options
         # page 1: high scores
         # page 2: Blaze info
         # page 3: Piper info
-        # page 4: control information
-        # page 5: hotspots
+        # page 4: control info
+        # page 5: hotspots info
         # page 6: options
         self.menu_pages = []
-        for i in range(0, 7):
+        for _ in range(0, 7):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
@@ -79,27 +71,40 @@ class Menu():
 
 
     # draws the player's characteristics graphically
-    def draw_chars(self, x, page):
+    def draw_player_info(self, x, player, page):
+        # player characteristics
+        if player == enums.PL_BLAZE:
+            speed = 4
+            strength = 4
+            age = '23'
+            origin = 'Brighton (England)'
+        else:
+            speed = 5
+            strength = 3
+            age = '20'
+            origin = 'Glasgow (Scotland)'
         # headers
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 40, 1)
         self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 70, 1)
         self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 100, 1) 
         self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 130, 1) 
-        # data
-        for i in range(self.speed):
+        # draws the data (using stars)
+        for i in range(speed):
             self.menu_pages[page].blit(self.img_star, (x+i*18, 47))
-        for i in range(self.strength):
+        for i in range(strength):
             self.menu_pages[page].blit(self.img_star, (x+i*18, 77))
+        # draws more data (using text)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         self.age, self.menu_pages[page], x, 110, 1)
+                         age, self.menu_pages[page], x, 110, 1)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         self.origin , self.menu_pages[page], x, 140, 1)
+                         origin , self.menu_pages[page], x, 140, 1)
 
 
-    def page_0(self): # menu options    
+    def page_0(self): # main menu options    
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
         x, y = 80, 60
+        # draws the options
         for i, option in enumerate(options):
             self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
@@ -129,64 +134,57 @@ class Menu():
 
 
     def page_2(self): # Blaze info        
-        self.speed = 4
-        self.strength = 4
-        self.age = '23'
-        self.origin = 'Brighton (England)'
-
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 15, 1)
-        self.draw_chars(115, 2)
+        self.draw_player_info(115, enums.PL_BLAZE, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
     def page_3(self): # Piper info
-        self.speed = 5
-        self.strength = 3
-        self.age = '20'
-        self.origin = 'Glasgow (Scotland)'
-
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 15, 1)
-        self.draw_chars(10, 3)
+        self.draw_player_info(10, enums.PL_PIPER, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
 
 
     def page_4(self): # control info
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        layouts = [
+        layouts = [ # control index, image pos, description, text pos
             (self.game.control_images[0], (30, 52), 'Classic', (39, 90)),
             (self.game.control_images[1], (95, 52), 'Gamer', (104, 90)),
             (self.game.control_images[2], (160, 52), 'Retro', (170, 90)),
             (self.game.control_images[3], (53, 108), 'Joypad', (70, 146)),
             (self.game.control_images[4], (119, 108), 'Common keys', (131, 146))]
-        
+        # header
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
-        for i, (image, img_pos, text, text_pos) in enumerate(layouts):
+        # images and descriptions
+        for image, img_pos, text, text_pos in layouts:
             self.menu_pages[4].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
 
 
     def page_5(self): # hotspots
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        hotspots1 = [
+        hotspots1 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_LIFE], (40, 60), 'FULL ENERGY', (61, 66)),
             (self.game.hotspot_images[enums.HS_SHIELD], (40, 80), 'INVULNERABLE', (61, 86)),
             (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106)),
             (self.game.hotspot_images[enums.HS_DISK], (40, 120), 'CHECKPOINT', (61, 126))]
-        hotspots2 = [
+        hotspots2 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_CANDY], (140, 60), 'CANDY +50', (161, 66)),
             (self.game.hotspot_images[enums.HS_APPLE], (140, 80), 'APPLE +75', (161, 86)),
             (self.game.hotspot_images[enums.HS_CHOCO], (140, 100), 'CHOCOLATE +100', (161, 106)),
             (self.game.hotspot_images[enums.HS_COIN], (140, 120), 'COIN +200', (161, 126))]
-        
+        # header
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 95, 27, 1)
-        for i, (image, img_pos, text, text_pos) in enumerate(hotspots1):
+        # images and descriptions
+        for image, img_pos, text, text_pos in hotspots1:
             self.menu_pages[5].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
-        for i, (image, img_pos, text, text_pos) in enumerate(hotspots2):
+        for image, img_pos, text, text_pos in hotspots2:
             self.menu_pages[5].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
+
 
     def page_6(self): # options
         # menu options      
@@ -195,17 +193,20 @@ class Menu():
         ff = self.game.fonts[enums.L_F_BROWN] # sand font for the foreground
         fb2 = self.game.fonts[enums.L_B_WHITE] # white font for the background
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
+
         # screen mode
         if self.game.config.data['screen_mode'] == enums.SM_X600: value = '4:3'
         elif self.game.config.data['screen_mode'] == enums.SM_X720: value = '16:9'
         else: value = 'WINDOW'
         self.shaded_text(fb, ff, 'Screen mode:', self.menu_pages[6], x, y, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
+
         # scanlines filter 
         if self.game.config.data['scanlines']: value = 'ON'
         else: value = 'OFF'
         self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
+
         # control keys
         if self.game.config.data['control'] == enums.CT_CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.CT_GAMER: value = 'GAMER'
@@ -213,6 +214,7 @@ class Menu():
         else: value = 'JOYPAD'
         self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+40, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
+
         # exit
         self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
@@ -223,6 +225,7 @@ class Menu():
         # main theme song
         #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         #pygame.mixer.music.play()
+
         # help text
         marquee_help = MarqueeText(
             self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
@@ -234,13 +237,15 @@ class Menu():
     
         # some local variables are initialised
         selected_option = enums.MO_START # option where the cursor is located
-        confirmed_option = False # 'True' when a selected option is confirmed
-        menu_page = 0 # page displayed (0 to 4 automatically. 5 = config page)
+        confirmed_option = False # 'True' when a selected menu item is pressed
+        menu_page = 0 # page displayed (0 to 5 automatically. 6 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         y = -(constants.MENU_UNSCALED_SIZE[1]) # for vertical scrolling of pages
 
-        # ========================= main menu loop =========================
+        # empties the buffer of controls
         pygame.event.clear([pygame.KEYDOWN, pygame.JOYBUTTONDOWN, pygame.JOYAXISMOTION])
+
+        # ========================= main menu loop =========================        
         while True:
             page_timer += 1
 
@@ -250,7 +255,7 @@ class Menu():
             # ====== transition of menu pages from top to bottom, and back again ======
             if page_timer >= 500: # time exceeded?
                 menu_page += 1 # change the page
-                if menu_page > 5: menu_page = 0 # reset
+                if menu_page > 5: menu_page = 0 # back to the main page
                 page_timer = 0 # and reset the timer
                 y = -(constants.MENU_UNSCALED_SIZE[1]) # again in the upper margin
                 selected_option = enums.MO_START
@@ -258,7 +263,7 @@ class Menu():
                 y -= 6 # scrolls the page up (is disappearing)
             elif y < 0: # as long as the page does not reach the upper margin
                 y += 6 # scrolls the page up (is appearing)           
-             # draw one of the 6 menu pages
+            # draw one of the 6 menu pages
             self.srf_menu.blit(self.menu_pages[menu_page], (0, y))
 
             # ====================== keyboard/gamepad management =======================
@@ -266,18 +271,21 @@ class Menu():
                 if event.type == pygame.QUIT: # X button in the main window
                     self.game.exit()
                 # a key or button has been pressed
-                elif (event.type == pygame.KEYDOWN or event.type == pygame.JOYBUTTONDOWN or event.type == pygame.JOYAXISMOTION) and y == 0:
+                elif (event.type == pygame.KEYDOWN or 
+                      event.type == pygame.JOYBUTTONDOWN or 
+                      event.type == pygame.JOYAXISMOTION) and y == 0:
                     # active pages
                     if menu_page == 0 or menu_page == 6:
                         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
                             if menu_page == 0: self.game.exit() # exits the application completely
                             else: # on page 6, return to page 0
                                 menu_page = 0
-                                selected_option = 0
+                                selected_option = enums.MO_START # 1st option
                                 break
                         # the selected option is accepted by pressing ENTER or SPACE or any joystick button
-                        if (event.type == pygame.KEYDOWN and (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE)) \
-                        or event.type == pygame.JOYBUTTONDOWN:
+                        if (event.type == pygame.KEYDOWN and 
+                            (event.key == pygame.K_RETURN or event.key == pygame.K_SPACE)) \
+                            or event.type == pygame.JOYBUTTONDOWN:
                             self.sfx_menu_select.play()
                             confirmed_option = True
                         # Main menu?
@@ -312,7 +320,7 @@ class Menu():
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0                             
-                    # pressing any key on a passive page, returns to the main menu
+                    # pressing any key on a passive page (info), returns to the main menu
                     else:
                         menu_page = 0
                         page_timer = 0
@@ -334,10 +342,10 @@ class Menu():
                     elif selected_option == enums.MO_LOAD:
                         self.game.new = False
                         return
+                    # config page
                     elif selected_option == enums.MO_OPTIONS:
-                        # reinitialises common variables and loads the page
-                        y = -(constants.MENU_UNSCALED_SIZE[1])
-                        selected_option = enums.MO_SCREEN_MODE
+                        y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
+                        selected_option = enums.MO_SCREEN_MODE # 1st option
                         menu_page = 6
                     elif selected_option == enums.MO_EXIT:
                         self.game.exit()
@@ -351,9 +359,9 @@ class Menu():
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
                     elif selected_option == enums.MO_EXIT_OPTIONS:
-                        y = -(constants.MENU_UNSCALED_SIZE[1])
-                        menu_page = 0
-                        selected_option = enums.MO_START
+                        y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
+                        selected_option = enums.MO_START # 1st option
+                        menu_page = 0                        
 
                     # common values for pages 1 and 6
                     confirmed_option = False
@@ -365,7 +373,7 @@ class Menu():
                         # saves and apply possible changes to the configuration
                         self.game.apply_display_settings()
                         self.game.config.save()                       
-                        # recreate the page with the new data
+                        # refresh the page with the new data
                         self.menu_pages[6] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
                         self.menu_pages[6].set_colorkey(constants.PALETTE['BLACK0'])
                         self.page_6()
@@ -375,3 +383,4 @@ class Menu():
             marquee_credits.update()  
 
             self.game.update_screen()
+            # next loop...
