@@ -115,6 +115,7 @@ while True:
                     player.fire()
                 elif event.button == 3:  # 3 = right click (beacon)
                     player.place_beacon()
+
         # check map completion (12 levels from 0 to 11)
         if game.remaining_mines == 0:
             if map.number < 11: map.number += 1 
@@ -176,10 +177,6 @@ while True:
         # next track in the playlist if the music has been stopped
         if game.music_status == enums.MS_UNMUTED:
             jukebox.update()
-            
-        # check map change using player's coordinates
-        # if the player leaves, the map number changes
-        #map.check_change(player)
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (232, 169))

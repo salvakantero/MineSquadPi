@@ -58,12 +58,12 @@ class Game():
         self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
-        # sprite control groups (for collision detection)
+        # sprite control groups (for update and collision detection)
         self.groups = [
-            pygame.sprite.Group(), # all sprites (to display them)
-            pygame.sprite.Group(), # enemies
-            pygame.sprite.GroupSingle(), # hotspot
-            pygame.sprite.GroupSingle()] # shot
+            pygame.sprite.Group(),          # [0] all sprites (to display them)
+            pygame.sprite.Group(),          # [1] enemies
+            pygame.sprite.GroupSingle(),    # [2] hotspot
+            pygame.sprite.GroupSingle()]    # [3] shot
         # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
@@ -142,9 +142,9 @@ class Game():
                 pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
                 pygame.image.load('images/sprites/blast6.png').convert_alpha()],
             2: [ # explosion 3: magic halo for hotspots
-                pygame.image.load('images/sprites/blast11.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast12.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast13.png').convert_alpha(),
+                #pygame.image.load('images/sprites/blast11.png').convert_alpha(),
+                #pygame.image.load('images/sprites/blast12.png').convert_alpha(),
+                #pygame.image.load('images/sprites/blast13.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast14.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast16.png').convert_alpha()]}        
@@ -169,7 +169,7 @@ class Game():
             enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
             enums.HS_COIN: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
         # modifies the XY position of the map on the screen to create 
-        # a shaking effect for a given number of frames (explosions, big jumps)
+        # a shaking effect for a given number of frames (explosions)
         self.shake = [0, 0]
         self.shake_timer = 0
         # high scores table
@@ -251,6 +251,7 @@ class Game():
         name = ''
         while True:
             for event in pygame.event.get():
+                if event.type == pygame.QUIT: self.exit()
                 if event.type == pygame.KEYDOWN:
                     # RETURN or ESC has been pressed, ends the entry of the name                  
                     if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:                    
@@ -391,6 +392,7 @@ class Game():
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
+                # exit when click on the X in the window
                 if event.type == pygame.QUIT:
                     self.exit()
                 elif event.type == pygame.KEYDOWN:
