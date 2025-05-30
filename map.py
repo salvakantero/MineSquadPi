@@ -51,7 +51,7 @@ class Map():
     def change(self, player):
         # sets the new map as the current one
         self.last = self.number
-        # set the stage number knowing that there are 4 levels per stage
+        # set the stage number, knowing that there are 4 levels per stage
         self.stage = self.number // 4
         # load the wallpaper if necessary
         if self.game.config.data['screen_mode'] == enums.SM_X720: # 16:9

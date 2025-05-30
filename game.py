@@ -33,7 +33,6 @@ from config import Configuration
 from font import Font
 from intro import Intro
 from checkpoint import Checkpoint
-from jukebox import Jukebox
 from explosion import Explosion
 from floatingtext import FloatingText
 
@@ -95,8 +94,6 @@ class Game():
         
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
-         # playlist with the 12 available tracks
-        self.jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
         self.beacon_image = pygame.image.load('images/sprites/beacon.png').convert_alpha()

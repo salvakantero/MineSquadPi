@@ -32,6 +32,7 @@ from scoreboard import Scoreboard
 from intro import Intro
 from menu import Menu
 from player import Player
+from jukebox import Jukebox
 
 
 # initialisation
@@ -44,6 +45,8 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 intro = Intro(game)
 menu = Menu(game)
+# playlist with the 12 available tracks
+jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
 
 intro.play() # shows an intro
 
@@ -57,7 +60,7 @@ while True:
         menu.show() # displays the main menu   
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
-        game.jukebox.shuffle()
+        jukebox.shuffle()
         # create the player
         player = Player(enums.PL_BLAZE, game, map, scoreboard)
         # reset some variables
@@ -65,7 +68,7 @@ while True:
         game.remaining_mines = -1
         game.status = enums.GS_RUNNING
         for hotspot in constants.HOTSPOT_DATA:
-            hotspot[3] = True # all visible hotspots
+            hotspot[3] = True # used hotspots available again
         # current map
         if game.new: # start a new game
             map.number = 0
@@ -172,7 +175,7 @@ while True:
 
         # next track in the playlist if the music has been stopped
         if game.music_status == enums.MS_UNMUTED:
-            game.jukebox.update()
+            jukebox.update()
             
         # check map change using player's coordinates
         # if the player leaves, the map number changes
