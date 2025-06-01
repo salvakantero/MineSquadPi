@@ -101,7 +101,12 @@ class Menu():
                          origin , self.menu_pages[page], x, 140, 1)
 
 
-    def page_0(self): # main menu options    
+    def page_0(self): # main menu options 
+        # 16:9 background
+        if self.game.config.data['screen_mode'] == enums.SM_X720:
+            self.game.set_background(-1) # no level number (menu screen)
+            self.game.screen.blit(self.game.img_background, (0,0))  
+             
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
         x, y = 80, 60
         # draws the options
