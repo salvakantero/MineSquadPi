@@ -13,7 +13,7 @@ BUGS
 - ventana de info solapa gráficos del mando y el ratón ?
 - player entra en tiles bloqueados si hay baliza pegada a la derecha
 - nº de stage ?
-- background 16:9
+- background 16:9 ?
 
 
 POR HACER
@@ -102,7 +102,7 @@ Notas
     Blaze: Hombre, velocidad normal, resistencia alta
     Piper: Mujer, velocidad alta, resistencia baja
 
-- Escenarios (4 "stages" cada "level"):
+- Escenarios (3 stages, 4 levels per stage):
      
     Batalla de El Alamein (Egipto):
     Fecha clave: Octubre de 1942.

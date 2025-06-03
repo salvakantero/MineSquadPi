@@ -141,16 +141,17 @@ class Game():
                 pygame.image.load('images/sprites/blast4.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
                 pygame.image.load('images/sprites/blast6.png').convert_alpha()],
-            2: [ # explosion 3: magic halo for hotspots
+            2: [ # magic halo for hotspots
                 #pygame.image.load('images/sprites/blast11.png').convert_alpha(),
                 #pygame.image.load('images/sprites/blast12.png').convert_alpha(),
                 #pygame.image.load('images/sprites/blast13.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast14.png').convert_alpha(),
+                #pygame.image.load('images/sprites/blast14.png').convert_alpha(),
+                pygame.image.load('images/sprites/blast16.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast16.png').convert_alpha()]}        
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
-        self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav') 
+        self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
         self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
         self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
@@ -447,7 +448,7 @@ class Game():
                     self.shake_timer = 14
                     # creates an explosion
                     blast = Explosion([tileRect.centerx, tileRect.centery-4], self.blast_images[1])
-                    self.groups[enums.SG_ALL].add(blast)   
+                    self.groups[enums.SG_ALL].add(blast)
                     self.sfx_blast[4].play()
                     player.invincible = False
                     player.loses_energy(20) # game over
@@ -558,7 +559,7 @@ class Game():
                     # redraws the scoreboard
                     scoreboard.invalidate()
                     break
-    
+
 
     def set_background(self, map_number):
         if map_number >= 8: # Ardennes
@@ -569,3 +570,5 @@ class Game():
             self.img_background =  pygame.image.load('images/assets/wp0.png').convert()
         else: # menu
             self.img_background =  pygame.image.load('images/assets/wp3.png').convert()
+        # apply
+        self.screen.blit(self.img_background, (0,0))

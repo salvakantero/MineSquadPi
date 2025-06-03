@@ -64,17 +64,18 @@ class Configuration():
 
     # assigns the keys corresponding to the selected layout
     def apply_controls(self):
-        if self.data['control'] == enums.CT_CLASSIC or self.data['control'] == enums.CT_JOYSTICK:
+        if (self.data['control'] == enums.CT_CLASSIC or # cursors
+            self.data['control'] == enums.CT_JOYSTICK):
             self.up_key = pygame.K_UP
             self.down_key = pygame.K_DOWN
             self.left_key = pygame.K_LEFT
             self.right_key = pygame.K_RIGHT
-        elif self.data['control'] == enums.CT_GAMER:
+        elif self.data['control'] == enums.CT_GAMER: # W,S,A,D
             self.up_key = pygame.K_w
             self.down_key = pygame.K_s
             self.left_key = pygame.K_a
             self.right_key = pygame.K_d
-        elif self.data['control'] == enums.CT_RETRO:
+        elif self.data['control'] == enums.CT_RETRO: # Q,A,O,P
             self.up_key = pygame.K_q
             self.down_key = pygame.K_a
             self.left_key = pygame.K_o

@@ -48,15 +48,11 @@ menu = Menu(game)
 # playlist with the 12 available tracks
 jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
 
-intro.play() # shows an intro
+#intro.play() # shows an intro
 
 # Main loop
 while True:
     if game.status == enums.GS_OVER: # game not running (menu)
-        # default wallpaper for the 16:9 screen mode
-        #if game.config.data['screen_mode'] == enums.SM_X720: # 16:9
-            #game.set_background(-1) # no level number (menu screen)
-            #game.screen.blit(game.img_background, (0,0))
         menu.show() # displays the main menu   
         # new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
