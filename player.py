@@ -39,7 +39,7 @@ class Player(pygame.sprite.Sprite):
         self.direction = pygame.math.Vector2(0.0) # direction of movement
         self.steps = -1 # check that the distance does not exceed the size of the tile.
         self.state = enums.PS_IDLE_UP # to know the animation to be applied
-        self.look_at = enums.D_UP # where the player looks
+        self.look_at = enums.DI_UP # where the player looks
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect begins
         self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)
@@ -132,10 +132,10 @@ class Player(pygame.sprite.Sprite):
             if not self.game.groups[enums.SG_SHOT].sprite: # no shots on screen
                 # direction of the shot
                 dir_vectors = {
-                    enums.D_UP: pygame.math.Vector2(0, -2),
-                    enums.D_DOWN: pygame.math.Vector2(0, 2),
-                    enums.D_LEFT: pygame.math.Vector2(-2, 0),
-                    enums.D_RIGHT: pygame.math.Vector2(2, 0) }
+                    enums.DI_UP: pygame.math.Vector2(0, -2),
+                    enums.DI_DOWN: pygame.math.Vector2(0, 2),
+                    enums.DI_LEFT: pygame.math.Vector2(-2, 0),
+                    enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
                 vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
                 # shot creation
                 shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
@@ -151,8 +151,8 @@ class Player(pygame.sprite.Sprite):
     # common code for placing a flag/beacon
     def place_beacon(self):
         offsets = {
-            enums.D_UP: (0, -1), enums.D_DOWN: (0, 1),
-            enums.D_LEFT: (-1, 0), enums.D_RIGHT: (1, 0) 
+            enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
+            enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0) 
         }        
         # places the beacon in front of where the player is facing
         offset_x, offset_y = offsets.get(self.look_at, (0, 0))
@@ -218,10 +218,10 @@ class Player(pygame.sprite.Sprite):
 
                 # determine new direction
                 new_look_at = None                
-                if axis_y < -0.5: new_look_at = enums.D_UP
-                elif axis_y > 0.5: new_look_at = enums.D_DOWN
-                elif axis_x < -0.5: new_look_at = enums.D_LEFT
-                elif axis_x > 0.5: new_look_at = enums.D_RIGHT
+                if axis_y < -0.5: new_look_at = enums.DI_UP
+                elif axis_y > 0.5: new_look_at = enums.DI_DOWN
+                elif axis_x < -0.5: new_look_at = enums.DI_LEFT
+                elif axis_x > 0.5: new_look_at = enums.DI_RIGHT
 
                 # if there is change of direction
                 if new_look_at is not None and new_look_at != self.look_at:
@@ -238,23 +238,23 @@ class Player(pygame.sprite.Sprite):
                     if current_time - self.turn_timer > 120:
                         self.is_turning = False
                         # move only if the joystick holds direction
-                        if ( (new_look_at == enums.D_UP and axis_y < -0.5) or
-                            (new_look_at == enums.D_DOWN and axis_y > 0.5) or
-                            (new_look_at == enums.D_LEFT and axis_x < -0.5) or
-                            (new_look_at == enums.D_RIGHT and axis_x > 0.5) ):
-                            if new_look_at == enums.D_UP: self.direction.update(0, -1)
-                            elif new_look_at == enums.D_DOWN: self.direction.update(0, 1)
-                            elif new_look_at == enums.D_LEFT: self.direction.update(-1, 0)
-                            elif new_look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                        if ( (new_look_at == enums.DI_UP and axis_y < -0.5) or
+                            (new_look_at == enums.DI_DOWN and axis_y > 0.5) or
+                            (new_look_at == enums.DI_LEFT and axis_x < -0.5) or
+                            (new_look_at == enums.DI_RIGHT and axis_x > 0.5) ):
+                            if new_look_at == enums.DI_UP: self.direction.update(0, -1)
+                            elif new_look_at == enums.DI_DOWN: self.direction.update(0, 1)
+                            elif new_look_at == enums.DI_LEFT: self.direction.update(-1, 0)
+                            elif new_look_at == enums.DI_RIGHT: self.direction.update(1, 0)
                             self.steps += 1
                     return
 
                 # # immediate movement if not turning
                 if new_look_at is not None:
-                    if new_look_at == enums.D_UP: self.direction.update(0, -1)
-                    elif new_look_at == enums.D_DOWN: self.direction.update(0, 1)
-                    elif new_look_at == enums.D_LEFT: self.direction.update(-1, 0)
-                    elif new_look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                    if new_look_at == enums.DI_UP: self.direction.update(0, -1)
+                    elif new_look_at == enums.DI_DOWN: self.direction.update(0, 1)
+                    elif new_look_at == enums.DI_LEFT: self.direction.update(-1, 0)
+                    elif new_look_at == enums.DI_RIGHT: self.direction.update(1, 0)
                     self.steps += 1
                     return
                 else:  # no movement
@@ -268,22 +268,22 @@ class Player(pygame.sprite.Sprite):
                 
                 # press up
                 if key_state[self.game.config.up_key]:
-                    self.look_at = enums.D_UP
+                    self.look_at = enums.DI_UP
                     key_pressed = True
                     self.last_key_pressed = self.game.config.up_key
                 # press down
                 elif key_state[self.game.config.down_key]:
-                    self.look_at = enums.D_DOWN
+                    self.look_at = enums.DI_DOWN
                     key_pressed = True
                     self.last_key_pressed = self.game.config.down_key
                 # press left
                 elif key_state[self.game.config.left_key]:
-                    self.look_at = enums.D_LEFT
+                    self.look_at = enums.DI_LEFT
                     key_pressed = True
                     self.last_key_pressed = self.game.config.left_key
                 # press right
                 elif key_state[self.game.config.right_key]:
-                    self.look_at = enums.D_RIGHT
+                    self.look_at = enums.DI_RIGHT
                     key_pressed = True
                     self.last_key_pressed = self.game.config.right_key
                                 
@@ -303,18 +303,18 @@ class Player(pygame.sprite.Sprite):
                         # we check if the key is still pressed after the timeout
                         # (we only move forward if the key is still pressed)
                         if key_state[self.last_key_pressed]:
-                            if self.look_at == enums.D_UP: self.direction.update(0, -1)
-                            elif self.look_at == enums.D_DOWN: self.direction.update(0, 1)
-                            elif self.look_at == enums.D_LEFT: self.direction.update(-1, 0)
-                            elif self.look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                            if self.look_at == enums.DI_UP: self.direction.update(0, -1)
+                            elif self.look_at == enums.DI_DOWN: self.direction.update(0, 1)
+                            elif self.look_at == enums.DI_LEFT: self.direction.update(-1, 0)
+                            elif self.look_at == enums.DI_RIGHT: self.direction.update(1, 0)
                             self.steps += 1
                     return
                                 
                 if key_pressed: # immediate movement if not turning
-                    if self.look_at == enums.D_UP: self.direction.update(0, -1)
-                    elif self.look_at == enums.D_DOWN: self.direction.update(0, 1)
-                    elif self.look_at == enums.D_LEFT: self.direction.update(-1, 0)
-                    elif self.look_at == enums.D_RIGHT: self.direction.update(1, 0)
+                    if self.look_at == enums.DI_UP: self.direction.update(0, -1)
+                    elif self.look_at == enums.DI_DOWN: self.direction.update(0, 1)
+                    elif self.look_at == enums.DI_LEFT: self.direction.update(-1, 0)
+                    elif self.look_at == enums.DI_RIGHT: self.direction.update(1, 0)
                     self.steps += 1
                     return                
                 else: # no movement
