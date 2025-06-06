@@ -38,30 +38,30 @@ PS_WALK_UP, PS_WALK_DOWN, PS_WALK_LEFT, PS_WALK_RIGHT = 0, 1, 2, 3, 4, 5, 6, 7
 CA_HORIZONTAL, CA_VERTICAL = 0, 1
 
 # directions of movement
-D_UP, D_DOWN, D_LEFT, D_RIGHT = 0, 1, 2, 3
+DI_UP, DI_DOWN, DI_LEFT, DI_RIGHT = 0, 1, 2, 3
 
-# tile behaviours
-TB_NO_ACTION, TB_OBSTACLE, TB_MINE, TB_KILLER = 0, 1, 2, 3
+# map data [tile types]
+TT_NO_ACTION, TT_OBSTACLE, TT_MINE, TT_KILLER = 0, 1, 2, 3
 
-# map data [mines]
-MD_MINE, MD_FREE, MD_BEACON = -1, 0, 9
+# map data [mines info]
+MI_MINE, MI_FREE, MI_BEACON = -1, 0, 9 # proximity: 1,2,3,4,5,6,7,8
 
 # enemy types
 EN_NONE, EN_SCORPION, EN_SNAKE, EN_SOLDIER1, EN_CRAB, EN_PROJECTILE, EN_SOLDIER2, EN_SKIER, \
 EN_HABALI, EN_SOLDIER3 = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9
 
-# hotspot types
+# hotspots
 HS_LIFE, HS_SHIELD, HS_AMMO, HS_DISK, HS_CANDY, HS_APPLE, HS_CHOCO, HS_COIN = 0, 1, 2, 3, 4, 5, 6, 7
 
 # fonts; S=small L=large / F=foreground B=background
 S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, S_F_GREEN, S_B_GREEN, L_F_WHITE, L_B_WHITE, \
 L_F_RED, L_B_BLACK, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
-# menu
+# menu options
 MO_START, MO_LOAD, MO_OPTIONS, MO_EXIT, MO_SCREEN_MODE, MO_SCANLINES, \
 MO_CONTROL, MO_EXIT_OPTIONS = 0, 1, 2, 3, 4, 5, 6, 7
 
-# keyboard control types
+# control types
 CT_CLASSIC, CT_GAMER, CT_RETRO, CT_JOYSTICK, CT_COMMON = 0, 1, 2, 3, 4
 
 # sprite groups

@@ -89,92 +89,6 @@ class Map():
         #        self.game.groups[enums.SG_ALL].add(enemy) # to update/draw it
 
 
-    # # loads a map from the json file, and draws it on screen
-    # def load(self):
-    #     # reads the entire contents of the json
-    #     with open('maps/map{}.json'.format(self.number)) as json_data:
-    #         data_readed = json.load(json_data)
-    #     # gets the map dimensions
-    #     data = {'width': data_readed['width'], 'height': data_readed['height']}
-    #     # gets a list of all tiles
-    #     raw_data = data_readed['layers'][0]['data']
-    #     data['data'] = []
-    #     # divides the list into tile lines, according to the map dimensions
-    #     for x in range(0, data['height']):
-    #         st = x * data['width']
-    #         data['data'].append(raw_data[st: st + data['width']])
-    #     # gets the name of the tile file
-    #     tileset = data_readed['tilesets'][0]['source'].replace('.tsx','.json')
-    #     # gets the data from the tile file
-    #     with open('maps/' + tileset) as json_data:
-    #         t = json.load(json_data)
-    #     # removes the path to each image from the tile file
-    #     data['tiles'] = t['tiles']
-    #     for tile in range(0, len(data['tiles'])):
-    #         path = data['tiles'][tile]['image']
-    #         data['tiles'][tile]['image'] = os.path.basename(path)
-    #         data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
-        
-    #     # rects and behaviours of each tile (to fill in later)
-    #     data['rects'] = []
-    #     data['behaviours'] = []
-    #     # randomly places mines on the map (generates mines and proximity info)
-    #     data['mines_info'] = self.generate_mines(data['data'])
-    #     # tiles trodden by the player (marked as False by default)
-    #     data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
-    #                      for _ in range(constants.MAP_TILE_SIZE[1])]
-    #     # scroll through the map data
-    #     for y in range(0, data['height']):
-    #         for x in range(0, data['width']):
-    #             # gets the tile number from the list
-    #             t = self.find_data(data['tiles'], 'id', data['data'][y][x])
-    #             # draws the selected tile
-    #             tile = pygame.image.load('images/tiles/' + t['image']).convert()
-    #             tileRect = tile.get_rect()
-    #             tileRect.topleft = (x * t['imagewidth'], y * t['imageheight'])   
-    #             self.game.srf_map.blit(tile, tileRect)
-    #             # generates the list of rects and behaviour of the current map
-    #             # from T16.png to T35.png: blocking tiles (OBSTACLE)
-    #             # from T70.png to T75.png: tiles that kill (KILLER)
-    #             tn = self.get_tile_number(t['image'])
-    #             behaviour = enums.TB_NO_ACTION
-    #             if tn >= 16 and tn <= 35:   behaviour = enums.TB_OBSTACLE
-    #             elif tn >= 70 and tn <= 75: behaviour = enums.TB_KILLER
-    #             elif data['mines_info'][y][x] == enums.MD_MINE: behaviour = enums.TB_MINE
-    #             # is only added to the list if there is an active behaviour
-    #             if behaviour != enums.TB_NO_ACTION:
-    #                 data['rects'].append(tileRect)
-    #                 data['behaviours'].append(behaviour)
-    #     # transfer data to the map object
-    #     self.map_data = data
-
-
-    # # function to generate mines on the game map
-    # def generate_mines(self, tilemap):      
-    #     available_tiles = [] # list of tiles on which to lay mines
-    #     for row_index, row in enumerate(tilemap):
-    #         for col_index, tile in enumerate(row):
-    #             # if number of tile less than 15, is passable
-    #             # we will not use the two rows closest to the player.
-    #             if tile < 15 and row_index < len(tilemap) - 2:
-    #                 available_tiles.append((row_index, col_index))
-    #     # initial mine map with all its values at 0
-    #     mine_data = [[enums.MD_FREE] * constants.MAP_TILE_SIZE[0] 
-    #                  for _ in range(constants.MAP_TILE_SIZE[1])]
-    #     # choose random mine positions among the passable tiles
-    #     mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
-    #     for mine in mines:
-    #         row, col = mine
-    #         mine_data[row][col] = enums.MD_MINE # mark the mine
-    #         # Increases the counter of adjacent tiles.
-    #         for i in range(row - 1, row + 2):
-    #             for j in range(col - 1, col + 2):
-    #                 if 0 <= i < constants.MAP_TILE_SIZE[1] \
-    #                 and 0 <= j < constants.MAP_TILE_SIZE[0] \
-    #                 and mine_data[i][j] != enums.MD_MINE:
-    #                     mine_data[i][j] += 1
-    #     return mine_data
-
     # loads a map from the json file, and draws it on screen
     def load(self):
         # reads the entire contents of the json
@@ -201,21 +115,17 @@ class Map():
             data['tiles'][tile]['image'] = os.path.basename(path)
             data['tiles'][tile]['id'] = data['tiles'][tile]['id'] + 1
         
-        # rects para cada tile (mantiene compatibilidad con código existente)
-        data['rects'] = []
-        
-        # CAMBIO PRINCIPAL: behaviours ahora es una matriz 2D igual que mines_info
-        # Inicializar behaviours como matriz 2D con las mismas dimensiones que mines_info
-        data['behaviours'] = [[enums.TB_NO_ACTION] * constants.MAP_TILE_SIZE[0] 
-                            for _ in range(constants.MAP_TILE_SIZE[1])]
-        
         # randomly places mines on the map (generates mines and proximity info)
         data['mines_info'] = self.generate_mines(data['data'])
+
+        # tile types; no action, obstacle, killer, mine
+        data['tile_types'] = [[enums.TT_NO_ACTION] * constants.MAP_TILE_SIZE[0] 
+                            for _ in range(constants.MAP_TILE_SIZE[1])]
         
         # tiles trodden by the player (marked as False by default)
         data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
                         for _ in range(constants.MAP_TILE_SIZE[1])]
-        
+
         # scroll through the map data
         for y in range(0, data['height']):
             for x in range(0, data['width']):
@@ -230,21 +140,15 @@ class Map():
                 # generates the behaviour of the current tile
                 # from T16.png to T35.png: blocking tiles (OBSTACLE)
                 # from T70.png to T75.png: tiles that kill (KILLER)
-                tn = self.get_tile_number(t['image'])
-                behaviour = enums.TB_NO_ACTION
-                if tn >= 16 and tn <= 35:   
-                    behaviour = enums.TB_OBSTACLE
-                elif tn >= 70 and tn <= 75: 
-                    behaviour = enums.TB_KILLER
-                elif data['mines_info'][y][x] == enums.MD_MINE: 
-                    behaviour = enums.TB_MINE
-                
-                # CAMBIO PRINCIPAL: Asignar comportamiento directamente a la matriz 2D
-                data['behaviours'][y][x] = behaviour
-                
-                # Solo agregar rect si hay un comportamiento activo (mantiene compatibilidad)
-                if behaviour != enums.TB_NO_ACTION:
-                    data['rects'].append(tileRect)
+                number = self.get_tile_number(t['image'])
+                type = enums.TT_NO_ACTION
+                if number >= 16 and number <= 35:   
+                    type = enums.TT_OBSTACLE
+                elif number >= 70 and number <= 75: 
+                    type = enums.TT_KILLER
+                elif data['mines_info'][y][x] == enums.MI_MINE: 
+                    type = enums.TT_MINE
+                data['tile_types'][y][x] = type                
         
         # transfer data to the map object
         self.map_data = data
@@ -260,46 +164,45 @@ class Map():
                 if tile < 15 and row_index < len(tilemap) - 2:
                     available_tiles.append((row_index, col_index))
         # initial mine map with all its values at 0
-        mine_data = [[enums.MD_FREE] * constants.MAP_TILE_SIZE[0] 
+        mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
                     for _ in range(constants.MAP_TILE_SIZE[1])]
         # choose random mine positions among the passable tiles
         mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
         for mine in mines:
             row, col = mine
-            mine_data[row][col] = enums.MD_MINE # mark the mine
+            mine_data[row][col] = enums.MI_MINE # mark the mine
             # Increases the counter of adjacent tiles.
             for i in range(row - 1, row + 2):
                 for j in range(col - 1, col + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
                     and 0 <= j < constants.MAP_TILE_SIZE[0] \
-                    and mine_data[i][j] != enums.MD_MINE:
+                    and mine_data[i][j] != enums.MI_MINE:
                         mine_data[i][j] += 1
         return mine_data
 
 
-    # FUNCIONES DE UTILIDAD PARA ACCEDER A LAS TABLAS POR COORDENADAS
     def get_behaviour_at(self, x, y):
-        """Obtiene el comportamiento en las coordenadas x,y"""
-        if 0 <= y < len(self.map_data['behaviours']) and 0 <= x < len(self.map_data['behaviours'][0]):
-            return self.map_data['behaviours'][y][x]
-        return enums.TB_NO_ACTION
+        # Obtiene el comportamiento del tile en las coordenadas x,y
+        if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
+            return self.map_data['tile_types'][y][x]
+        return enums.TT_NO_ACTION
 
 
     def get_mine_info_at(self, x, y):
-        """Obtiene la información de minas en las coordenadas x,y"""
+        # Obtiene la información de minas en las coordenadas x,y
         if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
             return self.map_data['mines_info'][y][x]
-        return enums.MD_FREE
+        return enums.MI_FREE
 
 
-    def set_behaviour_at(self, x, y, behaviour):
-        """Establece el comportamiento en las coordenadas x,y"""
-        if 0 <= y < len(self.map_data['behaviours']) and 0 <= x < len(self.map_data['behaviours'][0]):
-            self.map_data['behaviours'][y][x] = behaviour
+    def set_behaviour_at(self, x, y, type):
+        # Establece el comportamiento en las coordenadas x,y
+        if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
+            self.map_data['tile_types'][y][x] = type
 
 
     def set_mine_info_at(self, x, y, mine_info):
-        """Establece la información de minas en las coordenadas x,y"""
+        # Establece la información de minas en las coordenadas x,y
         if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
             self.map_data['mines_info'][y][x] = mine_info
 
@@ -308,10 +211,10 @@ class Map():
         tilemap = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.map_data['mines_info']):
             for col_index, value in enumerate(row):
-                if value > enums.MD_FREE \
+                if value > enums.MI_FREE \
                 and self.map_data['marks'][row_index][col_index] \
                 and tilemap[row_index][col_index] < 15:
-                    if value == enums.MD_BEACON: # mine deactivated
+                    if value == enums.MI_BEACON: # mine deactivated
                         x = (col_index * constants.TILE_SIZE)
                         y = (row_index * constants.TILE_SIZE)
                         self.game.srf_map.blit(self.game.beacon_image, (x,y))

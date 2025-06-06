@@ -148,41 +148,7 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_ammo.play()
 
 
-    # # common code for placing a flag/beacon
-    # def place_beacon(self):
-    #     if self.game.remaining_beacons > 0:
-    #         offsets = {
-    #             enums.D_UP: (0, -1), enums.D_DOWN: (0, 1),
-    #             enums.D_LEFT: (-1, 0), enums.D_RIGHT: (1, 0) }
-    #         # places the beacon in front of where the player is facing
-    #         offset_x, offset_y = offsets.get(self.look_at, (0, 0))
-    #         x = (self.rect.x // constants.TILE_SIZE) + offset_x
-    #         y = (self.rect.y // constants.TILE_SIZE) + offset_y
-    #         # if there is no beacon on the tile
-    #         if self.map.map_data['mines_info'][y][x] != enums.MD_BEACON:
-    #             # if there is a mine in the marked tile
-    #             if self.map.map_data['mines_info'][y][x] == enums.MD_MINE:
-    #                 self.game.remaining_mines -= 1
-    #                 # eliminates the mine in the behaviours list
-    #                 temp_rect = pygame.Rect(
-    #                     (x * constants.TILE_SIZE, y * constants.TILE_SIZE),
-    #                     (constants.TILE_SIZE, constants.TILE_SIZE))
-    #                 for index, tileRect in enumerate(self.map.map_data['rects']):
-    #                     if tileRect.colliderect(temp_rect):
-    #                         if self.map.map_data['behaviours'][index] == enums.TB_MINE:
-    #                             self.map.map_data['behaviours'][index] = enums.TB_NO_ACTION
-    #                             break
-    #             self.map.map_data['mines_info'][y][x] = enums.MD_BEACON # place the beacon
-    #             self.sfx_beacon.play()
-    #             self.game.remaining_beacons -= 1
-    #             self.scoreboard.invalidate()
-    #         # if there is a beacon on the tile
-    #         else:
-    #             self.sfx_no_ammo.play()
-    #     else: # no beacons
-    #         self.sfx_no_ammo.play()
-
-
+    # common code for placing a flag/beacon
     def place_beacon(self):
         offsets = {
             enums.D_UP: (0, -1), enums.D_DOWN: (0, 1),
@@ -196,21 +162,21 @@ class Player(pygame.sprite.Sprite):
         # Verificar límites del mapa
         if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
             # if there is no beacon on the tile
-            if self.map.map_data['mines_info'][y][x] != enums.MD_BEACON:
+            if self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
                 # if there is a mine in the marked tile
-                if self.map.map_data['mines_info'][y][x] == enums.MD_MINE:
+                if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
                     self.game.remaining_mines -= 1
                     
                     # SOLUCIÓN OPTIMIZADA: Calcular el índice del tile directamente
                     tile_index = y * constants.MAP_TILE_SIZE[0] + x
                     
                     # Verificar que el índice sea válido y que el tile sea efectivamente una mina
-                    if (0 <= tile_index < len(self.map.map_data['behaviours']) and
-                        self.map.map_data['behaviours'][tile_index] == enums.TB_MINE):
-                        self.map.map_data['behaviours'][tile_index] = enums.TB_NO_ACTION
+                    if (0 <= tile_index < len(self.map.map_data['tile_types']) and
+                        self.map.map_data['tile_types'][tile_index] == enums.TI_MINE):
+                        self.map.map_data['tile_types'][tile_index] = enums.TI_NO_ACTION
                 
                 # place the beacon
-                self.map.map_data['mines_info'][y][x] = enums.MD_BEACON
+                self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
                 self.sfx_beacon.play()
                 self.game.remaining_beacons -= 1
                 self.scoreboard.invalidate()
@@ -376,7 +342,7 @@ class Player(pygame.sprite.Sprite):
         elif self.direction.x < 0:  self.state = enums.PS_WALK_LEFT
 
 
-    # gets the new rect after applying the movement and check for collision    
+    # gets the new rect after applying the movement and check for collision
     def move(self, axis):
         collision = False
         if axis == enums.CA_HORIZONTAL:
@@ -388,15 +354,20 @@ class Player(pygame.sprite.Sprite):
                                     (constants.TILE_SIZE, constants.TILE_SIZE))
             temp_pos = self.rect.y
             # check vertical screen limits
-            if temp_rect.top < 0 or temp_rect.bottom > constants.MAP_UNSCALED_SIZE[1]: 
-                collision = True                        
-        # it is necessary to check all obstacle tiles.
+            if temp_rect.top < 0 or temp_rect.bottom > constants.MAP_UNSCALED_SIZE[1]:
+                collision = True
+        
+        # check collision with obstacle tiles using map coordinates
         if not collision:
-            for index, tileRect in enumerate(self.map.map_data['rects']):
-                if tileRect.colliderect(temp_rect):
-                    if self.map.map_data['behaviours'][index] == enums.TB_OBSTACLE:
-                        collision = True
-                    break
+            # Convert pixel coordinates to tile coordinates
+            tile_x = temp_rect.x // constants.TILE_SIZE
+            tile_y = temp_rect.y // constants.TILE_SIZE            
+            # Check bounds and tile type
+            if (0 <= tile_x < self.map.map_data['width'] and 
+                0 <= tile_y < self.map.map_data['height']):
+                if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
+                    collision = True
+        
         # Apply the new position if no collision occurs
         if not collision:
             if axis == enums.CA_HORIZONTAL:
