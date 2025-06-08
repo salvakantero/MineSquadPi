@@ -249,7 +249,7 @@ class Player(pygame.sprite.Sprite):
                             self.steps += 1
                     return
 
-                # # immediate movement if not turning
+                # immediate movement if not turning
                 if new_look_at is not None:
                     if new_look_at == enums.DI_UP: self.direction.update(0, -1)
                     elif new_look_at == enums.DI_DOWN: self.direction.update(0, 1)
@@ -359,15 +359,32 @@ class Player(pygame.sprite.Sprite):
         
         # check collision with obstacle tiles using map coordinates
         if not collision:
-            # Convert pixel coordinates to tile coordinates
-            tile_x = temp_rect.x // constants.TILE_SIZE
-            tile_y = temp_rect.y // constants.TILE_SIZE            
-            # Check bounds and tile type
-            if (0 <= tile_x < self.map.map_data['width'] and 
-                0 <= tile_y < self.map.map_data['height']):
-                if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
-                    collision = True
-        
+            if axis == enums.CA_HORIZONTAL:
+                # Check only the relevant edge based on movement direction
+                if self.look_up == enums.DI_RIGHT:
+                    tile_x = (temp_rect.right - 1) // constants.TILE_SIZE
+                else:  # moving left
+                    tile_x = temp_rect.left // constants.TILE_SIZE
+                tile_y = temp_rect.y // constants.TILE_SIZE
+                
+                if (0 <= tile_x < self.map.map_data['width'] and 
+                    0 <= tile_y < self.map.map_data['height']):
+                    if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
+                        collision = True
+                        
+            else:  # vertical movement
+                tile_x = temp_rect.x // constants.TILE_SIZE
+                # Check only the relevant edge based on movement direction
+                if self.look_up == enums.DI_DOWN:
+                    tile_y = (temp_rect.bottom - 1) // constants.TILE_SIZE
+                else:  # moving up
+                    tile_y = temp_rect.top // constants.TILE_SIZE
+                    
+                if (0 <= tile_x < self.map.map_data['width'] and 
+                    0 <= tile_y < self.map.map_data['height']):
+                    if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
+                        collision = True
+
         # Apply the new position if no collision occurs
         if not collision:
             if axis == enums.CA_HORIZONTAL:
