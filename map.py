@@ -68,6 +68,9 @@ class Map():
         for group in self.game.groups: group.empty()
         # add the player
         self.game.groups[enums.SG_ALL].add(player)
+        # player in its starting position
+        player.rect = player.image.get_rect(topleft = (
+            constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # marks the initial tile
         self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
                        constants.PLAYER_X_INI // constants.TILE_SIZE)

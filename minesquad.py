@@ -126,7 +126,7 @@ while True:
                          map.stage_name2[map.stage] + 
                          '. - LEVEL ' + str(map.number+1), True, False, False, True)
             pygame.mixer.music.stop()
-            game.sfx_game_over.play()
+            #game.sfx_game_over.play()
             # wait for a key
             pygame.event.clear(pygame.KEYDOWN)
             while True:

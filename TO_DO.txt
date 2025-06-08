@@ -5,15 +5,10 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - siguiente nivel al desactivar todas las minas
-- halo mágico al recoger hotspot
 
 
 BUGS
 ====
-- ventana de info solapa gráficos del mando y el ratón ?
-- player entra en tiles bloqueados si hay baliza pegada a la derecha
-- nº de stage ?
-- background 16:9 ?
 
 
 POR HACER
@@ -53,6 +48,7 @@ POR HACER
 
 HECHO
 =====
+08/06/25 - halo mágico al recoger hotspot
 19/05/25 - hotspot munición
 19/05/25 - hotspot escudo (invencibilidad)
 19/05/25 - hotspot energía máxima

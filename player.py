@@ -55,8 +55,8 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
-        self.rect = self.image.get_rect(topleft = ( # initial position
-            constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
+        #self.rect = self.image.get_rect(topleft = ( # initial position
+        #    constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # FX sounds
         self.load_sounds()
         # objects and others
@@ -165,16 +165,9 @@ class Player(pygame.sprite.Sprite):
             if self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
                 # if there is a mine in the marked tile
                 if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
-                    self.game.remaining_mines -= 1
-                    
-                    # SOLUCIÓN OPTIMIZADA: Calcular el índice del tile directamente
-                    tile_index = y * constants.MAP_TILE_SIZE[0] + x
-                    
-                    # Verificar que el índice sea válido y que el tile sea efectivamente una mina
-                    if (0 <= tile_index < len(self.map.map_data['tile_types']) and
-                        self.map.map_data['tile_types'][tile_index] == enums.TI_MINE):
-                        self.map.map_data['tile_types'][tile_index] = enums.TI_NO_ACTION
-                
+                    self.game.remaining_mines -= 1                    
+                    if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
+                        self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
                 # place the beacon
                 self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
                 self.sfx_beacon.play()
@@ -361,7 +354,7 @@ class Player(pygame.sprite.Sprite):
         if not collision:
             if axis == enums.CA_HORIZONTAL:
                 # Check only the relevant edge based on movement direction
-                if self.look_up == enums.DI_RIGHT:
+                if self.look_at == enums.DI_RIGHT:
                     tile_x = (temp_rect.right - 1) // constants.TILE_SIZE
                 else:  # moving left
                     tile_x = temp_rect.left // constants.TILE_SIZE
@@ -375,7 +368,7 @@ class Player(pygame.sprite.Sprite):
             else:  # vertical movement
                 tile_x = temp_rect.x // constants.TILE_SIZE
                 # Check only the relevant edge based on movement direction
-                if self.look_up == enums.DI_DOWN:
+                if self.look_at == enums.DI_DOWN:
                     tile_y = (temp_rect.bottom - 1) // constants.TILE_SIZE
                 else:  # moving up
                     tile_y = temp_rect.top // constants.TILE_SIZE
