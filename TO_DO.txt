@@ -5,7 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - siguiente nivel al desactivar todas las minas
-
+    - música corta xula de éxito
+    - mensaje de felicitación "Good work, Sergeant! All the mines in the area have been disarmed!!"
 
 BUGS
 ====

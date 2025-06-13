@@ -166,6 +166,12 @@ class Player(pygame.sprite.Sprite):
                 # if there is a mine in the marked tile
                 if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
                     self.game.remaining_mines -= 1                    
+                    self.score += 125
+                    self.game.floating_text.text = '+125'
+                    self.game.floating_text.x = self.rect.x
+                    self.game.floating_text.y = self.rect.y
+                    self.game.floating_text.speed = 0
+                    # if there is a mine on the tile, remove it                       
                     if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
                         self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
                 # place the beacon
