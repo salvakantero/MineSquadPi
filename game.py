@@ -415,13 +415,7 @@ class Game():
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
         pygame.mixer.music.stop()
         self.sfx_game_over.play()
-        pygame.event.clear(pygame.KEYDOWN)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit()
-                elif event.type == pygame.KEYDOWN:                  
-                    return # back to menu
+        self.wait_for_key() # back to menu
 
 
     # our player wins the game. End sequence
@@ -430,16 +424,10 @@ class Game():
         # main theme song again
         pygame.mixer.music.load('sounds/music/mus_menu.ogg')
         pygame.mixer.music.play()
-        # wait for a key
-        pygame.event.clear(pygame.KEYDOWN)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit()
-                elif event.type == pygame.KEYDOWN:                  
-                    self.update_high_score_table(score)
-                    self.status = enums.GS_OVER
-                    return # back to the main menu                       
+        self.wait_for_key()
+        self.update_high_score_table(score)
+        self.status = enums.GS_OVER
+        return                    
             
 
     # collisions between the player and mines, killer tiles, enemies and hotspots

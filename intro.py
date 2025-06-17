@@ -52,19 +52,11 @@ class Intro():
     def wait_with_skip(self, milliseconds):        
         start_time = pygame.time.get_ticks()
         while pygame.time.get_ticks() - start_time < milliseconds:
-            if self.main_key_pressed(): return True
+            # check for skip keys
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN: return True
+                elif event.type == pygame.QUIT: self.game.exit()
             pygame.time.delay(10)  # reduce CPU usage
-        return False
-
-
-    # the ESC, RETURN or SPACE key has been pressed
-    def main_key_pressed(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key in (pygame.K_ESCAPE, pygame.K_RETURN, pygame.K_SPACE):
-                    return True
-            elif event.type == pygame.QUIT:
-                return True
         return False
 
 

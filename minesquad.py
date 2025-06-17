@@ -134,15 +134,6 @@ while True:
             #game.sfx_game_over.play()
             game.wait_for_key()
 
-            # wait for a key
-            # pygame.event.clear(pygame.KEYDOWN)
-            # while True:
-            #     for event in pygame.event.get():
-            #         if event.type == pygame.QUIT: game.exit()
-            #         elif event.type == pygame.KEYDOWN: break
-            #     else: continue
-            #     break
-
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()
 
