@@ -214,3 +214,5 @@ pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
 Para generar un tar.gz:
 tar cvzf RedPlanetPi.tar.gz RedPlanetPi
+
+Obtener música de opengameart.org
