@@ -4,9 +4,10 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- kanina del player tras explosión
 - siguiente nivel al desactivar todas las minas
     - música corta xula de éxito
-    - mensaje de felicitación "Good work, Sergeant! All the mines in the area have been disarmed!!"
+
 
 BUGS
 ====
@@ -15,7 +16,6 @@ BUGS
 POR HACER
 =========
 - carátula IA
-- eskeleto del player tras explosión
 - selección del jugador al comenzar la partida
 - técnicas QUADTREE para detección de colisiones
 - mapas definitivos, más largos que la pantalla (scroll vertical)

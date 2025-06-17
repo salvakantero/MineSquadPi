@@ -29,8 +29,8 @@ from font import Font
 class FloatingText():
     def __init__(self, surface):
         self.surface = surface    
-        self.font = Font('images/fonts/small_font.png', constants.PALETTE['CYAN2'], True)
-        self.font2 = Font('images/fonts/small_font.png', constants.PALETTE['CYAN0'], True) 
+        self.font = Font('images/fonts/small_font.png', constants.PALETTE['WHITE2'], True)
+        self.font2 = Font('images/fonts/small_font.png', constants.PALETTE['BLACK1'], True) 
         self.acceleration = 0.03
         self.x = 0
         self.y = 0    
