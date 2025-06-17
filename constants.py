@@ -200,6 +200,16 @@ HOTSPOT_DATA = [
     [enums.HS_AMMO, 13, 4, True]
 ]   
 
+# end-of-level messages (title, message)
+END_LEVEL_MESSAGES = [
+    ("Well done, Sergeant!", "All mines in the level have been defused!"),
+    ("Excellent work!", "You've completed the level without any trouble!"),
+    ("Mission accomplished!", "All mines have been neutralised!"),
+    ("Good work, Sergeant!", "The area has been completely secured!"),
+    ("Congratulations!", "You've proven yourself to be an expert bomb disposal officer!"),
+    ("Objective achieved!", "Level completed successfully!")
+]
+
 # help for the main menu
 HELP = 'Press a menu option to continue or ESC to exit...     '
 HELP += 'Mark all the mines in each level with the available beacons '
