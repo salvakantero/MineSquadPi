@@ -114,7 +114,12 @@ while True:
 
         # check map completion (12 levels from 0 to 11)
         if game.remaining_mines == 0:
-            if map.number < 11: map.number += 1 
+            if map.number < 11:
+                game.message('Good work, Sergeant!', 
+                             'All the mines in the level have been disarmed!!',
+                            True, False, False, False)
+                game.wait_for_key()
+                map.number += 1 
             else: game.win()                    
         # change the map if necessary
         if map.number != map.last:
@@ -127,14 +132,16 @@ while True:
                          '. - LEVEL ' + str(map.number+1), True, False, False, True)
             pygame.mixer.music.stop()
             #game.sfx_game_over.play()
+            game.wait_for_key()
+
             # wait for a key
-            pygame.event.clear(pygame.KEYDOWN)
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT: game.exit()
-                    elif event.type == pygame.KEYDOWN: break
-                else: continue
-                break
+            # pygame.event.clear(pygame.KEYDOWN)
+            # while True:
+            #     for event in pygame.event.get():
+            #         if event.type == pygame.QUIT: game.exit()
+            #         elif event.type == pygame.KEYDOWN: break
+            #     else: continue
+            #     break
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()

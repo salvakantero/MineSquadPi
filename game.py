@@ -176,6 +176,17 @@ class Game():
         self.joystick = self.config.prepare_joystick()
 
 
+    # waits for a key to be pressed
+    def wait_for_key(self):
+        pygame.event.clear(pygame.KEYDOWN)
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT: self.exit()
+                elif event.type == pygame.KEYDOWN: break
+            else: continue
+            break
+
+
     # windowed mode, generates a main window with title, icon, and 32-bit colour
     def apply_windowed_mode(self):        
         # default margins
