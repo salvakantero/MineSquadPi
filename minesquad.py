@@ -46,8 +46,8 @@ scoreboard = Scoreboard(game)
 map = Map(game)
 intro = Intro(game)
 menu = Menu(game)
-# playlist with the 12 available tracks
-jukebox = Jukebox('sounds/music/', 'mus_ingame_', 12)
+# playlist with the X available tracks
+jukebox = Jukebox('sounds/music/', 'mus_ingame_', 10)
 
 #intro.play() # shows an intro
 
