@@ -148,23 +148,22 @@ class Game():
         # sound effects
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
-        self.sfx_game_over = pygame.mixer.Sound('sounds/fx/sfx_game_over.wav')
-        self.sfx_open_door = pygame.mixer.Sound('sounds/fx/sfx_open_door.wav')
-        self.sfx_locked_door = pygame.mixer.Sound('sounds/fx/sfx_locked_door.wav')
+        self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
+        #self.sfx_locked = pygame.mixer.Sound('sounds/fx/sfx_locked.wav')
         self.sfx_blast = {
             1: pygame.mixer.Sound('sounds/fx/sfx_blast1.wav'),
             2: pygame.mixer.Sound('sounds/fx/sfx_blast2.wav'),
             3: pygame.mixer.Sound('sounds/fx/sfx_blast3.wav'),
             4: pygame.mixer.Sound('sounds/fx/sfx_blast4.wav')}
         self.sfx_hotspot = {
-            enums.HS_LIFE: pygame.mixer.Sound('sounds/fx/sfx_bin.wav'),
+            enums.HS_LIFE: pygame.mixer.Sound('sounds/fx/sfx_life.wav'),
             enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
             enums.HS_AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.HS_CANDY: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.HS_APPLE: pygame.mixer.Sound('sounds/fx/sfx_burger.wav'),
-            enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_cake.wav'),
-            enums.HS_COIN: pygame.mixer.Sound('sounds/fx/sfx_donut.wav')}
+            enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
+            enums.HS_CANDY: pygame.mixer.Sound('sounds/fx/sfx_candy.wav'),
+            enums.HS_APPLE: pygame.mixer.Sound('sounds/fx/sfx_apple.wav'),
+            enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_choco.wav'),
+            enums.HS_COIN: pygame.mixer.Sound('sounds/fx/sfx_coin.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions)
         self.shake = [0, 0]
@@ -413,8 +412,9 @@ class Game():
     def over(self):
         self.shake_timer = 1 # clean the edges 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
-        pygame.mixer.music.stop()
-        self.sfx_game_over.play()
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.load('sounds/music/mus_end_level.ogg')
+        pygame.mixer.music.play()
         self.wait_for_key() # back to menu
 
 
@@ -460,7 +460,7 @@ class Game():
                 return
                 
             elif tile_type == enums.TT_KILLER:
-                self.sfx_locked_door.play()
+                self.sfx_death.play()
                 player.loses_energy(1)
                 scoreboard.invalidate()
                 return

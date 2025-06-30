@@ -51,5 +51,6 @@ class Jukebox():
     def update(self):
         if not pygame.mixer.music.get_busy(): # if a track is not playing...
             self.load_next() # load in memory the following track
+            pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play(2) # play each track twice
      

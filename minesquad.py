@@ -119,8 +119,9 @@ while True:
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
                 game.message(title, message, True, False, False, False)
-                pygame.mixer.music.stop()
-                #game.sfx_game_over.play()
+                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
                 game.wait_for_key()
                 map.number += 1 
             else: game.win()                    
@@ -133,9 +134,12 @@ while True:
             game.message(map.stage_name1[map.stage], 
                          map.stage_name2[map.stage] + 
                          '. - LEVEL ' + str(map.number+1), True, False, False, True)
-            pygame.mixer.music.stop()
-            #game.sfx_game_over.play()
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
             game.wait_for_key()
+            pygame.mixer.music.stop()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()

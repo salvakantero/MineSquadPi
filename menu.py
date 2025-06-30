@@ -223,8 +223,9 @@ class Menu():
 
     def show(self):
         # main theme song
-        #pygame.mixer.music.load('sounds/music/mus_menu.ogg')
-        #pygame.mixer.music.play()
+        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        pygame.mixer.music.set_volume(1)
+        pygame.mixer.music.play()
 
         # default wallpaper for the 16:9 screen mode
         if self.game.config.data['screen_mode'] == enums.SM_X720: # 16:9
