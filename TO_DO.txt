@@ -5,12 +5,13 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - kanina del player tras explosión
-- siguiente nivel al desactivar todas las minas
-    - música corta xula de éxito
+- efectos de sonido
+
 
 
 BUGS
 ====
+- refrescar pantalla antes del siguiente nivel
 
 
 POR HACER
@@ -20,7 +21,6 @@ POR HACER
 - técnicas QUADTREE para detección de colisiones
 - mapas definitivos, más largos que la pantalla (scroll vertical)
 - secuencia al ganar
-- secuencia al perder
 
 - posicionar hotspots
 - posicionar enemigos
@@ -32,7 +32,6 @@ POR HACER
 - enemigos perseguidores
 
 - gráficos de PIPER
-- gráficos de eskeleto
 - gráficos de enemigos stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
@@ -40,15 +39,13 @@ POR HACER
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
 
-- efectos de sonido
-- tema musical corto inicio de nivel
-- tema musical corto de game over
-- 4 temas musicales tranquilos para cada nivel de cada stage
-- tema musical marcha militar al finalizar cada stage
-
 
 HECHO
 =====
+30/06/25 - siguiente nivel al desactivar todas las minas
+30/06/25 - música in-game
+30/06/25 - tema musical inicio de nivel
+30/06/25 - tema musical de game over
 08/06/25 - halo mágico al recoger hotspot
 19/05/25 - hotspot munición
 19/05/25 - hotspot escudo (invencibilidad)
