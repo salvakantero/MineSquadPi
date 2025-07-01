@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-- refrescar pantalla antes del siguiente nivel  ?
+- refrescar pantalla antes del siguiente nivel
 
 
 POR HACER
