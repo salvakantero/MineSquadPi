@@ -4,14 +4,12 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- kanina del player tras explosión
 - efectos de sonido
-
 
 
 BUGS
 ====
-- refrescar pantalla antes del siguiente nivel
+- refrescar pantalla antes del siguiente nivel  ?
 
 
 POR HACER

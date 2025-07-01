@@ -113,34 +113,6 @@ while True:
                 elif event.button == 3:  # 3 = right click (beacon)
                     player.place_beacon()
 
-        # check map completion (12 levels from 0 to 11)
-        if game.remaining_mines == 0:
-            if map.number < 11:
-                # show a random end-of-level message
-                title, message = random.choice(constants.END_LEVEL_MESSAGES)
-                game.message(title, message, True, False, False, False)
-                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
-                pygame.mixer.music.set_volume(1)
-                pygame.mixer.music.play()
-                game.wait_for_key()
-                map.number += 1 
-            else: game.win()                    
-        # change the map if necessary
-        if map.number != map.last:
-            map.change(player)
-            scoreboard.reset(map.number)
-            scoreboard.invalidate()
-            scoreboard.update(player)
-            game.message(map.stage_name1[map.stage], 
-                         map.stage_name2[map.stage] + 
-                         '. - LEVEL ' + str(map.number+1), True, False, False, True)
-            if not pygame.mixer.music.get_busy():
-                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
-                pygame.mixer.music.set_volume(1)
-                pygame.mixer.music.play()
-            game.wait_for_key()
-            pygame.mixer.music.stop()
-
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()
 
@@ -187,3 +159,32 @@ while True:
         # increases the loop counter, up to a maximum of 10000 loops
         game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
         game.update_screen()
+
+        # check map completion (12 levels from 0 to 11)
+        if game.remaining_mines == 0:
+            if map.number < 11:
+                # show a random end-of-level message
+                title, message = random.choice(constants.END_LEVEL_MESSAGES)
+                game.message(title, message, True, False, False, False)
+                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
+                game.wait_for_key()
+                map.number += 1 
+            else: game.win()
+                                
+        # change the map if necessary
+        if map.number != map.last:
+            map.change(player)
+            scoreboard.reset(map.number)
+            scoreboard.invalidate()
+            scoreboard.update(player)
+            game.message(map.stage_name1[map.stage], 
+                         map.stage_name2[map.stage] + 
+                         '. - LEVEL ' + str(map.number+1), True, False, False, True)
+            if not pygame.mixer.music.get_busy():
+                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
+            game.wait_for_key()
+            pygame.mixer.music.stop()
