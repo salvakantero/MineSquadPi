@@ -206,7 +206,7 @@ END_LEVEL_MESSAGES = [
     ("Excellent work!", "You've completed the level without any trouble!"),
     ("Mission accomplished!", "All mines have been neutralised!"),
     ("Good work, Sergeant!", "The area has been completely secured!"),
-    ("Congratulations!", "You've proven yourself to be an expert bomb disposal officer!"),
+    ("Congratulations!", "You're an expert in bomb disposal!"),
     ("Objective achieved!", "Level completed successfully!")
 ]
 

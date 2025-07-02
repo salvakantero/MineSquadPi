@@ -5,11 +5,13 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - efectos de sonido
+- sonido al tocar tile bloqueante
 
 
 BUGS
 ====
-- refrescar pantalla antes del siguiente nivel
+- música de game over
+-SQUAD?
 
 
 POR HACER

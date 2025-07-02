@@ -112,27 +112,7 @@ while True:
                     player.fire()
                 elif event.button == 3:  # 3 = right click (beacon)
                     player.place_beacon()
-
-        # update sprites (player, enemies, hotspots, explosions, etc...)
-        game.groups[enums.SG_ALL].update()
-        
-        # check map completion (12 levels from 0 to 11)
-        if game.remaining_mines == 0:
-            if map.number < 11:
-                # refreshes the map and scoreboard                
-                scoreboard.invalidate()
-                scoreboard.update(player)
-                game.update_screen()
-                # show a random end-of-level message
-                title, message = random.choice(constants.END_LEVEL_MESSAGES)
-                game.message(title, message, True, False, False, False)
-                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
-                pygame.mixer.music.set_volume(1)
-                pygame.mixer.music.play()
-                game.wait_for_key()
-                map.number += 1 
-            else: game.win()
-                                
+                                       
         # change the map if necessary
         if map.number != map.last:
             map.change(player)
@@ -149,21 +129,13 @@ while True:
             game.wait_for_key()
             pygame.mixer.music.stop()
 
+        # update sprites (player, enemies, hotspots, explosions, etc...)
+        game.groups[enums.SG_ALL].update()
+        
         # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)
-
-        # game over?
-        if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
-            if player.energy < 0: player.energy = 0
-            if game.loss_sequence == 0: # blast animation completed                           
-                game.over()
-                game.update_high_score_table(player.score)
-                game.status = enums.GS_OVER
-                continue
-            else: # blast animation in progress
-                game.loss_sequence -= 1
 
         # draws the map free of sprites to clean it up
         game.srf_map.blit(game.srf_map_bk, (0,0))
@@ -183,6 +155,31 @@ while True:
         # next track in the playlist if the music has been stopped
         if game.music_status == enums.MS_UNMUTED:
             jukebox.update()
+
+        # check map completion (12 levels from 0 to 11)
+        if game.remaining_mines == 0:
+            if map.number < 11:
+                game.update_screen()
+                # show a random end-of-level message
+                title, message = random.choice(constants.END_LEVEL_MESSAGES)
+                game.message(title, message, True, False, False, False)
+                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.set_volume(1)
+                pygame.mixer.music.play()
+                game.wait_for_key()
+                map.number += 1 
+            else: game.win()
+
+        # game over?
+        if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
+            if player.energy < 0: player.energy = 0
+            if game.loss_sequence == 0: # blast animation completed                           
+                game.over()
+                game.update_high_score_table(player.score)
+                game.status = enums.GS_OVER
+                continue
+            else: # blast animation in progress
+                game.loss_sequence -= 1
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (232, 169))
