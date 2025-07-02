@@ -119,6 +119,10 @@ while True:
         # check map completion (12 levels from 0 to 11)
         if game.remaining_mines == 0:
             if map.number < 11:
+                # refreshes the map and scoreboard                
+                scoreboard.invalidate()
+                scoreboard.update(player)
+                game.update_screen()
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
                 game.message(title, message, True, False, False, False)
