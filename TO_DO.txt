@@ -11,7 +11,6 @@ EN PROCESO
 BUGS
 ====
 - música de game over
--SQUAD?
 
 
 POR HACER
@@ -92,9 +91,9 @@ Notas
 
 - Cenital 2D basado en buscaminas
 
-- Dos personajes a elegir:
-    Blaze: Hombre, velocidad normal, resistencia alta
-    Piper: Mujer, velocidad alta, resistencia baja
+- Dos personajes a elegir (forman parte de un equipo de zapadores):
+    Blaze: (sargento) Hombre, velocidad normal, resistencia alta
+    Piper: (suboficial) Mujer, velocidad alta, resistencia baja
 
 - Escenarios (3 stages, 4 levels per stage):
      
