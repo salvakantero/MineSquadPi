@@ -10,7 +10,7 @@ EN PROCESO
 
 BUGS
 ====
-- música de game over
+- música de game over no adecuada
 
 
 POR HACER

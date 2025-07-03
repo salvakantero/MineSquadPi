@@ -55,8 +55,6 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
-        #self.rect = self.image.get_rect(topleft = ( # initial position
-        #    constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # FX sounds
         self.load_sounds()
         # objects and others
