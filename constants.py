@@ -37,7 +37,6 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area (windo
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 NUM_MINES = 8, 10, 12, 14 # number of mines per map
 NUM_BEACONS = 11, 12, 13, 14 # number of flags/beacons per map
-
 # player
 TIME_REMAINING = 20000 # remaining shield time (+-20 secs.)
 MAX_AMMO = 20 # maximum number of bullets
@@ -47,6 +46,8 @@ ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position
 PLAYER_X_INI = (MAP_UNSCALED_SIZE[0] // 2) - (TILE_SIZE // 2)
 PLAYER_Y_INI = MAP_UNSCALED_SIZE[1] - TILE_SIZE
+# paths
+SOUND_PATH = 'sounds/fx/' # sound effects path
 
 # colour palette (similar to Pico8 tones)
 # 0 = darker, 1 = original, 2 = lighter

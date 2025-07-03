@@ -41,8 +41,10 @@ class Menu():
         self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
         self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
         # sounds
-        self.sfx_menu_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
-        self.sfx_menu_select = pygame.mixer.Sound('sounds/fx/sfx_menu_select.wav')
+        self.sfx_menu_click = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_menu_click.wav')
+        self.sfx_menu_select = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_menu_select.wav')
 
         # page 0: menu options
         # page 1: high scores

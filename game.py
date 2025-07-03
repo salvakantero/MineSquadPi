@@ -146,25 +146,32 @@ class Game():
                 pygame.image.load('images/sprites/blast15.png').convert_alpha(),
                 pygame.image.load('images/sprites/blast16.png').convert_alpha()]}        
         # sound effects
-        self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
-        self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
-        self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
-        self.sfx_locked = pygame.mixer.Sound('sounds/fx/sfx_locked.wav')
-        self.sfx_locked.set_volume(0.2)
+        self.sfx_message = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_message.wav')
+        self.sfx_click = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_menu_click.wav')
         self.sfx_blast = {
-            1: pygame.mixer.Sound('sounds/fx/sfx_blast1.wav'),
-            2: pygame.mixer.Sound('sounds/fx/sfx_blast2.wav'),
-            3: pygame.mixer.Sound('sounds/fx/sfx_blast3.wav'),
-            4: pygame.mixer.Sound('sounds/fx/sfx_blast4.wav')}
+            1: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast1.wav'),
+            2: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast2.wav'),
+            3: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast3.wav'),
+            4: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast4.wav')}
         self.sfx_hotspot = {
-            enums.HS_LIFE: pygame.mixer.Sound('sounds/fx/sfx_life.wav'),
-            enums.HS_SHIELD: pygame.mixer.Sound('sounds/fx/sfx_shield.wav'),
-            enums.HS_AMMO: pygame.mixer.Sound('sounds/fx/sfx_ammo.wav'),
-            enums.HS_DISK: pygame.mixer.Sound('sounds/fx/sfx_checkpoint.wav'),
-            enums.HS_CANDY: pygame.mixer.Sound('sounds/fx/sfx_candy.wav'),
-            enums.HS_APPLE: pygame.mixer.Sound('sounds/fx/sfx_apple.wav'),
-            enums.HS_CHOCO: pygame.mixer.Sound('sounds/fx/sfx_choco.wav'),
-            enums.HS_COIN: pygame.mixer.Sound('sounds/fx/sfx_coin.wav')}
+            enums.HS_LIFE: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_life.wav'),
+            enums.HS_SHIELD: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_shield.wav'),
+            enums.HS_AMMO: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_ammo.wav'),
+            enums.HS_DISK: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_checkpoint.wav'),
+            enums.HS_CANDY: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_candy.wav'),
+            enums.HS_APPLE: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_apple.wav'),
+            enums.HS_CHOCO: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_choco.wav'),
+            enums.HS_COIN: pygame.mixer.Sound(
+                constants.SOUND_PATH + 'sfx_coin.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions)
         self.shake = [0, 0]
@@ -461,7 +468,6 @@ class Game():
                 return
                 
             elif tile_type == enums.TT_KILLER:
-                self.sfx_death.play()
                 player.loses_energy(1)
                 scoreboard.invalidate()
                 return

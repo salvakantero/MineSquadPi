@@ -9,7 +9,6 @@ EN PROCESO
 BUGS
 ====
 - música de game over no adecuada
-- no repetir FX si está en uso
 - no emplazar balizas en tiles TT_OBSTACLE
 
 
