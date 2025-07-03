@@ -149,7 +149,8 @@ class Game():
         self.sfx_message = pygame.mixer.Sound('sounds/fx/sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound('sounds/fx/sfx_menu_click.wav')
         self.sfx_death = pygame.mixer.Sound('sounds/fx/sfx_death.wav')
-        #self.sfx_locked = pygame.mixer.Sound('sounds/fx/sfx_locked.wav')
+        self.sfx_locked = pygame.mixer.Sound('sounds/fx/sfx_locked.wav')
+        self.sfx_locked.set_volume(0.2)
         self.sfx_blast = {
             1: pygame.mixer.Sound('sounds/fx/sfx_blast1.wav'),
             2: pygame.mixer.Sound('sounds/fx/sfx_blast2.wav'),

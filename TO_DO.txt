@@ -4,13 +4,13 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- efectos de sonido
-- sonido al tocar tile bloqueante
 
 
 BUGS
 ====
 - música de game over no adecuada
+- no repetir FX si está en uso
+- no emplazar balizas en tiles TT_OBSTACLE
 
 
 POR HACER
@@ -41,6 +41,7 @@ POR HACER
 
 HECHO
 =====
+03/07/25 - efectos de sonido
 30/06/25 - siguiente nivel al desactivar todas las minas
 30/06/25 - música in-game
 30/06/25 - tema musical inicio de nivel

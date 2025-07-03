@@ -116,12 +116,10 @@ class Player(pygame.sprite.Sprite):
     # Load sounds for the player
     def load_sounds(self):
         sound_path = 'sounds/fx/'
-        self.sfx_shot = pygame.mixer.Sound(sound_path + 'sfx_shot.wav')
-        self.sfx_shot.set_volume(0.7)
+        self.sfx_shot1 = pygame.mixer.Sound(sound_path + 'sfx_shot1.wav')
         self.sfx_no_ammo = pygame.mixer.Sound(sound_path + 'sfx_no_ammo.wav')
-        self.sfx_no_ammo.set_volume(0.8)
         self.sfx_death = pygame.mixer.Sound(sound_path + 'sfx_death.wav')  # Touched by an enemy
-        self.sfx_beacon = pygame.mixer.Sound(sound_path + "sfx_shot.wav")
+        self.sfx_beacon = pygame.mixer.Sound(sound_path + "sfx_beacon.wav")
 
 
     # common code for a shot to be fired
@@ -139,7 +137,7 @@ class Player(pygame.sprite.Sprite):
                 shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
                 self.game.groups[enums.SG_SHOT].add(shot)
                 self.game.groups[enums.SG_ALL].add(shot)
-                self.sfx_shot.play()
+                self.sfx_shot1.play()
                 self.ammo -= 1
                 self.scoreboard.invalidate()
         else: # no bullets
@@ -390,6 +388,8 @@ class Player(pygame.sprite.Sprite):
                 self.rect.y = temp_pos + self.direction.y * self.speed
             if self.steps < 0:
                 self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
+        else:
+            self.game.sfx_locked.play()
 
 
     def animate(self):
