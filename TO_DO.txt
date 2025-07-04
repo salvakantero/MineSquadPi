@@ -117,7 +117,6 @@ Notas
     Algunas celdas contienen minas, pero el jugador no puede ver dónde están ubicadas.
     El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay en las celdas adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
-    El color de los números dependerá del nivel/escenario.
     El jugador puede marcar las celdas que piensa que contienen minas con una bandera/baliza.
     Hay un número limitado de balizas. A mayor nivel, más minas / menos balizas.
     El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o acaba toda su energía.
@@ -211,4 +210,4 @@ pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 Para generar un tar.gz:
 tar cvzf RedPlanetPi.tar.gz RedPlanetPi
 
-Obtener música de opengameart.org
+Obtener recursos de: opengameart.org
