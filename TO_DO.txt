@@ -8,8 +8,7 @@ EN PROCESO
 
 BUGS
 ====
-- música de game over no adecuada
-- no emplazar balizas en tiles TT_OBSTACLE
+- sonido de obstáculo y música de game over no adecuada
 
 
 POR HACER

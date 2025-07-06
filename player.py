@@ -56,7 +56,17 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
         # FX sounds
-        self.load_sounds()
+        self.sfx_shot1 = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_shot1.wav')
+        self.sfx_no_ammo = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_no_ammo.wav')
+        self.sfx_death = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_death.wav')
+        self.sfx_beacon = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_beacon.wav')
+        self.sfx_locked = pygame.mixer.Sound(
+            constants.SOUND_PATH + 'sfx_locked.wav')
+        self.sfx_locked.set_volume(0.2)
         # objects and others
         self.game = game
         self.map = map
@@ -111,21 +121,7 @@ class Player(pygame.sprite.Sprite):
                 pygame.image.load(path + 'player15.png').convert_alpha(),
                 pygame.image.load(path + 'player13.png').convert_alpha()],
         }
-            
 
-    # Load sounds for the player
-    def load_sounds(self):
-        self.sfx_shot1 = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_shot1.wav')
-        self.sfx_no_ammo = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_no_ammo.wav')
-        self.sfx_death = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_death.wav')
-        self.sfx_beacon = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_beacon.wav')
-        self.sfx_locked = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_locked.wav')
-        self.sfx_locked.set_volume(0.2)
 
     # common code for a shot to be fired
     def fire(self):
@@ -163,7 +159,8 @@ class Player(pygame.sprite.Sprite):
         # Verificar límites del mapa
         if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
             # if there is no beacon on the tile
-            if self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
+            if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
+               self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
                 # if there is a mine in the marked tile
                 if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
                     self.game.remaining_mines -= 1                    

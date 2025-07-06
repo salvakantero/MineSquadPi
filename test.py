@@ -22,6 +22,7 @@ RED = (255, 0, 0)
 GRAY = (128, 128, 128)
 DARK_GREEN = (0, 100, 0)
 YELLOW = (255, 255, 0)
+BLACK = (0, 0, 0)
 
 class TileMap:
     def __init__(self):
@@ -86,24 +87,22 @@ class TileMap:
                     pygame.draw.rect(screen, (0, 0, 0), 
                                    (screen_x, screen_y, TILE_SIZE, TILE_SIZE), 1)
 
+
+
+
 class Player:
     def __init__(self):
         self.x = (MAP_WIDTH // 2) * TILE_SIZE  # Centrado horizontalmente
-        self.y = 5 * TILE_SIZE  # Empezar cerca del inicio
+        self.y = (MAP_HEIGHT // 2) * TILE_SIZE  # Centrado verticalmente
         self.speed = 2
         self.size = 24
         
     def update(self, keys):
-        """Actualiza la posición del jugador - movimiento en ambas direcciones"""
-        if keys[pygame.K_UP] or keys[pygame.K_w]:
-            self.y -= self.speed
-        if keys[pygame.K_DOWN] or keys[pygame.K_s]:
-            self.y += self.speed
-        if keys[pygame.K_LEFT] or keys[pygame.K_a]:
-            self.x -= self.speed
-        if keys[pygame.K_RIGHT] or keys[pygame.K_d]:
-            self.x += self.speed
-        
+        # Actualiza la posición del jugador
+        if keys[pygame.K_UP]: self.y -= self.speed
+        if keys[pygame.K_DOWN]: self.y += self.speed
+        if keys[pygame.K_LEFT]: self.x -= self.speed
+        if keys[pygame.K_RIGHT]: self.x += self.speed
         # Límites del mapa
         max_x = MAP_WIDTH * TILE_SIZE - self.size
         max_y = MAP_HEIGHT * TILE_SIZE - self.size
@@ -111,31 +110,31 @@ class Player:
         self.y = max(0, min(self.y, max_y))
     
     def draw(self, screen, camera_y):
-        """Dibuja el jugador en pantalla"""
         screen_y = self.y - camera_y
-        
-        # Dibujar el jugador como un círculo rojo
-        pygame.draw.circle(screen, RED, 
-                         (int(self.x + self.size // 2), int(screen_y + self.size // 2)), 
-                         self.size // 2)
-        
-        # Dibujar borde
-        pygame.draw.circle(screen, (0, 0, 0), 
-                         (int(self.x + self.size // 2), int(screen_y + self.size // 2)), 
-                         self.size // 2, 2)
+        # Dibujar el jugador como un círculo rojo con borde
+        pygame.draw.circle(
+            screen, RED, (int(self.x + self.size // 2), 
+            int(screen_y + self.size // 2)), self.size // 2)
+        pygame.draw.circle(
+            screen, BLACK, (int(self.x + self.size // 2), 
+            int(screen_y + self.size // 2)), self.size // 2, 2)
+
+
+
 
 class Camera:
     def __init__(self):
         self.y = 0
     
     def update(self, player):
-        """Actualiza la cámara para seguir al jugador verticalmente"""
         # Intentar centrar verticalmente al jugador
         target_y = player.y - SCREEN_HEIGHT // 2
-        
         # Límites de la cámara
         max_camera_y = MAP_HEIGHT * TILE_SIZE - SCREEN_HEIGHT
         self.y = max(0, min(target_y, max_camera_y))
+
+
+
 
 def main():
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -166,9 +165,6 @@ def main():
         player.update(keys)
         camera.update(player)
         
-        # Dibujar todo
-        screen.fill(WHITE)
-        
         # Dibujar mapa
         tile_map.draw(screen, camera.y)
         
@@ -180,16 +176,12 @@ def main():
         player_tile_y = int(player.y // TILE_SIZE)
         info_text = font.render(f"Posición: ({player_tile_x + 1}, {player_tile_y + 1})", True, (0, 0, 0))
         screen.blit(info_text, (10, 10))
-        
-        visible_rows = f"Filas visibles: {max(1, camera.y // TILE_SIZE + 1)}-{min(MAP_HEIGHT, camera.y // TILE_SIZE + 10)}"
+        visible_rows = f"Filas visibles: {max(1, camera.y // TILE_SIZE + 1)} a {min(MAP_HEIGHT, camera.y // TILE_SIZE + 10)}"
         visible_text = font.render(visible_rows, True, (0, 0, 0))
         screen.blit(visible_text, (10, 30))
         
-        controls_text = font.render("WASD o flechas para mover, ESC para salir", True, (0, 0, 0))
-        screen.blit(controls_text, (10, SCREEN_HEIGHT - 25))
-        
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(120)
     
     pygame.quit()
     sys.exit()
