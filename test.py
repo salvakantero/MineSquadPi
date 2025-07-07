@@ -31,11 +31,10 @@ class TileMap:
         self.tiles = self.generate_map()
         
     def generate_map(self):
-        """Genera un mapa vertical simple"""
         tiles = []
-        for y in range(self.height):
+        for y in range(self.height): # 40 filas
             row = []
-            for x in range(self.width):
+            for x in range(self.width): # 15 columnas
                 # Crear patrones por filas para ver mejor el scroll
                 if y < 8:  # Zona superior - montañas
                     tile_type = 'mountain' if (x + y) % 3 == 0 else 'grass'
@@ -53,7 +52,7 @@ class TileMap:
         return tiles
     
     def get_tile_color(self, tile_type):
-        """Retorna el color según el tipo de tile"""
+        # Retorna el color según el tipo de tile
         colors = {
             'grass': GREEN,
             'dirt': BROWN,
@@ -65,7 +64,7 @@ class TileMap:
         return colors.get(tile_type, WHITE)
     
     def draw(self, screen, camera_y):
-        """Dibuja la parte visible del mapa"""
+        # Dibuja la parte visible del mapa
         # Calcular qué filas están visibles
         start_row = max(0, camera_y // TILE_SIZE)
         end_row = min(self.height, start_row + (SCREEN_HEIGHT // TILE_SIZE) + 2)
@@ -80,11 +79,11 @@ class TileMap:
                 if -TILE_SIZE <= screen_y <= SCREEN_HEIGHT:
                     tile_type = self.tiles[y][x]
                     color = self.get_tile_color(tile_type)
-                    pygame.draw.rect(screen, color, 
+                    pygame.draw.rect(screen, color,
                                    (screen_x, screen_y, TILE_SIZE, TILE_SIZE))
                     
                     # Dibujar borde del tile
-                    pygame.draw.rect(screen, (0, 0, 0), 
+                    pygame.draw.rect(screen, BLACK, 
                                    (screen_x, screen_y, TILE_SIZE, TILE_SIZE), 1)
 
 
@@ -137,7 +136,7 @@ class Camera:
 
 
 def main():
-    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) # 480x320
     pygame.display.set_caption("Mapa Vertical 15x40 - Solo Scroll Vertical")
     clock = pygame.time.Clock()
     
@@ -145,9 +144,8 @@ def main():
     tile_map = TileMap()
     player = Player()
     camera = Camera()
-    
-    # Fuente para mostrar información
-    font = pygame.font.Font(None, 24)
+        
+    font = pygame.font.Font(None, 24) # Fuente para información
     
     running = True
     while running:
@@ -162,8 +160,8 @@ def main():
         keys = pygame.key.get_pressed()
         
         # Actualizar juego
-        player.update(keys)
-        camera.update(player)
+        player.update(keys) # Posición XY del jugador
+        camera.update(player) # Posición Y de la cámara
         
         # Dibujar mapa
         tile_map.draw(screen, camera.y)
@@ -172,17 +170,20 @@ def main():
         player.draw(screen, camera.y)
         
         # Mostrar información
+        # Posición XY del jugador en tiles
         player_tile_x = int(player.x // TILE_SIZE)
         player_tile_y = int(player.y // TILE_SIZE)
         info_text = font.render(f"Posición: ({player_tile_x + 1}, {player_tile_y + 1})", True, (0, 0, 0))
         screen.blit(info_text, (10, 10))
+        # Filas visibles en pantalla (10 filas)
         visible_rows = f"Filas visibles: {max(1, camera.y // TILE_SIZE + 1)} a {min(MAP_HEIGHT, camera.y // TILE_SIZE + 10)}"
         visible_text = font.render(visible_rows, True, (0, 0, 0))
         screen.blit(visible_text, (10, 30))
         
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(120) # fps
     
+    # Running = false, salir del juego
     pygame.quit()
     sys.exit()
 
