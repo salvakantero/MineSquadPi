@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- mapas definitivos, más largos que la pantalla (scroll vertical)
 
 
 BUGS
@@ -15,8 +16,6 @@ POR HACER
 =========
 - carátula IA
 - selección del jugador al comenzar la partida
-- técnicas QUADTREE para detección de colisiones
-- mapas definitivos, más largos que la pantalla (scroll vertical)
 - secuencia al ganar
 
 - posicionar hotspots

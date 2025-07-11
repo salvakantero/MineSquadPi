@@ -184,30 +184,30 @@ class Map():
         return mine_data
 
 
-    def get_behaviour_at(self, x, y):
-        # Obtiene el comportamiento del tile en las coordenadas x,y
-        if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
-            return self.map_data['tile_types'][y][x]
-        return enums.TT_NO_ACTION
+    # def get_behaviour_at(self, x, y):
+    #     # Obtiene el comportamiento del tile en las coordenadas x,y
+    #     if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
+    #         return self.map_data['tile_types'][y][x]
+    #     return enums.TT_NO_ACTION
 
 
-    def get_mine_info_at(self, x, y):
-        # Obtiene la información de minas en las coordenadas x,y
-        if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
-            return self.map_data['mines_info'][y][x]
-        return enums.MI_FREE
+    # def get_mine_info_at(self, x, y):
+    #     # Obtiene la información de minas en las coordenadas x,y
+    #     if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
+    #         return self.map_data['mines_info'][y][x]
+    #     return enums.MI_FREE
 
 
-    def set_behaviour_at(self, x, y, type):
-        # Establece el comportamiento en las coordenadas x,y
-        if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
-            self.map_data['tile_types'][y][x] = type
+    # def set_behaviour_at(self, x, y, type):
+    #     # Establece el comportamiento en las coordenadas x,y
+    #     if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
+    #         self.map_data['tile_types'][y][x] = type
 
 
-    def set_mine_info_at(self, x, y, mine_info):
-        # Establece la información de minas en las coordenadas x,y
-        if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
-            self.map_data['mines_info'][y][x] = mine_info
+    # def set_mine_info_at(self, x, y, mine_info):
+    #     # Establece la información de minas en las coordenadas x,y
+    #     if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
+    #         self.map_data['mines_info'][y][x] = mine_info
 
 
     def draw_mine_data(self):
