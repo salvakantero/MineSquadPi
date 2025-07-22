@@ -22,6 +22,7 @@
 # ==============================================================================
 
 import pygame
+import constants
 
 
 class Shot(pygame.sprite.Sprite):
@@ -29,8 +30,7 @@ class Shot(pygame.sprite.Sprite):
         super().__init__()
         self.vector = vector # direction and speed
         self.map_rect = map_rect # map surface
-        #self.image = img_bullet
-        self.image = pygame.image.load('images/sprites/bullet.png').convert_alpha()
+        self.image = pygame.image.load(constants.SPR_PATH + 'bullet.png').convert_alpha()
         # starting position
         self.rect = self.image.get_rect(center = sprite_rect.center)
         if vector.x > 0: self.rect.x = sprite_rect.right

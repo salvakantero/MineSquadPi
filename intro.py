@@ -29,12 +29,11 @@ class Intro():
     def __init__(self, game):
         self.game = game
         self.srf_intro = game.srf_menu
-        # images
-        self.img_logo = pygame.image.load('images/assets/logo.png').convert() # PlayOnRetro logo  
-        self.img_intro = pygame.image.load('images/assets/intro.png').convert() # background
-        # sounds
-        self.sfx_logo = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_logo.wav') # PlayOnRetro logo sfx
+        # PlayOnRetro logo 
+        self.img_logo = pygame.image.load(constants.ASS_PATH + 'logo.png').convert()
+        self.sfx_logo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_logo.wav')
+        # MineSquad logo
+        self.img_intro = pygame.image.load(constants.ASS_PATH + 'intro.png').convert()       
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 

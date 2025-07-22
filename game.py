@@ -55,7 +55,7 @@ class Game():
         # area covered by the map
         self.srf_map = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # surface to save the generated map without sprites (background for each frame)
-        self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        #self.srf_map_bk = pygame.Surface(constants.MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # sprite control groups (for update and collision detection)
@@ -78,100 +78,90 @@ class Game():
         # common fonts. S = small L = large F = foreground B = background
         self.fonts = {
             # small fonts
-            enums.S_F_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['SAND1'], True),
-            enums.S_B_BROWN: Font('images/fonts/small_font.png', constants.PALETTE['BROWN1'], True),
-            enums.S_F_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['GRAY2'], True),
-            enums.S_B_WHITE: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GRAY1'], False),
-            enums.S_F_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
-            enums.S_B_GREEN: Font('images/fonts/small_font.png', constants.PALETTE['DARK_GREEN0'], True),
+            enums.S_F_BROWN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['SAND1'], True),
+            enums.S_B_BROWN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['BROWN1'], True),
+            enums.S_F_WHITE: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GRAY2'], True),
+            enums.S_B_WHITE: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['DARK_GRAY1'], False),
+            enums.S_F_GREEN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GREEN0'], True),
+            enums.S_B_GREEN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['DARK_GREEN0'], True),
             #large fonts
-            enums.L_F_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['GRAY2'], True),
-            enums.L_B_WHITE: Font('images/fonts/large_font.png', constants.PALETTE['DARK_GRAY1'], True),
-            enums.L_F_RED: Font('images/fonts/large_font.png', constants.PALETTE['RED0'], True),
-            enums.L_B_BLACK: Font('images/fonts/large_font.png', constants.PALETTE['BLACK1'], True),
-            enums.L_F_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['ORANGE0'], True),
-            enums.L_B_BROWN: Font('images/fonts/large_font.png', constants.PALETTE['BROWN0'], False)}
+            enums.L_F_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['GRAY2'], True),
+            enums.L_B_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['DARK_GRAY1'], True),
+            enums.L_F_RED: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED0'], True),
+            enums.L_B_BLACK: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BLACK1'], True),
+            enums.L_F_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE0'], True),
+            enums.L_B_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BROWN0'], False)}
         
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
-        self.beacon_image = pygame.image.load('images/sprites/beacon.png').convert_alpha()
+        self.beacon_image = pygame.image.load(constants.SPR_PATH + 'beacon.png').convert_alpha()
         self.enemy_images = {
             # animation sequence of the enemies depending on their type
             enums.EN_SCORPION: [
-                pygame.image.load('images/sprites/scorpion_0.png').convert_alpha(),
-                pygame.image.load('images/sprites/scorpion_1.png').convert_alpha()],
+                pygame.image.load(constants.SPR_PATH + 'scorpion_0.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'scorpion_1.png').convert_alpha()],
             enums.EN_SNAKE: [
-                pygame.image.load('images/sprites/snake_0.png').convert_alpha(),
-                pygame.image.load('images/sprites/snake_1.png').convert_alpha()],
+                pygame.image.load(constants.SPR_PATH + 'snake_0.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'snake_1.png').convert_alpha()],
             enums.EN_SOLDIER1: [
-                pygame.image.load('images/sprites/soldier1_0.png').convert_alpha(),
-                pygame.image.load('images/sprites/soldier1_1.png').convert_alpha()]}
+                pygame.image.load(constants.SPR_PATH + 'soldier1_0.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'soldier1_1.png').convert_alpha()]}
         self.hotspot_images = {
-            enums.HS_LIFE: pygame.image.load('images/sprites/hotspot0.png').convert_alpha(),
-            enums.HS_SHIELD: pygame.image.load('images/sprites/hotspot1.png').convert_alpha(),
-            enums.HS_AMMO: pygame.image.load('images/sprites/hotspot2.png').convert_alpha(),
-            enums.HS_DISK: pygame.image.load('images/sprites/hotspot3.png').convert_alpha(),
-            enums.HS_CANDY: pygame.image.load('images/sprites/hotspot4.png').convert_alpha(),
-            enums.HS_APPLE: pygame.image.load('images/sprites/hotspot5.png').convert_alpha(),
-            enums.HS_CHOCO: pygame.image.load('images/sprites/hotspot6.png').convert_alpha(),
-            enums.HS_COIN: pygame.image.load('images/sprites/hotspot7.png').convert_alpha()}
+            enums.HS_LIFE: pygame.image.load(constants.SPR_PATH + 'hotspot0.png').convert_alpha(),
+            enums.HS_SHIELD: pygame.image.load(constants.SPR_PATH + 'hotspot1.png').convert_alpha(),
+            enums.HS_AMMO: pygame.image.load(constants.SPR_PATH + 'hotspot2.png').convert_alpha(),
+            enums.HS_DISK: pygame.image.load(constants.SPR_PATH + 'hotspot3.png').convert_alpha(),
+            enums.HS_CANDY: pygame.image.load(constants.SPR_PATH + 'hotspot4.png').convert_alpha(),
+            enums.HS_APPLE: pygame.image.load(constants.SPR_PATH + 'hotspot5.png').convert_alpha(),
+            enums.HS_CHOCO: pygame.image.load(constants.SPR_PATH + 'hotspot6.png').convert_alpha(),
+            enums.HS_COIN: pygame.image.load(constants.SPR_PATH + 'hotspot7.png').convert_alpha()}
         self.control_images = {
-            enums.CT_CLASSIC: pygame.image.load('images/assets/classic.png').convert_alpha(),
-            enums.CT_GAMER:  pygame.image.load('images/assets/gamer.png').convert_alpha(),
-            enums.CT_RETRO: pygame.image.load('images/assets/retro.png').convert_alpha(),
-            enums.CT_JOYSTICK: pygame.image.load('images/assets/joypad.png').convert_alpha(),
-            enums.CT_COMMON: pygame.image.load('images/assets/common.png').convert_alpha()
+            enums.CT_CLASSIC: pygame.image.load(constants.ASS_PATH + 'classic.png').convert_alpha(),
+            enums.CT_GAMER:  pygame.image.load(constants.ASS_PATH + 'gamer.png').convert_alpha(),
+            enums.CT_RETRO: pygame.image.load(constants.ASS_PATH + 'retro.png').convert_alpha(),
+            enums.CT_JOYSTICK: pygame.image.load(constants.ASS_PATH + 'joypad.png').convert_alpha(),
+            enums.CT_COMMON: pygame.image.load(constants.ASS_PATH + 'common.png').convert_alpha()
         }
         self.blast_images = {
-            0: [ # explosion 1: on the air
-                pygame.image.load('images/sprites/blast0.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast1.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast2.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast3.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast4.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
-                pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+            0: [ # explosion 1: in the air
+                pygame.image.load(constants.SPR_PATH + 'blast0.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast1.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast2.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast3.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
+                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
             1: [ # explosion 2: on the ground
-                pygame.image.load('images/sprites/blast7.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast8.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast9.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast10.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast4.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast5.png').convert_alpha(),                                 
-                pygame.image.load('images/sprites/blast6.png').convert_alpha()],
+                pygame.image.load(constants.SPR_PATH + 'blast7.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast8.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast9.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast10.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
+                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
             2: [ # magic halo for hotspots
-                pygame.image.load('images/sprites/blast16.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast15.png').convert_alpha(),
-                pygame.image.load('images/sprites/blast16.png').convert_alpha()]}        
+                pygame.image.load(constants.SPR_PATH + 'blast16.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast15.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast16.png').convert_alpha()]}        
         # sound effects
-        self.sfx_message = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_message.wav')
-        self.sfx_click = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_menu_click.wav')
+        self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
+        self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
         self.sfx_blast = {
-            1: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast1.wav'),
-            2: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast2.wav'),
-            3: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast3.wav'),
-            4: pygame.mixer.Sound(constants.SOUND_PATH + 'sfx_blast4.wav')}
+            1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
+            2: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast2.wav'),
+            3: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast3.wav'),
+            4: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast4.wav')}
         self.sfx_hotspot = {
-            enums.HS_LIFE: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_life.wav'),
-            enums.HS_SHIELD: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_shield.wav'),
-            enums.HS_AMMO: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_ammo.wav'),
-            enums.HS_DISK: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_checkpoint.wav'),
-            enums.HS_CANDY: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_candy.wav'),
-            enums.HS_APPLE: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_apple.wav'),
-            enums.HS_CHOCO: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_choco.wav'),
-            enums.HS_COIN: pygame.mixer.Sound(
-                constants.SOUND_PATH + 'sfx_coin.wav')}
+            enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
+            enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
+            enums.HS_AMMO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_ammo.wav'),
+            enums.HS_DISK: pygame.mixer.Sound(constants.FX_PATH + 'sfx_checkpoint.wav'),
+            enums.HS_CANDY: pygame.mixer.Sound(constants.FX_PATH + 'sfx_candy.wav'),
+            enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
+            enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
+            enums.HS_COIN: pygame.mixer.Sound(constants.FX_PATH + 'sfx_coin.wav')}
         # modifies the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions)
         self.shake = [0, 0]
@@ -209,27 +199,64 @@ class Game():
 
     # 4:3 (800x600) clear and faaaasssst!
     def apply_screen_mode_X600(self):   
-        if (800, 600) in pygame.display.list_modes():
-            self.win_size = 800, 600
-            self.v_margin = 4            
-            self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-        else: # screen resolution not available
-            self.config.data['screen_mode'] = enums.SM_WINDOW
-            self.apply_windowed_mode()
+        # if (800, 600) in pygame.display.list_modes():
+        #     self.win_size = 800, 600
+        #     self.v_margin = 4            
+        #     self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+        # else: # screen resolution not available
+        #     self.config.data['screen_mode'] = enums.SM_WINDOW
+        #     self.apply_windowed_mode()
+
+        res_4_3 = [                        
+            (800, 600),    # SVGA
+            (1024, 768),   # XGA
+            (1152, 864),   # XGA+
+            (1280, 960),
+            (1600, 1200),  # UXGA
+        ]
+        for res in res_4_3:
+            if res in pygame.display.list_modes():
+                self.win_size = res[0], res[1]
+                self.v_margin = 4            
+                self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+                break
+            else: # screen resolution not available
+                self.config.data['screen_mode'] = enums.SM_WINDOW
+                self.apply_windowed_mode()
 
 
     # 16:9 (1280x720) clear and is still fast!
     def apply_screen_mode_X720(self):
-        if (1280, 720) in pygame.display.list_modes():
-            self.win_size = 1280, 720
-            self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
-            self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
-            self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-            # default background image to fill in the black sides
-            self.screen.blit(self.img_background, (0,0))
-        else: # screen resolution not available
-            self.config.data['screen_mode'] = enums.SM_WINDOW
-            self.apply_windowed_mode()
+        # if (1280, 720) in pygame.display.list_modes():
+        #     self.win_size = 1280, 720
+        #     self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
+        #     self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
+        #     self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+        #     # default background image to fill in the black sides
+        #     self.screen.blit(self.img_background, (0,0))
+        # else: # screen resolution not available
+        #     self.config.data['screen_mode'] = enums.SM_WINDOW
+        #     self.apply_windowed_mode()
+        res_16_9 = [            
+            (1280, 720)    # HD / 720p
+            (1366, 768),   # HD
+            (1600, 900),   # HD+
+            (1920, 1080),  # Full HD
+            (2560, 1440),  # QHD / 2K
+            (3840, 2160),  # 4K UHD  
+        ]
+        for res in res_16_9:
+            if res in pygame.display.list_modes():
+                self.win_size = 1280, 720
+                self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
+                self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
+                self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
+                # default background image to fill in the black sides
+                self.screen.blit(self.img_background, (0,0))
+                break
+            else: # screen resolution not available
+                self.config.data['screen_mode'] = enums.SM_WINDOW
+                self.apply_windowed_mode()
 
 
     # creates a window or full-screen environment 
@@ -421,7 +448,7 @@ class Game():
         self.shake_timer = 1 # clean the edges 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
         pygame.mixer.music.set_volume(1)
-        pygame.mixer.music.load('sounds/music/mus_end_level.ogg')
+        pygame.mixer.music.load(constants.MUS_PATH + 'mus_end_level.ogg')
         pygame.mixer.music.play()
         self.wait_for_key() # back to menu
 
@@ -430,7 +457,7 @@ class Game():
     def win(self, score):
         self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False, False)
         # main theme song again
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
         pygame.mixer.music.play()
         self.wait_for_key()
         self.update_high_score_table(score)
@@ -574,13 +601,13 @@ class Game():
 
 
     def set_background(self, map_number):
-        if map_number >= 8: # Ardennes
-            self.img_background =  pygame.image.load('images/assets/wp2.png').convert()
-        elif map_number >= 4: # Normandy
-            self.img_background =  pygame.image.load('images/assets/wp1.png').convert()
+        if map_number >= 6: # Ardennes
+            self.img_background =  pygame.image.load(constants.ASS_PATH + 'wp2.png').convert()
+        elif map_number >= 3: # Normandy
+            self.img_background =  pygame.image.load(constants.ASS_PATH + 'wp1.png').convert()
         elif map_number >= 0: # North Africa
-            self.img_background =  pygame.image.load('images/assets/wp0.png').convert()
+            self.img_background =  pygame.image.load(constants.ASS_PATH + 'wp0.png').convert()
         else: # menu
-            self.img_background =  pygame.image.load('images/assets/wp3.png').convert()
+            self.img_background =  pygame.image.load(constants.ASS_PATH + 'wp3.png').convert()
         # apply
         self.screen.blit(self.img_background, (0,0))

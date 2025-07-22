@@ -35,16 +35,14 @@ class Menu():
         self.srf_menu = game.srf_menu # surface
         self.tip = 'Use mouse, joypad, or cursors and SPACE/ENTER to select'        
         # images
-        self.img_menu = pygame.image.load('images/assets/menu_back.png').convert()
-        self.img_blaze = pygame.image.load('images/assets/blaze.png').convert_alpha()
-        self.img_piper = pygame.image.load('images/assets/piper.png').convert_alpha()
-        self.img_star = pygame.image.load('images/sprites/star.png').convert_alpha()
-        self.img_pointer = pygame.image.load('images/sprites/pointer.png').convert_alpha()
+        self.img_menu = pygame.image.load(constants.ASS_PATH + 'menu_back.png').convert()
+        self.img_blaze = pygame.image.load(constants.ASS_PATH + 'blaze.png').convert_alpha()
+        self.img_piper = pygame.image.load(constants.ASS_PATH + 'piper.png').convert_alpha()
+        self.img_star = pygame.image.load(constants.SPR_PATH + 'star.png').convert_alpha()
+        self.img_pointer = pygame.image.load(constants.SPR_PATH + 'pointer.png').convert_alpha()
         # sounds
-        self.sfx_menu_click = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_menu_click.wav')
-        self.sfx_menu_select = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_menu_select.wav')
+        self.sfx_menu_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
+        self.sfx_menu_select = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_select.wav')
 
         # page 0: menu options
         # page 1: high scores
@@ -230,7 +228,7 @@ class Menu():
 
     def show(self):
         # main theme song
-        pygame.mixer.music.load('sounds/music/mus_menu.ogg')
+        pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
         pygame.mixer.music.set_volume(1)
         pygame.mixer.music.play()
 
@@ -240,11 +238,11 @@ class Menu():
 
         # help text
         marquee_help = MarqueeText(
-            self.srf_menu, Font('images/fonts/large_font.png', constants.PALETTE['ORANGE2'], True),
+            self.srf_menu, Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE2'], True),
             self.srf_menu.get_height() - 26, .8, constants.HELP, 2400)
         # credit text     
         marquee_credits = MarqueeText(
-            self.srf_menu, Font('images/fonts/small_font.png', constants.PALETTE['GREEN0'], True),
+            self.srf_menu, Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GREEN0'], True),
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 3000)
     
         # some local variables are initialised

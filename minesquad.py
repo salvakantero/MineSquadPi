@@ -47,9 +47,9 @@ map = Map(game)
 intro = Intro(game)
 menu = Menu(game)
 # playlist with the X available tracks
-jukebox = Jukebox('sounds/music/', 'mus_ingame_', 10)
+jukebox = Jukebox(constants.MUS_PATH, 'mus_ingame_', 10)
 
-#intro.play() # shows an intro
+intro.play() # shows an intro
 
 # Main loop
 while True:
@@ -123,7 +123,7 @@ while True:
                          map.stage_name2[map.stage] + 
                          '. - LEVEL ' + str(map.number+1), True, False, False, True)
             if not pygame.mixer.music.get_busy():
-                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.load(constants.MUS_PATH + 'mus_new_level.ogg')
                 pygame.mixer.music.set_volume(1)
                 pygame.mixer.music.play()
             game.wait_for_key()
@@ -133,15 +133,15 @@ while True:
         game.groups[enums.SG_ALL].update()
         
         # collision between player and enemies, mines or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number, map.map_data)
+        #game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard)
+        #game.check_bullet_collisions(player, scoreboard)
 
         # draws the map free of sprites to clean it up
-        game.srf_map.blit(game.srf_map_bk, (0,0))
+        #game.srf_map.blit(game.srf_map_bk, (0,0))
 
         # draws the location of the mines
-        map.draw_mine_data()
+        #map.draw_mine_data()
         
         # draws the sprites in their new positions
         game.groups[enums.SG_ALL].draw(game.srf_map)
@@ -163,7 +163,7 @@ while True:
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
                 game.message(title, message, True, False, False, False)
-                pygame.mixer.music.load('sounds/music/mus_new_level.ogg')
+                pygame.mixer.music.load(constants.MUS_PATH + 'mus_new_level.ogg')
                 pygame.mixer.music.set_volume(1)
                 pygame.mixer.music.play()
                 game.wait_for_key()

@@ -26,11 +26,20 @@ import constants
 
 class Camera:
     def __init__(self):
+        self.x = 0
         self.y = 0
+
+        # cache frequently used values
+        self.half_map_width = constants.MAP_UNSCALED_SIZE[0] // 2
+        self.half_map_height = constants.MAP_UNSCALED_SIZE[1] // 2
+        self.max_x = constants.MAP_PIXEL_SIZE[0] - constants.MAP_UNSCALED_SIZE[0]
+        self.max_y = constants.MAP_PIXEL_SIZE[1] - constants.MAP_UNSCALED_SIZE[1]
     
-    def update(self, player_y):
-        # attempt to centre the player vertically
-        target_y = player_y - constants.MAP_UNSCALED_SIZE[1] // 2
-        # camera limits
-        max_camera_y = constants.MAP_TILE_SIZE[1] * constants.TILE_SIZE - constants.MAP_UNSCALED_SIZE[1]
-        self.y = max(0, min(target_y, max_camera_y))
+    def update(self, player_x, player_y):
+        # updates the camera position based on the player's position
+        # the camera should be centered on the player
+        # the camera cannot go beyond the map boundaries
+        target_x = player_x - self.half_map_width
+        self.x = max(0, min(target_x, self.max_x))
+        target_y = player_y - self.half_map_height   
+        self.y = max(0, min(target_y, self.max_y))

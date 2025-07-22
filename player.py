@@ -56,16 +56,11 @@ class Player(pygame.sprite.Sprite):
         self.animation_speed = 16 # frame dwell time
         self.image = self.image_list[self.state][0] # 1st frame of the animation
         # FX sounds
-        self.sfx_shot1 = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_shot1.wav')
-        self.sfx_no_ammo = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_no_ammo.wav')
-        self.sfx_death = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_death.wav')
-        self.sfx_beacon = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_beacon.wav')
-        self.sfx_locked = pygame.mixer.Sound(
-            constants.SOUND_PATH + 'sfx_locked.wav')
+        self.sfx_shot1 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_shot1.wav')
+        self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
+        self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
+        self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
+        self.sfx_locked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_locked.wav')
         self.sfx_locked.set_volume(0.2)
         # objects and others
         self.game = game
@@ -82,7 +77,7 @@ class Player(pygame.sprite.Sprite):
     # Load player images for animations
     def load_player_images(self, who_is):
         # sequences of animations for the player depending on its status
-        path = 'images/sprites/player/' + str(who_is) + '/'
+        path = constants.SPR_PATH + 'player/' + str(who_is) + '/'
         self.image_list = {
             #----------------------------------------------------------#
             enums.PS_IDLE_UP: [

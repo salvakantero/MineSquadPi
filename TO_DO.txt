@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- otras resoluciones alternativas
 - mapas definitivos, más largos que la pantalla (scroll vertical)
 
 
@@ -93,7 +94,7 @@ Notas
     Blaze: (sargento) Hombre, velocidad normal, resistencia alta
     Piper: (suboficial) Mujer, velocidad alta, resistencia baja
 
-- Escenarios (3 stages, 4 levels per stage):
+- Escenarios (3 stages, 3 levels per stage):
      
     Batalla de El Alamein (Egipto):
     Fecha clave: Octubre de 1942.
@@ -111,7 +112,7 @@ Notas
     Despejar el campo de juego sin activar ninguna mina.
 
 - Campo de juego: 
-    Campo de juego rectangular (vertical) dividido en celdas. Hay scroll vertical. 
+    Rectangular 30x40 celdas con scroll. 
     Algunas celdas contienen minas, pero el jugador no puede ver dónde están ubicadas.
     El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay en las celdas adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.

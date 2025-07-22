@@ -32,11 +32,12 @@ MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
 MAP_UNSCALED_SIZE = 240, 176 # map size (unscaled)
 SBOARD_UNSCALED_SIZE = 240, 22 # scoreboard size (unscaled)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
-MAP_TILE_SIZE = 15, 11 # map size in tiles
+MAP_TILE_SIZE = 30, 40 # map size in tiles
+MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # map size in pixels
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
-NUM_MINES = 8, 10, 12, 14 # number of mines per map
-NUM_BEACONS = 11, 12, 13, 14 # number of flags/beacons per map
+NUM_MINES = 10, 12, 14 # number of mines per map
+NUM_BEACONS = 12, 13, 14 # number of flags/beacons per map
 # player
 TIME_REMAINING = 20000 # remaining shield time (+-20 secs.)
 MAX_AMMO = 20 # maximum number of bullets
@@ -47,7 +48,11 @@ ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 PLAYER_X_INI = (MAP_UNSCALED_SIZE[0] // 2) - (TILE_SIZE // 2)
 PLAYER_Y_INI = MAP_UNSCALED_SIZE[1] - TILE_SIZE
 # paths
-SOUND_PATH = 'sounds/fx/' # sound effects path
+FX_PATH = 'sounds/fx/'
+MUS_PATH = 'sounds/music/'
+FNT_PATH = 'images/fonts/'
+SPR_PATH = 'images/sprites/'
+ASS_PATH = 'images/assets/'
 
 # colour palette (similar to Pico8 tones)
 # 0 = darker, 1 = original, 2 = lighter
@@ -203,12 +208,12 @@ HOTSPOT_DATA = [
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [
-    ("Well done, Sergeant!", "All mines in the level have been defused!"),
-    ("Excellent work!", "You've completed the level without any trouble!"),
-    ("Mission accomplished!", "All mines have been neutralised!"),
-    ("Good work, Sergeant!", "The area has been completely secured!"),
-    ("Congratulations!", "You're an expert in bomb disposal!"),
-    ("Objective achieved!", "Level completed successfully!")
+    ('Well done, Sergeant!', 'All mines in the level have been defused!'),
+    ('Excellent work!', "You've completed the level without any trouble!"),
+    ('Mission accomplished!', 'All mines have been neutralised!'),
+    ('Good work, Sergeant!', 'The area has been completely secured!'),
+    ('Congratulations!', "You're an expert in bomb disposal!"),
+    ('Objective achieved!', 'Level completed successfully!')
 ]
 
 # help for the main menu
