@@ -197,21 +197,13 @@ class Game():
         pygame.display.set_icon(icon)
 
 
-    # 4:3 (800x600) clear and faaaasssst!
+    # 4:3 screen modes
     def apply_screen_mode_X600(self):   
-        # if (800, 600) in pygame.display.list_modes():
-        #     self.win_size = 800, 600
-        #     self.v_margin = 4            
-        #     self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-        # else: # screen resolution not available
-        #     self.config.data['screen_mode'] = enums.SM_WINDOW
-        #     self.apply_windowed_mode()
-
         res_4_3 = [                        
             (800, 600),    # SVGA
             (1024, 768),   # XGA
             (1152, 864),   # XGA+
-            (1280, 960),
+            (1280, 960),   # SXGA
             (1600, 1200),  # UXGA
         ]
         for res in res_4_3:
@@ -219,26 +211,16 @@ class Game():
                 self.win_size = res[0], res[1]
                 self.v_margin = 4            
                 self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-                break
-            else: # screen resolution not available
-                self.config.data['screen_mode'] = enums.SM_WINDOW
-                self.apply_windowed_mode()
+                return
+        # screen resolution not available
+        self.config.data['screen_mode'] = enums.SM_WINDOW
+        self.apply_windowed_mode()
 
 
     # 16:9 (1280x720) clear and is still fast!
     def apply_screen_mode_X720(self):
-        # if (1280, 720) in pygame.display.list_modes():
-        #     self.win_size = 1280, 720
-        #     self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
-        #     self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
-        #     self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-        #     # default background image to fill in the black sides
-        #     self.screen.blit(self.img_background, (0,0))
-        # else: # screen resolution not available
-        #     self.config.data['screen_mode'] = enums.SM_WINDOW
-        #     self.apply_windowed_mode()
         res_16_9 = [            
-            (1280, 720)    # HD / 720p
+            (1280, 720),   # HD / 720p
             (1366, 768),   # HD
             (1600, 900),   # HD+
             (1920, 1080),  # Full HD
@@ -247,16 +229,16 @@ class Game():
         ]
         for res in res_16_9:
             if res in pygame.display.list_modes():
-                self.win_size = 1280, 720
+                self.win_size = res[0], res[1]
                 self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
                 self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
                 self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
                 # default background image to fill in the black sides
                 self.screen.blit(self.img_background, (0,0))
-                break
-            else: # screen resolution not available
-                self.config.data['screen_mode'] = enums.SM_WINDOW
-                self.apply_windowed_mode()
+                return
+        # screen resolution not available
+        self.config.data['screen_mode'] = enums.SM_WINDOW
+        self.apply_windowed_mode()
 
 
     # creates a window or full-screen environment 
