@@ -375,8 +375,8 @@ class Player(pygame.sprite.Sprite):
                     tile_x = temp_rect.left // constants.TILE_SIZE
                 tile_y = temp_rect.y // constants.TILE_SIZE
                 
-                if (0 <= tile_x < self.map.map_data['width'] and 
-                    0 <= tile_y < self.map.map_data['height']):
+                if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
+                    0 <= tile_y < constants.MAP_TILE_SIZE[1]):
                     if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
                         collision = True
                         
@@ -388,8 +388,8 @@ class Player(pygame.sprite.Sprite):
                 else:  # moving up
                     tile_y = temp_rect.top // constants.TILE_SIZE
                     
-                if (0 <= tile_x < self.map.map_data['width'] and 
-                    0 <= tile_y < self.map.map_data['height']):
+                if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
+                    0 <= tile_y < constants.MAP_TILE_SIZE[1]):
                     if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
                         collision = True
 
@@ -399,8 +399,8 @@ class Player(pygame.sprite.Sprite):
                 self.rect.x = temp_pos + self.direction.x * self.speed
             else: # vertical
                 self.rect.y = temp_pos + self.direction.y * self.speed
-            if self.steps < 0:
-                self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
+            #if self.steps < 0:
+            #    self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
         elif self.sfx_locked.get_num_channels() == 0:
             self.sfx_locked.play()
 

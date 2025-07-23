@@ -58,13 +58,13 @@ class Scoreboard():
             y = 3
             self.clear_zone(x, 34)
             # show score
-            text = 'SC:' + str(player.score).rjust(6, '0')
+            text = 'SC:' + str(self.game.score).rjust(6, '0')
             self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
             self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
             # show high score
             y = 11
             hi = self.game.high_scores[0][2]
-            score = hi if hi > player.score else player.score
+            score = hi if hi > self.game.score else self.game.score
             text = 'HI:' + str(score).rjust(6, '0')
             self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
             self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))

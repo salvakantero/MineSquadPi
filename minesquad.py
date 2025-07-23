@@ -180,7 +180,7 @@ while True:
             if player.energy < 0: player.energy = 0
             if game.loss_sequence == 0: # blast animation completed                           
                 game.over()
-                game.update_high_score_table(player.score)
+                game.update_high_score_table(game.score)
                 game.status = enums.GS_OVER
                 continue
             else: # blast animation in progress

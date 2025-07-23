@@ -212,7 +212,8 @@ class Game():
         for res in res_4_3:
             if res in pygame.display.list_modes():
                 self.win_size = res[0], res[1]
-                self.v_margin = 4            
+                self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
+                self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2                  
                 self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
                 return
         # screen resolution not available
@@ -221,14 +222,14 @@ class Game():
 
 
 
-    # 16:9 (1280x720) clear and is still fast!
+    # 16:9 screen modes
     def apply_screen_mode_16_9(self):
         res_16_9 = [            
-            (1280, 720),   # HD / 720p
+            (1280, 720),   # HD/720p
             (1366, 768),   # HD
             (1600, 900),   # HD+
             (1920, 1080),  # Full HD
-            (2560, 1440),  # QHD / 2K
+            (2560, 1440),  # 2K QHD
             (3840, 2160),  # 4K UHD  
         ]
         for res in res_16_9:
@@ -368,7 +369,7 @@ class Game():
         
         if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.flip() # refreshes the screen
-        self.clock.tick(60) # 60 FPS
+        #self.clock.tick(60) # 60 FPS
 
 
 
@@ -610,4 +611,6 @@ class Game():
         else: # menu
             self.img_background =  pygame.image.load(constants.ASS_PATH + 'wp3.png').convert()
         # apply
+        screen_size = self.screen.get_size()
+        self.img_background = pygame.transform.scale(self.img_background, screen_size)
         self.screen.blit(self.img_background, (0,0))
