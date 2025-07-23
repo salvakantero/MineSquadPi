@@ -24,6 +24,7 @@
 import constants
 
 
+
 class Camera:
     def __init__(self):
         self.x = 0
@@ -35,6 +36,8 @@ class Camera:
         self.max_x = constants.MAP_PIXEL_SIZE[0] - constants.MAP_UNSCALED_SIZE[0]
         self.max_y = constants.MAP_PIXEL_SIZE[1] - constants.MAP_UNSCALED_SIZE[1]
     
+
+
     def update(self, player_x, player_y):
         # updates the camera position based on the player's position
         # the camera should be centered on the player

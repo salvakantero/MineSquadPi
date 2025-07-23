@@ -25,6 +25,7 @@ import pygame
 import random
 
 
+
 class Jukebox():
     def __init__(self, path, base_filename, tracks):
         self.track_list = list(range(0, tracks)) # sorted playlist
@@ -33,10 +34,12 @@ class Jukebox():
         self.base_filename = base_filename # common name of the files
 
 
+
     # generates a new random list of the x available tracks
     def shuffle(self):
         random.shuffle(self.track_list)
         self.track_index = 0
+
 
 
     # load the next track from the playlist
@@ -46,6 +49,7 @@ class Jukebox():
             str(self.track_list[self.track_index]) + '.ogg')        
         # next number in the playlist         
         self.track_index = (self.track_index + 1) % len(self.track_list)
+
 
 
     def update(self):

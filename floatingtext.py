@@ -26,6 +26,7 @@ import constants
 from font import Font
 
 
+
 class FloatingText():
     def __init__(self, surface):
         self.surface = surface    
@@ -36,6 +37,7 @@ class FloatingText():
         self.y = 0    
         self.speed = 0
         self.text = ''
+
 
 
     # update the xy position (only if drawn inside the screen)

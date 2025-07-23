@@ -33,6 +33,7 @@ class MarqueeText():
         self.text_width = text_width # in pixels
 
 
+
     # update the xy position
     def update(self):
         # draws the text in the new position

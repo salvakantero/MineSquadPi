@@ -25,6 +25,7 @@ import pickle
 import os
 
 
+
 class Checkpoint():
     def __init__(self):
         self.filename = 'checkpoint.dat'
@@ -35,10 +36,12 @@ class Checkpoint():
         }
 
 
+
     # generates a new 'checkpoint.dat' with the current game data 
     def save(self):
         with open(self.filename, "wb") as f:
             pickle.dump(self.data, f)
+
 
 
     # loads data from 'checkpoint.dat' if file exists

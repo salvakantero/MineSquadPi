@@ -29,6 +29,7 @@ from font import Font
 from marqueetext import MarqueeText
 
 
+
 class Menu():
     def __init__(self, game):
         self.game = game        
@@ -64,10 +65,12 @@ class Menu():
         self.page_5()
         
 
+
     # draws a text with its shadow
     def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
         font_BG.render(text, surface, (x, y))  # shadow
         font_FG.render(text, surface, (x-offset, y-offset))
+
 
 
     # draws the player's characteristics graphically
@@ -106,6 +109,7 @@ class Menu():
                          origin , self.menu_pages[page], x, 150, 1)
 
 
+
     def page_0(self): # main menu options      
         options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
         x, y = 80, 60
@@ -115,6 +119,7 @@ class Menu():
                              option, self.menu_pages[0], x, y + i*20, 1)            
         self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                         self.tip, self.menu_pages[0], 12, y-55, 1)
+
 
 
     def page_1(self): # high scores
@@ -138,6 +143,7 @@ class Menu():
             y += 10
 
 
+
     def page_2(self): # Blaze info        
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 1, 1)
@@ -145,11 +151,13 @@ class Menu():
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
+
     def page_3(self): # Piper info
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 1, 1)
         self.draw_player_info(10, enums.PL_PIPER, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
+
 
 
     def page_4(self): # control info
@@ -166,6 +174,7 @@ class Menu():
         for image, img_pos, text, text_pos in layouts:
             self.menu_pages[4].blit(image, img_pos)
             self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
+
 
 
     def page_5(self): # hotspots
@@ -191,6 +200,7 @@ class Menu():
             self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
 
 
+
     def page_6(self): # options
         # menu options      
         x, y = 60, 60
@@ -200,8 +210,8 @@ class Menu():
         ff2 = self.game.fonts[enums.L_F_WHITE] # white font for the foreground
 
         # screen mode
-        if self.game.config.data['screen_mode'] == enums.SM_X600: value = '4:3'
-        elif self.game.config.data['screen_mode'] == enums.SM_X720: value = '16:9'
+        if self.game.config.data['screen_mode'] == enums.SM_4_3: value = '4:3'
+        elif self.game.config.data['screen_mode'] == enums.SM_16_9: value = '16:9'
         else: value = 'WINDOW'
         self.shaded_text(fb, ff, 'Screen mode:', self.menu_pages[6], x, y, 1)
         self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
@@ -226,6 +236,7 @@ class Menu():
                 self.tip, self.menu_pages[6], 12, 5, 1)
         
 
+
     def show(self):
         # main theme song
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
@@ -233,7 +244,7 @@ class Menu():
         pygame.mixer.music.play()
 
         # default wallpaper for the 16:9 screen mode
-        if self.game.config.data['screen_mode'] == enums.SM_X720: # 16:9
+        if self.game.config.data['screen_mode'] == enums.SM_16_9: # 16:9
             self.game.set_background(-1) # no level number (menu screen)
 
         # help text

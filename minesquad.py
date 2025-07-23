@@ -28,6 +28,7 @@ import enums
 import random
 
 from game import Game
+from camera import Camera
 from map import Map
 from scoreboard import Scoreboard
 from intro import Intro
@@ -36,12 +37,14 @@ from player import Player
 from jukebox import Jukebox
 
 
+
 # initialisation
 pygame.init()
 pygame.mixer.init()
 pygame.mouse.set_visible(False)
 
-game = Game() # common variables and functions
+game = Game()
+camera = Camera()
 scoreboard = Scoreboard(game)
 map = Map(game)
 intro = Intro(game)
@@ -49,7 +52,7 @@ menu = Menu(game)
 # playlist with the X available tracks
 jukebox = Jukebox(constants.MUS_PATH, 'mus_ingame_', 10)
 
-intro.play() # shows an intro
+#intro.play() # shows an intro
 
 # Main loop
 while True:
@@ -131,14 +134,16 @@ while True:
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
         game.groups[enums.SG_ALL].update()
+        # update camera position based on player
+        camera.update(player.x, player.y)
         
         # collision between player and enemies, mines or hotspots      
         #game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
         #game.check_bullet_collisions(player, scoreboard)
 
-        # draws the map free of sprites to clean it up
-        #game.srf_map.blit(game.srf_map_bk, (0,0))
+        # draws the visible map area, free of sprites and marks (15x11 tiles)
+        map.draw(camera.x, camera.y)
 
         # draws the location of the mines
         #map.draw_mine_data()

@@ -26,6 +26,7 @@ import pygame
 import constants
 
 
+
 class Hotspot(pygame.sprite.Sprite):
     def __init__(self, hotspot_data, image):
         super().__init__()
@@ -41,6 +42,7 @@ class Hotspot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # coordinates in tiles have to be converted to pixels
         self.rect.topleft = (self.x*constants.TILE_SIZE, self.y*constants.TILE_SIZE)   
+
 
 
     def update(self):

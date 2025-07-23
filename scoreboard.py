@@ -26,6 +26,7 @@ import constants
 import enums
 
 
+
 class Scoreboard():
     def __init__(self, game):
         self.game = game
@@ -36,6 +37,7 @@ class Scoreboard():
         # background dark colour for each level: red, blue, green
         self.back_colour = ((100,10,10), (10,10,100), (10,100,10))
         self.stage_number = 0
+
 
 
     # update the data (only if it has been invalidated)
@@ -68,6 +70,7 @@ class Scoreboard():
             self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
 
 
+
     # draws the entire scoreboard
     def reset(self, map_number):
         # gets the stage number
@@ -80,6 +83,7 @@ class Scoreboard():
         self.game.srf_sboard.blit(self.game.hotspot_images[enums.HS_AMMO], (70, 2))
         self.game.srf_sboard.blit(self.game.beacon_image, (130, 3))
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
+
 
 
     # 16-position multi-coloured energy bar
@@ -102,14 +106,17 @@ class Scoreboard():
                              (rect_x, y, bar_unit_width, bar_unit_height))
             
             
+
     # forces the redrawing of the data
     def invalidate(self):
         self.needs_updating = True
 
 
+
     # clean the previous data
     def clear_zone(self, x, width):
         pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 3),(width, 15)))
+
 
 
     # draws a text with its shadow

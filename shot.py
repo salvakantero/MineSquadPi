@@ -25,6 +25,7 @@ import pygame
 import constants
 
 
+
 class Shot(pygame.sprite.Sprite):
     def __init__(self, sprite_rect, map_rect, vector):
         super().__init__()
@@ -37,6 +38,7 @@ class Shot(pygame.sprite.Sprite):
         elif vector.x < 0: self.rect.x = sprite_rect.left - self.rect.width
         elif vector.y < 0: self.rect.y -= sprite_rect.height
         elif vector.y > 0: self.rect.y += sprite_rect.height
+       
         
 
     def update(self):

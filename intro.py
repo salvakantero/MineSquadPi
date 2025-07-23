@@ -25,6 +25,7 @@ import pygame
 import constants
 
 
+
 class Intro():
     def __init__(self, game):
         self.game = game
@@ -38,6 +39,7 @@ class Intro():
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
 
+
     def fades_surface(self, target_surf, aux_surf, opacity, delay):
         aux_surf.set_alpha(0) # totally transparent    
         for z in range(opacity):
@@ -46,6 +48,7 @@ class Intro():
             self.game.update_screen() # draw target_surf
             if self.wait_with_skip(delay): return True
         return False
+
 
 
     # wait for a duration while checking for skip keys
@@ -58,6 +61,7 @@ class Intro():
                 elif event.type == pygame.QUIT: self.game.exit()
             pygame.time.delay(10)  # reduce CPU usage
         return False
+
 
 
     def play(self):

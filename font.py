@@ -24,6 +24,8 @@
 
 import pygame
 
+
+
 # creates a new font from an image path and a colour
 class Font():
     def __init__(self, path, colour, transparent):
@@ -41,6 +43,7 @@ class Font():
         self.line_spacing = 2
 
 
+
     # change one colour for another
     def swap_colour(self, image, old_colour, new_colour):
         image.set_colorkey(old_colour)
@@ -50,12 +53,14 @@ class Font():
         return surf
 
 
+
     # returns a part of the surface
     def clip(self, surf, x, y, x_size, y_size):
         handle_surf = surf.copy()
         handle_surf.set_clip(pygame.Rect(x, y, x_size, y_size))
         image = surf.subsurface(handle_surf.get_clip())
         return image.copy()
+
 
 
     # generates the letters (and letter spacing) from the font image
@@ -81,6 +86,7 @@ class Font():
                 letter.set_colorkey(bg_colour) 
 
         return letters, letter_spacing, font_img.get_height()
+
 
 
     # draw the text

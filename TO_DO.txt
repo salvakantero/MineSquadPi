@@ -5,7 +5,10 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - otras resoluciones alternativas
-- mapas definitivos, más largos que la pantalla (scroll vertical)
+  - probar scanlines
+  - probar márgenes
+
+- mapas definitivos, más largos que la pantalla (scroll)
 
 
 BUGS

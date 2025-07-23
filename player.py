@@ -29,32 +29,39 @@ import enums
 from shot import Shot
 
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, who_is, game, map, scoreboard):
         super().__init__()
-        # common values
-        self.who_is = who_is # Blaze = 0, Piper = 1
-        self.ammo = 10 # unused ammunition collected
-        self.score = 0 # current game score
-        self.direction = pygame.math.Vector2(0.0) # direction of movement
+        # Blaze = 0, Piper = 1
+        self.who_is = who_is
+        self.energy, self.speed = self._set_player_attributes()
+        self.ammo = 10 # ammunition collected
+        # initialize player position
+        # starts at the centre of the map, 1/4 from the left and at the bottom
+        self.x = int(constants.MAP_TILE_SIZE[0] // 4) * constants.TILE_SIZE
+        self.y = (constants.MAP_TILE_SIZE[1] - 1) * constants.TILE_SIZE
+        # movement
+        self.direction = pygame.math.Vector2(0.0, 0.0) # direction of movement
         self.steps = -1 # check that the distance does not exceed the size of the tile.
+        # player state
         self.state = enums.PS_IDLE_UP # to know the animation to be applied
         self.look_at = enums.DI_UP # where the player looks
-        self.invincible = False # invincible after losing a life or take a shield
-        self.timer_from = 0 # tick number when the shield effect begins
-        self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)
+        # turning state
         self.is_turning = False # if 'True' apply a pause before movement
         self.turn_timer = 0 # time before applying movement if it rotates
         self.last_key_pressed = None # check that the key is still pressed
-        self.last_direction = None # checks that the direction is maintained (joystick)
-        # character-specific values
-        self.energy, self.speed = self.set_player_attributes()
-        # sequences of animations for the player depending on its status
-        self.load_player_images(self.who_is)
+        #animation
         self.frame_index = 0 # frame number
         self.animation_timer = 16 # timer to change frame
         self.animation_speed = 16 # frame dwell time
+        # images
+        self._load_player_images(self.who_is)
         self.image = self.image_list[self.state][0] # 1st frame of the animation
+        # invincibility
+        self.invincible = False # invincible after losing a life or take a shield
+        self.timer_from = 0 # tick number when the shield effect begins
+        self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)        
         # FX sounds
         self.sfx_shot1 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_shot1.wav')
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
@@ -68,14 +75,16 @@ class Player(pygame.sprite.Sprite):
         self.scoreboard = scoreboard
 
 
+
     # set energy and speed based on player type
-    def set_player_attributes(self):         # ENERGY  SPEED
+    def _set_player_attributes(self):        # ENERGY  SPEED
         if self.who_is == enums.PL_PIPER:   return 10, 2
         else:                               return 14, 1
 
 
+
     # Load player images for animations
-    def load_player_images(self, who_is):
+    def _load_player_images(self, who_is):
         # sequences of animations for the player depending on its status
         path = constants.SPR_PATH + 'player/' + str(who_is) + '/'
         self.image_list = {
@@ -118,64 +127,69 @@ class Player(pygame.sprite.Sprite):
         }
 
 
+
     # common code for a shot to be fired
     def fire(self):
-        if self.ammo > 0:       
-            if not self.game.groups[enums.SG_SHOT].sprite: # no shots on screen
-                # direction of the shot
-                dir_vectors = {
-                    enums.DI_UP: pygame.math.Vector2(0, -2),
-                    enums.DI_DOWN: pygame.math.Vector2(0, 2),
-                    enums.DI_LEFT: pygame.math.Vector2(-2, 0),
-                    enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
-                vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
-                # shot creation
-                shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
-                self.game.groups[enums.SG_SHOT].add(shot)
-                self.game.groups[enums.SG_ALL].add(shot)
-                self.sfx_shot1.play()
-                self.ammo -= 1
-                self.scoreboard.invalidate()
-        else: # no bullets
-            self.sfx_no_ammo.play()
+        pass
+        # if self.ammo > 0:       
+        #     if not self.game.groups[enums.SG_SHOT].sprite: # no shots on screen
+        #         # direction of the shot
+        #         dir_vectors = {
+        #             enums.DI_UP: pygame.math.Vector2(0, -2),
+        #             enums.DI_DOWN: pygame.math.Vector2(0, 2),
+        #             enums.DI_LEFT: pygame.math.Vector2(-2, 0),
+        #             enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
+        #         vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
+        #         # shot creation
+        #         shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
+        #         self.game.groups[enums.SG_SHOT].add(shot)
+        #         self.game.groups[enums.SG_ALL].add(shot)
+        #         self.sfx_shot1.play()
+        #         self.ammo -= 1
+        #         self.scoreboard.invalidate()
+        # else: # no bullets
+        #     self.sfx_no_ammo.play()
+
 
 
     # common code for placing a flag/beacon
     def place_beacon(self):
-        offsets = {
-            enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
-            enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0) 
-        }        
-        # places the beacon in front of where the player is facing
-        offset_x, offset_y = offsets.get(self.look_at, (0, 0))
-        x = (self.rect.x // constants.TILE_SIZE) + offset_x
-        y = (self.rect.y // constants.TILE_SIZE) + offset_y
+        pass
+        # offsets = {
+        #     enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
+        #     enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0) 
+        # }        
+        # # places the beacon in front of where the player is facing
+        # offset_x, offset_y = offsets.get(self.look_at, (0, 0))
+        # x = (self.rect.x // constants.TILE_SIZE) + offset_x
+        # y = (self.rect.y // constants.TILE_SIZE) + offset_y
         
-        # Verificar límites del mapa
-        if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
-            # if there is no beacon on the tile
-            if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
-               self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
-                # if there is a mine in the marked tile
-                if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
-                    self.game.remaining_mines -= 1                    
-                    self.score += 125
-                    self.game.floating_text.text = '+125'
-                    self.game.floating_text.x = self.rect.x
-                    self.game.floating_text.y = self.rect.y
-                    self.game.floating_text.speed = 0
-                    # if there is a mine on the tile, remove it                       
-                    if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
-                        self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
-                # place the beacon
-                self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
-                self.sfx_beacon.play()
-                self.game.remaining_beacons -= 1
-                self.scoreboard.invalidate()
-            else: # if there is a beacon on the tile                
-                self.sfx_no_ammo.play()
-        else: # Tile fuera de los límites del mapa            
-            self.sfx_no_ammo.play()
+        # # Verificar límites del mapa
+        # if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
+        #     # if there is no beacon on the tile
+        #     if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
+        #        self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
+        #         # if there is a mine in the marked tile
+        #         if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
+        #             self.game.remaining_mines -= 1                    
+        #             self.score += 125
+        #             self.game.floating_text.text = '+125'
+        #             self.game.floating_text.x = self.rect.x
+        #             self.game.floating_text.y = self.rect.y
+        #             self.game.floating_text.speed = 0
+        #             # if there is a mine on the tile, remove it                       
+        #             if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
+        #                 self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
+        #         # place the beacon
+        #         self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
+        #         self.sfx_beacon.play()
+        #         self.game.remaining_beacons -= 1
+        #         self.scoreboard.invalidate()
+        #     else: # if there is a beacon on the tile                
+        #         self.sfx_no_ammo.play()
+        # else: # Tile fuera de los límites del mapa            
+        #     self.sfx_no_ammo.play()
+
 
 
     # keyboard/mouse/joystick keystroke input
@@ -324,6 +338,7 @@ class Player(pygame.sprite.Sprite):
         update_steps()
 
 
+
     # player status according to movement
     def get_state(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -332,6 +347,7 @@ class Player(pygame.sprite.Sprite):
         elif self.direction.y > 0:  self.state = enums.PS_WALK_DOWN
         elif self.direction.x > 0:  self.state = enums.PS_WALK_RIGHT
         elif self.direction.x < 0:  self.state = enums.PS_WALK_LEFT
+
 
 
     # gets the new rect after applying the movement and check for collision
@@ -389,6 +405,7 @@ class Player(pygame.sprite.Sprite):
             self.sfx_locked.play()
 
 
+
     def animate(self):
         # invincible effect (player blinks)
         def handle_invincibility_effect():
@@ -418,6 +435,7 @@ class Player(pygame.sprite.Sprite):
         handle_invincibility_effect()
 
 
+
     # subtracts one energy unit and applies temporary invincibility
     def loses_energy(self, value):
         if not self.invincible:
@@ -430,11 +448,13 @@ class Player(pygame.sprite.Sprite):
                 self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
 
 
+
     # controls the hotspot time
     def check_timer(self):
         if self.invincible:
             if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
                 self.invincible = False
+
 
 
     def update(self):

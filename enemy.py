@@ -26,6 +26,7 @@
 import pygame
 
 
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images):
         # enemy_data = (x1, y1, x2, y2, vx, vy, type)
@@ -55,6 +56,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
+
     def animate(self):
         self.animation_timer += 1
         # exceeded the frame time?
@@ -71,6 +73,7 @@ class Enemy(pygame.sprite.Sprite):
         # moving to the left, or idle looking at the player
         elif self.vx < 0 or (self.vx == 0 and self.player.x < self.x):
             self.image = pygame.transform.flip(self.image_list[self.frame_index], True, False)
+
 
 
     def update(self):
