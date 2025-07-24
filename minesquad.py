@@ -119,6 +119,7 @@ while True:
         # change the map if necessary
         if map.number != map.last:
             map.change(player)
+            map.draw(camera.x, camera.y) # draws the new map
             scoreboard.reset(map.number)
             scoreboard.invalidate()
             scoreboard.update(player)
@@ -133,23 +134,23 @@ while True:
             pygame.mixer.music.stop()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
-        game.groups[enums.SG_ALL].update()
-        # update camera position based on player
-        camera.update(player.x, player.y)
+        #game.groups[enums.SG_ALL].update()
+        player.update() # updates the player position and state        
+        camera.update(player.x, player.y) # update camera position based on player
         
         # collision between player and enemies, mines or hotspots      
-        #game.check_player_collisions(player, scoreboard, map.number, map.map_data)
+        game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
-        #game.check_bullet_collisions(player, scoreboard)
+        game.check_bullet_collisions(player, scoreboard)
 
         # draws the visible map area, free of sprites and marks (15x11 tiles)
         map.draw(camera.x, camera.y)
-
         # draws the location of the mines
         #map.draw_mine_data()
         
         # draws the sprites in their new positions
-        game.groups[enums.SG_ALL].draw(game.srf_map)
+        #game.groups[enums.SG_ALL].draw(game.srf_map)
+        player.draw(camera.x, camera.y) # draws the player
 
         # updates the floating text, only if needed (y>0)
         game.floating_text.update()
@@ -192,5 +193,5 @@ while True:
         # ==========================================================================================
         
         # increases the loop counter, up to a maximum of 10000 loops
-        game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
+        #game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
         game.update_screen()

@@ -30,8 +30,8 @@ import random
 import constants
 import enums
 
-#from hotspot import Hotspot
-#from enemy import Enemy
+from hotspot import Hotspot
+from enemy import Enemy
 
 
 
@@ -70,8 +70,8 @@ class Map():
         # add the player
         self.game.groups[enums.SG_ALL].add(player)
         # player in its starting position
-        player.rect = player.image.get_rect(topleft = (
-            constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
+        player.rect = player.image.get_rect(
+            topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # marks the initial tile
         #self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
         #               constants.PLAYER_X_INI // constants.TILE_SIZE)
@@ -183,6 +183,15 @@ class Map():
                         tile_data = self._tiles_by_id[tile_id]
                         tile_image = self.tile_images[tile_data['image']]
                         self.game.srf_map.blit(tile_image, (screen_x, screen_y))
+
+
+
+    # gets the tile type at a specific tile position
+    def get_tile_type(self, x, y):
+        if (0 <= x < constants.MAP_TILE_SIZE[0] and 
+            0 <= y < constants.MAP_TILE_SIZE[1]):
+            return self.map_data['tile_types'][y][x]
+        return enums.TT_OBSTACLE  # default to obstacle if out of bounds
 
 
 

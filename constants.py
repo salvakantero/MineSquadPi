@@ -45,8 +45,8 @@ AMMO_ROUND = 10 # bullets per reload
 ANIM_SPEED_IDLE = 16 # loops between each frame change
 ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position
-PLAYER_X_INI = (MAP_UNSCALED_SIZE[0] // 2) - (TILE_SIZE // 2)
-PLAYER_Y_INI = MAP_UNSCALED_SIZE[1] - TILE_SIZE
+PLAYER_X_INI = int(MAP_TILE_SIZE[0] // 4) * TILE_SIZE
+PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
 # paths
 FX_PATH = 'sounds/fx/'
 MUS_PATH = 'sounds/music/'

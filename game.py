@@ -51,7 +51,7 @@ class Game():
         self.score = 0 # current game score
         self.status = enums.GS_OVER # start from menus
         self.music_status = enums.MS_UNMUTED # Music!
-        self.loop_counter = 0 # main loop cycles for various uses
+        #self.loop_counter = 0 # main loop cycles for various uses
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
@@ -369,7 +369,7 @@ class Game():
         
         if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.flip() # refreshes the screen
-        #self.clock.tick(60) # 60 FPS
+        self.clock.tick(60) # 60 FPS
 
 
 
@@ -465,8 +465,9 @@ class Game():
             
 
 
-    # # collisions between the player and mines, killer tiles, enemies and hotspots
-    # def check_player_collisions(self, player, scoreboard, map_number, map_data):
+    # collisions between the player and mines, killer tiles, enemies and hotspots
+    def check_player_collisions(self, player, scoreboard, map_number, map_data):
+        pass
     #     # player and killer tiles or mines
     #     # Convert player position to tile coordinates
     #     tile_x = player.rect.x // constants.TILE_SIZE
@@ -565,7 +566,9 @@ class Game():
     #             return
 
 
-    # def check_bullet_collisions(self, player, scoreboard):                                  
+
+    def check_bullet_collisions(self, player, scoreboard):
+        pass                           
     #     # bullets and enemies
     #     if self.groups[enums.SG_SHOT].sprite is not None: # still shot in progress
     #         for enemy in self.groups[enums.SG_ENEMIES]:
