@@ -239,6 +239,7 @@ class Game():
                 self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
                 self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
                 # default background image to fill in the black sides
+                self.img_background = pygame.transform.scale(self.img_background, self.win_size)
                 self.screen.blit(self.img_background, (0,0))
                 return
         # screen resolution not available
@@ -369,7 +370,7 @@ class Game():
         
         if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.flip() # refreshes the screen
-        self.clock.tick(60) # 60 FPS
+        #self.clock.tick(60) # 60 FPS
 
 
 
