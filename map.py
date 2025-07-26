@@ -274,7 +274,8 @@ class Map():
 
 
 
-    # def mark_tile(self, row, col):
+    def mark_tile(self, row, col):
+        pass
     #     # Check bounds
     #     if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:          
     #         for i in range(row - 1, row + 2):

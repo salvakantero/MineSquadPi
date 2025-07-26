@@ -10,7 +10,6 @@ EN PROCESO
 BUGS
 ====
 - sonido de obstáculo y música de game over no adecuada
-- color de fuente blanca grande
 
 
 POR HACER

@@ -51,7 +51,7 @@ class Game():
         self.score = 0 # current game score
         self.status = enums.GS_OVER # start from menus
         self.music_status = enums.MS_UNMUTED # Music!
-        #self.loop_counter = 0 # main loop cycles for various uses
+        self.loop_counter = 0 # main loop cycles for various uses
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
@@ -85,7 +85,7 @@ class Game():
             enums.S_F_GREEN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GREEN0'], True),
             enums.S_B_GREEN: Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['DARK_GREEN0'], True),
             #large fonts
-            enums.L_F_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['GRAY2'], True),
+            enums.L_F_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['WHITE2'], True),
             enums.L_B_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['DARK_GRAY1'], True),
             enums.L_F_RED: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED0'], True),
             enums.L_B_BLACK: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BLACK1'], True),
@@ -370,7 +370,7 @@ class Game():
         
         if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.flip() # refreshes the screen
-        #self.clock.tick(60) # 60 FPS
+        self.clock.tick(600) # 60 FPS
 
 
 

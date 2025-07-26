@@ -58,7 +58,7 @@ ASS_PATH = 'images/assets/'
 # 0 = darker, 1 = original, 2 = lighter
 PALETTE = {
     'BLACK0': (0, 0, 0),
-    'BLACK1': (25, 25, 25),
+    'BLACK1': (1, 1, 1),
     'BLACK2': (45, 45, 45),
     
     'DARK_BLUE0' : (0, 0, 33),

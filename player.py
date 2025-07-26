@@ -52,12 +52,11 @@ class Player(pygame.sprite.Sprite):
         self.last_key_pressed = None # check that the key is still pressed
         #animation
         self.frame_index = 0 # frame number
-        self.animation_timer = 16 # timer to change frame
-        self.animation_speed = 16 # frame dwell time
+        self.animation_timer = 0 # timer to change frame
+        self.animation_speed = constants.ANIM_SPEED_IDLE # frame dwell time
         # images
         self._load_player_images(self.who_is)
         self.image = self.image_list[self.state][0] # 1st frame of the animation
-        #self.rect = self.image.get_rect(topleft=(self.x, self.y)) # player rectangle    
         # invincibility
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect begins
@@ -67,8 +66,8 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
-        self.sfx_locked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_locked.wav')
-        self.sfx_locked.set_volume(0.2)
+        self.sfx_blocked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_locked.wav')
+        self.sfx_blocked.set_volume(0.2)
         # objects and others
         self.game = game
         self.map = map
@@ -260,66 +259,6 @@ class Player(pygame.sprite.Sprite):
         #         else:  # no movement
         #             self.direction.update(0, 0)
 
-        # #else: # manages keystrokes
-        # key_state = pygame.key.get_pressed()
-        # if self.steps < 0: # if it's not moving
-        #     previous_look_at = self.look_at
-        #     key_pressed = False
-            
-        #     # press up
-        #     if key_state[self.game.config.up_key]:
-        #         self.look_at = enums.DI_UP
-        #         key_pressed = True
-        #         self.last_key_pressed = self.game.config.up_key
-        #     # press down
-        #     elif key_state[self.game.config.down_key]:
-        #         self.look_at = enums.DI_DOWN
-        #         key_pressed = True
-        #         self.last_key_pressed = self.game.config.down_key
-        #     # press left
-        #     elif key_state[self.game.config.left_key]:
-        #         self.look_at = enums.DI_LEFT
-        #         key_pressed = True
-        #         self.last_key_pressed = self.game.config.left_key
-        #     # press right
-        #     elif key_state[self.game.config.right_key]:
-        #         self.look_at = enums.DI_RIGHT
-        #         key_pressed = True
-        #         self.last_key_pressed = self.game.config.right_key
-                            
-        #     # if direction changed, start the timer
-        #     if key_pressed and previous_look_at != self.look_at:
-        #         self.direction.update(0, 0) # not moving yet
-        #         self.turn_timer = pygame.time.get_ticks()
-        #         self.is_turning = True
-        #         return
-                            
-        #     # if in turning mode and sufficient time has elapsed
-        #     if self.is_turning:
-        #         current_time = pygame.time.get_ticks()
-        #         # waiting time (120ms)
-        #         if current_time - self.turn_timer > 120:
-        #             self.is_turning = False                        
-        #             # we check if the key is still pressed after the timeout
-        #             # (we only move forward if the key is still pressed)
-        #             if key_state[self.last_key_pressed]:
-        #                 if self.look_at == enums.DI_UP: self.direction.update(0, -1)
-        #                 elif self.look_at == enums.DI_DOWN: self.direction.update(0, 1)
-        #                 elif self.look_at == enums.DI_LEFT: self.direction.update(-1, 0)
-        #                 elif self.look_at == enums.DI_RIGHT: self.direction.update(1, 0)
-        #                 self.steps += 1
-        #         return
-                            
-        #     if key_pressed: # immediate movement if not turning
-        #         if self.look_at == enums.DI_UP: self.direction.update(0, -1)
-        #         elif self.look_at == enums.DI_DOWN: self.direction.update(0, 1)
-        #         elif self.look_at == enums.DI_LEFT: self.direction.update(-1, 0)
-        #         elif self.look_at == enums.DI_RIGHT: self.direction.update(1, 0)
-        #         self.steps += 1
-        #         return                
-        #     else: # no movement
-        #         self.direction.update(0, 0)
-
             #=================================================================
             # BETA trick
             #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
@@ -382,70 +321,16 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # # gets the new rect after applying the movement and check for collision
-    # def move(self, axis):
-    #     collision = False
-    #     if axis == enums.CA_HORIZONTAL:
-    #         temp_rect = pygame.Rect((self.rect.x + self.direction.x * self.speed, self.rect.y),
-    #                                 (constants.TILE_SIZE, constants.TILE_SIZE))
-    #         temp_pos = self.rect.x
-    #     else: # vertical
-    #         temp_rect = pygame.Rect((self.rect.x, self.rect.y + self.direction.y * self.speed),
-    #                                 (constants.TILE_SIZE, constants.TILE_SIZE))
-    #         temp_pos = self.rect.y
-    #         # check vertical screen limits
-    #         if temp_rect.top < 0 or temp_rect.bottom > constants.MAP_UNSCALED_SIZE[1]:
-    #             collision = True
-        
-    #     # check collision with obstacle tiles using map coordinates
-    #     if not collision:
-    #         if axis == enums.CA_HORIZONTAL:
-    #             # Check only the relevant edge based on movement direction
-    #             if self.look_at == enums.DI_RIGHT:
-    #                 tile_x = (temp_rect.right - 1) // constants.TILE_SIZE
-    #             else:  # moving left
-    #                 tile_x = temp_rect.left // constants.TILE_SIZE
-    #             tile_y = temp_rect.y // constants.TILE_SIZE
-                
-    #             if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
-    #                 0 <= tile_y < constants.MAP_TILE_SIZE[1]):
-    #                 if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
-    #                     collision = True
-                        
-    #         else:  # vertical movement
-    #             tile_x = temp_rect.x // constants.TILE_SIZE
-    #             # Check only the relevant edge based on movement direction
-    #             if self.look_at == enums.DI_DOWN:
-    #                 tile_y = (temp_rect.bottom - 1) // constants.TILE_SIZE
-    #             else:  # moving up
-    #                 tile_y = temp_rect.top // constants.TILE_SIZE
-                    
-    #             if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
-    #                 0 <= tile_y < constants.MAP_TILE_SIZE[1]):
-    #                 if self.map.map_data['tile_types'][tile_y][tile_x] == enums.TT_OBSTACLE:
-    #                     collision = True
-
-    #     # Apply the new position if no collision occurs
-    #     if not collision:
-    #         if axis == enums.CA_HORIZONTAL:
-    #             self.rect.x = temp_pos + self.direction.x * self.speed
-    #         else: # vertical
-    #             self.rect.y = temp_pos + self.direction.y * self.speed
-    #         #if self.steps < 0:
-    #         #    self.map.mark_tile(self.rect.y // constants.TILE_SIZE, self.rect.x // constants.TILE_SIZE)
-    #     elif self.sfx_locked.get_num_channels() == 0:
-    #         self.sfx_locked.play()
-
-
-
     # moves the player in the specified axis
     def move(self, axis):
+        collision = True
         if axis == enums.CA_HORIZONTAL:
             new_x = self.x + self.direction.x * self.speed
             temp_rect = pygame.Rect(new_x, self.y, constants.TILE_SIZE, constants.TILE_SIZE)
             # check for horizontal collisions
             if not self._check_collision(temp_rect, enums.CA_HORIZONTAL):
                 self.x = new_x
+                collision = False
         else: # vertical movement
             new_y = self.y + self.direction.y * self.speed
             temp_rect = pygame.Rect(self.x, new_y, constants.TILE_SIZE, constants.TILE_SIZE)
@@ -455,6 +340,12 @@ class Player(pygame.sprite.Sprite):
             # check for vertical collisions
             if not self._check_collision(temp_rect, enums.CA_VERTICAL):
                 self.y = new_y
+                collision = False
+        if collision: # sounds when the player hits a block
+            if self.sfx_blocked.get_num_channels() == 0:
+                self.sfx_blocked.play()
+        elif self.steps < 0: # mark the tile as visited
+            self.map.mark_tile(self.y // constants.TILE_SIZE, self.x // constants.TILE_SIZE)
 
 
 
@@ -477,36 +368,6 @@ class Player(pygame.sprite.Sprite):
     
 
 
-    # def animate(self):
-    #     # invincible effect (player blinks)
-    #     def handle_invincibility_effect():
-    #         if self.invincible:
-    #             if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-    #                 self.image.set_alpha(0) # visible
-    #             else: 
-    #                 self.image.set_alpha(255) # no visible
-    #         else:
-    #             self.image.set_alpha(255)
-    #     # animation
-    #     if (self.state <= enums.PS_IDLE_RIGHT): # breathing
-    #         self.animation_speed = constants.ANIM_SPEED_IDLE # slower
-    #     else: # walking
-    #         self.animation_speed = constants.ANIM_SPEED_WALK
-    #     self.animation_timer += 1
-    #     # exceeded the frame time?
-    #     if self.animation_timer >= self.animation_speed:
-    #         self.animation_timer = 0 # reset the timer
-    #         self.frame_index += 1 # next frame
-    #     # exceeded the number of frames?
-    #     if self.frame_index > len(self.image_list[self.state]) - 1:
-    #         self.frame_index = 0 # reset the frame number
-    #     # assigns image according to frame, status and direction
-    #     self.image = self.image_list[self.state][self.frame_index]
-    #     # invincible effect (player blinks)
-    #     handle_invincibility_effect()
-
-
-
     # animates the player sprite based on the current state
     def animate(self):
         self.animation_speed = (constants.ANIM_SPEED_IDLE 
@@ -522,27 +383,34 @@ class Player(pygame.sprite.Sprite):
             self.frame_index = 0 # reset the frame number
         # assigns the image according to frame, status and direction    
         self.image = self.image_list[self.state][self.frame_index]
+        # invincible effect (player blinks)
+        self._handle_invincibility_effect()
+
+
+
+    # invincible effect (player blinks)
+    def _handle_invincibility_effect(self):
+        if self.invincible:
+            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
+                self.image.set_alpha(0) # visible
+            else: 
+                self.image.set_alpha(255) # no visible
+        else:
+            self.image.set_alpha(255)
 
 
 
     # subtracts one energy unit and applies temporary invincibility
     def loses_energy(self, value):
-        if not self.invincible:
-            self.energy -= value
-            if self.sfx_death.get_num_channels() == 0:
-                self.sfx_death.play()
-            if self.energy >= 0:
-                self.invincible = True
-                self.timer_from = pygame.time.get_ticks()
-                self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
-
-
-
-    # controls the hotspot time
-    def check_timer(self):
-        if self.invincible:
-            if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
-                self.invincible = False
+        pass
+        # if not self.invincible:
+        #     self.energy -= value
+        #     if self.sfx_death.get_num_channels() == 0:
+        #         self.sfx_death.play()
+        #     if self.energy >= 0:
+        #         self.invincible = True
+        #         self.timer_from = pygame.time.get_ticks()
+        #         self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
 
 
 
@@ -553,7 +421,15 @@ class Player(pygame.sprite.Sprite):
         if self.direction.x != 0: self.move(enums.CA_HORIZONTAL)
         if self.direction.y != 0: self.move(enums.CA_VERTICAL)
         self.animate()
-        self.check_timer()
+        self._check_timer()
+
+
+
+    # controls the hotspot time
+    def _check_timer(self):
+        if self.invincible:
+            if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
+                self.invincible = False
 
 
 
