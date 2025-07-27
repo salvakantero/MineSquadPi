@@ -66,8 +66,8 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
-        self.sfx_blocked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_locked.wav')
-        self.sfx_blocked.set_volume(0.2)
+        self.sfx_blocked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_blocked.wav')
+        self.sfx_blocked.set_volume(0.8)
         # objects and others
         self.game = game
         self.map = map

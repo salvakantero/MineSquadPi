@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-- sonido de obstáculo y música de game over no adecuada
+- revisar en todas las pantallas el modo 16:9
 
 
 POR HACER

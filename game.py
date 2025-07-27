@@ -447,7 +447,7 @@ class Game():
         self.shake_timer = 1 # clean the edges 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
         pygame.mixer.music.set_volume(1)
-        pygame.mixer.music.load(constants.MUS_PATH + 'mus_end_level.ogg')
+        pygame.mixer.music.load(constants.MUS_PATH + 'mus_game_over.ogg')
         pygame.mixer.music.play()
         self.wait_for_key() # back to menu
 
