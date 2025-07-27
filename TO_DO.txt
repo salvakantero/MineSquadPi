@@ -5,11 +5,15 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - mapas definitivos, más largos que la pantalla (scroll)
-- créditos tema game over
+    - killer tiles
+    - colocar minas
+    - mostrar info minas
+    
 
 BUGS
 ====
 - revisar en Pi el modo 16:9
+- no maximizar ventana
 
 
 POR HACER
