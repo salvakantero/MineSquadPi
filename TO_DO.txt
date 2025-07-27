@@ -9,7 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-- revisar en todas las pantallas el modo 16:9
+- revisar en Pi el modo 16:9
 
 
 POR HACER

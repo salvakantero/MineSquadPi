@@ -370,7 +370,7 @@ class Game():
         
         if self.config.data['scanlines']: self.apply_scanlines()
         pygame.display.flip() # refreshes the screen
-        self.clock.tick(600) # 60 FPS
+        self.clock.tick(60) # 60 FPS
 
 
 
