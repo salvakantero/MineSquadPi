@@ -468,38 +468,36 @@ class Game():
 
     # collisions between the player and mines, killer tiles, enemies and hotspots
     def check_player_collisions(self, player, scoreboard, map_number, map_data):
-        pass
-    #     # player and killer tiles or mines
-    #     # Convert player position to tile coordinates
-    #     tile_x = player.rect.x // constants.TILE_SIZE
-    #     tile_y = player.rect.y // constants.TILE_SIZE    
-    #     # Check bounds and get tile type
-    #     if (0 <= tile_x < map_data['width'] and 
-    #         0 <= tile_y < map_data['height']):            
-    #         tile_type = map_data['tile_types'][tile_y][tile_x]            
-    #         if tile_type == enums.TT_MINE:
-    #             # eliminates the mine
-    #             map_data['tile_types'][tile_y][tile_x] = enums.TT_NO_ACTION
-    #             # shake the map
-    #             self.shake = [10, 6]
-    #             self.shake_timer = 14
-    #             # creates an explosion at tile center
-    #             tile_center_x = tile_x * constants.TILE_SIZE + constants.TILE_SIZE // 2
-    #             tile_center_y = tile_y * constants.TILE_SIZE + constants.TILE_SIZE // 2
-    #             blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
-    #             self.groups[enums.SG_ALL].add(blast)
-    #             self.sfx_blast[4].play()
-    #             player.invincible = False
-    #             player.loses_energy(20) # game over
-    #             self.loss_sequence = 70 # allows to end the animation of the explosion
-    #             self.groups[enums.SG_ALL].remove(player)
-    #             scoreboard.invalidate()
-    #             return
-                
-    #         elif tile_type == enums.TT_KILLER:
-    #             player.loses_energy(1)
-    #             scoreboard.invalidate()
-    #             return
+        # player and killer tiles or mines
+        # Convert player position to tile coordinates
+        tile_x = int(player.x // constants.TILE_SIZE)
+        tile_y = int(player.y // constants.TILE_SIZE)    
+        # Check bounds and get tile type
+        if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
+            0 <= tile_y < constants.MAP_TILE_SIZE[1]):            
+            tile_type = map_data['tile_types'][tile_y][tile_x]            
+            if tile_type == enums.TT_MINE:
+                # eliminates the mine
+                map_data['tile_types'][tile_y][tile_x] = enums.TT_NO_ACTION
+                # shake the map
+                self.shake = [10, 6]
+                self.shake_timer = 14
+                # creates an explosion at tile center
+                tile_center_x = tile_x * constants.TILE_SIZE + constants.TILE_SIZE // 2
+                tile_center_y = tile_y * constants.TILE_SIZE + constants.TILE_SIZE // 2
+                blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
+                self.groups[enums.SG_ALL].add(blast)
+                self.sfx_blast[4].play()
+                player.invincible = False
+                player.loses_energy(20) # game over
+                self.loss_sequence = 70 # allows to end the animation of the explosion
+                self.groups[enums.SG_ALL].remove(player)
+                scoreboard.invalidate()
+                return                
+            elif tile_type == enums.TT_KILLER:
+                player.loses_energy(1)
+                scoreboard.invalidate()
+                return
     
     #     # player and enemies
     #     if not player.invincible:
@@ -507,7 +505,8 @@ class Game():
     #                                        pygame.sprite.collide_rect_ratio(0.60)):
     #             player.loses_energy(1)        
     #             scoreboard.invalidate() # redraws the scoreboard
-    #             return        
+    #             return     
+    #    
     #     # player and hotspot
     #     if self.groups[enums.SG_HOTSPOT].sprite is not None:
     #         if pygame.sprite.spritecollide(player, self.groups[enums.SG_HOTSPOT], False, 

@@ -68,13 +68,13 @@ class Map():
         # reset the sprite groups  
         for group in self.game.groups: group.empty()
         # add the player
-        self.game.groups[enums.SG_ALL].add(player)
+        #self.game.groups[enums.SG_ALL].add(player)
         # player in its starting position
         player.rect = player.image.get_rect(
             topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # marks the initial tile
-        #self.mark_tile(constants.PLAYER_Y_INI // constants.TILE_SIZE, 
-        #               constants.PLAYER_X_INI // constants.TILE_SIZE)
+        self.mark_tile(int(constants.PLAYER_Y_INI // constants.TILE_SIZE), 
+                       int(constants.PLAYER_X_INI // constants.TILE_SIZE))
         # sets the available mines and beacons for the map
         self.game.remaining_mines = constants.NUM_MINES[self.number]
         self.game.remaining_beacons = constants.NUM_BEACONS[self.number]
@@ -120,15 +120,12 @@ class Map():
             # loads the tile image only once and saves it in the dictionary.
             img_path = f"images/tiles/{tile['image']}"
             if tile['image'] not in self.tile_images:
-                self.tile_images[tile['image']] = pygame.image.load(img_path).convert()
-        
+                self.tile_images[tile['image']] = pygame.image.load(img_path).convert()        
         # randomly places mines on the map (generates mines and proximity info)
-        #self.map_data['mines_info'] = self.generate_mines(self.map_data['data'])
-
+        self.map_data['mines_info'] = self.generate_mines(self.map_data['data'])
         # tiles trodden by the player (marked as False by default)
-        #self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
-        #                for _ in range(constants.MAP_TILE_SIZE[1])]
-
+        self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
+                                for _ in range(constants.MAP_TILE_SIZE[1])]
         self._generate_tile_types()
 
 
@@ -147,8 +144,8 @@ class Map():
                     # from T70.png to T75.png : tiles that kill (KILLER)
                     if 16 <= tile_num <= 35: tile_type = enums.TT_OBSTACLE
                     elif 70 <= tile_num <= 75: tile_type = enums.TT_KILLER
-                    #elif self.map_data['mines_info'][y][x] == enums.MI_MINE: 
-                    #    tile_type = enums.TT_MINE
+                    elif self.map_data['mines_info'][y][x] == enums.MI_MINE: 
+                        tile_type = enums.TT_MINE
                     else: tile_type = enums.TT_NO_ACTION                    
                     self.map_data['tile_types'][y][x] = tile_type
 
@@ -195,31 +192,31 @@ class Map():
 
 
 
-    # # function to generate mines on the game map
-    # def generate_mines(self, tilemap):      
-    #     available_tiles = [] # list of tiles on which to lay mines
-    #     for row_index, row in enumerate(tilemap):
-    #         for col_index, tile in enumerate(row):
-    #             # if number of tile less than 15, is passable
-    #             # we will not use the two rows closest to the player.
-    #             if tile < 15 and row_index < len(tilemap) - 2:
-    #                 available_tiles.append((row_index, col_index))
-    #     # initial mine map with all its values at 0
-    #     mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
-    #                 for _ in range(constants.MAP_TILE_SIZE[1])]
-    #     # choose random mine positions among the passable tiles
-    #     mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
-    #     for mine in mines:
-    #         row, col = mine
-    #         mine_data[row][col] = enums.MI_MINE # mark the mine
-    #         # Increases the counter of adjacent tiles.
-    #         for i in range(row - 1, row + 2):
-    #             for j in range(col - 1, col + 2):
-    #                 if 0 <= i < constants.MAP_TILE_SIZE[1] \
-    #                 and 0 <= j < constants.MAP_TILE_SIZE[0] \
-    #                 and mine_data[i][j] != enums.MI_MINE:
-    #                     mine_data[i][j] += 1
-    #     return mine_data
+    # function to generate mines on the game map
+    def generate_mines(self, tilemap):      
+        available_tiles = [] # list of tiles on which to lay mines
+        for row_index, row in enumerate(tilemap):
+            for col_index, tile in enumerate(row):
+                # if number of tile less than 15, is passable
+                # we will not use the two rows closest to the player.
+                if tile < 15 and row_index < len(tilemap) - 2:
+                    available_tiles.append((row_index, col_index))
+        # initial mine map with all its values at 0
+        mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
+                    for _ in range(constants.MAP_TILE_SIZE[1])]
+        # choose random mine positions among the passable tiles
+        mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
+        for mine in mines:
+            row, col = mine
+            mine_data[row][col] = enums.MI_MINE # mark the mine
+            # Increases the counter of adjacent tiles.
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] \
+                    and 0 <= j < constants.MAP_TILE_SIZE[0] \
+                    and mine_data[i][j] != enums.MI_MINE:
+                        mine_data[i][j] += 1
+        return mine_data
 
 
 
@@ -253,36 +250,35 @@ class Map():
 
 
 
-    # def draw_mine_data(self):
-    #     tilemap = self.map_data['data'] # list of tiles that make up the map
-    #     for row_index, row in enumerate(self.map_data['mines_info']):
-    #         for col_index, value in enumerate(row):
-    #             if value > enums.MI_FREE \
-    #             and self.map_data['marks'][row_index][col_index] \
-    #             and tilemap[row_index][col_index] < 15:
-    #                 if value == enums.MI_BEACON: # mine deactivated
-    #                     x = (col_index * constants.TILE_SIZE)
-    #                     y = (row_index * constants.TILE_SIZE)
-    #                     self.game.srf_map.blit(self.game.beacon_image, (x,y))
-    #                 else: # proximity information
-    #                     x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-    #                     y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-    #                     self.game.fonts[enums.L_B_BLACK].render(
-    #                         str(value), self.game.srf_map, (x-2,y-6))
-    #                     self.game.fonts[enums.L_F_RED].render(
-    #                         str(value), self.game.srf_map, (x-3,y-7))
+    def draw_mine_data(self):
+        tilemap = self.map_data['data'] # list of tiles that make up the map
+        for row_index, row in enumerate(self.map_data['mines_info']):
+            for col_index, value in enumerate(row):
+                if value > enums.MI_FREE \
+                and self.map_data['marks'][row_index][col_index] \
+                and tilemap[row_index][col_index] < 15:
+                    if value == enums.MI_BEACON: # mine deactivated
+                        x = (col_index * constants.TILE_SIZE)
+                        y = (row_index * constants.TILE_SIZE)
+                        self.game.srf_map.blit(self.game.beacon_image, (x,y))
+                    else: # proximity information
+                        x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                        y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                        self.game.fonts[enums.L_B_BLACK].render(
+                            str(value), self.game.srf_map, (x-2,y-6))
+                        self.game.fonts[enums.L_F_RED].render(
+                            str(value), self.game.srf_map, (x-3,y-7))
 
 
 
     def mark_tile(self, row, col):
-        pass
-    #     # Check bounds
-    #     if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:          
-    #         for i in range(row - 1, row + 2):
-    #             for j in range(col - 1, col + 2):
-    #                 if 0 <= i < constants.MAP_TILE_SIZE[1] \
-    #                 and 0 <= j < constants.MAP_TILE_SIZE[0]:
-    #                     self.map_data['marks'][i][j] = True
+        # Check bounds
+        if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:          
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] \
+                    and 0 <= j < constants.MAP_TILE_SIZE[0]:
+                        self.map_data['marks'][i][j] = True
                         
 
 

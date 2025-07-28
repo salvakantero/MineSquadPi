@@ -345,7 +345,8 @@ class Player(pygame.sprite.Sprite):
             if self.sfx_blocked.get_num_channels() == 0:
                 self.sfx_blocked.play()
         elif self.steps < 0: # mark the tile as visited
-            self.map.mark_tile(self.y // constants.TILE_SIZE, self.x // constants.TILE_SIZE)
+            self.map.mark_tile(int(self.y // constants.TILE_SIZE), 
+                               int(self.x // constants.TILE_SIZE))
 
 
 
@@ -402,15 +403,14 @@ class Player(pygame.sprite.Sprite):
 
     # subtracts one energy unit and applies temporary invincibility
     def loses_energy(self, value):
-        pass
-        # if not self.invincible:
-        #     self.energy -= value
-        #     if self.sfx_death.get_num_channels() == 0:
-        #         self.sfx_death.play()
-        #     if self.energy >= 0:
-        #         self.invincible = True
-        #         self.timer_from = pygame.time.get_ticks()
-        #         self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
+        if not self.invincible:
+            self.energy -= value
+            if self.sfx_death.get_num_channels() == 0:
+                self.sfx_death.play()
+            if self.energy >= 0:
+                self.invincible = True
+                self.timer_from = pygame.time.get_ticks()
+                self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
 
 
 

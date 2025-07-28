@@ -146,7 +146,7 @@ while True:
         # draws the visible map area, free of sprites and marks (15x11 tiles)
         map.draw(camera.x, camera.y)
         # draws the location of the mines
-        #map.draw_mine_data()
+        map.draw_mine_data()
         
         # draws the sprites in their new positions
         #game.groups[enums.SG_ALL].draw(game.srf_map)

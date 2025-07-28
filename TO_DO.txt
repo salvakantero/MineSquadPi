@@ -5,10 +5,11 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - mapas definitivos, más largos que la pantalla (scroll)
-    - killer tiles
     - colocar minas
     - mostrar info minas
-    
+    - cambio de mapa
+    - disparar
+
 
 BUGS
 ====
