@@ -345,8 +345,8 @@ class Player(pygame.sprite.Sprite):
             if self.sfx_blocked.get_num_channels() == 0:
                 self.sfx_blocked.play()
         elif self.steps < 0: # mark the tile as visited
-            self.map.mark_tile(int(self.y // constants.TILE_SIZE), 
-                               int(self.x // constants.TILE_SIZE))
+            self.map.mark_tile(int(self.x // constants.TILE_SIZE), 
+                               int(self.y // constants.TILE_SIZE))
 
 
 
@@ -434,7 +434,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # draws the player on the screen
-    def draw(self, camera_x, camera_y):
-        screen_x = self.x - camera_x
-        screen_y = self.y - camera_y
+    def draw(self, camera):
+        screen_x = self.x - camera.x
+        screen_y = self.y - camera.y
         self.game.srf_map.blit(self.image, (screen_x, screen_y))

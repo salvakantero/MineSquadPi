@@ -70,8 +70,6 @@ class Game():
         self.win_size = constants.WIN_SIZE
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
-        # default wallpaper for the 16:9 screen mode
-        self.set_background(-1)
         # change the resolution and type of display according to the settings
         self.apply_display_settings()
 
@@ -238,9 +236,8 @@ class Game():
                 self.v_margin = (self.win_size[1] - constants.MENU_SCALED_SIZE[1]) // 2
                 self.h_margin = (self.win_size[0] - constants.MENU_SCALED_SIZE[0]) // 2            
                 self.screen = pygame.display.set_mode(self.win_size, pygame.FULLSCREEN, 32)
-                # default background image to fill in the black sides
-                self.img_background = pygame.transform.scale(self.img_background, self.win_size)
-                self.screen.blit(self.img_background, (0,0))
+                # menu background image to fill in the black sides
+                self.set_background(-1)
                 return
         # screen resolution not available
         self.config.data['screen_mode'] = enums.SM_WINDOW
@@ -467,7 +464,7 @@ class Game():
 
 
     # collisions between the player and mines, killer tiles, enemies and hotspots
-    def check_player_collisions(self, player, scoreboard, map_number, map_data):
+    def check_player_collisions(self, player, scoreboard, map_number, map_data, camera):
         # player and killer tiles or mines
         # Convert player position to tile coordinates
         tile_x = int(player.x // constants.TILE_SIZE)
@@ -483,8 +480,8 @@ class Game():
                 self.shake = [10, 6]
                 self.shake_timer = 14
                 # creates an explosion at tile center
-                tile_center_x = tile_x * constants.TILE_SIZE + constants.TILE_SIZE // 2
-                tile_center_y = tile_y * constants.TILE_SIZE + constants.TILE_SIZE // 2
+                tile_center_x = (tile_x * constants.TILE_SIZE) - camera.x + constants.TILE_SIZE // 2
+                tile_center_y = (tile_y * constants.TILE_SIZE) - camera.y + constants.TILE_SIZE // 2
                 blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
                 self.groups[enums.SG_ALL].add(blast)
                 self.sfx_blast[4].play()

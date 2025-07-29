@@ -5,8 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - mapas definitivos, más largos que la pantalla (scroll)
-    - colocar minas
-    - mostrar info minas
+    - explosiones
     - cambio de mapa
     - disparar
 
@@ -15,15 +14,6 @@ BUGS
 ====
 - revisar en Pi el modo 16:9
 - no maximizar ventana
-
-set_background:
-main -> game(constructor)
-main -> menu.show() <- solo si 16:9
-main -> map.change()
-
-img_background:
-game.apply_screen_mode_16_9
-game.update_screen() <- solo si 16:9
 
 
 

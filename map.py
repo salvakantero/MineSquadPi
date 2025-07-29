@@ -73,8 +73,8 @@ class Map():
         player.rect = player.image.get_rect(
             topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
         # marks the initial tile
-        self.mark_tile(int(constants.PLAYER_Y_INI // constants.TILE_SIZE), 
-                       int(constants.PLAYER_X_INI // constants.TILE_SIZE))
+        self.mark_tile(int(constants.PLAYER_X_INI // constants.TILE_SIZE), 
+                       int(constants.PLAYER_Y_INI // constants.TILE_SIZE))
         # sets the available mines and beacons for the map
         self.game.remaining_mines = constants.NUM_MINES[self.number]
         self.game.remaining_beacons = constants.NUM_BEACONS[self.number]
@@ -157,21 +157,21 @@ class Map():
     
 
 
-    def draw(self, camera_x, camera_y):
+    def draw(self, camera):
         tile_size = constants.TILE_SIZE
         map_width, map_height = constants.MAP_TILE_SIZE
         screen_width, screen_height = constants.MAP_UNSCALED_SIZE
         # calculates the visible columns in the map
-        start_col = max(0, camera_x // tile_size)
+        start_col = max(0, camera.x // tile_size)
         end_col = min(map_width, start_col + (screen_width // tile_size) + 2)
-        start_row = max(0, camera_y // tile_size)
+        start_row = max(0, camera.y // tile_size)
         end_row = min(map_height, start_row + (screen_height // tile_size) + 2) 
         # goes over the entire visible map
         for y in range(int(start_row), int(end_row)):
             for x in range(int(start_col), int(end_col)):
                 # screen coordinates
-                screen_x = x * tile_size - camera_x
-                screen_y = y * tile_size - camera_y
+                screen_x = x * tile_size - camera.x
+                screen_y = y * tile_size - camera.y
                 # only draws the tile if it is within the visible area
                 if (-tile_size <= screen_x <= screen_width and 
                     -tile_size <= screen_y <= screen_height):
@@ -250,7 +250,7 @@ class Map():
 
 
 
-    def draw_mine_data(self):
+    def draw_mine_data(self, camera):
         tilemap = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.map_data['mines_info']):
             for col_index, value in enumerate(row):
@@ -262,8 +262,10 @@ class Map():
                         y = (row_index * constants.TILE_SIZE)
                         self.game.srf_map.blit(self.game.beacon_image, (x,y))
                     else: # proximity information
-                        x = (col_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
-                        y = (row_index * constants.TILE_SIZE + constants.TILE_SIZE // 2)
+                        x = ((col_index * constants.TILE_SIZE) 
+                             - camera.x + constants.TILE_SIZE // 2)
+                        y = ((row_index * constants.TILE_SIZE) 
+                             - camera.y + constants.TILE_SIZE // 2)
                         self.game.fonts[enums.L_B_BLACK].render(
                             str(value), self.game.srf_map, (x-2,y-6))
                         self.game.fonts[enums.L_F_RED].render(
@@ -271,11 +273,11 @@ class Map():
 
 
 
-    def mark_tile(self, row, col):
+    def mark_tile(self, x, y):
         # Check bounds
-        if 0 <= row < constants.MAP_TILE_SIZE[1] and 0 <= col < constants.MAP_TILE_SIZE[0]:          
-            for i in range(row - 1, row + 2):
-                for j in range(col - 1, col + 2):
+        if 0 <= y < constants.MAP_TILE_SIZE[1] and 0 <= x < constants.MAP_TILE_SIZE[0]:          
+            for i in range(y - 1, y + 2):
+                for j in range(x - 1, x + 2):
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
                     and 0 <= j < constants.MAP_TILE_SIZE[0]:
                         self.map_data['marks'][i][j] = True

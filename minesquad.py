@@ -119,7 +119,7 @@ while True:
         # change the map if necessary
         if map.number != map.last:
             map.change(player)
-            map.draw(camera.x, camera.y) # draws the new map
+            map.draw(camera) # draws the new map
             scoreboard.reset(map.number)
             scoreboard.invalidate()
             scoreboard.update(player)
@@ -134,23 +134,23 @@ while True:
             pygame.mixer.music.stop()
 
         # update sprites (player, enemies, hotspots, explosions, etc...)
-        #game.groups[enums.SG_ALL].update()
+        game.groups[enums.SG_ALL].update()
         player.update() # updates the player position and state        
         camera.update(player.x, player.y) # update camera position based on player
         
         # collision between player and enemies, mines or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number, map.map_data)
+        game.check_player_collisions(player, scoreboard, map.number, map.map_data, camera)
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)
 
         # draws the visible map area, free of sprites and marks (15x11 tiles)
-        map.draw(camera.x, camera.y)
+        map.draw(camera)
         # draws the location of the mines
-        map.draw_mine_data()
+        map.draw_mine_data(camera)
         
         # draws the sprites in their new positions
-        #game.groups[enums.SG_ALL].draw(game.srf_map)
-        player.draw(camera.x, camera.y) # draws the player
+        game.groups[enums.SG_ALL].draw(game.srf_map)
+        player.draw(camera) # draws the player
 
         # updates the floating text, only if needed (y>0)
         game.floating_text.update()
