@@ -133,20 +133,22 @@ while True:
             game.wait_for_key()
             pygame.mixer.music.stop()
 
-        # **********
-        # * UPDATE *
-        # **********
-        game.groups[enums.SG_ALL].update()# update enemies, hotspots, explosions, etc...
-        player.update() # updates the player position and state        
-        camera.update(player.x, player.y) # update camera position based on player
+        ##########
+        # UPDATE #
+        ##########
+        # update player, enemies, hotspots, explosions, etc...
+        player.update() # updates the player position and state   
+        camera.update(player.x, player.y) # update camera position based on player     
+        [group.update() for group in game.sprite_groups]
 
-        # ********
-        # * DRAW *
-        # ********                
+        ########
+        # DRAW #
+        ########   
+        # draw map, player, enemies, hotspots, explosions, etc...           
         map.draw(camera) # visible map area, free of sprites and marks (15x11 tiles)        
         map.draw_mine_data(camera) # draws the location of the mines             
+        [group.draw(game.srf_map) for group in game.sprite_groups]
         player.draw(camera) # draws the player
-        game.groups[enums.SG_ALL].draw(game.srf_map) # draw enemies, hotspots, explosions, etc...
 
         # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data, camera)

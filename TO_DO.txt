@@ -5,7 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - mapas definitivos, más largos que la pantalla (scroll)
-    - explosiones
+    - balizas
     - cambio de mapa
     - disparar
 

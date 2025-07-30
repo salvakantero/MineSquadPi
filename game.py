@@ -59,8 +59,8 @@ class Game():
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # sprite control groups (for update and collision detection)
-        self.groups = [
-            pygame.sprite.Group(),          # [0] all sprites (to display them)
+        self.sprite_groups = [
+            pygame.sprite.Group(),          # [0] explosions
             pygame.sprite.Group(),          # [1] enemies
             pygame.sprite.GroupSingle(),    # [2] hotspot
             pygame.sprite.GroupSingle()]    # [3] shot
@@ -483,7 +483,7 @@ class Game():
                 tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
                 tile_center_y = player.y - camera.y + constants.HALF_TILE_SIZE
                 blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
-                self.groups[enums.SG_ALL].add(blast)
+                self.sprite_groups[enums.SG_BLASTS].add(blast)
                 self.sfx_blast[4].play()
                 player.invincible = False
                 player.loses_energy(20) # game over

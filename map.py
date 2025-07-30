@@ -66,7 +66,7 @@ class Map():
         self.game.floating_text.y = 0
         self.game.loss_sequence = 0
         # reset the sprite groups  
-        for group in self.game.groups: group.empty()
+        for group in self.game.sprite_groups: group.empty()
         # add the player
         #self.game.groups[enums.SG_ALL].add(player)
         # player in its starting position
