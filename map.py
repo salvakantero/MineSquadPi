@@ -257,15 +257,13 @@ class Map():
                 if value > enums.MI_FREE \
                 and self.map_data['marks'][row_index][col_index] \
                 and tilemap[row_index][col_index] < 15:
+                    x = (col_index * constants.TILE_SIZE)
+                    y = (row_index * constants.TILE_SIZE)
                     if value == enums.MI_BEACON: # mine deactivated
-                        x = (col_index * constants.TILE_SIZE)
-                        y = (row_index * constants.TILE_SIZE)
                         self.game.srf_map.blit(self.game.beacon_image, (x,y))
                     else: # proximity information
-                        x = ((col_index * constants.TILE_SIZE) 
-                             - camera.x + constants.TILE_SIZE // 2)
-                        y = ((row_index * constants.TILE_SIZE) 
-                             - camera.y + constants.TILE_SIZE // 2)
+                        x = x - camera.x + constants.HALF_TILE_SIZE
+                        y = y - camera.y + constants.HALF_TILE_SIZE
                         self.game.fonts[enums.L_B_BLACK].render(
                             str(value), self.game.srf_map, (x-2,y-6))
                         self.game.fonts[enums.L_F_RED].render(

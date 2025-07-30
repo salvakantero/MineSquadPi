@@ -480,15 +480,15 @@ class Game():
                 self.shake = [10, 6]
                 self.shake_timer = 14
                 # creates an explosion at tile center
-                tile_center_x = (tile_x * constants.TILE_SIZE) - camera.x + constants.TILE_SIZE // 2
-                tile_center_y = (tile_y * constants.TILE_SIZE) - camera.y + constants.TILE_SIZE // 2
+                tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
+                tile_center_y = player.y - camera.y + constants.HALF_TILE_SIZE
                 blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
                 self.groups[enums.SG_ALL].add(blast)
                 self.sfx_blast[4].play()
                 player.invincible = False
                 player.loses_energy(20) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
-                self.groups[enums.SG_ALL].remove(player)
+                #self.groups[enums.SG_ALL].remove(player)
                 scoreboard.invalidate()
                 return                
             elif tile_type == enums.TT_KILLER:

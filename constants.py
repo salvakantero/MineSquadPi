@@ -32,6 +32,7 @@ MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
 MAP_UNSCALED_SIZE = 240, 176 # map size (unscaled)
 SBOARD_UNSCALED_SIZE = 240, 22 # scoreboard size (unscaled)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
+HALF_TILE_SIZE = TILE_SIZE // 2 # size of each tile in pixels
 MAP_TILE_SIZE = 30, 40 # map size in tiles
 MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # map size in pixels
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
