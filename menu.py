@@ -373,7 +373,8 @@ class Menu():
 
                     # options menu page
                     elif selected_option == enums.MO_SCREEN_MODE:  # 0 = window, 1 = 4:3, 2 = 16:9
-                        self.game.config.data['screen_mode'] = (self.game.config.data['screen_mode'] + 1) % 3
+                        if self.game.config.OS == 'Windows':
+                            self.game.config.data['screen_mode'] = (self.game.config.data['screen_mode'] + 1) % 3
                     elif selected_option == enums.MO_SCANLINES: # 0 = no, 1 = yes
                         self.game.config.data['scanlines'] = (self.game.config.data['scanlines'] + 1) % 2
                     elif selected_option == enums.MO_CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad

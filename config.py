@@ -23,6 +23,7 @@
 # ==============================================================================
 
 import pygame
+import platform
 import pickle
 import os
 import enums
@@ -31,6 +32,7 @@ import enums
 
 class Configuration():
     def __init__(self):
+        self.OS = platform.system()
         self.filename = 'config.dat'
         self.data = { 
             # default values

@@ -12,8 +12,6 @@ EN PROCESO
 
 BUGS
 ====
-- revisar en Pi el modo 16:9
-- no maximizar ventana
 
 
 
