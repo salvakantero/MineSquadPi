@@ -136,18 +136,16 @@ while True:
         ##########
         # UPDATE #
         ##########
-        # update player, enemies, hotspots, explosions, etc...
         player.update() # updates the player position and state   
         camera.update(player.x, player.y) # update camera position based on player     
-        [group.update() for group in game.sprite_groups]
+        [group.update() for group in game.sprite_groups] # enemies, hotspots, blasts, shots
 
         ########
         # DRAW #
-        ########   
-        # draw map, player, enemies, hotspots, explosions, etc...           
+        ########       
         map.draw(camera) # visible map area, free of sprites and marks (15x11 tiles)        
         map.draw_mine_data(camera) # draws the location of the mines             
-        [group.draw(game.srf_map) for group in game.sprite_groups]
+        [group.draw(game.srf_map) for group in game.sprite_groups] # enemies, hotspots, blasts, shots
         player.draw(camera) # draws the player
 
         # collision between player and enemies, mines or hotspots      
@@ -155,8 +153,8 @@ while True:
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)
 
-        # updates the floating text, only if needed (y>0)
-        game.floating_text.update()
+        # updates and draws the floating text only if needed
+        game.floating_text.update_and_draw(camera)
 
         # updates the scoreboard, only if needed (needs_updating = True)
         scoreboard.update(player)

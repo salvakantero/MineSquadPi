@@ -41,9 +41,11 @@ class FloatingText():
 
 
     # update the xy position (only if drawn inside the screen)
-    def update(self):
-        if self.y > 0:
+    def update_and_draw(self, camera):  
+        if self.y > camera.y:        
             self.speed += self.acceleration
             self.y -= self.speed # decreases Y, goes upwards
-            self.font2.render(self.text, self.surface, (self.x+1, self.y+1))
-            self.font.render(self.text, self.surface, (self.x, self.y))
+            x = self.x - camera.x
+            y = self.y - camera.y      
+            self.font2.render(self.text, self.surface, (x+1, y+1))
+            self.font.render(self.text, self.surface, (x, y))        

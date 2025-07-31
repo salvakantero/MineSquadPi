@@ -139,43 +139,42 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # common code for placing a flag/beacon
+    # code for placing a flag/beacon
     def place_beacon(self):
         pass
-        # offsets = {
-        #     enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
-        #     enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0) 
-        # }        
-        # # places the beacon in front of where the player is facing
-        # offset_x, offset_y = offsets.get(self.look_at, (0, 0))
-        # x = (self.rect.x // constants.TILE_SIZE) + offset_x
-        # y = (self.rect.y // constants.TILE_SIZE) + offset_y
-        
-        # # Verificar límites del mapa
-        # if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
-        #     # if there is no beacon on the tile
-        #     if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
-        #        self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
-        #         # if there is a mine in the marked tile
-        #         if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
-        #             self.game.remaining_mines -= 1                    
-        #             self.score += 125
-        #             self.game.floating_text.text = '+125'
-        #             self.game.floating_text.x = self.rect.x
-        #             self.game.floating_text.y = self.rect.y
-        #             self.game.floating_text.speed = 0
-        #             # if there is a mine on the tile, remove it                       
-        #             if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
-        #                 self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
-        #         # place the beacon
-        #         self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
-        #         self.sfx_beacon.play()
-        #         self.game.remaining_beacons -= 1
-        #         self.scoreboard.invalidate()
-        #     else: # if there is a beacon on the tile                
-        #         self.sfx_no_ammo.play()
-        # else: # Tile fuera de los límites del mapa            
-        #     self.sfx_no_ammo.play()
+        offsets = {
+            enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
+            enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0)
+        }
+        # places the beacon in front of where the player is facing
+        offset_x, offset_y = offsets.get(self.look_at, (0, 0))
+        x = int(self.x // constants.TILE_SIZE) + offset_x
+        y = int(self.y // constants.TILE_SIZE) + offset_y        
+        # check map boundaries
+        if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
+            # if there is no beacon on the tile
+            if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
+               self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
+                # if there is a mine in the marked tile
+                if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
+                    self.game.remaining_mines -= 1                    
+                    self.game.score += 125
+                    self.game.floating_text.text = '+125'
+                    self.game.floating_text.x = self.x
+                    self.game.floating_text.y = self.y
+                    self.game.floating_text.speed = 0
+                    # if there is a mine on the tile, remove it                       
+                    if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
+                        self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
+                # place the beacon
+                self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
+                self.sfx_beacon.play()
+                self.game.remaining_beacons -= 1
+                self.scoreboard.invalidate()
+            else: # if there is a beacon on the tile                
+                self.sfx_no_ammo.play()
+        else: # out of the map
+            self.sfx_no_ammo.play()
 
 
 

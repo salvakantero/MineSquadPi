@@ -5,9 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - mapas definitivos, más largos que la pantalla (scroll)
-    - balizas
-    - cambio de mapa
     - disparar
+    - cambio de mapa
 
 
 BUGS
