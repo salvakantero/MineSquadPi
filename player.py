@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # Load player images for animations
+    # load player images for animations
     def _load_player_images(self, who_is):
         base_path = constants.SPR_PATH + 'player/' + str(who_is) + '/'        
         image_files = {
@@ -115,33 +115,30 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # common code for a shot to be fired
+    # code for a shot to be fired
     def fire(self):
-        pass
-        # if self.ammo > 0:       
-        #     if not self.game.groups[enums.SG_SHOT].sprite: # no shots on screen
-        #         # direction of the shot
-        #         dir_vectors = {
-        #             enums.DI_UP: pygame.math.Vector2(0, -2),
-        #             enums.DI_DOWN: pygame.math.Vector2(0, 2),
-        #             enums.DI_LEFT: pygame.math.Vector2(-2, 0),
-        #             enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
-        #         vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
-        #         # shot creation
-        #         shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
-        #         self.game.groups[enums.SG_SHOT].add(shot)
-        #         self.game.groups[enums.SG_ALL].add(shot)
-        #         self.sfx_shot1.play()
-        #         self.ammo -= 1
-        #         self.scoreboard.invalidate()
-        # else: # no bullets
-        #     self.sfx_no_ammo.play()
+        if self.ammo > 0:       
+            if not self.game.sprite_groups[enums.SG_SHOT].sprite: # no shots on screen
+                # direction of the shot
+                dir_vectors = {
+                    enums.DI_UP: pygame.math.Vector2(0, -2),
+                    enums.DI_DOWN: pygame.math.Vector2(0, 2),
+                    enums.DI_LEFT: pygame.math.Vector2(-2, 0),
+                    enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
+                vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
+                # shot creation
+                shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
+                self.game.sprite_groups[enums.SG_SHOT].add(shot)
+                self.sfx_shot1.play()
+                self.ammo -= 1
+                self.scoreboard.invalidate()
+        else: # no bullets
+            self.sfx_no_ammo.play()
 
 
 
     # code for placing a flag/beacon
     def place_beacon(self):
-        pass
         offsets = {
             enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
             enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0)
