@@ -48,3 +48,9 @@ class Explosion(pygame.sprite.Sprite):
 
     def update(self):
         self.animate()
+
+
+
+    # draws the explosion on the screen
+    def draw(self, surface):
+        surface.blit(self.image, self.rect)

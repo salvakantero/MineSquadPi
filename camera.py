@@ -31,10 +31,10 @@ class Camera:
         self.y = 0
 
         # cache frequently used values
-        self.half_map_width = constants.MAP_UNSCALED_SIZE[0] // 2
-        self.half_map_height = constants.MAP_UNSCALED_SIZE[1] // 2
-        self.max_x = constants.MAP_PIXEL_SIZE[0] - constants.MAP_UNSCALED_SIZE[0]
-        self.max_y = constants.MAP_PIXEL_SIZE[1] - constants.MAP_UNSCALED_SIZE[1]
+        self.half_map_width = constants.SCREEN_MAP_UNSCALED_SIZE[0] // 2
+        self.half_map_height = constants.SCREEN_MAP_UNSCALED_SIZE[1] // 2
+        self.max_x = constants.MAP_PIXEL_SIZE[0] - constants.SCREEN_MAP_UNSCALED_SIZE[0]
+        self.max_y = constants.MAP_PIXEL_SIZE[1] - constants.SCREEN_MAP_UNSCALED_SIZE[1]
     
 
 
@@ -43,6 +43,6 @@ class Camera:
         # the camera should be centered on the player
         # the camera cannot go beyond the map boundaries
         target_x = player_x - self.half_map_width
-        self.x = max(0, min(target_x, self.max_x))
-        target_y = player_y - self.half_map_height   
+        target_y = player_y - self.half_map_height 
+        self.x = max(0, min(target_x, self.max_x))          
         self.y = max(0, min(target_y, self.max_y))

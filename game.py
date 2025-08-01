@@ -55,7 +55,7 @@ class Game():
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
-        self.srf_map = pygame.Surface(constants.MAP_UNSCALED_SIZE)
+        self.srf_map = pygame.Surface(constants.SCREEN_MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # sprite control groups (for update and collision detection)
@@ -362,7 +362,7 @@ class Game():
             
             # scale the map
             self.screen.blit(pygame.transform.scale(
-                self.srf_map, constants.MAP_SCALED_SIZE), (self.h_margin + offset[0], 
+                self.srf_map, constants.SCREEN_MAP_SCALED_SIZE), (self.h_margin + offset[0], 
                 constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
         
         if self.config.data['scanlines']: self.apply_scanlines()
@@ -378,7 +378,7 @@ class Game():
             self.srf_map.set_alpha(115)
             self.update_screen()
         # saves a copy of the darkened screen
-        aux_surf = pygame.Surface((constants.MAP_UNSCALED_SIZE), pygame.SRCALPHA)    
+        aux_surf = pygame.Surface((constants.SCREEN_MAP_UNSCALED_SIZE), pygame.SRCALPHA)    
         aux_surf.blit(self.srf_map, (0,0))
         # draws the light message on the dark background
         height = 36
@@ -392,8 +392,8 @@ class Game():
             width = max(width, 160)
             height = height + 50
         # calculates the position of the box
-        x = (constants.MAP_UNSCALED_SIZE[0]//2) - (width//2)
-        y = (constants.MAP_UNSCALED_SIZE[1]//2) - (height//2)
+        x = (constants.SCREEN_MAP_UNSCALED_SIZE[0]//2) - (width//2)
+        y = (constants.SCREEN_MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # blackest window
         opacity = 195
         if opaque:

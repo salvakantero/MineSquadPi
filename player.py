@@ -127,7 +127,7 @@ class Player(pygame.sprite.Sprite):
                     enums.DI_RIGHT: pygame.math.Vector2(2, 0) }
                 vector = dir_vectors.get(self.look_at, pygame.math.Vector2(0, -2)) # UP by default
                 # shot creation
-                shot = Shot(self.rect, self.game.srf_map.get_rect(), vector)
+                shot = Shot(self.x, self.y, vector, self.game.srf_map)
                 self.game.sprite_groups[enums.SG_SHOT].add(shot)
                 self.sfx_shot1.play()
                 self.ammo -= 1

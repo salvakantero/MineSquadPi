@@ -160,7 +160,7 @@ class Map():
     def draw(self, camera):
         tile_size = constants.TILE_SIZE
         map_width, map_height = constants.MAP_TILE_SIZE
-        screen_width, screen_height = constants.MAP_UNSCALED_SIZE
+        screen_width, screen_height = constants.SCREEN_MAP_UNSCALED_SIZE
         # calculates the visible columns in the map
         start_col = max(0, camera.x // tile_size)
         end_col = min(map_width, start_col + (screen_width // tile_size) + 2)

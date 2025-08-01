@@ -26,10 +26,10 @@ import enums
 # game screen
 WIN_SIZE = 800, 640 # main window size (windowed mode)
 MENU_SCALED_SIZE = 720, 594 # menu size scaled x3 (windowed mode)
-MAP_SCALED_SIZE = 720, 528 # map size scaled x3 (windowed mode)
+SCREEN_MAP_SCALED_SIZE = 720, 528 # map size on screen scaled x3 (windowed mode)
 SBOARD_SCALED_SIZE = 720, 66 # scoreboard size scaled x3 (windowed mode)
 MENU_UNSCALED_SIZE = 240, 198 # menu size (unscaled)
-MAP_UNSCALED_SIZE = 240, 176 # map size (unscaled)
+SCREEN_MAP_UNSCALED_SIZE = 240, 176 # map size on screen (unscaled)
 SBOARD_UNSCALED_SIZE = 240, 22 # scoreboard size (unscaled)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 HALF_TILE_SIZE = TILE_SIZE // 2 # size of each tile in pixels
