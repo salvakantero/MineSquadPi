@@ -67,8 +67,8 @@ while True:
         map.last = -1
         game.remaining_mines = -1
         game.status = enums.GS_RUNNING
-        for hotspot in constants.HOTSPOT_DATA:
-            hotspot[3] = True # used hotspots available again
+        #for hotspot in constants.HOTSPOT_DATA:
+        #    hotspot[3] = True # used hotspots available again
         # current map
         if game.new: # start a new game
             map.number = 0
@@ -167,9 +167,9 @@ while True:
         if game.music_status == enums.MS_UNMUTED:
             jukebox.update()
 
-        # check map completion (12 levels from 0 to 11)
+        # check map completion (9 levels from 0 to 8)
         if game.remaining_mines == 0:
-            if map.number < 11:
+            if map.number < 8:
                 game.update_screen()
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)

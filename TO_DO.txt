@@ -4,13 +4,11 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- mapas definitivos, más largos que la pantalla (scroll)
-    - cambio de mapa
 
 
 BUGS
 ====
-
+- eliminar player cuando hay explosión
 
 
 POR HACER
@@ -18,6 +16,8 @@ POR HACER
 - carátula IA
 - selección del jugador al comenzar la partida
 - secuencia al ganar
+- mapeado definitivo
+- probar con joystick/joypad
 
 - posicionar hotspots
 - posicionar enemigos
@@ -39,6 +39,7 @@ POR HACER
 
 HECHO
 =====
+03/08/25 - mapas definitivos, más largos que la pantalla (scroll)
 03/07/25 - efectos de sonido
 30/06/25 - siguiente nivel al desactivar todas las minas
 30/06/25 - música in-game

@@ -36,7 +36,7 @@ class Configuration():
         self.filename = 'config.dat'
         self.data = { 
             # default values
-            'screen_mode' : 0, # 0 = window, 1 = 4:3(800x600), 2 = 16:9(1280x720)
+            'screen_mode' : 0, # 0 = window, 1 = 4:3, 2 = 16:9
             'scanlines' : True,
             'control' : enums.CT_CLASSIC # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
         }
