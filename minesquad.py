@@ -52,7 +52,7 @@ menu = Menu(game)
 # playlist with the X available tracks
 jukebox = Jukebox(constants.MUS_PATH, 'mus_ingame_', 10)
 
-intro.play() # shows an intro
+#intro.play() # shows an intro
 
 # Main loop
 while True:
@@ -150,7 +150,7 @@ while True:
         player.draw(camera) # draws the player
         # enemies, hotspots, blasts, shots     
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.draw(game.srf_map, camera)
-        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map)     
+        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)     
 
         # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data, camera)

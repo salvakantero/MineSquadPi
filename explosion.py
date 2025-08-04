@@ -29,10 +29,12 @@ class Explosion(pygame.sprite.Sprite):
     def __init__(self, pos, blast_animation):
         super().__init__()
         self.frame_index = 0 # frame number
-        self.animation_speed = 0.15 # frame dwell time     
+        self.animation_speed = 0.12 # frame dwell time
         self.frames = blast_animation # image list
         self.image = self.frames[0] # first frame
-        self.rect = self.image.get_rect(center = pos) # position
+        #self.rect = self.image.get_rect(center = pos) # position
+        self.x = pos[0]
+        self.y = pos[1]
 
 
 
@@ -52,5 +54,10 @@ class Explosion(pygame.sprite.Sprite):
 
 
     # draws the explosion on the screen
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    #def draw(self, surface):
+    #    surface.blit(self.image, self.rect)
+
+    def draw(self, surface, camera):
+        screen_x = self.x - camera.x
+        screen_y = self.y - camera.y
+        surface.blit(self.image, (screen_x, screen_y))

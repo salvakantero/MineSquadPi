@@ -8,7 +8,7 @@ EN PROCESO
 
 BUGS
 ====
-- eliminar player cuando hay explosión
+- afinar posición de la explosión
 
 
 POR HACER

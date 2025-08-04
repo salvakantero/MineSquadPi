@@ -431,6 +431,7 @@ class Player(pygame.sprite.Sprite):
 
     # draws the player on the screen
     def draw(self, camera):
-        screen_x = self.x - camera.x
-        screen_y = self.y - camera.y
-        self.game.srf_map.blit(self.image, (screen_x, screen_y))
+        if self.energy > 0: # alive and kicking
+            screen_x = self.x - camera.x
+            screen_y = self.y - camera.y
+            self.game.srf_map.blit(self.image, (screen_x, screen_y))

@@ -480,9 +480,10 @@ class Game():
                 self.shake = [10, 6]
                 self.shake_timer = 14
                 # creates an explosion at tile center
-                tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
-                tile_center_y = player.y - camera.y + constants.HALF_TILE_SIZE
-                blast = Explosion([tile_center_x, tile_center_y - 4], self.blast_images[1])
+                #tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
+                #tile_center_y = player.y - camera.y + 4
+                #blast = Explosion([tile_center_x, tile_center_y], self.blast_images[1])
+                blast = Explosion([player.x, player.y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 self.sfx_blast[4].play()
                 player.invincible = False
