@@ -67,8 +67,6 @@ class Map():
         self.game.loss_sequence = 0
         # reset the sprite groups  
         for group in self.game.sprite_groups: group.empty()
-        # add the player
-        #self.game.groups[enums.SG_ALL].add(player)
         # player in its starting position
         player.rect = player.image.get_rect(
             topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
@@ -220,36 +218,6 @@ class Map():
 
 
 
-    # def get_behaviour_at(self, x, y):
-    #     # Obtiene el comportamiento del tile en las coordenadas x,y
-    #     if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
-    #         return self.map_data['tile_types'][y][x]
-    #     return enums.TT_NO_ACTION
-
-
-
-    # def get_mine_info_at(self, x, y):
-    #     # Obtiene la información de minas en las coordenadas x,y
-    #     if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
-    #         return self.map_data['mines_info'][y][x]
-    #     return enums.MI_FREE
-
-
-
-    # def set_behaviour_at(self, x, y, type):
-    #     # Establece el comportamiento en las coordenadas x,y
-    #     if 0 <= y < len(self.map_data['tile_types']) and 0 <= x < len(self.map_data['tile_types'][0]):
-    #         self.map_data['tile_types'][y][x] = type
-
-
-
-    # def set_mine_info_at(self, x, y, mine_info):
-    #     # Establece la información de minas en las coordenadas x,y
-    #     if 0 <= y < len(self.map_data['mines_info']) and 0 <= x < len(self.map_data['mines_info'][0]):
-    #         self.map_data['mines_info'][y][x] = mine_info
-
-
-
     def draw_mine_data(self, camera):
         tilemap = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.map_data['mines_info']):
@@ -279,18 +247,3 @@ class Map():
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
                     and 0 <= j < constants.MAP_TILE_SIZE[0]:
                         self.map_data['marks'][i][j] = True
-                        
-
-
-    # # extracts the tile number from the filename
-    # def get_tile_number(self, tile_name):
-    #     tile_name = tile_name.replace('.png', '')
-    #     tile_name = tile_name.replace('T', '')
-    #     return int(tile_name)
-  
-
-
-    # # get a value from a dictionary
-    # def find_data(self, lst, key, value):
-    #     matches = [d for d in lst if d[key] == value]
-    #     return matches[0] if matches else None

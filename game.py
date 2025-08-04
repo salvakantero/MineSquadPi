@@ -488,7 +488,6 @@ class Game():
                 player.invincible = False
                 player.loses_energy(20) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
-                #self.groups[enums.SG_ALL].remove(player)
                 scoreboard.invalidate()
                 return                
             elif tile_type == enums.TT_KILLER:
