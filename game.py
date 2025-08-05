@@ -481,16 +481,18 @@ class Game():
                 self.shake_timer = 14
                 # creates an explosion at tile center
                 #tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
-                #tile_center_y = player.y - camera.y + 4
-                #blast = Explosion([tile_center_x, tile_center_y], self.blast_images[1])
-                blast = Explosion([player.x, player.y], self.blast_images[1])
+                #tile_center_y = player.y - camera.y + 4                
+                # Fuerza la posición exacta del centro del tile
+                blast_x = (tile_x * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)
+                blast_y = (tile_y * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)              
+                blast = Explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 self.sfx_blast[4].play()
                 player.invincible = False
                 player.loses_energy(20) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
-                return                
+                return
             elif tile_type == enums.TT_KILLER:
                 player.loses_energy(1)
                 scoreboard.invalidate()

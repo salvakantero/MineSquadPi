@@ -32,14 +32,12 @@ class Explosion(pygame.sprite.Sprite):
         self.animation_speed = 0.12 # frame dwell time
         self.frames = blast_animation # image list
         self.image = self.frames[0] # first frame
-        #self.rect = self.image.get_rect(center = pos) # position
-        self.x = pos[0]
-        self.y = pos[1]
+        self.rect = self.image.get_rect(center = pos) # position
 
 
 
     # loads next frame of animation or ends
-    def animate(self):
+    def update(self):
         self.frame_index += self.animation_speed
         if self.frame_index >= len(self.frames): # end of the animation
             self.kill()
@@ -48,16 +46,9 @@ class Explosion(pygame.sprite.Sprite):
 
 
 
-    def update(self):
-        self.animate()
-
-
-
     # draws the explosion on the screen
-    #def draw(self, surface):
-    #    surface.blit(self.image, self.rect)
-
     def draw(self, surface, camera):
-        screen_x = self.x - camera.x
-        screen_y = self.y - camera.y
+        #surface.blit(self.image, self.rect)
+        screen_x = self.rect.x - camera.x
+        screen_y = self.rect.y - camera.y
         surface.blit(self.image, (screen_x, screen_y))
