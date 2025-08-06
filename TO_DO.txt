@@ -4,11 +4,12 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- hotspots
 
 
 BUGS
 ====
-- afinar posición de la explosión
+
 
 
 POR HACER

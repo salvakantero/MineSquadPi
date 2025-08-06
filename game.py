@@ -479,12 +479,9 @@ class Game():
                 # shake the map
                 self.shake = [10, 6]
                 self.shake_timer = 14
-                # creates an explosion at tile center
-                #tile_center_x = player.x - camera.x + constants.HALF_TILE_SIZE
-                #tile_center_y = player.y - camera.y + 4                
-                # Fuerza la posición exacta del centro del tile
-                blast_x = (tile_x * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)
-                blast_y = (tile_y * constants.TILE_SIZE) + (constants.TILE_SIZE // 2)              
+                # creates an explosion at tile center              
+                blast_x = (tile_x * constants.TILE_SIZE) + constants.HALF_TILE_SIZE
+                blast_y = (tile_y * constants.TILE_SIZE) + 4    
                 blast = Explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 self.sfx_blast[4].play()
