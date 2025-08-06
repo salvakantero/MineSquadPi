@@ -190,22 +190,14 @@ PALETTE = {
 # 	(192, 32, 64, 32, -2, 0, 1)
 # ]
 
-# # hotspot data
-# # index = map number; (type, x, y, visible?)
-# HOTSPOT_DATA = [
-#     [enums.HS_CANDY, 9, 6, True],
-#     [enums.HS_SHIELD, 10, 7, True],
-#     [enums.HS_AMMO, 1, 7, True],
-#     [enums.HS_SHIELD, 5, 3, True],
-#     [enums.HS_LIFE, 11, 3, True],
-#     [enums.HS_CHOCO, 13, 6, True],
-#     [enums.HS_COIN, 6, 1, True],
-#     [enums.HS_DISK, 8, 4, True],
-#     [enums.HS_SHIELD, 2, 8, True],
-#     [enums.HS_AMMO, 1, 7, True],
-#     [enums.HS_SHIELD, 1, 3, True],
-#     [enums.HS_AMMO, 13, 4, True]
-# ]   
+# hotspot data
+HOTSPOT_DATA = [
+    # Type              Map     X   Y   Visible?
+    [enums.HS_SHIELD,   1,      9,  6,  True],
+    [enums.HS_DISK,     1,      10, 7,  True],
+    [enums.HS_AMMO,     2,      1,  7,  True],
+    [enums.HS_DISK,     2,      5,  3,  True]
+]
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [

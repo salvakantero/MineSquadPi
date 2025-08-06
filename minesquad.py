@@ -67,8 +67,8 @@ while True:
         map.last = -1
         game.remaining_mines = -1
         game.status = enums.GS_RUNNING
-        #for hotspot in constants.HOTSPOT_DATA:
-        #    hotspot[3] = True # used hotspots available again
+        for hotspot in constants.HOTSPOT_DATA:
+            hotspot[4] = True # used hotspots available again
         # current map
         if game.new: # start a new game
             map.number = 0

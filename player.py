@@ -421,7 +421,7 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # controls the hotspot time
+    # controls the shield time
     def _check_timer(self):
         if self.invincible:
             if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:

@@ -76,11 +76,10 @@ class Map():
         # sets the available mines and beacons for the map
         self.game.remaining_mines = constants.NUM_MINES[self.number]
         self.game.remaining_beacons = constants.NUM_BEACONS[self.number]
-        # # add the hotspot
-        # hotspot = constants.HOTSPOT_DATA[self.number]        
-        # hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
-        # self.game.groups[enums.SG_ALL].add(hotspot_sprite) # to update/draw it
-        # self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite) # to check for collisions
+        # add the hotspot
+        hotspot = constants.HOTSPOT_DATA[self.number]        
+        hotspot_sprite = Hotspot(hotspot, self.game.hotspot_images[hotspot[0]])
+        self.game.groups[enums.SG_HOTSPOT].add(hotspot_sprite)
         # # add enemies to the map reading from 'ENEMIES_DATA' list.
         # # a maximum of three enemies per map
         # # ENEMIES_DATA = (x1, y1, x2, y2, vx, vy, type)

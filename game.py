@@ -62,7 +62,7 @@ class Game():
         self.sprite_groups = [
             pygame.sprite.Group(),          # [0] explosions
             pygame.sprite.Group(),          # [1] enemies
-            pygame.sprite.GroupSingle(),    # [2] hotspot
+            pygame.sprite.Group(),          # [2] hotspot
             pygame.sprite.GroupSingle()]    # [3] shot
         # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN
@@ -503,63 +503,64 @@ class Game():
     #             scoreboard.invalidate() # redraws the scoreboard
     #             return     
     #    
-    #     # player and hotspot
-    #     if self.groups[enums.SG_HOTSPOT].sprite is not None:
-    #         if pygame.sprite.spritecollide(player, self.groups[enums.SG_HOTSPOT], False, 
-    #                                        pygame.sprite.collide_rect_ratio(0.60)):
-    #             hotspot = self.groups[enums.SG_HOTSPOT].sprite
-    #             # shake the map (just a little)
-    #             self.shake = [4, 4]
-    #             self.shake_timer = 4
-    #             # creates a magic halo
-    #             blast = Explosion(hotspot.rect.center, self.blast_images[2])
-    #             self.groups[enums.SG_ALL].add(blast)                
-    #             self.sfx_hotspot[hotspot.type].play()
-    #             # manages the object according to the type
-    #             if hotspot.type == enums.HS_LIFE:
-    #                 self.floating_text.text = 'Full Energy'
-    #                 player.energy, _ = player.set_player_attributes()
-    #             elif hotspot.type == enums.HS_SHIELD:
-    #                 self.floating_text.text = 'Shield'
-    #                 player.invincible = True
-    #                 player.timer_from = pygame.time.get_ticks()         
-    #             elif hotspot.type == enums.HS_AMMO:
-    #                 player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
-    #                 self.floating_text.text = 'Ammo +10'
+        # player and hotspot
+        if self.groups[enums.SG_HOTSPOT].sprite is not None:
+            if pygame.sprite.spritecollide(player, self.groups[enums.SG_HOTSPOT], False, 
+                                           pygame.sprite.collide_rect_ratio(0.60)):
+                hotspot = self.groups[enums.SG_HOTSPOT].sprite
+                # shake the map (just a little)
+                self.shake = [4, 4]
+                self.shake_timer = 4
+                # creates a magic halo
+                blast = Explosion(hotspot.rect.center, self.blast_images[2])
+                self.groups[enums.SG_BLASTS].add(blast)                
+                self.sfx_hotspot[hotspot.type].play()
+                # manages the object according to the type
+                # power-ups
+                if hotspot.type == enums.HS_LIFE:
+                    self.floating_text.text = 'Full Energy'
+                    player.energy, _ = player.set_player_attributes()
+                elif hotspot.type == enums.HS_SHIELD:
+                    self.floating_text.text = 'Shield'
+                    player.invincible = True
+                    player.timer_from = pygame.time.get_ticks()         
+                elif hotspot.type == enums.HS_AMMO:
+                    player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
+                    self.floating_text.text = 'Ammo +10'
+                # gifts
+                elif hotspot.type == enums.HS_CANDY:
+                    self.floating_text.text = '+50'
+                    player.score += 50
+                elif hotspot.type == enums.HS_APPLE:
+                    self.floating_text.text = '+75'
+                    player.score += 75                    
+                elif hotspot.type == enums.HS_CHOCO:
+                    self.floating_text.text = '+100'
+                    player.score += 100
+                elif hotspot.type == enums.HS_COIN:
+                    self.floating_text.text = '+200'
+                    player.score += 200   
+                # savegame
+                elif hotspot.type == enums.HS_DISK:                    
+                    self.floating_text.text = 'Checkpoint'                    
+                    self.checkpoint.data = {
+                        'map_number' : map_number,
+                        'player_lives' : player.energy,
+                        'player_ammo' : player.ammo,
+                        'player_facing_right' : player.facing_right,
+                        'player_rect' : player.rect,
+                        'player_score' : player.score,
+                        'hotspot_data' : constants.HOTSPOT_DATA }
+                    self.checkpoint.save() 
 
-    #             elif hotspot.type == enums.HS_CANDY:
-    #                 self.floating_text.text = '+50'
-    #                 player.score += 50
-    #             elif hotspot.type == enums.HS_APPLE:
-    #                 self.floating_text.text = '+75'
-    #                 player.score += 75                    
-    #             elif hotspot.type == enums.HS_CHOCO:
-    #                 self.floating_text.text = '+100'
-    #                 player.score += 100
-    #             elif hotspot.type == enums.HS_COIN:
-    #                 self.floating_text.text = '+200'
-    #                 player.score += 200   
-
-    #             elif hotspot.type == enums.HS_DISK:                    
-    #                 self.floating_text.text = 'Checkpoint'                    
-    #                 self.checkpoint.data = {
-    #                     'map_number' : map_number,
-    #                     'player_lives' : player.energy,
-    #                     'player_ammo' : player.ammo,
-    #                     'player_facing_right' : player.facing_right,
-    #                     'player_rect' : player.rect,
-    #                     'player_score' : player.score,
-    #                     'hotspot_data' : constants.HOTSPOT_DATA }
-    #                 self.checkpoint.save() 
-
-    #             scoreboard.invalidate()
-    #             self.floating_text.x = hotspot.x*constants.TILE_SIZE
-    #             self.floating_text.y = hotspot.y*constants.TILE_SIZE
-    #             self.floating_text.speed = 0
-    #             # removes objects
-    #             self.groups[enums.SG_HOTSPOT].sprite.kill()
-    #             constants.HOTSPOT_DATA[map_number][3] = False # not visible            
-    #             return
+                scoreboard.invalidate()
+                self.floating_text.x = hotspot.x*constants.TILE_SIZE
+                self.floating_text.y = hotspot.y*constants.TILE_SIZE
+                self.floating_text.speed = 0
+                # removes objects
+                self.groups[enums.SG_HOTSPOT].sprite.kill()
+                constants.HOTSPOT_DATA[map_number][4] = False # not visible            
+                return
 
 
 
