@@ -193,10 +193,10 @@ PALETTE = {
 # hotspot data
 HOTSPOT_DATA = [
     # Type              Map     X   Y   Visible?
-    [enums.HS_SHIELD,   1,      9,  6,  True],
-    [enums.HS_DISK,     1,      10, 7,  True],
-    [enums.HS_AMMO,     2,      1,  7,  True],
-    [enums.HS_DISK,     2,      5,  3,  True]
+    [enums.HS_SHIELD,   0,      9,  6,  True],
+    [enums.HS_DISK,     0,      10, 7,  True],
+    [enums.HS_AMMO,     1,      1,  7,  True],
+    [enums.HS_DISK,     1,      5,  3,  True]
 ]
 
 # end-of-level messages (title, message)

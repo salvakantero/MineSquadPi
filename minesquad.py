@@ -153,7 +153,7 @@ while True:
         for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)     
 
         # collision between player and enemies, mines or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number, map.map_data, camera)
+        game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)
 

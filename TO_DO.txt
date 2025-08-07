@@ -124,8 +124,8 @@ Notas
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas adyacentes.
 
 - Objetos (Hotspots):    
-    PowerUps*:
-        (0) Vida extra: +1 barra de energía
+    Power-Ups*:
+        (0) Vida extra: rellena barra de energía
         (1) Escudo: invencible (30 secs)
         (2) Munición: permite disparar (+10)
         (3) Disco: checkpoint para no repetir nivel anterior
@@ -136,7 +136,7 @@ Notas
         (5) Manzana      75
         (6) Chocolate   100
         (7) Moneda      200
-    * se distribuyen por el mapa aleatoriamente.
+    * se distribuyen por el mapa aleatoriamente
     * siempre uno en todo momento en el mapa
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación
