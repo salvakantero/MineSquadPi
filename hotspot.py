@@ -41,7 +41,7 @@ class Hotspot(pygame.sprite.Sprite):
         self.image = image
         self.rect = self.image.get_rect()
         # coordinates in tiles have to be converted to pixels
-        self.rect.topleft = (self.x*constants.TILE_SIZE, self.y*constants.TILE_SIZE)   
+        self.rect.topleft = (self.x * constants.TILE_SIZE, self.y * constants.TILE_SIZE)   
 
 
 
@@ -58,3 +58,11 @@ class Hotspot(pygame.sprite.Sprite):
         # apply the offset
         self.rect.y = (self.y * constants.TILE_SIZE) - self.y_offset
         self.animation_timer += 1
+
+
+
+    # draws the hotspot on the screen
+    def draw(self, surface, camera):
+        screen_x = self.rect.x - camera.x
+        screen_y = self.rect.y - camera.y
+        surface.blit(self.image, (screen_x, screen_y))

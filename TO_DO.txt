@@ -5,6 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - hotspots
+- shaker
+
 
 
 BUGS
