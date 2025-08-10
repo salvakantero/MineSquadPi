@@ -35,7 +35,7 @@ class Player(pygame.sprite.Sprite):
         super().__init__()
         # Blaze = 0, Piper = 1
         self.who_is = who_is
-        self.energy, self.speed = self._set_player_attributes()
+        self.energy, self.speed = self.set_player_attributes()
         self.ammo = 10 # ammunition collected
         # initialize player position
         # starts at the centre of the map, 1/4 from the left and at the bottom
@@ -89,7 +89,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # set energy and speed based on player type
-    def _set_player_attributes(self):        # ENERGY  SPEED
+    def set_player_attributes(self):        # ENERGY  SPEED
         if self.who_is == enums.PL_PIPER:   return 10, 2
         else:                               return 14, 1
 
@@ -325,7 +325,7 @@ class Player(pygame.sprite.Sprite):
             temp_rect = pygame.Rect(new_x, self.y, constants.TILE_SIZE, constants.TILE_SIZE)
             # check for horizontal collisions
             if not self._check_collision(temp_rect, enums.CA_HORIZONTAL):
-                self.x = new_x
+                self.x = self.rect.x = new_x
                 collision = False
         else: # vertical movement
             new_y = self.y + self.direction.y * self.speed
@@ -335,7 +335,7 @@ class Player(pygame.sprite.Sprite):
                 return
             # check for vertical collisions
             if not self._check_collision(temp_rect, enums.CA_VERTICAL):
-                self.y = new_y
+                self.y = self.rect.y = new_y
                 collision = False
         if collision: # sounds when the player hits a block
             if self.sfx_blocked.get_num_channels() == 0:

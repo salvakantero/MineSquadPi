@@ -507,7 +507,7 @@ class Game():
         # player and hotspot
         collided_hotspots = pygame.sprite.spritecollide(
             player, self.sprite_groups[enums.SG_HOTSPOT], False, pygame.sprite.collide_rect_ratio(0.60))
-        
+
         if collided_hotspots:
             hotspot = collided_hotspots[0]  # Solo el primero, que será el único
 
@@ -550,11 +550,11 @@ class Game():
                 self.floating_text.text = 'Checkpoint'                    
                 self.checkpoint.data = {
                     'map_number' : map_number,
-                    'player_lives' : player.energy,
-                    'player_ammo' : player.ammo,
-                    'player_facing_right' : player.facing_right,
-                    'player_rect' : player.rect,
-                    'player_score' : self.score,
+                    #'player_lives' : player.energy,
+                    #'player_ammo' : player.ammo,
+                    #'player_facing_right' : player.facing_right,
+                    #'player_rect' : player.rect,
+                    #'player_score' : self.score,
                     'hotspot_data' : constants.HOTSPOT_DATA }
                 self.checkpoint.save() 
 

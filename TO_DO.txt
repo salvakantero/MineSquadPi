@@ -5,7 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - hotspots
-- shaker
+    - No deben coincidir con minas
 
 
 

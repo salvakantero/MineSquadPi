@@ -194,7 +194,7 @@ PALETTE = {
 HOTSPOT_DATA = [
     # Type              Map     X   Y   Visible?
     [enums.HS_SHIELD,   0,      9,  34,  True],
-    [enums.HS_DISK,     0,      20, 35,  True],
+    [enums.HS_LIFE,     0,      20, 35,  True],
     [enums.HS_AMMO,     1,      1,  7,  True],
     [enums.HS_DISK,     1,      5,  3,  True]
 ]
