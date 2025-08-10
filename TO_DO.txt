@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- usar floating_text como objetos desechables
 - hotspots
     - No deben coincidir con minas
 
