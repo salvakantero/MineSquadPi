@@ -4,8 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- hotspots
-    - No deben coincidir con minas
+- hotspots aleatorios
+- eliminar DISK
 
 
 
@@ -16,17 +16,14 @@ BUGS
 
 POR HACER
 =========
+- códigos de acceso para stages 2 y 3
 - carátula IA
 - selección del jugador al comenzar la partida
 - secuencia al ganar
 - mapeado definitivo
 - probar con joystick/joypad
 
-- posicionar hotspots
 - posicionar enemigos
-
-- hotspot grabar partida
-
 - enemigos lineales
 - enemigos aleatorios
 - enemigos perseguidores
@@ -125,7 +122,8 @@ Notas
     El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o acaba toda su energía.
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas adyacentes.
 
-- Objetos (Hotspots):    
+- Objetos (Hotspots): 
+
     Power-Ups*:
         (0) Vida extra: rellena barra de energía
         (1) Escudo: invencible (30 secs)
