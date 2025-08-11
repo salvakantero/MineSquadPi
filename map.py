@@ -63,9 +63,9 @@ class Map():
         self._load()
         # reset some vars
         self.game.loop_counter = 0
-        self.game.floating_text.y = 0
+        self.game.floating_text.active = False
         self.game.loss_sequence = 0
-        # reset the sprite groups  
+        # reset the sprite groups
         for group in self.game.sprite_groups: group.empty()
         # player in its starting position
         player.rect = player.image.get_rect(

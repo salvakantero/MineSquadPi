@@ -142,6 +142,7 @@ while True:
         for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.update()
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.update(camera)
         for blast in game.sprite_groups[enums.SG_BLASTS]: blast.update()
+        game.floating_text.update(camera)
 
         ########
         # DRAW #
@@ -152,16 +153,14 @@ while True:
         # enemies, hotspots, blasts, shots 
         for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.draw(game.srf_map, camera)    
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.draw(game.srf_map, camera)
-        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)     
+        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)
+        game.floating_text.draw(camera)        
 
         # collision between player and enemies, mines or hotspots      
         game.check_player_collisions(player, scoreboard, map.number, map.map_data)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard)
-
-        # updates and draws the floating text only if needed
-        game.floating_text.update_and_draw(camera)
-
+        game.check_bullet_collisions(player, scoreboard)        
+        
         # updates the scoreboard, only if needed (needs_updating = True)
         scoreboard.update(player)
 

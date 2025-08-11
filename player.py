@@ -156,10 +156,7 @@ class Player(pygame.sprite.Sprite):
                 if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
                     self.game.remaining_mines -= 1                    
                     self.game.score += 125
-                    self.game.floating_text.text = '+125'
-                    self.game.floating_text.x = self.x
-                    self.game.floating_text.y = self.y
-                    self.game.floating_text.speed = 0
+                    self.game.floating_text.show('+125', self.x, self.y)
                     # if there is a mine on the tile, remove it                       
                     if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
                         self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION

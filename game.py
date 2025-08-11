@@ -92,6 +92,7 @@ class Game():
         
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
+
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
         self.beacon_image = pygame.image.load(constants.SPR_PATH + 'beacon.png').convert_alpha()
@@ -521,33 +522,34 @@ class Game():
             self.sfx_hotspot[hotspot.type].play()
             
             # manages the object according to the type
+            text = '' # floating text
             # power-ups
             if hotspot.type == enums.HS_LIFE:
-                self.floating_text.text = 'Full Energy'
+                text = 'Full Energy'
                 player.energy, _ = player.set_player_attributes()
             elif hotspot.type == enums.HS_SHIELD:
-                self.floating_text.text = 'Shield'
+                text = 'Shield'
                 player.invincible = True
                 player.timer_from = pygame.time.get_ticks()         
             elif hotspot.type == enums.HS_AMMO:
                 player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
-                self.floating_text.text = 'Ammo +10'
+                text = 'Ammo +10'
             # gifts
             elif hotspot.type == enums.HS_CANDY:
-                self.floating_text.text = '+50'
+                text = '+50'
                 player.score += 50
             elif hotspot.type == enums.HS_APPLE:
-                self.floating_text.text = '+75'
+                text = '+75'
                 player.score += 75                    
             elif hotspot.type == enums.HS_CHOCO:
-                self.floating_text.text = '+100'
+                text = '+100'
                 player.score += 100
             elif hotspot.type == enums.HS_COIN:
-                self.floating_text.text = '+200'
+                text = '+200'
                 player.score += 200   
             # savegame
             elif hotspot.type == enums.HS_DISK:                    
-                self.floating_text.text = 'Checkpoint'                    
+                text = 'Checkpoint'                    
                 self.checkpoint.data = {
                     'map_number' : map_number,
                     #'player_lives' : player.energy,
@@ -559,9 +561,7 @@ class Game():
                 self.checkpoint.save() 
 
             scoreboard.invalidate()
-            self.floating_text.x = hotspot.x*constants.TILE_SIZE
-            self.floating_text.y = hotspot.y*constants.TILE_SIZE
-            self.floating_text.speed = 0
+            self.floating_text.show(text , hotspot.x*constants.TILE_SIZE, hotspot.y*constants.TILE_SIZE)
 
             # removes the collided hotspot
             hotspot.kill()

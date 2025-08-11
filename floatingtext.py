@@ -28,31 +28,45 @@ from font import Font
 
 
 class FloatingText():
-    def __init__(self, text, x, y, surface): 
+    def __init__(self, surface): 
         self.font = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['WHITE2'], True)
         self.font2 = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['BLACK1'], True) 
-        self.text = text
-        self.x = x
-        self.y = y    
+        self.surface = surface
+        self.text = ""
+        self.x = 0
+        self.y = 0
         self.speed = 0
         self.acceleration = 0.03
-        self.surface = surface   
+        self.active = False
+
+
+
+    def show(self, text, x, y):
+        self.text = text
+        self.x = x
+        self.y = y
+        self.speed = 0
+        self.active = True
 
 
 
     # update the xy position (only if drawn inside the screen)
-    def update_and_draw(self, camera):  
-        if self.y > camera.y:        
+    def update(self, camera):
+        if not self.active:
+            return            
+        if self.y > camera.y:
             self.speed += self.acceleration
-            self.y -= self.speed # decreases Y, goes upwards
+            self.y -= self.speed  # decreases Y, goes upwards
         else:
-            self.kill()
+            self.active = False
 
 
 
-    # draws the explosion on the screen
+    # draws the text on the screen     
     def draw(self, camera):
+        if not self.active:
+            return            
         x = self.x - camera.x
-        y = self.y - camera.y      
+        y = self.y - camera.y        
         self.font2.render(self.text, self.surface, (x+1, y+1))
-        self.font.render(self.text, self.surface, (x, y))        
+        self.font.render(self.text, self.surface, (x, y))
