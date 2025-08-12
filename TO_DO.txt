@@ -131,10 +131,11 @@ Notas
         (4) Manzana      75
         (5) Chocolate   100
         (6) Moneda      200
-
-    * ambos tipos se distribuyen por el mapa aleatoriamente
-    Los tipos 3 al 6:
-    * siempre uno en todo momento en el mapa
+    * ambos tipos se distribuyen por el mapa aleatoriamente    
+    Aplicable a los tipos 0 al 2:
+    * definidos en HOTSPOT_DATA [tipo, mapa] 
+    Aplicable a los tipos 3 al 6:
+    * siempre uno (aleatorio) en todo momento en el mapa
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación
 
