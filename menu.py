@@ -51,7 +51,7 @@ class Menu():
         # page 3: Piper info
         # page 4: control info
         # page 5: hotspots info
-        # page 6: options
+        # page 6: settings
         self.menu_pages = []
         for _ in range(0, 7):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
@@ -111,8 +111,8 @@ class Menu():
 
 
     def page_0(self): # main menu options      
-        options = ['Start New Game', 'Continue Game', 'Options', 'Exit']
-        x, y = 80, 60
+        options = ['Start Game', 'Settings', 'Exit']
+        x, y = 90, 70
         # draws the options
         for i, option in enumerate(options):
             self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
@@ -182,8 +182,7 @@ class Menu():
         hotspots1 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_LIFE], (40, 60), 'FULL ENERGY', (61, 66)),
             (self.game.hotspot_images[enums.HS_SHIELD], (40, 80), 'INVULNERABLE', (61, 86)),
-            (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106)),
-            (self.game.hotspot_images[enums.HS_DISK], (40, 120), 'CHECKPOINT', (61, 126))]
+            (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106))]
         hotspots2 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_CANDY], (140, 60), 'CANDY +50', (161, 66)),
             (self.game.hotspot_images[enums.HS_APPLE], (140, 80), 'APPLE +75', (161, 86)),
@@ -201,8 +200,7 @@ class Menu():
 
 
 
-    def page_6(self): # options
-        # menu options      
+    def page_6(self): # settings 
         x, y = 60, 60
         fb = self.game.fonts[enums.L_B_BROWN] # brown font for the background
         ff = self.game.fonts[enums.L_F_BROWN] # sand font for the foreground
@@ -325,10 +323,10 @@ class Menu():
                                 selected_option -= 1
                                 self.sfx_menu_click.play()
                                 page_timer = 0
-                        # Options menu
+                        # Settings menu
                         elif menu_page == 6 and not confirmed_option:
                             # the cursor down or joystick down has been pressed
-                            if selected_option < enums.MO_EXIT_OPTIONS \
+                            if selected_option < enums.MO_EXIT_SETTINGS \
                             and ((event.type == pygame.KEYDOWN and event.key == pygame.K_DOWN) \
                             or (event.type == pygame.JOYAXISMOTION and event.axis == 1 and event.value > 0.5)):
                                 selected_option += 1
@@ -350,27 +348,22 @@ class Menu():
             if (menu_page == 0 or menu_page == 6) and y == 0:
                 # shows the cursor next to the selected option
                 if menu_page == 0:
-                    self.srf_menu.blit(self.img_pointer, (56, 56 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (66, 66 + (20*selected_option)))
                 else: # page 6
-                    self.srf_menu.blit(self.img_pointer, (35, -24 + (20*selected_option)))
+                    self.srf_menu.blit(self.img_pointer, (35, -4 + (20*selected_option)))
 
                 # an option was confirmed?
                 if confirmed_option:
                     # main menu page
                     if selected_option == enums.MO_START:
-                        self.game.new = True
-                        return                        
-                    elif selected_option == enums.MO_LOAD:
-                        self.game.new = False
                         return
                     # config page
-                    elif selected_option == enums.MO_OPTIONS:
+                    elif selected_option == enums.MO_SETTINGS:
                         y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
                         selected_option = enums.MO_SCREEN_MODE # 1st option
                         menu_page = 6
                     elif selected_option == enums.MO_EXIT:
                         self.game.exit()
-
                     # options menu page
                     elif selected_option == enums.MO_SCREEN_MODE:  # 0 = window, 1 = 4:3, 2 = 16:9
                         if self.game.config.OS == 'Windows':
@@ -380,7 +373,7 @@ class Menu():
                     elif selected_option == enums.MO_CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
-                    elif selected_option == enums.MO_EXIT_OPTIONS:
+                    elif selected_option == enums.MO_EXIT_SETTINGS:
                         y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
                         selected_option = enums.MO_START # 1st option
                         menu_page = 0                        

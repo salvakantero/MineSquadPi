@@ -5,8 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - hotspots aleatorios
-- eliminar DISK
-
 
 
 BUGS
@@ -16,7 +14,7 @@ BUGS
 
 POR HACER
 =========
-- códigos de acceso para stages 2 y 3
+- códigos de acceso para stages 2 y 3 ?
 - carátula IA
 - selección del jugador al comenzar la partida
 - secuencia al ganar
@@ -128,15 +126,14 @@ Notas
         (0) Vida extra: rellena barra de energía
         (1) Escudo: invencible (30 secs)
         (2) Munición: permite disparar (+10)
-        (3) Disco: checkpoint para no repetir nivel anterior
-    * posición predeterminada, puede haber más de uno
+    Puntuación extra*:    
+        (3) Chuche       50
+        (4) Manzana      75
+        (5) Chocolate   100
+        (6) Moneda      200
 
-    Regalos*: puntuación extra    
-        (4) Chuche       50
-        (5) Manzana      75
-        (6) Chocolate   100
-        (7) Moneda      200
-    * se distribuyen por el mapa aleatoriamente
+    * ambos tipos se distribuyen por el mapa aleatoriamente
+    Los tipos 3 al 6:
     * siempre uno en todo momento en el mapa
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación

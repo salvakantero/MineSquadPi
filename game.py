@@ -32,7 +32,6 @@ from datetime import date
 from config import Configuration
 from font import Font
 from intro import Intro
-from checkpoint import Checkpoint
 from explosion import Explosion
 from floatingtext import FloatingText
 
@@ -43,8 +42,6 @@ class Game():
         self.clock = pygame.time.Clock() # game clock for FPS and timers
         self.config = Configuration() # reads the configuration file to apply the personal settings
         self.config.load()
-        self.checkpoint = Checkpoint() # creates a checkpoint object to load/record game
-        self.new = True # when 'False', load the last checkpoint
         self.loss_sequence = 0 # animated sequence on losing (if > 0)
         self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
@@ -111,11 +108,10 @@ class Game():
             enums.HS_LIFE: pygame.image.load(constants.SPR_PATH + 'hotspot0.png').convert_alpha(),
             enums.HS_SHIELD: pygame.image.load(constants.SPR_PATH + 'hotspot1.png').convert_alpha(),
             enums.HS_AMMO: pygame.image.load(constants.SPR_PATH + 'hotspot2.png').convert_alpha(),
-            enums.HS_DISK: pygame.image.load(constants.SPR_PATH + 'hotspot3.png').convert_alpha(),
-            enums.HS_CANDY: pygame.image.load(constants.SPR_PATH + 'hotspot4.png').convert_alpha(),
-            enums.HS_APPLE: pygame.image.load(constants.SPR_PATH + 'hotspot5.png').convert_alpha(),
-            enums.HS_CHOCO: pygame.image.load(constants.SPR_PATH + 'hotspot6.png').convert_alpha(),
-            enums.HS_COIN: pygame.image.load(constants.SPR_PATH + 'hotspot7.png').convert_alpha()}
+            enums.HS_CANDY: pygame.image.load(constants.SPR_PATH + 'hotspot3.png').convert_alpha(),
+            enums.HS_APPLE: pygame.image.load(constants.SPR_PATH + 'hotspot4.png').convert_alpha(),
+            enums.HS_CHOCO: pygame.image.load(constants.SPR_PATH + 'hotspot5.png').convert_alpha(),
+            enums.HS_COIN: pygame.image.load(constants.SPR_PATH + 'hotspot6.png').convert_alpha()}
         self.control_images = {
             enums.CT_CLASSIC: pygame.image.load(constants.ASS_PATH + 'classic.png').convert_alpha(),
             enums.CT_GAMER:  pygame.image.load(constants.ASS_PATH + 'gamer.png').convert_alpha(),
@@ -156,7 +152,6 @@ class Game():
             enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
             enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
             enums.HS_AMMO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_ammo.wav'),
-            enums.HS_DISK: pygame.mixer.Sound(constants.FX_PATH + 'sfx_checkpoint.wav'),
             enums.HS_CANDY: pygame.mixer.Sound(constants.FX_PATH + 'sfx_candy.wav'),
             enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
             enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
@@ -547,18 +542,6 @@ class Game():
             elif hotspot.type == enums.HS_COIN:
                 text = '+200'
                 player.score += 200   
-            # savegame
-            elif hotspot.type == enums.HS_DISK:                    
-                text = 'Checkpoint'                    
-                self.checkpoint.data = {
-                    'map_number' : map_number,
-                    #'player_lives' : player.energy,
-                    #'player_ammo' : player.ammo,
-                    #'player_facing_right' : player.facing_right,
-                    #'player_rect' : player.rect,
-                    #'player_score' : self.score,
-                    'hotspot_data' : constants.HOTSPOT_DATA }
-                self.checkpoint.save() 
 
             scoreboard.invalidate()
             self.floating_text.show(text , hotspot.x*constants.TILE_SIZE, hotspot.y*constants.TILE_SIZE)

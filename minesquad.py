@@ -67,16 +67,9 @@ while True:
         map.last = -1
         game.remaining_mines = -1
         game.status = enums.GS_RUNNING
+        map.number = 0
         for hotspot in constants.HOTSPOT_DATA:
             hotspot[4] = True # used hotspots available again
-        # current map
-        if game.new: # start a new game
-            map.number = 0
-        else: # load the last checkpoint
-            game.checkpoint.load() # loading the file
-            #assigns the loaded data to the objects
-            d = game.checkpoint.data
-            map.number = d['map_number']
     else: # game running
         # event management
         for event in pygame.event.get():
