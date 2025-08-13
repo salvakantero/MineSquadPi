@@ -68,8 +68,6 @@ while True:
         game.remaining_mines = -1
         game.status = enums.GS_RUNNING
         map.number = 0
-        for hotspot in constants.HOTSPOT_DATA:
-            hotspot[4] = True # used hotspots available again
     else: # game running
         # event management
         for event in pygame.event.get():

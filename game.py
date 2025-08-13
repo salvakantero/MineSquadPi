@@ -137,9 +137,9 @@ class Game():
                 pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
                 pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
             2: [ # magic halo for hotspots
-                pygame.image.load(constants.SPR_PATH + 'blast16.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast15.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast16.png').convert_alpha()]}        
+                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast11.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha()]}        
         # sound effects
         self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
@@ -545,18 +545,9 @@ class Game():
 
             scoreboard.invalidate()
             self.floating_text.show(text , hotspot.x*constants.TILE_SIZE, hotspot.y*constants.TILE_SIZE)
-
-            # removes the collided hotspot
-            hotspot.kill()
             
-            # update HOTSPOT_DATA (hotspot not visible)
-            for i, hotspot_data in enumerate(constants.HOTSPOT_DATA):
-                if (hotspot_data[1] == map_number and
-                    hotspot_data[2] == hotspot.x and
-                    hotspot_data[3] == hotspot.y):
-                    constants.HOTSPOT_DATA[i][4] = False
-                    break       
-                     
+            hotspot.kill() # removes the collided hotspot
+                                    
             return
 
 

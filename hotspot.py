@@ -1,7 +1,7 @@
 
 # ==============================================================================
 # .::Hotspot class::.
-# Creates a hotspot sprite at given coordinates (is destroyed externally)
+# Creates a hotspot sprite at random coordinates (is destroyed externally)
 # and animates it with an up-and-down movement.
 # ==============================================================================
 #
@@ -24,25 +24,43 @@
 
 import pygame
 import constants
+import enums
+import random
 
 
 
 class Hotspot(pygame.sprite.Sprite):
-    def __init__(self, hotspot_data, image):
+    def __init__(self, type, image, tile_data):
         super().__init__()
-        # hotspot_data = [type, _, x, y, _]
-        self.type = hotspot_data[0] # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
-        self.x = hotspot_data[2]
-        self.y = hotspot_data[3]
+        self.type = type # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
         self.y_offset = 0 # to animate the hotspot (up and down)
         self.going_up = True
         self.animation_timer = 2 # timer to change position (frame counter)
         # image
         self.image = image
         self.rect = self.image.get_rect()
-        # coordinates in tiles have to be converted to pixels
-        self.rect.topleft = (self.x * constants.TILE_SIZE, self.y * constants.TILE_SIZE)   
+        # random coordinates in tiles (have to be converted to pixels)
+        self.tile_x, self.tile_y = self._generate_position(tile_data)
+        self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.tile_y * constants.TILE_SIZE)   
 
+
+
+    def _generate_position(self, tile_data):
+        available_tiles = []        
+        for row_index, row in enumerate(tile_data):
+            for col_index, tile in enumerate(row):
+                # 0:no action, 1:obstacle, 2:mine, 3:killer
+                if (tile == 0):
+                    available_tiles.append((row_index, col_index))        
+        # choose a random tile from the available ones
+        if available_tiles:
+            row, col = random.choice(available_tiles)
+            return col, row
+        else:
+            # no available tiles, return a default position
+            # this should not happen
+            return -1, -1
+    
 
 
     def update(self):
@@ -56,7 +74,7 @@ class Hotspot(pygame.sprite.Sprite):
                 if self.y_offset > 0: self.y_offset -= 1                
                 else: self.going_up = True            
         # apply the offset
-        self.rect.y = (self.y * constants.TILE_SIZE) - self.y_offset
+        self.rect.y = (self.tile_y * constants.TILE_SIZE) - self.y_offset
         self.animation_timer += 1
 
 
