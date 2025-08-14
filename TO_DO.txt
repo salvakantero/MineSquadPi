@@ -4,7 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-
+- sombra para los sprites (negro con opacidad 30%)
+- sombra separada para los hotspots
 
 
 BUGS
@@ -17,13 +18,7 @@ POR HACER
 - carátula IA
 - selección del jugador al comenzar la partida
 - secuencia al ganar
-- mapeado definitivo
 - probar con joystick/joypad
-
-- posicionar enemigos
-- enemigos lineales
-- enemigos aleatorios
-- enemigos perseguidores
 
 - gráficos de PIPER
 - gráficos de enemigos stage 1
@@ -32,6 +27,13 @@ POR HACER
 - gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
+
+- posicionar enemigos
+- enemigos lineales
+- enemigos aleatorios
+- enemigos perseguidores
+
+- mapeado definitivo
 
 
 HECHO
