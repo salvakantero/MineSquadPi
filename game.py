@@ -34,6 +34,7 @@ from font import Font
 from intro import Intro
 from explosion import Explosion
 from floatingtext import FloatingText
+from hotspot import Hotspot
 
 
 
@@ -532,19 +533,22 @@ class Game():
             # gifts
             elif hotspot.type == enums.HS_CANDY:
                 text = '+50'
-                player.score += 50
+                self.score += 50
             elif hotspot.type == enums.HS_APPLE:
                 text = '+75'
-                player.score += 75                    
+                self.score += 75                    
             elif hotspot.type == enums.HS_CHOCO:
                 text = '+100'
-                player.score += 100
+                self.score += 100
             elif hotspot.type == enums.HS_COIN:
                 text = '+200'
-                player.score += 200   
+                self.score += 200   
 
             scoreboard.invalidate()
-            self.floating_text.show(text , hotspot.x*constants.TILE_SIZE, hotspot.y*constants.TILE_SIZE)
+            self.floating_text.show(
+                text, 
+                hotspot.tile_x * constants.TILE_SIZE, 
+                hotspot.tile_y * constants.TILE_SIZE)
             
             hotspot.kill() # removes the collided hotspot
                                     
@@ -586,6 +590,21 @@ class Game():
     #                 # redraws the scoreboard
     #                 scoreboard.invalidate()
     #                 break
+
+
+
+    # renews the hotspot to score (if needed)
+    def regenerate_hotspot(self, tile_types):
+        has_score_hotspot = any(
+            hotspot.type >= enums.HS_CANDY 
+                for hotspot in self.sprite_groups[enums.SG_HOTSPOT])        
+        if not has_score_hotspot:
+            # inverse probabilities: lower value = higher probability
+            weights = [40, 30, 20, 10]  # CANDY(40%), APPLE(30%), CHOCO(20%), COIN(10%)
+            type = random.choices([enums.HS_CANDY, enums.HS_APPLE, enums.HS_CHOCO, enums.HS_COIN], 
+                                  weights=weights)[0]
+            new_hotspot = Hotspot(type, self.hotspot_images[type], tile_types)
+            self.sprite_groups[enums.SG_HOTSPOT].add(new_hotspot)
 
 
 

@@ -24,7 +24,6 @@
 
 import pygame
 import constants
-import enums
 import random
 
 
@@ -62,8 +61,24 @@ class Hotspot(pygame.sprite.Sprite):
             return -1, -1
     
 
+  
+    # check if the hotspot is within the camera's view
+    def _is_visible(self, camera):
+        return (
+            # check right edge
+            self.rect.x + self.rect.width > camera.x
+            # check left edge
+            and self.rect.x < camera.x + constants.SCREEN_MAP_UNSCALED_SIZE[0]
+            # check bottom edge
+            and self.rect.y + self.rect.height > camera.y
+            # check top edge
+            and self.rect.y < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
 
-    def update(self):
+
+
+    def update(self, camera):
+        if not self._is_visible(camera):
+            return
         # movement (up and down)
         if self.animation_timer > 1: # time to change the offset
             self.animation_timer = 0
@@ -81,6 +96,9 @@ class Hotspot(pygame.sprite.Sprite):
 
     # draws the hotspot on the screen
     def draw(self, surface, camera):
+        if not self._is_visible(camera):
+            return
         screen_x = self.rect.x - camera.x
         screen_y = self.rect.y - camera.y
         surface.blit(self.image, (screen_x, screen_y))
+

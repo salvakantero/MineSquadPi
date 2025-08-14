@@ -4,7 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- hotspots aleatorios
+
 
 
 BUGS
@@ -14,7 +14,6 @@ BUGS
 
 POR HACER
 =========
-- códigos de acceso para stages 2 y 3 ?
 - carátula IA
 - selección del jugador al comenzar la partida
 - secuencia al ganar
@@ -37,6 +36,8 @@ POR HACER
 
 HECHO
 =====
+14/08/25 - activación de hotspots para puntuar
+14/08/25 - hotspots en posiciones aleatorias
 03/08/25 - mapas definitivos, más largos que la pantalla (scroll)
 03/07/25 - efectos de sonido
 30/06/25 - siguiente nivel al desactivar todas las minas

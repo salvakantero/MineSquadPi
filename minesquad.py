@@ -128,12 +128,12 @@ while True:
         # UPDATE #
         ##########
         player.update() # updates the player position and state   
-        camera.update(player.x, player.y) # update camera position based on player     
+        camera.update(player.x, player.y) # update camera position based on player    
         # enemies, hotspots, blasts, shots        
-        for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.update()
+        for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.update(camera)
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.update(camera)
         for blast in game.sprite_groups[enums.SG_BLASTS]: blast.update()
-        game.floating_text.update(camera)
+        game.floating_text.update(camera)        
 
         ########
         # DRAW #
@@ -152,7 +152,10 @@ while True:
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)        
         
-        # updates the scoreboard, only if needed (needs_updating = True)
+        # renews the hotspot to score (if needed)
+        game.regenerate_hotspot(map.map_data['tile_types'])
+
+        # updates the scoreboard, (if needed, needs_updating = True)
         scoreboard.update(player)
 
         # next track in the playlist if the music has been stopped
