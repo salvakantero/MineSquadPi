@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- sombra para los sprites (negro con opacidad 30%)
 - sombra separada para los hotspots
 
 

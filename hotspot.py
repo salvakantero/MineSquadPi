@@ -37,9 +37,11 @@ class Hotspot(pygame.sprite.Sprite):
         self.animation_timer = 2 # timer to change position (frame counter)
         # image
         self.image = image
+        self.shadow_image = pygame.image.load(constants.SPR_PATH + 'hotspot_shadow.png').convert_alpha()
         self.rect = self.image.get_rect()
         # random coordinates in tiles (have to be converted to pixels)
         self.tile_x, self.tile_y = self._generate_position(tile_data)
+        self.shadow_y = (self.tile_y * constants.TILE_SIZE) + constants.HALF_TILE_SIZE # shadow is always at the bottom of the tile
         self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.tile_y * constants.TILE_SIZE)   
 
 
@@ -100,5 +102,7 @@ class Hotspot(pygame.sprite.Sprite):
             return
         screen_x = self.rect.x - camera.x
         screen_y = self.rect.y - camera.y
+        screen_shadow_y = self.shadow_y - camera.y
+        surface.blit(self.shadow_image, (screen_x, screen_shadow_y))
         surface.blit(self.image, (screen_x, screen_y))
 

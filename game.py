@@ -60,7 +60,7 @@ class Game():
         self.sprite_groups = [
             pygame.sprite.Group(),          # [0] explosions
             pygame.sprite.Group(),          # [1] enemies
-            pygame.sprite.Group(),          # [2] hotspot
+            pygame.sprite.Group(),          # [2] hotspots
             pygame.sprite.GroupSingle()]    # [3] shot
         # display mode and margins (default values)
         self.v_margin = constants.V_MARGIN
