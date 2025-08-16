@@ -4,12 +4,11 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- sombra separada para los hotspots
 
 
 BUGS
 ====
-
+- floating text no sale en la posición de la mina
 
 
 POR HACER
@@ -37,6 +36,7 @@ POR HACER
 
 HECHO
 =====
+16/08/25 - sombra para los hotspots
 14/08/25 - activación de hotspots para puntuar
 14/08/25 - hotspots en posiciones aleatorias
 03/08/25 - mapas definitivos, más largos que la pantalla (scroll)

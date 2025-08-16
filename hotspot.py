@@ -41,7 +41,7 @@ class Hotspot(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         # random coordinates in tiles (have to be converted to pixels)
         self.tile_x, self.tile_y = self._generate_position(tile_data)
-        self.shadow_y = (self.tile_y * constants.TILE_SIZE) + constants.HALF_TILE_SIZE # shadow is always at the bottom of the tile
+        self.shadow_y = (self.tile_y * constants.TILE_SIZE) + 1 # shadow is always at the bottom of the tile
         self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.tile_y * constants.TILE_SIZE)   
 
 
