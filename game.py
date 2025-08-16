@@ -84,6 +84,7 @@ class Game():
             enums.L_F_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['WHITE2'], True),
             enums.L_B_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['DARK_GRAY1'], True),
             enums.L_F_RED: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED0'], True),
+            enums.L_F_RED2: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED1'], True),
             enums.L_B_BLACK: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BLACK1'], True),
             enums.L_F_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE0'], True),
             enums.L_B_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BROWN0'], False)}
