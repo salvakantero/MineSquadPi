@@ -4,11 +4,11 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- gráficos de PIPER
 
 
 BUGS
 ====
-- floating text no sale en la posición de la mina
 
 
 POR HACER
@@ -18,7 +18,6 @@ POR HACER
 - secuencia al ganar
 - probar con joystick/joypad
 
-- gráficos de PIPER
 - gráficos de enemigos stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
