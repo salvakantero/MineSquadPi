@@ -37,7 +37,7 @@ MAP_TILE_SIZE = 30, 40 # map size in tiles
 MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # map size in pixels
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
-NUM_MINES =   60, 24, 28, 32, 36, 40, 44, 48, 52 # number of mines per map
+NUM_MINES =   20, 24, 28, 32, 36, 40, 44, 48, 52 # number of mines per map
 NUM_BEACONS = 28, 28, 30, 38, 40, 42, 48, 50, 52 # number of flags/beacons per map
 # player
 TIME_REMAINING = 20000 # remaining shield time (+-20 secs.)

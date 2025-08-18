@@ -4,7 +4,9 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de PIPER
+- probar con joystick/joypad
+- gráficos de tiles stage 1
+- gráficos de enemigos stage 1
 
 
 BUGS
@@ -13,15 +15,9 @@ BUGS
 
 POR HACER
 =========
-- carátula IA
-- selección del jugador al comenzar la partida
-- secuencia al ganar
-- probar con joystick/joypad
-
-- gráficos de enemigos stage 1
+- gráficos de PIPER
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
-- gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
 
@@ -30,11 +26,15 @@ POR HACER
 - enemigos aleatorios
 - enemigos perseguidores
 
+- selección del jugador al comenzar la partida
+
+- secuencia winner
 - mapeado definitivo
 
 
 HECHO
 =====
+18/08/25 - carátula IA
 16/08/25 - sombra para los hotspots
 14/08/25 - activación de hotspots para puntuar
 14/08/25 - hotspots en posiciones aleatorias
