@@ -139,7 +139,7 @@ while True:
         # DRAW #
         ########       
         map.draw(camera) # visible map area, free of sprites and marks (15x11 tiles)        
-        map.draw_mine_data(camera) # draws the location of the mines                     
+        map.draw_mine_data(camera, player) # draws the location of the mines                     
         player.draw(camera) # draws the player
         # enemies, hotspots, blasts, shots 
         for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.draw(game.srf_map, camera)    

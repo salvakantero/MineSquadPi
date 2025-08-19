@@ -55,7 +55,7 @@ HS_LIFE, HS_SHIELD, HS_AMMO, HS_CANDY, HS_APPLE, HS_CHOCO, HS_COIN = 0, 1, 2, 3,
 
 # fonts; S=small L=large / F=foreground B=background
 S_F_BROWN, S_B_BROWN, S_F_WHITE, S_B_WHITE, S_F_GREEN, S_B_GREEN, L_F_WHITE, L_B_WHITE, \
-L_F_RED, L_F_RED2, L_B_BLACK, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+L_F_RED, L_B_BLACK, L_F_BROWN, L_B_BROWN = 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 
 # menu options
 MO_START, MO_SETTINGS, MO_EXIT, MO_SCREEN_MODE, MO_SCANLINES, \

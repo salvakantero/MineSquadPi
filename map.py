@@ -227,7 +227,7 @@ class Map():
 
 
 
-    def draw_mine_data(self, camera):
+    def draw_mine_data(self, camera, player):
         tilemap = self.map_data['data'] # list of tiles that make up the map
         for row_index, row in enumerate(self.map_data['mines_info']):
             for col_index, value in enumerate(row):
@@ -236,15 +236,31 @@ class Map():
                 and tilemap[row_index][col_index] < 15:
                     x = (col_index * constants.TILE_SIZE) - camera.x
                     y = (row_index * constants.TILE_SIZE) - camera.y
-                    if value == enums.MI_BEACON: # mine deactivated
-                        self.game.srf_map.blit(self.game.beacon_image, (x, y))
-                    else: # proximity information
+                    # draw the beacon if the mine is deactivated
+                    if value == enums.MI_BEACON:
+                        self.game.srf_map.blit(self.game.beacon_image, (x, y)) 
+                    # draw the proximity number if the mine is active
+                    else:
+                        alpha = 255 # Calculate transparency based on distance from player
+                        # Convert player position to tile coordinates
+                        player_tile_x = player.rect.centerx // constants.TILE_SIZE
+                        player_tile_y = player.rect.centery // constants.TILE_SIZE                        
+                        # Calculate distance from player tile
+                        distance = max(abs(col_index - player_tile_x), abs(row_index - player_tile_y))                        
+                        # Apply transparency: full opacity for distance 0-1, fade for distance 2+
+                        if distance > 1:
+                            alpha = max(20, 255 - (distance - 1) * 50)  # minimum 20, fade by 50 per tile  
                         x = x + constants.HALF_TILE_SIZE
-                        y = y + constants.HALF_TILE_SIZE
-                        self.game.fonts[enums.L_B_BLACK].render(
-                            str(value), self.game.srf_map, (x-2,y-6))
-                        font = self.game.fonts[enums.L_F_RED] if value == 1 else self.game.fonts[enums.L_F_RED2]
-                        font.render(str(value), self.game.srf_map, (x-3,y-7))
+                        y = y + constants.HALF_TILE_SIZE                        
+                        if alpha < 255:  # Create surfaces with transparency for the text                           
+                            temp_surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE), pygame.SRCALPHA)
+                            self.game.fonts[enums.L_B_BLACK].render(str(value), temp_surface, (constants.HALF_TILE_SIZE-2, constants.HALF_TILE_SIZE-6))
+                            self.game.fonts[enums.L_F_RED].render(str(value), temp_surface, (constants.HALF_TILE_SIZE-3, constants.HALF_TILE_SIZE-7))
+                            temp_surface.set_alpha(alpha)
+                            self.game.srf_map.blit(temp_surface, (x - constants.HALF_TILE_SIZE, y - constants.HALF_TILE_SIZE))
+                        else:
+                            self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
+                            self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
 
 
 
