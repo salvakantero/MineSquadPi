@@ -25,26 +25,26 @@
 
 import pygame
 
+import constants
 
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images):
-        # enemy_data = (x1, y1, x2, y2, vx, vy, type)
+        # enemy_data = (type, map, speed, tile_x1, tile_y1, tile_x2, tile_y2)
         super().__init__()
-        # from xy values
-        self.x = self.x1 = enemy_data[0]
-        self.y = self.y1 = enemy_data[1]
-        # to xy values
-        self.x2 = enemy_data[2]
-        self.y2 = enemy_data[3]
-        # speed (pixels per frame)
-        self.vx = enemy_data[4]
-        self.vy = enemy_data[5]
         # enemy type: 
         # SCORPION, SNAKE, SOLDIER1
         # CRAB, PROJECTILE, SOLDIER2
         # SKIER, HABALI, SOLDIER3
-        self.type = enemy_data[6]
+        self.type = enemy_data[0]
+        # speed (pixels per frame)
+        self.speed = enemy_data[2]
+        # from xy values
+        self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
+        self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE
+        # to xy values
+        self.x2 = enemy_data[5] * constants.TILE_SIZE
+        self.y2 = enemy_data[6] * constants.TILE_SIZE
         # player's current position (some enemies look at the player)
         self.player = player_rect
         # images
@@ -78,8 +78,8 @@ class Enemy(pygame.sprite.Sprite):
 
     def update(self):
         # movement
-        self.x += self.vx
-        self.y += self.vy
+        self.x += self.speed
+        self.y += self.speed
         if self.x == self.x1 or self.x == self.x2: # x limit reached
             self.vx = -self.vx
         if self.y == self.y1 or self.y == self.y2: # y limit reached
@@ -88,3 +88,11 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.x = self.x
         self.rect.y = self.y
         self.animate()
+
+
+
+    # draws the enemy on the screen
+    def draw(self, surface, camera):
+        screen_x = self.x - camera.x
+        screen_y = self.y - camera.y
+        surface.blit(self.image, (screen_x, screen_y))
