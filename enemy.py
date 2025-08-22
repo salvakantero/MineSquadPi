@@ -83,7 +83,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.x == self.x1 or self.x == self.x2: # x limit reached
             self.vx = -self.vx
         if self.y == self.y1 or self.y == self.y2: # y limit reached
-            self.vy = -self.vy	 	
+            self.vy = -self.vy
         # applies the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
