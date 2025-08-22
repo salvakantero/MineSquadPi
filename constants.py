@@ -37,8 +37,8 @@ MAP_TILE_SIZE = 30, 40 # map size in tiles
 MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # map size in pixels
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
-NUM_MINES =   60, 24, 28, 32, 36, 40, 44, 48, 52 # number of mines per map
-NUM_BEACONS = 68, 28, 30, 38, 40, 42, 48, 50, 52 # number of flags/beacons per map
+NUM_MINES =   20, 24, 28, 32, 36, 40, 44, 48, 52 # number of mines per map
+NUM_BEACONS = 28, 28, 30, 38, 40, 42, 48, 50, 52 # number of flags/beacons per map
 # player
 TIME_REMAINING = 20000 # remaining shield time (+-20 secs.)
 MAX_AMMO = 20 # maximum number of bullets
@@ -120,83 +120,70 @@ PALETTE = {
     
     'SAND0' : (205, 154, 120),
     'SAND1' : (255, 204, 170),
-    'SAND2' : (250, 249, 215)
-}
+    'SAND2' : (250, 249, 215)}
 
-# enemies per map (x1, y1, x2, y2, vx, vy, type)
-# types:
-#	1) SCORPION 
-#   2) SNAKE
-#   3) SOLDIER1
-# -----------------
-#   4) CRAB
-#   5) PROJECTILE
-#   6) SOLDIER2
-# -----------------
-#   7) SKIER
-#   8) HABALI
-#   9) SOLDIER3
-# ENEMIES_DATA = [
-#     #-----------LEVEL 1-------------
-#     # 0
-#     (128, 112, 32, 112, -1, 0, 1),
-# 	(16, 16, 224, 48, 1, 1, 2),
-# 	(0, 0, 0, 0, 0, 0, 0),
-#     # 1
-# 	(192, 112, 32, 112, -2, 0, 1),
-# 	(208, 16, 144, 64, -.5, .5, 2),
-# 	(80, 64, 80, 16, 0, -1, 3),
-#     # 2
-# 	(112, 144, 112, 32, 0, -1, 4),
-# 	(208, 112, 16, 80, -1, -1, 2),
-# 	(0, 0, 0, 0, 0, 0, 0),
-#     # 3
-# 	(160, 48, 32, 48, -2, 0, 1),
-# 	(16, 80, 208, 112, 2, 2, 3),
-# 	(0, 0, 0, 0, 0, 0, 0),
-#     #-----------LEVEL 2-------------
-#     # 4
-#     (32, 96, 32, 112, 0, 0, 5),
-# 	(192, 16, 128, 128, -1, 1, 2),
-# 	(0, 0, 0, 0, 0, 0, 0),
-#     # 5
-#     (176, 48, 64, 48, -.5, 0, 1),
-# 	(48, 128, 32, 16, -1, -1, 3),
-# 	(64, 48, 176, 48, 1, 0, 1),
-#     # 6
-#     (64, 16, 80, 128, 1, 1, 2),
-# 	(96, 32, 160, 32, 1, 0, 1),
-# 	(16, 96, 16, 16, 0, -1, 3),
-#     # 7
-#     (48, 112, 208, 80, 1, -1, 2),
-# 	(192, 48, 48, 16, -2, -2, 2),
-# 	(16, 80, 16, 16, 0, -.5, 3),
-#     #-----------LEVEL 3-------------
-#     # 8
-# 	(80, 128, 112, 128, 0, 0, 5),
-# 	(112, 112, 144, 112, 1, 0, 2),
-# 	(0, 0, 0, 0, 0, 0, 0),
-#     # 9
-# 	(192, 64, 32, 32, -1, -1, 2),
-# 	(48, 128, 224, 112, 1, -1, 2),
-# 	(16, 64, 32, 64, 0, 0, 5),
-#     # 10
-# 	(160, 128, 160, 16, 0, -2, 3),
-# 	(112, 32, 112, 128, 0, 2, 3),
-# 	(64, 128, 16, 16, -2, -2, 2),
-#     # 11
-# 	(176, 96, 32, 96, -2, 0, 1),
-# 	(32, 64, 192, 64, 1, 0, 1),
-# 	(192, 32, 64, 32, -2, 0, 1)
-# ]
+# enemies per map (type, tile_x1, tile_y1, tile_x2, tile_y2, speed)
+ENEMIES_DATA = [
+    #-----------STAGE 1-------------
+    #
+    # types:    1) SCORPION 
+    #           2) SNAKE 
+    #           3) SOLDIER1
+    # 0
+    (128, 112, 32, 112, -1, 0, 1),
+	(16, 16, 224, 48, 1, 1, 2),
+	(0, 0, 0, 0, 0, 0, 0),
+    # 1
+	(192, 112, 32, 112, -2, 0, 1),
+	(208, 16, 144, 64, -.5, .5, 2),
+	(80, 64, 80, 16, 0, -1, 3),
+    # 2
+	(112, 144, 112, 32, 0, -1, 4),
+	(208, 112, 16, 80, -1, -1, 2),
+	(0, 0, 0, 0, 0, 0, 0),
+
+    #-----------STAGE 2-------------
+    #
+    # types:    4) CRAB
+    #           5) PROJECTILE
+    #           6) SOLDIER2
+    # 3
+    (32, 96, 32, 112, 0, 0, 5),
+	(192, 16, 128, 128, -1, 1, 2),
+	(0, 0, 0, 0, 0, 0, 0),
+    # 4
+    (176, 48, 64, 48, -.5, 0, 1),
+	(48, 128, 32, 16, -1, -1, 3),
+	(64, 48, 176, 48, 1, 0, 1),
+    # 5
+    (64, 16, 80, 128, 1, 1, 2),
+	(96, 32, 160, 32, 1, 0, 1),
+	(16, 96, 16, 16, 0, -1, 3),
+
+    #-----------LEVEL 3-------------
+    #
+    # types:    7) SKIER
+    #           8) HABALI
+    #           9) SOLDIER3
+    # 6
+	(80, 128, 112, 128, 0, 0, 5),
+	(112, 112, 144, 112, 1, 0, 2),
+	(0, 0, 0, 0, 0, 0, 0),
+    # 7
+	(192, 64, 32, 32, -1, -1, 2),
+	(48, 128, 224, 112, 1, -1, 2),
+	(16, 64, 32, 64, 0, 0, 5),
+    # 8
+	(160, 128, 160, 16, 0, -2, 3),
+	(112, 32, 112, 128, 0, 2, 3),
+	(64, 128, 16, 16, -2, -2, 2)]
 
 # hotspot data
 HOTSPOT_DATA = [
     # Type              Map
     [enums.HS_SHIELD,   0],
     [enums.HS_LIFE,     0],
-    [enums.HS_AMMO,     0]
-]
+    [enums.HS_AMMO,     0]]
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [
@@ -205,8 +192,7 @@ END_LEVEL_MESSAGES = [
     ('Mission accomplished!', 'All mines have been neutralised!'),
     ('Good work, Sergeant!', 'The area has been completely secured!'),
     ('Congratulations!', "You're an expert in bomb disposal!"),
-    ('Objective achieved!', 'Level completed successfully!')
-]
+    ('Objective achieved!', 'Level completed successfully!')]
 
 # help for the main menu
 HELP = 'Press a menu option to continue or ESC to exit...     '

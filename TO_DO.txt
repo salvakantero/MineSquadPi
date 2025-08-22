@@ -4,6 +4,7 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- posicionar enemigos
 - probar con joystick/joypad
 - gráficos de tiles stage 1
 - gráficos de enemigos stage 1
@@ -21,7 +22,6 @@ POR HACER
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
 
-- posicionar enemigos
 - enemigos lineales
 - enemigos aleatorios
 - enemigos perseguidores
