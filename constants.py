@@ -122,7 +122,7 @@ PALETTE = {
     'SAND1' : (255, 204, 170),
     'SAND2' : (250, 249, 215)}
 
-# enemies per map (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
+# enemies per map (map, type, tile_x1, tile_y1, tile_x2, tile_y2)
 ENEMIES_DATA = [
     #-----------STAGE 1-------------
     #
@@ -130,9 +130,10 @@ ENEMIES_DATA = [
     #           2) SNAKE 
     #           3) SOLDIER1
     # 0
-    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 6, 35, 6, 20),
-    (0, enums.EN_SNAKE, enums.EM_VERTICAL, 20, 35, 20, 10),
-    (0, enums.EN_SOLDIER1, enums.EM_VERTICAL, 25, 5, 25, 15),
+    (0, enums.EN_SCORPION, 6, 35, 10, 35), # linear Horizontal
+    (0, enums.EN_SNAKE, 20, 35, 20, 10), # linear Vertical
+    (0, enums.EN_SOLDIER1, 25, 5, 0, 0), # random
+    (0, enums.EN_SOLDIER1, 5, 5, 5, 5), # pursuer
     # 1
     (192, 112, 32, 112, -2, 0, 1),
     (208, 16, 144, 64, -.5, .5, 2),
