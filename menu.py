@@ -261,8 +261,8 @@ class Menu():
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         y = -(constants.MENU_UNSCALED_SIZE[1]) # for vertical scrolling of pages
 
-        # empties the buffer of controls
-        pygame.event.clear([pygame.KEYDOWN, pygame.JOYBUTTONDOWN, pygame.JOYAXISMOTION])
+        # clears the input buffer (keyboard and joystick)
+        self.game.clear_input_buffer()
 
         # ========================= main menu loop =========================        
         while True:

@@ -169,13 +169,33 @@ class Game():
 
 
 
+    # clears the input buffer (keyboard and joystick)
+    def clear_input_buffer(self):
+        pygame.event.clear()
+        if self.joystick is not None:
+            # waits until all buttons are released
+            while any(self.joystick.get_button(i) 
+                      for i in range(self.joystick.get_numbuttons())):
+                pygame.event.pump()
+
+
+
     # waits for a key to be pressed
     def wait_for_key(self):
-        pygame.event.clear(pygame.KEYDOWN)
+        self.clear_input_buffer()
         while True:
+            # joypad buttons
+            if self.joystick is not None:
+                if any(self.joystick.get_button(i) 
+                       for i in range(self.joystick.get_numbuttons())):
+                    self.clear_input_buffer()
+                    break
+            # keyboard keys
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: self.exit()
-                elif event.type == pygame.KEYDOWN: break
+                elif event.type == pygame.KEYDOWN:
+                    self.clear_input_buffer() 
+                    break
             else: continue
             break
 

@@ -5,13 +5,13 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - posicionar enemigos
-- probar con joystick/joypad
 - gráficos de tiles stage 1
 - gráficos de enemigos stage 1
 
 
 BUGS
 ====
+- no funcionan las configuraciones de teclado, solo cursores
 
 
 POR HACER
