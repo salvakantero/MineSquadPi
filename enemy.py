@@ -44,8 +44,8 @@ class Enemy(pygame.sprite.Sprite):
         self.x2 = enemy_data[4] * constants.TILE_SIZE
         self.y2 = enemy_data[5] * constants.TILE_SIZE
         # speed of movement
-        self.vx = 1
-        self.vy = 1
+        self.vx = 0
+        self.vy = 0
         # player's current position (some enemies look at the player)
         self.player = player_rect
         # images

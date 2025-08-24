@@ -173,93 +173,93 @@ class Player(pygame.sprite.Sprite):
 
 
 
+    def _get_joystick_direction(self):
+        if self.game.joystick is None:
+            return None, pygame.math.Vector2(0, 0)
+        def eliminar_movimientos_falsos(valor):
+            return valor if abs(valor) >= 0.1 else 0.0
+        axis_x = eliminar_movimientos_falsos(self.game.joystick.get_axis(0))
+        axis_y = eliminar_movimientos_falsos(self.game.joystick.get_axis(1))
+        if axis_y < -0.5:
+            return enums.DI_UP, pygame.math.Vector2(0, -1)
+        elif axis_y > 0.5:
+            return enums.DI_DOWN, pygame.math.Vector2(0, 1)
+        elif axis_x < -0.5:
+            return enums.DI_LEFT, pygame.math.Vector2(-1, 0)
+        elif axis_x > 0.5:
+            return enums.DI_RIGHT, pygame.math.Vector2(1, 0)
+        return None, pygame.math.Vector2(0, 0)
+
+
+
     # keyboard/mouse/joystick keystroke input
     def get_input(self): 
-        # distance travelled control
-        if self.steps >= 0: 
-            self.steps += 1 # continue walking
-            # if it exceeds the tile size...
-            if self.steps >= constants.TILE_SIZE-1: 
-                self.steps = -1 # it stops
-            return    
-        # if the player is turning, handle the waiting time
+        # Acciones de botones joystick
+        if self.game.joystick is not None:
+            if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
+                self.fire()
+            if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
+                self.place_beacon()
+
+        # Movimiento teclado
+        key_state = pygame.key.get_pressed()
+        pressed_key = next((k for k in self._direction_mappings if key_state[k]), None)
+        if pressed_key:
+            look_at, direction_vector = self._direction_mappings[pressed_key]
+        else:
+            # Si no hay tecla, prueba joystick
+            look_at, direction_vector = self._get_joystick_direction()
+
+        previous_look_at = self.look_at
+        if self.steps >= 0:
+            self.steps += 1
+            if self.steps >= constants.TILE_SIZE-1:
+                self.steps = -1
+            return
+
         if self.is_turning:
             self._handle_turning()
-            return        
-        # if the player is not turning, check for movement input
-        self._handle_movement_input()
+            return
 
-        # if self.game.joystick is not None: # manages the joystick/joypad/gamepad
-        #     # eliminates false movements
-        #     def eliminate_false_movements(value):
-        #         return value if abs(value) >= 0.1 else 0.0
-            
-        #     # press fire buttons
-        #     if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
-        #         self.fire()
-        #     # press beacon buttons
-        #     if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
-        #         self.place_beacon()
+        if look_at is None:
+            self.direction.update(0, 0)
+            return
 
-        #     if self.steps < 0: # if it is not moving
-        #         # obtains the possible movement of the axes. A value greater than +-0.5 
-        #         # is considered as intentional movement. The values obtained range from -1 to 1.
-        #         axis_x = self.game.joystick.get_axis(0)
-        #         axis_y = self.game.joystick.get_axis(1)
-        #         axis_x = eliminate_false_movements(axis_x)
-        #         axis_y = eliminate_false_movements(axis_y)
+        self.look_at = look_at
+        self.last_key_pressed = pressed_key
+        if previous_look_at != self.look_at:
+            self.direction.update(0, 0)
+            self.turn_timer = pygame.time.get_ticks()
+            self.is_turning = True
+        else:
+            self.direction.update(direction_vector)
+            self.steps = 0
 
-        #         # determine new direction
-        #         new_look_at = None                
-        #         if axis_y < -0.5: new_look_at = enums.DI_UP
-        #         elif axis_y > 0.5: new_look_at = enums.DI_DOWN
-        #         elif axis_x < -0.5: new_look_at = enums.DI_LEFT
-        #         elif axis_x > 0.5: new_look_at = enums.DI_RIGHT
 
-        #         # if there is change of direction
-        #         if new_look_at is not None and new_look_at != self.look_at:
-        #             self.look_at = new_look_at
-        #             self.direction.update(0, 0)  # stop movement
-        #             self.turn_timer = pygame.time.get_ticks()
-        #             self.is_turning = True
-        #             return # exit to wait for delay
-                
-        #         # if in turning mode and sufficient time has elapsed
-        #         if self.is_turning:
-        #             current_time = pygame.time.get_ticks()
-        #              # waiting time (120ms)
-        #             if current_time - self.turn_timer > 120:
-        #                 self.is_turning = False
-        #                 # move only if the joystick holds direction
-        #                 if ( (new_look_at == enums.DI_UP and axis_y < -0.5) or
-        #                     (new_look_at == enums.DI_DOWN and axis_y > 0.5) or
-        #                     (new_look_at == enums.DI_LEFT and axis_x < -0.5) or
-        #                     (new_look_at == enums.DI_RIGHT and axis_x > 0.5) ):
-        #                     if new_look_at == enums.DI_UP: self.direction.update(0, -1)
-        #                     elif new_look_at == enums.DI_DOWN: self.direction.update(0, 1)
-        #                     elif new_look_at == enums.DI_LEFT: self.direction.update(-1, 0)
-        #                     elif new_look_at == enums.DI_RIGHT: self.direction.update(1, 0)
-        #                     self.steps += 1
-        #             return
 
-        #         # immediate movement if not turning
-        #         if new_look_at is not None:
-        #             if new_look_at == enums.DI_UP: self.direction.update(0, -1)
-        #             elif new_look_at == enums.DI_DOWN: self.direction.update(0, 1)
-        #             elif new_look_at == enums.DI_LEFT: self.direction.update(-1, 0)
-        #             elif new_look_at == enums.DI_RIGHT: self.direction.update(1, 0)
-        #             self.steps += 1
-        #             return
-        #         else:  # no movement
-        #             self.direction.update(0, 0)
 
-            #=================================================================
-            # BETA trick
-            #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
-            #    if self.lives < 99: 
-            #        self.lives += 1
-            #        self.scoreboard.invalidate() 
-            # ================================================================          
+
+        # # distance travelled control
+        # if self.steps >= 0: 
+        #     self.steps += 1 # continue walking
+        #     # if it exceeds the tile size...
+        #     if self.steps >= constants.TILE_SIZE-1: 
+        #         self.steps = -1 # it stops
+        #     return    
+        # # if the player is turning, handle the waiting time
+        # if self.is_turning:
+        #     self._handle_turning()
+        #     return        
+        # # if the player is not turning, check for movement input
+        # self._handle_movement_input()
+
+        #=================================================================
+        # BETA trick
+        #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
+        #    if self.lives < 99: 
+        #        self.lives += 1
+        #        self.scoreboard.invalidate() 
+        # ================================================================          
 
 
 
@@ -279,30 +279,30 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    def _handle_movement_input(self):
-        key_state = pygame.key.get_pressed()
-        previous_look_at = self.look_at
-        # check which key is pressed
-        pressed_key = None
-        for key in self._direction_mappings:
-            if key_state[key]:
-                pressed_key = key
-                break
-        # if no key is pressed, stop the player
-        if not pressed_key:
-            self.direction.update(0, 0)
-            return
-        # update the direction and look_at based on the pressed key
-        self.look_at, direction_vector = self._direction_mappings[pressed_key]
-        self.last_key_pressed = pressed_key
-        # if the direction has changed, reset the steps and start turning
-        if previous_look_at != self.look_at:
-            self.direction.update(0, 0)
-            self.turn_timer = pygame.time.get_ticks()
-            self.is_turning = True
-        else: # if the direction is the same, update the movement vector
-            self.direction.update(direction_vector)
-            self.steps = 0
+    # def _handle_movement_input(self):
+    #     key_state = pygame.key.get_pressed()
+    #     previous_look_at = self.look_at
+    #     # check which key is pressed
+    #     pressed_key = None
+    #     for key in self._direction_mappings:
+    #         if key_state[key]:
+    #             pressed_key = key
+    #             break
+    #     # if no key is pressed, stop the player
+    #     if not pressed_key:
+    #         self.direction.update(0, 0)
+    #         return
+    #     # update the direction and look_at based on the pressed key
+    #     self.look_at, direction_vector = self._direction_mappings[pressed_key]
+    #     self.last_key_pressed = pressed_key
+    #     # if the direction has changed, reset the steps and start turning
+    #     if previous_look_at != self.look_at:
+    #         self.direction.update(0, 0)
+    #         self.turn_timer = pygame.time.get_ticks()
+    #         self.is_turning = True
+    #     else: # if the direction is the same, update the movement vector
+    #         self.direction.update(direction_vector)
+    #         self.steps = 0
 
 
 
