@@ -26,26 +26,48 @@
 import pygame
 
 import constants
+import enums
 
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images):
-        # enemy_data = (map, type, tile_x1, tile_y1, tile_x2, tile_y2)
+        # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         super().__init__()
         # enemy type: 
         # SCORPION, SNAKE, SOLDIER1
         # CRAB, PROJECTILE, SOLDIER2
         # SKIER, HABALI, SOLDIER3
         self.type = enemy_data[1]
+        # movement type:
+        # HORIZONTAL, VERTICAL, RANDOM, CHASER
+        self.movement = enemy_data[2]
         # from xy values
-        self.x = self.x1 = enemy_data[2] * constants.TILE_SIZE
-        self.y = self.y1 = enemy_data[3] * constants.TILE_SIZE
+        self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
+        self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE
         # to xy values
-        self.x2 = enemy_data[4] * constants.TILE_SIZE
-        self.y2 = enemy_data[5] * constants.TILE_SIZE
-        # speed of movement
+        self.x2 = enemy_data[5] * constants.TILE_SIZE
+        self.y2 = enemy_data[6] * constants.TILE_SIZE
+        
+        # speed of movement - AQUÍ ESTÁ LA CORRECCIÓN
+        self.speed = 1  # Puedes ajustar esta velocidad según necesites
         self.vx = 0
         self.vy = 0
+        
+        # Inicializar velocidad según el tipo de movimiento
+        if self.movement == enums.EM_HORIZONTAL:
+            # Determinar dirección inicial basada en las posiciones x1 y x2
+            if self.x2 > self.x1:
+                self.vx = self.speed  # moverse hacia la derecha inicialmente
+            else:
+                self.vx = -self.speed  # moverse hacia la izquierda inicialmente
+                
+        elif self.movement == enums.EM_VERTICAL:
+            # Determinar dirección inicial basada en las posiciones y1 e y2
+            if self.y2 > self.y1:
+                self.vy = self.speed  # moverse hacia abajo inicialmente
+            else:
+                self.vy = -self.speed  # moverse hacia arriba inicialmente
+        
         # player's current position (some enemies look at the player)
         self.player = player_rect
         # images
@@ -55,8 +77,6 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_speed = 12 # frame dwell time
         self.image = self.image_list[0] # first frame
         self.rect = self.image.get_rect()
-
-
 
     def animate(self):
         self.animation_timer += 1
@@ -69,28 +89,48 @@ class Enemy(pygame.sprite.Sprite):
             self.frame_index = 0 # reset the frame number
         # assigns the original or inverted image:
         # moving to the right, or idle looking at the player
-        if self.vx > 0 or (self.vx == 0 and self.player.x >= self.x):
+        if self.vx > 0: #or (self.vx == 0 and self.player.x >= self.x):
             self.image = self.image_list[self.frame_index]
         # moving to the left, or idle looking at the player
-        elif self.vx < 0 or (self.vx == 0 and self.player.x < self.x):
+        elif self.vx < 0: #or (self.vx == 0 and self.player.x < self.x):
             self.image = pygame.transform.flip(self.image_list[self.frame_index], True, False)
-
-
 
     def update(self):
         # movement
-        self.x += 1
-        self.y += 1
-        if self.x == self.x1 or self.x == self.x2: # x limit reached
-            self.vx = -self.vx
-        if self.y == self.y1 or self.y == self.y2: # y limit reached
-            self.vy = -self.vy
+        if self.movement == enums.EM_HORIZONTAL:
+            self.x += self.vx
+            # Determinar los límites izquierdo y derecho
+            min_x = min(self.x1, self.x2)
+            max_x = max(self.x1, self.x2)
+            
+            # Detectar cuando llega a cualquiera de los dos límites
+            if self.x <= min_x or self.x >= max_x:
+                self.vx = -self.vx
+                # Asegurar que no se pase de los límites
+                if self.x < min_x:
+                    self.x = min_x
+                elif self.x > max_x:
+                    self.x = max_x
+                    
+        elif self.movement == enums.EM_VERTICAL:
+            self.y += self.vy
+            # Determinar los límites superior e inferior
+            min_y = min(self.y1, self.y2)
+            max_y = max(self.y1, self.y2)
+            
+            # Detectar cuando llega a cualquiera de los dos límites
+            if self.y <= min_y or self.y >= max_y:
+                self.vy = -self.vy
+                # Asegurar que no se pase de los límites
+                if self.y < min_y:
+                    self.y = min_y
+                elif self.y > max_y:
+                    self.y = max_y
+
         # applies the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
         self.animate()
-
-
 
     # draws the enemy on the screen
     def draw(self, surface, camera):

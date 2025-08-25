@@ -131,7 +131,7 @@ while True:
         player.update() # updates the player position and state   
         camera.update(player.x, player.y) # update camera position based on player    
         # enemies, hotspots, blasts, shots
-        #for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.update()
+        for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.update()
         for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.update(camera)
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.update(camera)
         for blast in game.sprite_groups[enums.SG_BLASTS]: blast.update()
@@ -144,7 +144,7 @@ while True:
         map.draw_mine_data(camera, player) # draws the location of the mines                     
         player.draw(camera) # draws the player
         # enemies, hotspots, blasts, shots
-        #for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.draw(game.srf_map, camera)
+        for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.draw(game.srf_map, camera)
         for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.draw(game.srf_map, camera)
         for shot in game.sprite_groups[enums.SG_SHOT]: shot.draw(game.srf_map, camera)
         for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)

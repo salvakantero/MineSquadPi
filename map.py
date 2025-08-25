@@ -85,9 +85,9 @@ class Map():
             self.game.sprite_groups[enums.SG_HOTSPOT].add(hotspot_sprite)
 
         # add enemies to the map reading from 'ENEMIES_DATA' list
-        map_enemies = [enemy for enemy in constants.ENEMIES_DATA if enemy[1] == self.number]
+        map_enemies = [enemy for enemy in constants.ENEMIES_DATA if enemy[0] == self.number]
         for enemy_data in map_enemies:
-            enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[0]])
+            enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[1]])
             self.game.sprite_groups[enums.SG_ENEMIES].add(enemy)
 
 
