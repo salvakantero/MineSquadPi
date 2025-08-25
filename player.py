@@ -73,10 +73,10 @@ class Player(pygame.sprite.Sprite):
         self.scoreboard = scoreboard
         # cache frequently used values
         self._direction_mappings = {
-            pygame.K_UP: (enums.DI_UP, pygame.math.Vector2(0, -1)),
-            pygame.K_DOWN: (enums.DI_DOWN, pygame.math.Vector2(0, 1)),
-            pygame.K_LEFT: (enums.DI_LEFT, pygame.math.Vector2(-1, 0)),
-            pygame.K_RIGHT: (enums.DI_RIGHT, pygame.math.Vector2(1, 0))
+            game.config.up_key: (enums.DI_UP, pygame.math.Vector2(0, -1)),
+            game.config.down_key: (enums.DI_DOWN, pygame.math.Vector2(0, 1)),
+            game.config.left_key: (enums.DI_LEFT, pygame.math.Vector2(-1, 0)),
+            game.config.right_key: (enums.DI_RIGHT, pygame.math.Vector2(1, 0))            
         }
         self._state_mappings = {
             enums.DI_UP: (enums.PS_IDLE_UP, enums.PS_WALK_UP),

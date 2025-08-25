@@ -166,8 +166,8 @@ class Menu():
             (self.game.control_images[0], (30, 52), 'Classic', (39, 90)),
             (self.game.control_images[1], (95, 52), 'Gamer', (104, 90)),
             (self.game.control_images[2], (160, 52), 'Retro', (170, 90)),
-            (self.game.control_images[3], (53, 108), 'Joypad', (70, 146)),
-            (self.game.control_images[4], (119, 108), 'Common keys', (131, 146))]
+            (self.game.control_images[3], (53, 110), 'Joypad', (70, 149)),
+            (self.game.control_images[4], (119, 101), 'Common keys', (131, 149))]
         # header
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
         # images and descriptions

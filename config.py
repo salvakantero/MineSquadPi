@@ -47,6 +47,7 @@ class Configuration():
         self.right_key = pygame.K_RIGHT
         # the following values are independent of the layout
         self.beacon_key = pygame.K_b
+        self.beacon_key2 = pygame.K_COMMA
         self.fire_key = pygame.K_SPACE
         self.mute_key = pygame.K_m
 

@@ -98,7 +98,8 @@ while True:
                 elif event.key == game.config.fire_key:
                     player.fire()
                 # press beacon
-                elif event.key == game.config.beacon_key:
+                elif (event.key == game.config.beacon_key
+                      or  event.key == game.config.beacon_key2):
                     player.place_beacon()
             # mouse clicks
             elif event.type == pygame.MOUSEBUTTONDOWN:

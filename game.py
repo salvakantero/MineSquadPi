@@ -430,7 +430,7 @@ class Game():
         # control images
         if control_info:
             aux_surf.blit(self.control_images[self.config.data['control']], (x + 15, y + 45))
-            aux_surf.blit(self.control_images[4], (x + width - 85, y + 45))
+            aux_surf.blit(self.control_images[4], (x + width - 85, y + 39))
         # return the copy with the message on the map surface and redraw it.
         self.srf_map.blit(aux_surf, (0,0))
         self.srf_map.set_alpha(None)
