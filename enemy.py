@@ -61,7 +61,26 @@ class Enemy(pygame.sprite.Sprite):
         # Variables para movimiento CHASER
         self.chase_update_timer = 0  # temporizador para actualizar dirección de persecución
         self.chase_update_interval = 30  # frames entre actualizaciones (ajustable)
+        # NUEVA: Zona de activación para CHASER (en tiles)
+        self.activation_range = 5  # el enemigo se activa cuando el player está a 5 tiles o menos
+        self.is_active = False  # si el enemigo está activo o no
+        # NUEVA: Sistema de pausa entre movimientos
+        self.pause_timer = 0  # temporizador de pausa actual
+        self.pause_duration = 90  # duración de la pausa en frames (1.5 segundos a 60fps)
+        self.is_paused = False  # si el enemigo está en pausa
         
+        # player's current position (some enemies look at the player)
+        self.player = player_rect
+
+        # images - CREAR RECT ANTES DE CONFIGURAR MOVIMIENTO INICIAL
+        self.image_list = enemy_images
+        self.frame_index = 0  # frame number
+        self.animation_timer = 12  # timer to change frame
+        self.animation_speed = 12  # frame dwell time
+        self.image = self.image_list[0]  # first frame
+        self.rect = self.image.get_rect()
+
+        # AHORA SÍ configurar el movimiento inicial (después de crear self.rect)
         if self.movement == enums.EM_HORIZONTAL:
             # determine initial direction based on x1 and x2 positions
             self.vx = self.speed if self.x2 > self.x1 else -self.speed
@@ -72,19 +91,8 @@ class Enemy(pygame.sprite.Sprite):
             # iniciar con dirección aleatoria
             self._set_random_direction()
         elif self.movement == enums.EM_CHASER:
-            # iniciar persiguiendo al jugador
-            self._update_chaser_direction()
-            
-        # player's current position (some enemies look at the player)
-        self.player = player_rect
-
-        # images
-        self.image_list = enemy_images
-        self.frame_index = 0  # frame number
-        self.animation_timer = 12  # timer to change frame
-        self.animation_speed = 12  # frame dwell time
-        self.image = self.image_list[0]  # first frame
-        self.rect = self.image.get_rect()
+            # no iniciar persiguiendo inmediatamente, esperar a estar activo
+            pass
 
     def _set_random_direction(self):
         # establece una dirección aleatoria para el movimiento RANDOM
@@ -96,8 +104,27 @@ class Enemy(pygame.sprite.Sprite):
         self.vx, self.vy = random.choice(directions)
         self.distance_traveled = 0
 
+    def _is_player_in_range(self):
+        """Verifica si el jugador está dentro del rango de activación"""
+        if self.player is None:
+            return False
+        
+        # calcular distancia en tiles
+        enemy_tile_x = (self.x + self.rect.width // 2) // constants.TILE_SIZE
+        enemy_tile_y = (self.y + self.rect.height // 2) // constants.TILE_SIZE
+        player_tile_x = self.player.centerx // constants.TILE_SIZE
+        player_tile_y = self.player.centery // constants.TILE_SIZE
+        
+        # distancia usando teorema de Pitágoras
+        distance = ((enemy_tile_x - player_tile_x) ** 2 + (enemy_tile_y - player_tile_y) ** 2) ** 0.5
+        
+        return distance <= self.activation_range
+
     # actualiza la dirección del movimiento CHASER hacia el jugador
-    def _update_chaser_direction(self):        
+    def _update_chaser_direction(self):
+        if self.player is None:
+            return
+            
         # calcular diferencias
         dx = self.player.centerx - (self.x + self.rect.width // 2)
         dy = self.player.centery - (self.y + self.rect.height // 2)        
@@ -187,16 +214,60 @@ class Enemy(pygame.sprite.Sprite):
             self._set_random_direction()  # Siempre cambiar de dirección
 
     def _update_chaser_movement(self):
-        # maneja el movimiento perseguidor
-        # Actualizar temporizador
-        self.chase_update_timer += 1        
-        # Actualizar dirección periódicamente
-        if self.chase_update_timer >= self.chase_update_interval:
-            self._update_chaser_direction()
-            self.chase_update_timer = 0        
-        # Mover en la dirección actual
-        self.x += self.vx
-        self.y += self.vy
+        # maneja el movimiento perseguidor con zona de activación y pausas
+        
+        # verificar si el jugador está en rango
+        player_in_range = self._is_player_in_range()
+        
+        # actualizar estado de activación
+        if player_in_range and not self.is_active:
+            # jugador entra en rango - activar enemigo
+            self.is_active = True
+            self.is_paused = True  # empezar con una pausa
+            self.pause_timer = 0
+            self.vx = 0  # parar movimiento durante la pausa inicial
+            self.vy = 0
+        elif not player_in_range and self.is_active:
+            # jugador sale del rango - desactivar enemigo
+            self.is_active = False
+            self.is_paused = False
+            self.pause_timer = 0
+            self.chase_update_timer = 0
+            self.vx = 0  # parar movimiento
+            self.vy = 0
+            
+        # solo procesar si está activo
+        if self.is_active:
+            # manejar sistema de pausas
+            if self.is_paused:
+                self.pause_timer += 1
+                # durante la pausa, no moverse
+                self.vx = 0
+                self.vy = 0
+                
+                if self.pause_timer >= self.pause_duration:
+                    # terminar pausa y empezar movimiento
+                    self.is_paused = False
+                    self.pause_timer = 0
+                    self.chase_update_timer = 0
+                    # actualizar dirección después de la pausa
+                    self._update_chaser_direction()
+            else:
+                # no está en pausa - moverse y actualizar temporizador
+                self.chase_update_timer += 1
+                
+                # mover en la dirección actual
+                self.x += self.vx
+                self.y += self.vy
+                
+                # verificar si es hora de pausar y cambiar dirección
+                if self.chase_update_timer >= self.chase_update_interval:
+                    # alinear al tile MÁS CERCANO antes de pausar (no siempre hacia abajo)
+                    self.x = round(self.x / constants.TILE_SIZE) * constants.TILE_SIZE
+                    self.y = round(self.y / constants.TILE_SIZE) * constants.TILE_SIZE
+                    # iniciar pausa para el próximo cambio de dirección
+                    self.is_paused = True
+                    self.pause_timer = 0
 
     def draw(self, surface, camera):
         if self._is_visible(camera):
