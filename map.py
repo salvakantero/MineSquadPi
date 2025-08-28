@@ -87,7 +87,7 @@ class Map():
         # add enemies to the map reading from 'ENEMIES_DATA' list
         map_enemies = [enemy for enemy in constants.ENEMIES_DATA if enemy[0] == self.number]
         for enemy_data in map_enemies:
-            enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[1]])
+            enemy = Enemy(enemy_data, player.rect, self.game.enemy_images[enemy_data[1]], self)
             self.game.sprite_groups[enums.SG_ENEMIES].add(enemy)
 
 
