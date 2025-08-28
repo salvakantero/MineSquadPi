@@ -32,37 +32,31 @@ import random
 
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images, map):
-        # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         super().__init__()
-        
+        # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         # enemy type: 
         # SCORPION, SNAKE, SOLDIER1
         # CRAB, PROJECTILE, SOLDIER2
         # SKIER, HABALI, SOLDIER3
         self.type = enemy_data[1]
-        
         # movement type: HORIZONTAL, VERTICAL, RANDOM, CHASER
         self.movement = enemy_data[2]
-        
         # from xy values
         self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
         self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE
         # to xy values
         self.x2 = enemy_data[5] * constants.TILE_SIZE
         self.y2 = enemy_data[6] * constants.TILE_SIZE
-        
-        # speed of movement
+        # speed
         self.speed = 1
         self.vx = 0
         self.vy = 0
-        # Variables para movimiento RANDOM
-        self.distance_traveled = 0  # distancia recorrida desde el último cambio
-        self.tile_distance = constants.TILE_SIZE  # distancia de un tile
-        # NUEVA: Sistema de pausa para RANDOM
-        self.random_pause_timer = 0  # temporizador de pausa para RANDOM
-        self.random_pause_duration = 30  # pausa más corta que CHASER (0.5 segundos a 60fps)
-        self.random_is_paused = False  # si el enemigo RANDOM está en pausa
-        # Variables para movimiento CHASER
+        # RANDOM movement variables
+        self.distance_traveled = 0  # distance traveled in current direction (px)
+        self.random_pause_timer = 0  # paused time counter for RANDOM movement
+        self.random_pause_duration = 30 # duration of pause in frames (0.5 seconds at 60fps)
+        self.random_is_paused = False  # if currently paused
+        # CHASER movement variables
         self.chase_update_timer = 0  # temporizador para actualizar dirección de persecución
         self.chase_update_interval = 30  # frames entre actualizaciones (ajustable)
         # NUEVA: Zona de activación para CHASER (en tiles)
@@ -338,7 +332,7 @@ class Enemy(pygame.sprite.Sprite):
                 distance_this_frame = ((self.x - old_x) ** 2 + (self.y - old_y) ** 2) ** 0.5
                 self.distance_traveled += distance_this_frame        
                 # si ha recorrido un tile completo, iniciar pausa
-                if self.distance_traveled >= self.tile_distance:
+                if self.distance_traveled >= constants.TILE_SIZE:
                     # alinear al tile más cercano antes de pausar
                     self.x = round(self.x / constants.TILE_SIZE) * constants.TILE_SIZE
                     self.y = round(self.y / constants.TILE_SIZE) * constants.TILE_SIZE
@@ -347,7 +341,7 @@ class Enemy(pygame.sprite.Sprite):
                     self.random_pause_timer = 0
             else:
                 # fuera de los límites del mapa - cambiar dirección inmediatamente
-                self.distance_traveled = self.tile_distance  # forzar cambio de dirección
+                self.distance_traveled = constants.TILE_SIZE # forzar cambio de dirección
                 self.random_is_paused = True
                 self.random_pause_timer = 0
 
