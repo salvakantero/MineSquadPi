@@ -48,6 +48,10 @@ ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position
 PLAYER_X_INI = int(MAP_TILE_SIZE[0] // 4) * TILE_SIZE
 PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
+# enemies
+RANDOM_ENEMY_PAUSE_DURATION = 30 # duration of pause in frames
+CHASER_ENEMY_PAUSE_DURATION = 60 # duration of pause in frames
+CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away 
 # paths
 FX_PATH = 'sounds/fx/'
 MUS_PATH = 'sounds/music/'

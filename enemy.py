@@ -33,6 +33,7 @@ import random
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images, map):
         super().__init__()
+        self.map = map # get_tile_type()        
         # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         # enemy type: 
         # SCORPION, SNAKE, SOLDIER1
@@ -51,123 +52,98 @@ class Enemy(pygame.sprite.Sprite):
         self.speed = 1
         self.vx = 0
         self.vy = 0
-        # RANDOM movement variables
-        self.distance_traveled = 0  # distance traveled in current direction (px)
-        self.random_pause_timer = 0  # paused time counter for RANDOM movement
-        self.random_pause_duration = 30 # duration of pause in frames (0.5 seconds at 60fps)
-        self.random_is_paused = False  # if currently paused
-        # CHASER movement variables
-        self.chase_update_timer = 0  # temporizador para actualizar dirección de persecución
-        self.chase_update_interval = 30  # frames entre actualizaciones (ajustable)
-        # NUEVA: Zona de activación para CHASER (en tiles)
-        self.activation_range = 5  # el enemigo se activa cuando el player está a 5 tiles o menos
-        self.is_active = False  # si el enemigo está activo o no
-        # NUEVA: Sistema de pausa entre movimientos
-        self.pause_timer = 0  # temporizador de pausa actual
-        self.pause_duration = 90  # duración de la pausa en frames (1.5 segundos a 60fps)
-        self.is_paused = False  # si el enemigo está en pausa
-        # NUEVA: Control de movimiento tile por tile
-        self.target_x = 0  # posición objetivo X para el movimiento actual
-        self.target_y = 0  # posición objetivo Y para el movimiento actual
-        self.moving_to_target = False  # si está moviéndose hacia un objetivo
-        
+        # RANDOM/CHASER auxiliar variables
+        self.is_active = False # whether the enemy is active or not
+        self.is_paused = False # if the enemy is paused
+        self.pause_timer = 0 # current pause timer
+        self.distance_traveled = 0 # distance traveled in current direction (px)    
+        self.target_x = 0 # target X position for current movement
+        self.target_y = 0 # target Y position for current movement
+        self.moving_to_target = False # if moving towards a target
         # player's current position (some enemies look at the player)
         self.player = player_rect
-
-        # images - CREAR RECT ANTES DE CONFIGURAR MOVIMIENTO INICIAL
+        # determine initial direction
+        if self.movement == enums.EM_HORIZONTAL:            
+            self.vx = self.speed if self.x2 > self.x1 else -self.speed
+        elif self.movement == enums.EM_VERTICAL:
+            self.vy = self.speed if self.y2 > self.y1 else -self.speed
+        elif self.movement == enums.EM_RANDOM:
+            self._set_random_direction()
+        # images
         self.image_list = enemy_images
         self.frame_index = 0  # frame number
         self.animation_timer = 12  # timer to change frame
         self.animation_speed = 12  # frame dwell time
         self.image = self.image_list[0]  # first frame
         self.rect = self.image.get_rect()
-        self.map = map
-
-        # AHORA SÍ configurar el movimiento inicial (después de crear self.rect)
-        if self.movement == enums.EM_HORIZONTAL:
-            # determine initial direction based on x1 and x2 positions
-            self.vx = self.speed if self.x2 > self.x1 else -self.speed
-        elif self.movement == enums.EM_VERTICAL:
-            # determine initial direction based on y1 and y2 positions
-            self.vy = self.speed if self.y2 > self.y1 else -self.speed
-        elif self.movement == enums.EM_RANDOM:
-            # iniciar con dirección aleatoria
-            self._set_random_direction()
 
 
-    def _set_random_direction(self):
-        # establece una dirección aleatoria para el movimiento RANDOM
+
+    # sets a random direction for the RANDOM type
+    def _set_random_direction(self):        
         directions = [
-            (0, -self.speed),   # arriba
-            (self.speed, 0),    # derecha
-            (0, self.speed),    # abajo
-            (-self.speed, 0)]   # izquierda
+            (0, -self.speed),   # up
+            (self.speed, 0),    # right
+            (0, self.speed),    # down
+            (-self.speed, 0)]   # left
         self.vx, self.vy = random.choice(directions)
         self.distance_traveled = 0
 
-    def _check_collision(self, rect, axis, direction):
-        """Verifica colisiones con tiles de obstáculo (adaptado del player)"""
-        if axis == enums.CA_HORIZONTAL:
-            if direction > 0:  # moviéndose a la derecha
-                tile_x = (rect.right - 1) // constants.TILE_SIZE
-            else:  # moviéndose a la izquierda
-                tile_x = rect.left // constants.TILE_SIZE
-            tile_y = rect.y // constants.TILE_SIZE
-        else:  # vertical
-            tile_x = rect.x // constants.TILE_SIZE
-            if direction > 0:  # moviéndose hacia abajo
-                tile_y = (rect.bottom - 1) // constants.TILE_SIZE
-            else:  # moviéndose hacia arriba
-                tile_y = rect.top // constants.TILE_SIZE
-        # returns True if the tile is an obstacle
-        return self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE
 
-    def _is_position_valid(self, x, y):
-        """Verifica si una posición está dentro de los límites del mapa y no hay obstáculos"""
-        # Asumiendo que tienes acceso a las dimensiones del mapa
-        map_width = constants.MAP_TILE_SIZE[0] * constants.TILE_SIZE  # o como accedas al ancho del mapa
-        map_height = constants.MAP_TILE_SIZE[1] * constants.TILE_SIZE  # o como accedas al alto del mapa
-        
-        # Verificar límites del mapa
+
+    # checks for collisions with obstacle tiles
+    def _check_collision(self, rect, axis, direction):        
+        if axis == enums.CA_HORIZONTAL:
+            if direction > 0: tile_x = rect.right - 1
+            else: tile_x = rect.left
+            tile_y = rect.y
+        else:  # vertical
+            tile_x = rect.x
+            if direction > 0: tile_y = rect.bottom - 1
+            else: tile_y = rect.top
+        # returns True if the tile is an obstacle
+        return self.map.get_tile_type(
+            tile_x // constants.TILE_SIZE, tile_y // constants.TILE_SIZE) == enums.TT_OBSTACLE
+
+
+
+    # check whether a position is within the map boundaries and there are no obstacles.
+    def _is_position_valid(self, x, y):        
+        # check map limits
         if not (x >= 0 and y >= 0 and 
-                x + self.rect.width <= map_width and 
-                y + self.rect.height <= map_height):
-            return False
-            
-        # Crear un rect temporal para verificar obstáculos
-        temp_rect = pygame.Rect(x, y, self.rect.width, self.rect.height)
-        
-        # Verificar si hay obstáculos en el camino
-        # Verificar múltiples puntos del rect para mayor precisión
+                x + self.rect.width <= constants.MAP_PIXEL_SIZE[0] and 
+                y + self.rect.height <= constants.MAP_PIXEL_SIZE[1]):
+            return False                          
+        # Check for obstacles in the way
+        temp_rect = pygame.Rect(x, y, self.rect.width, self.rect.height)  
         points_to_check = [
             (temp_rect.left, temp_rect.top),
             (temp_rect.right - 1, temp_rect.top), 
             (temp_rect.left, temp_rect.bottom - 1),
-            (temp_rect.right - 1, temp_rect.bottom - 1)
-        ]
-        
+            (temp_rect.right - 1, temp_rect.bottom - 1)]        
         for px, py in points_to_check:
             tile_x = px // constants.TILE_SIZE
             tile_y = py // constants.TILE_SIZE
             if self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE:
-                return False
-                
+                return False                
         return True
+
+
+
+    # check whether the player is within the activation range.
     def _is_player_in_range(self):
-        """Verifica si el jugador está dentro del rango de activación"""
         if self.player is None:
-            return False
-        
-        # calcular distancia en tiles
+            return False        
+        # calculate distance in tiles
         enemy_tile_x = (self.x + self.rect.width // 2) // constants.TILE_SIZE
         enemy_tile_y = (self.y + self.rect.height // 2) // constants.TILE_SIZE
         player_tile_x = self.player.centerx // constants.TILE_SIZE
-        player_tile_y = self.player.centery // constants.TILE_SIZE
-        
-        # distancia usando teorema de Pitágoras
-        distance = ((enemy_tile_x - player_tile_x) ** 2 + (enemy_tile_y - player_tile_y) ** 2) ** 0.5
-        
-        return distance <= self.activation_range
+        player_tile_y = self.player.centery // constants.TILE_SIZE        
+        # distance using Pythagoras' theorem
+        distance = ((enemy_tile_x - player_tile_x) ** 2 + (enemy_tile_y - player_tile_y) ** 2) ** 0.5        
+        return distance <= constants.CHASER_ACTIVATION_RANGE
+
+
 
     # actualiza la dirección del movimiento CHASER hacia el jugador
     def _update_chaser_direction(self):
@@ -224,18 +200,23 @@ class Enemy(pygame.sprite.Sprite):
         
         self.moving_to_target = True
 
+
+
     def animate(self):
         self.animation_timer += 1
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
-            self.animation_timer = 0  # reset the timer
-            self.frame_index = (self.frame_index + 1) % len(self.image_list)  # cycle through frames        
+            self.animation_timer = 0
+            # cycle through frames 
+            self.frame_index = (self.frame_index + 1) % len(self.image_list)       
         # assigns the original or flipped image based on movement direction
         current_frame = self.image_list[self.frame_index]
         # moving to the right
         if self.vx >= 0: self.image = current_frame
         # moving to the left
         else: self.image = pygame.transform.flip(current_frame, True, False)
+
+
 
     # check if enemy is visible within camera bounds
     def _is_visible(self, camera):
@@ -249,101 +230,87 @@ class Enemy(pygame.sprite.Sprite):
             # check top edge
             self.y < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
 
+
+
     def update(self):   
         # movement handling
-        if self.movement == enums.EM_HORIZONTAL: 
-            self._update_horizontal_movement()
-        elif self.movement == enums.EM_VERTICAL: 
-            self._update_vertical_movement()
-        elif self.movement == enums.EM_RANDOM:
-            self._update_random_movement()
-        elif self.movement == enums.EM_CHASER:
-            self._update_chaser_movement()
-            
+        if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
+        elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
+        elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
+        elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()            
         # apply the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
         self.animate()
 
+
+
+    # handle horizontal movement
     def _update_horizontal_movement(self):
-        # handle horizontal movement with boundary checking
-        new_x = self.x + self.vx
-        
-        # verificar límites del mapa además de los límites específicos del enemigo
-        if self._is_position_valid(new_x, self.y):
-            self.x = new_x
-            # determine left and right boundaries
-            min_x, max_x = min(self.x1, self.x2), max(self.x1, self.x2)        
-            # detect when reaching either boundary and reverse direction
-            if self.x <= min_x or self.x >= max_x:
-                self.vx = -self.vx
-                # ensure position stays within boundaries
-                self.x = max(min_x, min(self.x, max_x))
-        else:
-            # fuera de los límites del mapa - revertir dirección
+        self.x = self.x + self.vx   
+        # determine left and right boundaries
+        min_x, max_x = min(self.x1, self.x2), max(self.x1, self.x2)        
+        # detect when reaching either boundary and reverse direction
+        if self.x <= min_x or self.x >= max_x:
             self.vx = -self.vx
+            # ensure position stays within boundaries
+            self.x = max(min_x, min(self.x, max_x))
 
-    def _update_vertical_movement(self):
-        # handle vertical movement with boundary checking
-        new_y = self.y + self.vy
-        
-        # verificar límites del mapa además de los límites específicos del enemigo
-        if self._is_position_valid(self.x, new_y):
-            self.y = new_y
-            # determine upper and lower boundaries
-            min_y, max_y = min(self.y1, self.y2), max(self.y1, self.y2)        
-            # detect when reaching either boundary and reverse direction
-            if self.y <= min_y or self.y >= max_y:
-                self.vy = -self.vy
-                # ensure position stays within boundaries
-                self.y = max(min_y, min(self.y, max_y))
-        else:
-            # fuera de los límites del mapa - revertir dirección
+
+
+    # handle vertical movement
+    def _update_vertical_movement(self):        
+        self.y = self.y + self.vy
+        # determine upper and lower boundaries
+        min_y, max_y = min(self.y1, self.y2), max(self.y1, self.y2)        
+        # detect when reaching either boundary and reverse direction
+        if self.y <= min_y or self.y >= max_y:
             self.vy = -self.vy
+            # ensure position stays within boundaries
+            self.y = max(min_y, min(self.y, max_y))
 
+
+
+    # handles random movement with pauses between changes of direction
     def _update_random_movement(self):
-        # maneja el movimiento aleatorio con pausas entre cambios de dirección
-        
-        # manejar sistema de pausas para RANDOM
-        if self.random_is_paused:
-            self.random_pause_timer += 1
-            # durante la pausa, no moverse
+        if self.is_paused:
+            # does not move during the pause
+            self.pause_timer += 1
             self.vx = 0
-            self.vy = 0
-            
-            if self.random_pause_timer >= self.random_pause_duration:
-                # terminar pausa y cambiar dirección
-                self.random_is_paused = False
-                self.random_pause_timer = 0
+            self.vy = 0            
+            if self.pause_timer >= constants.RANDOM_ENEMY_PAUSE_DURATION:
+                # end the pause and change direction
+                self.is_paused = False
+                self.pause_timer = 0
                 self.distance_traveled = 0
                 self._set_random_direction()
         else:
-            # no está en pausa - moverse normalmente
-            # verificar límites del mapa antes de moverse
+            # not paused - moves normally
+            # checks map boundaries before moving
             new_x = self.x + self.vx
-            new_y = self.y + self.vy
-            
+            new_y = self.y + self.vy            
             if self._is_position_valid(new_x, new_y):
-                # mover en la dirección actual
+                # move in the current direction
                 old_x, old_y = self.x, self.y
                 self.x = new_x
                 self.y = new_y     
-                # calcular distancia recorrida en este frame
-                distance_this_frame = ((self.x - old_x) ** 2 + (self.y - old_y) ** 2) ** 0.5
-                self.distance_traveled += distance_this_frame        
-                # si ha recorrido un tile completo, iniciar pausa
+                # calculate distance travelled in this frame
+                self.distance_traveled += ((self.x - old_x) ** 2 + (self.y - old_y) ** 2) ** 0.5     
+                # if it has travelled a full tile, start pause
                 if self.distance_traveled >= constants.TILE_SIZE:
-                    # alinear al tile más cercano antes de pausar
+                    # align to the nearest tile before pausing
                     self.x = round(self.x / constants.TILE_SIZE) * constants.TILE_SIZE
                     self.y = round(self.y / constants.TILE_SIZE) * constants.TILE_SIZE
-                    # iniciar pausa antes del próximo cambio de dirección
-                    self.random_is_paused = True
-                    self.random_pause_timer = 0
+                    # start pause before the next change of direction
+                    self.is_paused = True
+                    self.pause_timer = 0
             else:
-                # fuera de los límites del mapa - cambiar dirección inmediatamente
-                self.distance_traveled = constants.TILE_SIZE # forzar cambio de dirección
-                self.random_is_paused = True
-                self.random_pause_timer = 0
+                # outside map boundaries - force change of direction
+                self.distance_traveled = constants.TILE_SIZE
+                self.is_paused = True
+                self.pause_timer = 0
+
+
 
     def _update_chaser_movement(self):
         # maneja el movimiento perseguidor con zona de activación y pausas
@@ -378,7 +345,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.vx = 0
                 self.vy = 0
                 
-                if self.pause_timer >= self.pause_duration:
+                if self.pause_timer >= constants.CHASER_ENEMY_PAUSE_DURATION:
                     # terminar pausa y empezar movimiento hacia el siguiente tile
                     self.is_paused = False
                     self.pause_timer = 0
@@ -413,6 +380,8 @@ class Enemy(pygame.sprite.Sprite):
                         self.vy = 0
                         self.is_paused = True
                         self.pause_timer = 0
+
+
 
     def draw(self, surface, camera):
         if self._is_visible(camera):
