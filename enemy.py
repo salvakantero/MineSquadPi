@@ -309,20 +309,21 @@ class Enemy(pygame.sprite.Sprite):
         # move towards the target tile
         self.x += self.vx
         self.y += self.vy
+        # check if the target tile has been reached or passed
         reached = False
-        if self.vx > 0 and self.x >= self.target_x:
+        if self.vx > 0 and self.x >= self.target_x: # moving right
             self.x = self.target_x
             reached = True
-        elif self.vx < 0 and self.x <= self.target_x:
+        elif self.vx < 0 and self.x <= self.target_x: # moving left
             self.x = self.target_x
             reached = True
-        if self.vy > 0 and self.y >= self.target_y:
+        if self.vy > 0 and self.y >= self.target_y: # moving down
             self.y = self.target_y
             reached = True
-        elif self.vy < 0 and self.y <= self.target_y:
+        elif self.vy < 0 and self.y <= self.target_y: # moving up
             self.y = self.target_y
             reached = True
-
+        # if reached the target tile, start a pause before the next move
         if reached:
             self.moving_to_target = False
             self.vx = self.vy = 0
@@ -370,21 +371,21 @@ class Enemy(pygame.sprite.Sprite):
                     self.x += self.vx
                     self.y += self.vy                    
                     # check if the target tile has been reached or passed
-                    reached_target = False
-                    if self.vx > 0 and self.x >= self.target_x:  # moving to the right
+                    reached = False
+                    if self.vx > 0 and self.x >= self.target_x:  # moving right
                         self.x = self.target_x
-                        reached_target = True
-                    elif self.vx < 0 and self.x <= self.target_x:  # moving to the left
+                        reached = True
+                    elif self.vx < 0 and self.x <= self.target_x:  # moving left
                         self.x = self.target_x
-                        reached_target = True
+                        reached = True
                     elif self.vy > 0 and self.y >= self.target_y:  # moving down
                         self.y = self.target_y
-                        reached_target = True
+                        reached = True
                     elif self.vy < 0 and self.y <= self.target_y:  # moving up
                         self.y = self.target_y
-                        reached_target = True
+                        reached = True
                     # if reached the target tile, start a pause before the next move
-                    if reached_target:                        
+                    if reached:                        
                         self.moving_to_target = False
                         self.vx = self.vy = 0
                         self.is_paused = True
