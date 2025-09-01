@@ -83,7 +83,7 @@ class Game():
             #large fonts
             enums.L_F_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['WHITE2'], True),
             enums.L_B_WHITE: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['DARK_GRAY1'], True),
-            enums.L_F_RED: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED0'], True),
+            enums.L_F_RED:   Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['RED0'], True),
             enums.L_B_BLACK: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BLACK1'], True),
             enums.L_F_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE0'], True),
             enums.L_B_BROWN: Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['BROWN0'], False)}
@@ -512,15 +512,14 @@ class Game():
                 scoreboard.invalidate()
                 return
     
-        #     # player and enemies
-        #     if not player.invincible:
-        #         if pygame.sprite.spritecollide(player, self.groups[enums.SG_ENEMIES], False, 
-        #                                        pygame.sprite.collide_rect_ratio(0.60)):
-        #             player.loses_energy(1)        
-        #             scoreboard.invalidate() # redraws the scoreboard
-        #             return     
-        #    
-
+            # player and enemies
+            if not player.invincible:
+                if pygame.sprite.spritecollide(
+                    player, self.sprite_groups[enums.SG_ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
+                    player.loses_energy(1)        
+                    scoreboard.invalidate() # redraws the scoreboard
+                    return     
+           
         # player and hotspot
         collided_hotspots = pygame.sprite.spritecollide(
             player, self.sprite_groups[enums.SG_HOTSPOT], False, pygame.sprite.collide_rect_ratio(0.60))
@@ -538,35 +537,35 @@ class Game():
             self.sfx_hotspot[hotspot.type].play()
             
             # manages the object according to the type
-            text = '' # floating text
+            ftext = '' # floating text
             # power-ups
             if hotspot.type == enums.HS_LIFE:
-                text = 'Full Energy'
+                ftext = 'Full Energy'
                 player.energy, _ = player.set_player_attributes()
             elif hotspot.type == enums.HS_SHIELD:
-                text = 'Shield'
+                ftext = 'Shield'
                 player.invincible = True
                 player.timer_from = pygame.time.get_ticks()         
             elif hotspot.type == enums.HS_AMMO:
                 player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
-                text = 'Ammo +10'
+                ftext = 'Ammo +10'
             # gifts
             elif hotspot.type == enums.HS_CANDY:
-                text = '+50'
+                ftext = '+50'
                 self.score += 50
             elif hotspot.type == enums.HS_APPLE:
-                text = '+75'
+                ftext = '+75'
                 self.score += 75                    
             elif hotspot.type == enums.HS_CHOCO:
-                text = '+100'
+                ftext = '+100'
                 self.score += 100
             elif hotspot.type == enums.HS_COIN:
-                text = '+200'
-                self.score += 200   
+                ftext = '+200'
+                self.score += 200
 
             scoreboard.invalidate()
             self.floating_text.show(
-                text, 
+                ftext, 
                 hotspot.tile_x * constants.TILE_SIZE, 
                 hotspot.tile_y * constants.TILE_SIZE)
             
@@ -576,40 +575,38 @@ class Game():
 
 
 
-    def check_bullet_collisions(self, player, scoreboard):
-        pass                           
-    #     # bullets and enemies
-    #     if self.groups[enums.SG_SHOT].sprite is not None: # still shot in progress
-    #         for enemy in self.groups[enums.SG_ENEMIES]:
-    #             if enemy.rect.colliderect(self.groups[enums.SG_SHOT].sprite):        
-    #                 # shake the map
-    #                 self.shake = [10, 6]
-    #                 self.shake_timer = 14
-    #                 # creates an explosion and assigns a score according to the type of enemy
-    #                 if enemy.type == enums.SCORPION:
-    #                     blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
-    #                     self.floating_text.text = '+25'
-    #                     player.score += 25
-    #                 else: # flying enemies
-    #                     blast = Explosion(enemy.rect.center, self.blast_images[0])
-    #                     if enemy.type == enums.SNAKE: 
-    #                         self.floating_text.text = '+50'
-    #                         player.score += 50
-    #                     elif enemy.type == enums.SOLDIER1: 
-    #                         self.floating_text.text = '+75'
-    #                         player.score += 75
-    #                 self.groups[enums.SG_ALL].add(blast)                    
-    #                 self.sfx_blast[enemy.type].play()
-    #                 # floating text position
-    #                 self.floating_text.x = enemy.rect.x
-    #                 self.floating_text.y = enemy.rect.y
-    #                 self.floating_text.speed = 0
-    #                 # removes objects
-    #                 enemy.kill()
-    #                 self.groups[enums.SG_SHOT].sprite.kill()
-    #                 # redraws the scoreboard
-    #                 scoreboard.invalidate()
-    #                 break
+    def check_bullet_collisions(self, player, scoreboard):                         
+        # bullets and enemies
+        if self.sprite_groups[enums.SG_SHOT].sprite is not None: # still shot in progress
+            for enemy in self.sprite_groups[enums.SG_ENEMIES]:
+                if enemy.rect.colliderect(self.sprite_groups[enums.SG_SHOT].sprite):        
+                    # shake the map
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
+                    ftext = '' # floating text
+                    # creates an explosion and assigns a score according to the type of enemy
+                    if enemy.type == enums.EN_SCORPION:
+                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
+                        ftext = '+25'
+                        self.score += 25
+                    else:
+                        blast = Explosion(enemy.rect.center, self.blast_images[0])
+                        if enemy.type == enums.EN_SNAKE: 
+                            ftext = '+50'
+                            self.score += 50
+                        elif enemy.type == enums.EN_SOLDIER1: 
+                            ftext = '+75'
+                            self.score += 75
+                    self.sprite_groups[enums.SG_BLASTS].add(blast)                    
+                    self.sfx_blast[enemy.type].play()
+                    # removes objects
+                    enemy.kill()
+                    self.sprite_groups[enums.SG_SHOT].sprite.kill()
+                    # redraws the scoreboard
+                    scoreboard.invalidate()
+                    # floating text
+                    self.floating_text.show(ftext, enemy.rect.x, enemy.rect.y)
+                    break
 
 
 
