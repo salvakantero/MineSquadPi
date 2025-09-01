@@ -46,6 +46,8 @@ class Enemy(pygame.sprite.Sprite):
         self.type = enemy_data[1]
         # movement type: HORIZONTAL, VERTICAL, RANDOM, CHASER
         self.movement = enemy_data[2]
+        # health
+        self.health = constants.ENEMY_LIFE[self.type]
         # from xy values
         self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
         self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE

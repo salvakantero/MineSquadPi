@@ -145,10 +145,10 @@ class Game():
         self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
         self.sfx_blast = {
+            0: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast0.wav'),
             1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
             2: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast2.wav'),
-            3: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast3.wav'),
-            4: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast4.wav')}
+            3: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast3.wav')}
         self.sfx_hotspot = {
             enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
             enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
@@ -501,7 +501,7 @@ class Game():
                 blast_y = (tile_y * constants.TILE_SIZE) + 4    
                 blast = Explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
-                self.sfx_blast[4].play()
+                random.choice(list(self.sfx_blast.values())).play()
                 player.invincible = False
                 player.loses_energy(20) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
@@ -579,33 +579,32 @@ class Game():
         # bullets and enemies
         if self.sprite_groups[enums.SG_SHOT].sprite is not None: # still shot in progress
             for enemy in self.sprite_groups[enums.SG_ENEMIES]:
-                if enemy.rect.colliderect(self.sprite_groups[enums.SG_SHOT].sprite):        
+                if enemy.rect.colliderect(self.sprite_groups[enums.SG_SHOT].sprite):
+                    enemy.health -= 1        
                     # shake the map
                     self.shake = [10, 6]
-                    self.shake_timer = 14
+                    self.shake_timer = 14                    
+                    # assigns a score according to the type of enemy                    
                     ftext = '' # floating text
-                    # creates an explosion and assigns a score according to the type of enemy
                     if enemy.type == enums.EN_SCORPION:
-                        blast = Explosion([enemy.rect.centerx, enemy.rect.centery-4], self.blast_images[1])
                         ftext = '+25'
                         self.score += 25
-                    else:
-                        blast = Explosion(enemy.rect.center, self.blast_images[0])
-                        if enemy.type == enums.EN_SNAKE: 
-                            ftext = '+50'
-                            self.score += 50
-                        elif enemy.type == enums.EN_SOLDIER1: 
-                            ftext = '+75'
-                            self.score += 75
-                    self.sprite_groups[enums.SG_BLASTS].add(blast)                    
-                    self.sfx_blast[enemy.type].play()
-                    # removes objects
-                    enemy.kill()
+                    if enemy.type == enums.EN_SNAKE: 
+                        ftext = '+50'
+                        self.score += 50
+                    elif enemy.type == enums.EN_SOLDIER1: 
+                        ftext = '+75'
+                        self.score += 75
+                    self.floating_text.show(ftext, enemy.rect.x, enemy.rect.y)
                     self.sprite_groups[enums.SG_SHOT].sprite.kill()
+                    # if it's the last life, the enemy dies
+                    if enemy.health == 0:
+                        blast = Explosion(enemy.rect.center, self.blast_images[0])
+                        self.sprite_groups[enums.SG_BLASTS].add(blast)                    
+                        random.choice(list(self.sfx_blast.values())).play()
+                        enemy.kill()                        
                     # redraws the scoreboard
                     scoreboard.invalidate()
-                    # floating text
-                    self.floating_text.show(ftext, enemy.rect.x, enemy.rect.y)
                     break
 
 

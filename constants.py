@@ -51,7 +51,9 @@ PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
 # enemies
 RANDOM_ENEMY_PAUSE_DURATION = 30 # duration of pause in frames
 CHASER_ENEMY_PAUSE_DURATION = 60 # duration of pause in frames
-CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away 
+CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away
+# SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, HABALI, SOLDIER3
+ENEMY_LIFE = 1, 1, 2, 2, 3, 3, 4, 3, 4
 # paths
 FX_PATH = 'sounds/fx/'
 MUS_PATH = 'sounds/music/'

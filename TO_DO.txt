@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gestión de colisiones enemies-players-shots
 - gráficos de tiles stage 1
 - gráficos de enemigos stage 1
 
@@ -27,6 +26,7 @@ POR HACER
 
 HECHO
 =====
+01/09/25 - gestión de colisiones enemies-players-shots
 31/08/25 - gestionar enemigos
 18/08/25 - carátula IA
 16/08/25 - sombra para los hotspots
