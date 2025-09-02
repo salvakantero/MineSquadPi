@@ -4,7 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de tiles stage 1
+- selección del jugador al comenzar la partida
+- gráficos de PIPER
 - gráficos de enemigos stage 1
 
 
@@ -14,9 +15,8 @@ BUGS
 
 POR HACER
 =========
-- gráficos de PIPER
-- selección del jugador al comenzar la partida
 - secuencia WIN ?
+- gráficos de tiles stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
 - gráficos de tiles stage 2
