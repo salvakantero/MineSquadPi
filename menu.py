@@ -238,33 +238,28 @@ class Menu():
 
 
     def page_7(self):  # página de selección de jugador
-        # Limpiar la superficie
-        #self.menu_pages[7].fill(constants.PALETTE['BLACK0'])
-        
-        # Título
+        # Title
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_BROWN], 
-                        'Select Player', self.menu_pages[7], 85, 10, 1)
-        
+                        'Select Player', self.menu_pages[7], 80, 1, 1)
+
         # Información de Blaze (lado izquierdo)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
-                        'B L A Z E', self.menu_pages[7], 25, 40, 1)
-        self.draw_player_info(25, enums.PL_BLAZE, 7)
-        self.menu_pages[7].blit(self.img_blaze, (10, 60))
+                        'B L A Z E', self.menu_pages[7], 25, 35, 1)
+        self.menu_pages[7].blit(self.img_blaze, (10, 80))
         
         # Información de Piper (lado derecho)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
-                        'P I P E R', self.menu_pages[7], 135, 40, 1)
-        self.draw_player_info(135, enums.PL_PIPER, 7)
-        self.menu_pages[7].blit(self.img_piper, (120, 60))
+                        'P I P E R', self.menu_pages[7], 155, 35, 1)
+        self.menu_pages[7].blit(self.img_piper, (125, 80))
         
         # Instrucciones
         self.shaded_text(self.game.fonts[enums.S_B_BROWN], 
                         self.game.fonts[enums.S_F_BROWN], 
                         'Use LEFT/RIGHT to select, ENTER to confirm', 
-                        self.menu_pages[7], 12, 170, 1)
+                        self.menu_pages[7], 39, 21, 1)
 
 
 

@@ -32,8 +32,6 @@ from shot import Shot
 class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
-        self.energy, self.speed = self.set_player_attributes()
-        self.ammo = 10 # ammunition collected
         # initialize player position
         # starts at the centre of the map, 1/4 from the left and at the bottom
         self.x, self.y = constants.PLAYER_X_INI, constants.PLAYER_Y_INI
@@ -69,6 +67,9 @@ class Player(pygame.sprite.Sprite):
         self.game = game
         self.map = map
         self.scoreboard = scoreboard
+        # attributes
+        self.energy, self.speed = self.set_player_attributes()
+        self.ammo = 10
         # cache frequently used values
         self._direction_mappings = {
             game.config.up_key: (enums.DI_UP, pygame.math.Vector2(0, -1)),
