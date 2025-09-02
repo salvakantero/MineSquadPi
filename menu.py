@@ -271,7 +271,7 @@ class Menu():
     # 3. Función para dibujar el recuadro de selección
     def _draw_selection_box(self, surface, x, y, width, height):
         """Dibuja un recuadro blanco alrededor de la selección"""
-        pygame.draw.rect(surface, constants.PALETTE['WHITE'], (x-2, y-2, width+4, height+4), 2)
+        pygame.draw.rect(surface, constants.PALETTE['WHITE2'], (x-2, y-2, width+4, height+4), 2)
 
 
 
