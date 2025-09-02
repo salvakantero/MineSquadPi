@@ -52,8 +52,9 @@ class Menu():
         # page 4: control info
         # page 5: hotspots info
         # page 6: settings
+        # page 7: player selection
         self.menu_pages = []
-        for _ in range(0, 7):
+        for _ in range(0, 8):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
@@ -62,8 +63,9 @@ class Menu():
         self.page_2()
         self.page_3()
         self.page_4()
-        self.page_5()
-        
+        self.page_5()        
+        self.page_7()
+
 
 
     # draws a text with its shadow
@@ -106,7 +108,7 @@ class Menu():
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                          age, self.menu_pages[page], x, 120, 1)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         origin , self.menu_pages[page], x, 150, 1)
+                         origin , self.menu_pages[page], x, 150, 1)     
 
 
 
@@ -232,7 +234,124 @@ class Menu():
         self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+60, 1)
         self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                 self.tip, self.menu_pages[6], 12, 5, 1)
+
+
+
+    def page_7(self):  # página de selección de jugador
+        # Limpiar la superficie
+        #self.menu_pages[7].fill(constants.PALETTE['BLACK0'])
         
+        # Título
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+                        self.game.fonts[enums.L_F_BROWN], 
+                        'Select Player', self.menu_pages[7], 85, 10, 1)
+        
+        # Información de Blaze (lado izquierdo)
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+                        self.game.fonts[enums.L_F_RED], 
+                        'B L A Z E', self.menu_pages[7], 25, 40, 1)
+        self.draw_player_info(25, enums.PL_BLAZE, 7)
+        self.menu_pages[7].blit(self.img_blaze, (10, 60))
+        
+        # Información de Piper (lado derecho)
+        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+                        self.game.fonts[enums.L_F_RED], 
+                        'P I P E R', self.menu_pages[7], 135, 40, 1)
+        self.draw_player_info(135, enums.PL_PIPER, 7)
+        self.menu_pages[7].blit(self.img_piper, (120, 60))
+        
+        # Instrucciones
+        self.shaded_text(self.game.fonts[enums.S_B_BROWN], 
+                        self.game.fonts[enums.S_F_BROWN], 
+                        'Use LEFT/RIGHT to select, ENTER to confirm', 
+                        self.menu_pages[7], 12, 170, 1)
+
+
+
+    # 3. Función para dibujar el recuadro de selección
+    def _draw_selection_box(self, surface, x, y, width, height):
+        """Dibuja un recuadro blanco alrededor de la selección"""
+        pygame.draw.rect(surface, constants.PALETTE['WHITE'], (x-2, y-2, width+4, height+4), 2)
+
+
+
+    # 4. Implementar la función select_player completa
+    def select_player(self):
+        """
+        Permite seleccionar entre Blaze y Piper
+        Retorna: enums.PL_BLAZE o enums.PL_PIPER
+        """
+        # Variables locales para la selección
+        selected_player = enums.PL_BLAZE  # Jugador seleccionado por defecto
+        confirmed = False
+        
+        # Limpiar buffer de entrada
+        self.game.clear_input_buffer()
+        
+        # Música de fondo (puedes usar la misma del menú o una específica)
+        #pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
+        #pygame.mixer.music.set_volume(1)
+        #pygame.mixer.music.play(-1)  # Loop infinito
+        
+        # Loop principal de selección
+        while not confirmed:
+            # Dibujar fondo
+            self.srf_menu.blit(self.img_menu, (0, 0))
+            
+            # Dibujar la página de selección
+            self.srf_menu.blit(self.menu_pages[7], (0, 0))
+            
+            # Dibujar recuadro de selección según el jugador elegido
+            if selected_player == enums.PL_BLAZE:
+                # Recuadro alrededor de Blaze (ajusta coordenadas según tu layout)
+                self._draw_selection_box(self.srf_menu, 8, 35, 100, 140)
+            else:  # PL_PIPER
+                # Recuadro alrededor de Piper
+                self._draw_selection_box(self.srf_menu, 118, 35, 100, 140)
+            
+            # Gestión de eventos
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game.exit()
+                
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        # Cancelar selección, volver al menú principal
+                        return None  # o el jugador por defecto
+                    
+                    elif event.key == pygame.K_LEFT:
+                        if selected_player == enums.PL_PIPER:
+                            selected_player = enums.PL_BLAZE
+                            self.sfx_menu_click.play()
+                    
+                    elif event.key == pygame.K_RIGHT:
+                        if selected_player == enums.PL_BLAZE:
+                            selected_player = enums.PL_PIPER
+                            self.sfx_menu_click.play()
+                    
+                    elif event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        self.sfx_menu_select.play()
+                        confirmed = True
+                
+                # Soporte para joystick/gamepad
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    self.sfx_menu_select.play()
+                    confirmed = True
+                
+                elif event.type == pygame.JOYAXISMOTION:
+                    if event.axis == 0:  # Eje horizontal
+                        if event.value < -0.5 and selected_player == enums.PL_PIPER:
+                            selected_player = enums.PL_BLAZE
+                            self.sfx_menu_click.play()
+                        elif event.value > 0.5 and selected_player == enums.PL_BLAZE:
+                            selected_player = enums.PL_PIPER
+                            self.sfx_menu_click.play()
+            
+            # Actualizar pantalla
+            self.game.update_screen()
+        
+        return selected_player
+
 
 
     def show(self):
@@ -356,7 +475,12 @@ class Menu():
                 if confirmed_option:
                     # main menu page
                     if selected_option == enums.MO_START:
-                        return
+                        selected_player = self.select_player()
+                        if selected_player is not None: # no se canceló
+                            self.game.selected_player = selected_player
+                            return
+                        confirmed_option = False
+                        page_timer = 0
                     # config page
                     elif selected_option == enums.MO_SETTINGS:
                         y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen

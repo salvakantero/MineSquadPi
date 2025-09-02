@@ -56,6 +56,8 @@ class Game():
         self.srf_map = pygame.Surface(constants.SCREEN_MAP_UNSCALED_SIZE)
         # area covered by the scoreboard
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
+        # player selected BLAZE/PIPER
+        self.selected_player = enums.PL_BLAZE
         # sprite control groups (for update and collision detection)
         self.sprite_groups = [
             pygame.sprite.Group(),          # [0] explosions

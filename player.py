@@ -30,10 +30,8 @@ from shot import Shot
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, who_is, game, map, scoreboard):
+    def __init__(self, game, map, scoreboard):
         super().__init__()
-        # Blaze = 0, Piper = 1
-        self.who_is = who_is
         self.energy, self.speed = self.set_player_attributes()
         self.ammo = 10 # ammunition collected
         # initialize player position
@@ -54,7 +52,7 @@ class Player(pygame.sprite.Sprite):
         self.animation_timer = 0 # timer to change frame
         self.animation_speed = constants.ANIM_SPEED_IDLE # frame dwell time
         # images
-        self._load_player_images(self.who_is)
+        self._load_player_images(game.selected_player)
         self.image = self.image_list[self.state][0] # 1st frame of the animation
         # invincibility
         self.invincible = False # invincible after losing a life or take a shield
@@ -88,9 +86,9 @@ class Player(pygame.sprite.Sprite):
 
 
     # set energy and speed based on player type
-    def set_player_attributes(self):        # ENERGY  SPEED
-        if self.who_is == enums.PL_PIPER:   return 10, 2
-        else:                               return 14, 1
+    def set_player_attributes(self):                 # ENERGY  SPEED
+        if game.selected_player == enums.PL_PIPER:  return 10, 2
+        else:                                       return 14, 1
 
 
 
