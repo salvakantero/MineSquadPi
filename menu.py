@@ -252,34 +252,35 @@ class Menu():
         # Blaze info (left side)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
-                        'B L A Z E', self.menu_pages[7], 25, 35, 1)
-        self.menu_pages[7].blit(self.img_blaze, (10, 110))        
+                        'B L A Z E', self.menu_pages[7], 27, 36, 1)
+        self.menu_pages[7].blit(self.img_blaze, (15, 115))
         x = 20
-        y = 100        
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y+21, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+51, 1)
+        y = 60
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
         for i in range(4):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+27))
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
         for i in range(4):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+57))        
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))        
         # Piper info (right side)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
-                        'P I P E R', self.menu_pages[7], 155, 35, 1)
-        self.menu_pages[7].blit(self.img_piper_flipped, (128, 110))
-        x = 150        
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y+21, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+51, 1)
+                        'P I P E R', self.menu_pages[7], 152, 36, 1)
+        self.menu_pages[7].blit(self.img_piper_flipped, (135, 115))
+        x = 138       
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
         for i in range(5):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+27))
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
         for i in range(3):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+57))         
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))         
 
 
 
     # draw a box to mark the selected player
     def _draw_selection_box(self, surface, x, y, width, height):
-        pygame.draw.rect(surface, constants.PALETTE['WHITE2'], (x-2, y-2, width+4, height+4), 2)
+        pygame.draw.rect(surface, constants.PALETTE['WHITE2'], 
+                         (x-2, y-2, width+4, height+4), 2, border_radius=10)
 
 
 
@@ -294,9 +295,9 @@ class Menu():
             self.srf_menu.blit(self.menu_pages[7], (0, 0))            
             # draw a selection box according to the chosen player
             if selected_player == enums.PL_BLAZE:
-                self._draw_selection_box(self.srf_menu, 2, 32, 114, 164)
+                self._draw_selection_box(self.srf_menu, 2, 54, 114, 142)
             else:  # PL_PIPER
-                self._draw_selection_box(self.srf_menu, 124, 32, 114, 164)            
+                self._draw_selection_box(self.srf_menu, 124, 54, 114, 142)            
             # event management
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
