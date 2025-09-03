@@ -11,17 +11,19 @@ EN PROCESO
 
 BUGS
 ====
+FX de tile bloqueante no adecuado
+revisar funcionalidad del joypad en menús y ventanas
 
 
 POR HACER
 =========
-- secuencia WIN ?
 - gráficos de tiles stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3
 - gráficos de tiles stage 2
 - gráficos de tiles stage 3
 - mapeado definitivo
+- secuencia WIN
 
 
 HECHO

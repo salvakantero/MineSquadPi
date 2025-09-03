@@ -304,7 +304,9 @@ class Game():
                 if event.type == pygame.QUIT: self.exit()
                 if event.type == pygame.KEYDOWN:
                     # RETURN or ESC has been pressed, ends the entry of the name                  
-                    if event.key == pygame.K_ESCAPE or event.key == pygame.K_RETURN:                    
+                    if (event.key == pygame.K_ESCAPE or 
+                        event.key == pygame.K_RETURN or
+                        event.key == pygame.K_KP_ENTER):                    
                         return name.upper()
                     # a key between 0 and Z has been pressed. Is added to the name
                     elif (event.key > pygame.K_0 and event.key < pygame.K_z):
