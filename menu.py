@@ -39,6 +39,7 @@ class Menu():
         self.img_menu = pygame.image.load(constants.ASS_PATH + 'menu_back.png').convert()
         self.img_blaze = pygame.image.load(constants.ASS_PATH + 'blaze.png').convert_alpha()
         self.img_piper = pygame.image.load(constants.ASS_PATH + 'piper.png').convert_alpha()
+        self.img_piper_flipped = pygame.transform.flip(self.img_piper, True, False)
         self.img_star = pygame.image.load(constants.SPR_PATH + 'star.png').convert_alpha()
         self.img_pointer = pygame.image.load(constants.SPR_PATH + 'pointer.png').convert_alpha()
         # sounds
@@ -237,35 +238,47 @@ class Menu():
 
 
 
-    def page_7(self):  # página de selección de jugador
-        # Title
+    def page_7(self):  # player selection
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        # title
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_BROWN], 
                         'Select Player', self.menu_pages[7], 80, 1, 1)
-
-        # Información de Blaze (lado izquierdo)
+        # instructions
+        self.shaded_text(self.game.fonts[enums.S_B_BROWN], 
+                        self.game.fonts[enums.S_F_BROWN], 
+                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', 
+                        self.menu_pages[7], 12, 22, 1)                        
+        # Blaze info (left side)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'B L A Z E', self.menu_pages[7], 25, 35, 1)
-        self.menu_pages[7].blit(self.img_blaze, (10, 80))
-        
-        # Información de Piper (lado derecho)
+        self.menu_pages[7].blit(self.img_blaze, (10, 110))        
+        x = 20
+        y = 100        
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y+21, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+51, 1)
+        for i in range(4):
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+27))
+        for i in range(4):
+            self.menu_pages[7].blit(self.img_star, (x+i*18, y+57))        
+        # Piper info (right side)
         self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'P I P E R', self.menu_pages[7], 155, 35, 1)
-        self.menu_pages[7].blit(self.img_piper, (125, 80))
-        
-        # Instrucciones
-        self.shaded_text(self.game.fonts[enums.S_B_BROWN], 
-                        self.game.fonts[enums.S_F_BROWN], 
-                        'Use LEFT/RIGHT to select, ENTER to confirm', 
-                        self.menu_pages[7], 39, 21, 1)
+        self.menu_pages[7].blit(self.img_piper_flipped, (128, 110))
+        x = 150        
+        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, 21, 1)
+        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, 51, 1)
+        for i in range(5):
+            self.menu_pages[7].blit(self.img_star, (x+i*18, 27))
+        for i in range(3):
+            self.menu_pages[7].blit(self.img_star, (x+i*18, 57))         
 
 
 
-    # 3. Función para dibujar el recuadro de selección
+    # draw a box to mark the selected player
     def _draw_selection_box(self, surface, x, y, width, height):
-        """Dibuja un recuadro blanco alrededor de la selección"""
         pygame.draw.rect(surface, constants.PALETTE['WHITE2'], (x-2, y-2, width+4, height+4), 2)
 
 
@@ -279,14 +292,8 @@ class Menu():
         # Variables locales para la selección
         selected_player = enums.PL_BLAZE  # Jugador seleccionado por defecto
         confirmed = False
-        
-        # Limpiar buffer de entrada
+
         self.game.clear_input_buffer()
-        
-        # Música de fondo (puedes usar la misma del menú o una específica)
-        #pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
-        #pygame.mixer.music.set_volume(1)
-        #pygame.mixer.music.play(-1)  # Loop infinito
         
         # Loop principal de selección
         while not confirmed:
@@ -299,10 +306,10 @@ class Menu():
             # Dibujar recuadro de selección según el jugador elegido
             if selected_player == enums.PL_BLAZE:
                 # Recuadro alrededor de Blaze (ajusta coordenadas según tu layout)
-                self._draw_selection_box(self.srf_menu, 8, 35, 100, 140)
+                self._draw_selection_box(self.srf_menu, 2, 32, 114, 164)
             else:  # PL_PIPER
                 # Recuadro alrededor de Piper
-                self._draw_selection_box(self.srf_menu, 118, 35, 100, 140)
+                self._draw_selection_box(self.srf_menu, 124, 32, 114, 164)
             
             # Gestión de eventos
             for event in pygame.event.get():
