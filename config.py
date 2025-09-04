@@ -98,6 +98,6 @@ class Configuration():
                 joystick = pygame.joystick.Joystick(0)
                 joystick.init()
             else:
-                self.data['control'] == enums.CT_CLASSIC
+                self.data['control'] = enums.CT_CLASSIC
         return joystick
     

@@ -89,6 +89,25 @@ class Player(pygame.sprite.Sprite):
             enums.DI_LEFT: (enums.PS_IDLE_LEFT, enums.PS_WALK_LEFT),
             enums.DI_RIGHT: (enums.PS_IDLE_RIGHT, enums.PS_WALK_RIGHT)
         }
+        # cache frequently used constants for performance
+        self._tile_size = constants.TILE_SIZE
+        self._half_tile_size = constants.HALF_TILE_SIZE
+        self._map_height_pixels = constants.MAP_TILE_SIZE[1] * constants.TILE_SIZE
+        # cache current tile position to avoid repeated calculations
+        self._current_tile_x = -1
+        self._current_tile_y = -1
+
+
+
+    # update cached tile position when player moves
+    def _update_tile_position(self):
+        new_tile_x = int(self.x // self._tile_size)
+        new_tile_y = int(self.y // self._tile_size)
+        if new_tile_x != self._current_tile_x or new_tile_y != self._current_tile_y:
+            self._current_tile_x = new_tile_x
+            self._current_tile_y = new_tile_y
+            return True  # position changed
+        return False  # position unchanged
 
 
 
@@ -151,8 +170,11 @@ class Player(pygame.sprite.Sprite):
         }
         # places the beacon in front of where the player is facing
         offset_x, offset_y = offsets.get(self.look_at, (0, 0))
-        x = int(self.x // constants.TILE_SIZE) + offset_x
-        y = int(self.y // constants.TILE_SIZE) + offset_y        
+        # use cached tile size for better performance
+        player_tile_x = int(self.x // self._tile_size)
+        player_tile_y = int(self.y // self._tile_size)
+        x = player_tile_x + offset_x
+        y = player_tile_y + offset_y        
         # check map boundaries
         if (0 <= x < constants.MAP_TILE_SIZE[0] and 0 <= y < constants.MAP_TILE_SIZE[1]):
             # if there is no beacon on the tile
@@ -163,7 +185,7 @@ class Player(pygame.sprite.Sprite):
                     self.game.remaining_mines -= 1                    
                     self.game.score += 125
                     self.game.floating_text.show('+125', 
-                        x * constants.TILE_SIZE, y * constants.TILE_SIZE)
+                        x * self._tile_size, y * self._tile_size)
                     # if there is a mine on the tile, remove it                       
                     if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
                         self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
@@ -273,10 +295,10 @@ class Player(pygame.sprite.Sprite):
         if self.is_moving_to_target:
             return  # Ya está en movimiento, esperar a completar
         
-        # Calcular nueva posición objetivo
+        # Calcular nueva posición objetivo using cached tile size
         if axis == enums.CA_HORIZONTAL:
-            new_target_x = self.target_x + (constants.TILE_SIZE if self.direction.x > 0 else -constants.TILE_SIZE)
-            temp_rect = pygame.Rect(new_target_x, self.target_y, constants.TILE_SIZE, constants.TILE_SIZE)
+            new_target_x = self.target_x + (self._tile_size if self.direction.x > 0 else -self._tile_size)
+            temp_rect = pygame.Rect(new_target_x, self.target_y, self._tile_size, self._tile_size)
             
             if not self._check_collision(temp_rect, axis):
                 self.target_x = new_target_x
@@ -286,11 +308,11 @@ class Player(pygame.sprite.Sprite):
                 if self.sfx_blocked.get_num_channels() == 0:
                     self.sfx_blocked.play()        
         else:  # vertical
-            new_target_y = self.target_y + (constants.TILE_SIZE if self.direction.y > 0 else -constants.TILE_SIZE)
-            temp_rect = pygame.Rect(self.target_x, new_target_y, constants.TILE_SIZE, constants.TILE_SIZE)
+            new_target_y = self.target_y + (self._tile_size if self.direction.y > 0 else -self._tile_size)
+            temp_rect = pygame.Rect(self.target_x, new_target_y, self._tile_size, self._tile_size)
             
-            # Verificar límites del mapa
-            if (temp_rect.top < 0 or temp_rect.bottom > constants.MAP_TILE_SIZE[1] * constants.TILE_SIZE):
+            # Verificar límites del mapa using cached map height
+            if (temp_rect.top < 0 or temp_rect.bottom > self._map_height_pixels):
                 return
                 
             if not self._check_collision(temp_rect, axis):
@@ -315,20 +337,21 @@ class Player(pygame.sprite.Sprite):
                 self.y = self.target_y
                 self.is_moving_to_target = False
                 self.steps = -1
-                self.map.mark_tile(int(self.x // constants.TILE_SIZE), 
-                                    int(self.y // constants.TILE_SIZE))
+                # update tile position only when movement is complete
+                if self._update_tile_position():
+                    self.map.mark_tile(self._current_tile_x, self._current_tile_y)
             else:
-                # calculate position between origin and destination
+                # calculate position between origin and destination using cached tile size
                 if self.direction.x > 0:
-                    start_x = self.target_x - constants.TILE_SIZE
+                    start_x = self.target_x - self._tile_size
                 elif self.direction.x < 0:
-                    start_x = self.target_x + constants.TILE_SIZE
+                    start_x = self.target_x + self._tile_size
                 else:
                     start_x = self.target_x
                 if self.direction.y > 0:
-                    start_y = self.target_y - constants.TILE_SIZE
+                    start_y = self.target_y - self._tile_size
                 elif self.direction.y < 0:
-                    start_y = self.target_y + constants.TILE_SIZE
+                    start_y = self.target_y + self._tile_size
                 else:
                     start_y = self.target_y
                 
@@ -342,18 +365,19 @@ class Player(pygame.sprite.Sprite):
 
     # checks for collisions with obstacle tiles
     def _check_collision(self, rect, axis):
+        # use cached tile size for better performance
         if axis == enums.CA_HORIZONTAL:
             if self.look_at == enums.DI_RIGHT:
-                tile_x = (rect.right - 1) // constants.TILE_SIZE
+                tile_x = (rect.right - 1) // self._tile_size
             else:
-                tile_x = rect.left // constants.TILE_SIZE
-            tile_y = rect.y // constants.TILE_SIZE
+                tile_x = rect.left // self._tile_size
+            tile_y = rect.y // self._tile_size
         else:  # vertical
-            tile_x = rect.x // constants.TILE_SIZE
+            tile_x = rect.x // self._tile_size
             if self.look_at == enums.DI_DOWN:
-                tile_y = (rect.bottom - 1) // constants.TILE_SIZE
+                tile_y = (rect.bottom - 1) // self._tile_size
             else:
-                tile_y = rect.top // constants.TILE_SIZE
+                tile_y = rect.top // self._tile_size
         # returns True if the tile is an obstacle
         return self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE
 

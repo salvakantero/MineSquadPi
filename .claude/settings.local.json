@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -46,8 +46,42 @@ class Map():
         self._tiles_by_id = {}  # cache for quick ID searches        
         self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
         self.stage_name2 = ("EGYPT, OCTOBER 1942", "NORMANDY, JUNE 1944", 
-                            "ARDENNES FOREST, JANUARY 1945")        
+                            "ARDENNES FOREST, JANUARY 1945")
+        # optimization cache for draw_mine_data
+        self._player_tile_cache = (-1, -1)  # (tile_x, tile_y)
+        self._alpha_cache = {}  # {(tile_x, tile_y): alpha_value}
+        self._text_surfaces_cache = {}  # {(value, alpha): surface}
+        self._tile_size = constants.TILE_SIZE  # cache for performance
+        self._half_tile_size = constants.HALF_TILE_SIZE
 
+
+
+    # updates alpha cache when player position changes
+    def _update_alpha_cache(self, player_tile_x, player_tile_y):
+        self._alpha_cache.clear()
+        # pre-calculate alpha values for all potentially visible tiles
+        for row_index in range(constants.MAP_TILE_SIZE[1]):
+            for col_index in range(constants.MAP_TILE_SIZE[0]):
+                distance = max(abs(col_index - player_tile_x), abs(row_index - player_tile_y))
+                if distance > 1:
+                    alpha = max(20, 255 - (distance - 1) * 50)
+                else:
+                    alpha = 255
+                self._alpha_cache[(col_index, row_index)] = alpha
+        self._player_tile_cache = (player_tile_x, player_tile_y)
+
+
+    # gets or creates a cached surface for text rendering
+    def _get_text_surface(self, value, alpha):
+        cache_key = (value, alpha)
+        if cache_key not in self._text_surfaces_cache:
+            surface = pygame.Surface((self._tile_size, self._tile_size), pygame.SRCALPHA)
+            self.game.fonts[enums.L_B_BLACK].render(str(value), surface, (self._half_tile_size-2, self._half_tile_size-6))
+            self.game.fonts[enums.L_F_RED].render(str(value), surface, (self._half_tile_size-3, self._half_tile_size-7))
+            if alpha < 255:
+                surface.set_alpha(alpha)
+            self._text_surfaces_cache[cache_key] = surface
+        return self._text_surfaces_cache[cache_key]
 
 
     # does everything necessary to change the map and add enemies and hotspots.
@@ -65,8 +99,14 @@ class Map():
         self.game.loop_counter = 0
         self.game.floating_text.active = False
         self.game.loss_sequence = 0
+        # reset optimization caches
+        self._player_tile_cache = (-1, -1)
+        self._alpha_cache.clear()
+        self._text_surfaces_cache.clear()
         # reset the sprite groups
         for group in self.game.sprite_groups: group.empty()
+        # clear explosion pool for new map
+        self.game.explosion_pool.clear()
         # player in its starting position
         player.rect = player.image.get_rect(
             topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
@@ -225,39 +265,49 @@ class Map():
 
 
     def draw_mine_data(self, camera, player):
-        tilemap = self.map_data['data'] # list of tiles that make up the map
-        for row_index, row in enumerate(self.map_data['mines_info']):
+        # cache player tile position (calculated once per frame instead of per tile)
+        player_tile_x = player.rect.centerx // self._tile_size
+        player_tile_y = player.rect.centery // self._tile_size
+        
+        # update alpha cache only if player moved to different tile
+        if (player_tile_x, player_tile_y) != self._player_tile_cache:
+            self._update_alpha_cache(player_tile_x, player_tile_y)
+        
+        # cache frequently accessed data structures
+        mines_info = self.map_data['mines_info']
+        marks = self.map_data['marks']
+        tilemap = self.map_data['data']
+        map_surface = self.game.srf_map
+        beacon_image = self.game.beacon_image
+        
+        # optimized main loop
+        for row_index, row in enumerate(mines_info):
             for col_index, value in enumerate(row):
-                if value > enums.MI_FREE \
-                and self.map_data['marks'][row_index][col_index] \
-                and tilemap[row_index][col_index] < 15:
-                    x = (col_index * constants.TILE_SIZE) - camera.x
-                    y = (row_index * constants.TILE_SIZE) - camera.y
+                if (value > enums.MI_FREE and 
+                    marks[row_index][col_index] and 
+                    tilemap[row_index][col_index] < 15):
+                    
+                    screen_x = (col_index * self._tile_size) - camera.x
+                    screen_y = (row_index * self._tile_size) - camera.y
+                    
                     # draw the beacon if the mine is deactivated
                     if value == enums.MI_BEACON:
-                        self.game.srf_map.blit(self.game.beacon_image, (x, y)) 
+                        map_surface.blit(beacon_image, (screen_x, screen_y))
                     # draw the proximity number if the mine is active
                     else:
-                        alpha = 255 # Calculate transparency based on distance from player
-                        # Convert player position to tile coordinates
-                        player_tile_x = player.rect.centerx // constants.TILE_SIZE
-                        player_tile_y = player.rect.centery // constants.TILE_SIZE                        
-                        # Calculate distance from player tile
-                        distance = max(abs(col_index - player_tile_x), abs(row_index - player_tile_y))                        
-                        # Apply transparency: full opacity for distance 0-1, fade for distance 2+
-                        if distance > 1:
-                            alpha = max(20, 255 - (distance - 1) * 50)  # minimum 20, fade by 50 per tile  
-                        x = x + constants.HALF_TILE_SIZE
-                        y = y + constants.HALF_TILE_SIZE                        
-                        if alpha < 255:  # Create surfaces with transparency for the text                           
-                            temp_surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE), pygame.SRCALPHA)
-                            self.game.fonts[enums.L_B_BLACK].render(str(value), temp_surface, (constants.HALF_TILE_SIZE-2, constants.HALF_TILE_SIZE-6))
-                            self.game.fonts[enums.L_F_RED].render(str(value), temp_surface, (constants.HALF_TILE_SIZE-3, constants.HALF_TILE_SIZE-7))
-                            temp_surface.set_alpha(alpha)
-                            self.game.srf_map.blit(temp_surface, (x - constants.HALF_TILE_SIZE, y - constants.HALF_TILE_SIZE))
+                        # get pre-calculated alpha value
+                        alpha = self._alpha_cache[(col_index, row_index)]
+                        text_x = screen_x + self._half_tile_size
+                        text_y = screen_y + self._half_tile_size
+                        
+                        if alpha < 255:
+                            # use cached surface with transparency
+                            text_surface = self._get_text_surface(value, alpha)
+                            map_surface.blit(text_surface, (screen_x, screen_y))
                         else:
-                            self.game.fonts[enums.L_B_BLACK].render(str(value), self.game.srf_map, (x-2,y-6))
-                            self.game.fonts[enums.L_F_RED].render(str(value), self.game.srf_map, (x-3,y-7))
+                            # direct rendering for full opacity (fastest path)
+                            self.game.fonts[enums.L_B_BLACK].render(str(value), map_surface, (text_x-2, text_y-6))
+                            self.game.fonts[enums.L_F_RED].render(str(value), map_surface, (text_x-3, text_y-7))
 
 
 

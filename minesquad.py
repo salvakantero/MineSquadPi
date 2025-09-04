@@ -130,12 +130,22 @@ while True:
         ##########
         player.update() # updates the player position and state   
         camera.update(player.x, player.y) # update camera position based on player    
+        
+        # cache frequently accessed objects for better performance
+        enemies = game.sprite_groups[enums.SG_ENEMIES]
+        hotspots = game.sprite_groups[enums.SG_HOTSPOT]
+        shots = game.sprite_groups[enums.SG_SHOT]
+        blasts = game.sprite_groups[enums.SG_BLASTS]
+        map_surface = game.srf_map
+        
         # enemies, hotspots, blasts, shots
-        for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.update()
-        for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.update(camera)
-        for shot in game.sprite_groups[enums.SG_SHOT]: shot.update(camera)
-        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.update()
+        for enemy in enemies: enemy.update()
+        for hotspot in hotspots: hotspot.update(camera)
+        for shot in shots: shot.update(camera)
+        blasts.update() # use native pygame group update (no parameters needed)
         game.floating_text.update(camera)
+        # update explosion pool to recycle finished explosions
+        game.explosion_pool.update()
 
         ########
         # DRAW #
@@ -144,10 +154,10 @@ while True:
         map.draw_mine_data(camera, player) # draws the location of the mines                     
         player.draw(camera) # draws the player
         # enemies, hotspots, blasts, shots
-        for enemy in game.sprite_groups[enums.SG_ENEMIES]: enemy.draw(game.srf_map, camera)
-        for hotspot in game.sprite_groups[enums.SG_HOTSPOT]: hotspot.draw(game.srf_map, camera)
-        for shot in game.sprite_groups[enums.SG_SHOT]: shot.draw(game.srf_map, camera)
-        for blast in game.sprite_groups[enums.SG_BLASTS]: blast.draw(game.srf_map, camera)
+        for enemy in enemies: enemy.draw(map_surface, camera)
+        for hotspot in hotspots: hotspot.draw(map_surface, camera)
+        for shot in shots: shot.draw(map_surface, camera)
+        for blast in blasts: blast.draw(map_surface, camera)
         game.floating_text.draw(camera)
 
         # collision between player and enemies, mines or hotspots      

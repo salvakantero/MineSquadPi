@@ -48,6 +48,10 @@ class Enemy(pygame.sprite.Sprite):
         self.movement = enemy_data[2]
         # health
         self.health = constants.ENEMY_LIFE[self.type]
+        
+        # optimization: cache frequently used values
+        self._tile_size = constants.TILE_SIZE
+        self._activation_range_squared = constants.CHASER_ACTIVATION_RANGE * constants.CHASER_ACTIVATION_RANGE
         # from xy values
         self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
         self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE
@@ -102,8 +106,8 @@ class Enemy(pygame.sprite.Sprite):
         dirs = list(_RANDOM_DIRECTIONS)
         random.shuffle(dirs)
         for dx, dy in dirs:
-            tx = self.x + dx * constants.TILE_SIZE
-            ty = self.y + dy * constants.TILE_SIZE
+            tx = self.x + dx * self._tile_size
+            ty = self.y + dy * self._tile_size
             if self._is_position_valid(tx, ty):
                 self.vx, self.vy = dx * self.speed, dy * self.speed
                 self.target_x, self.target_y = tx, ty
@@ -132,7 +136,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # returns True if the tile is an obstacle
         return self.map.get_tile_type(
-            tile_x // constants.TILE_SIZE, tile_y // constants.TILE_SIZE) == enums.TT_OBSTACLE
+            tile_x // self._tile_size, tile_y // self._tile_size) == enums.TT_OBSTACLE
 
 
 
@@ -152,8 +156,8 @@ class Enemy(pygame.sprite.Sprite):
             (temp_rect.left, temp_rect.bottom - 1),
             (temp_rect.right - 1, temp_rect.bottom - 1)]        
         for px, py in points_to_check:
-            tile_x = px // constants.TILE_SIZE
-            tile_y = py // constants.TILE_SIZE
+            tile_x = px // self._tile_size
+            tile_y = py // self._tile_size
             if self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE:
                 return False                
         return True
@@ -165,15 +169,16 @@ class Enemy(pygame.sprite.Sprite):
         if self.player is None:
             return False
              
-        # calculate distance in tiles (use squared distance to avoid sqrt)
-        enemy_tile_x = (self.x + self.rect.width // 2) // constants.TILE_SIZE
-        enemy_tile_y = (self.y + self.rect.height // 2) // constants.TILE_SIZE
-        player_tile_x = self.player.centerx // constants.TILE_SIZE
-        player_tile_y = self.player.centery // constants.TILE_SIZE
+        # calculate distance in tiles using cached values (optimized)
+        enemy_tile_x = (self.x + self.rect.width // 2) // self._tile_size
+        enemy_tile_y = (self.y + self.rect.height // 2) // self._tile_size
+        player_tile_x = self.player.centerx // self._tile_size
+        player_tile_y = self.player.centery // self._tile_size
 
         dx = enemy_tile_x - player_tile_x
         dy = enemy_tile_y - player_tile_y
-        return (dx * dx + dy * dy) <= (constants.CHASER_ACTIVATION_RANGE * constants.CHASER_ACTIVATION_RANGE)
+        # use pre-calculated squared range for optimal performance
+        return (dx * dx + dy * dy) <= self._activation_range_squared
 
 
 
@@ -182,28 +187,28 @@ class Enemy(pygame.sprite.Sprite):
         if self.player is None:
             return
         
-        # align to nearest tile
-        self.x = round(self.x / constants.TILE_SIZE) * constants.TILE_SIZE
-        self.y = round(self.y / constants.TILE_SIZE) * constants.TILE_SIZE
+        # align to nearest tile using cached tile size
+        self.x = round(self.x / self._tile_size) * self._tile_size
+        self.y = round(self.y / self._tile_size) * self._tile_size
 
-        # calculate distance in tiles
-        enemy_tile_x = self.x // constants.TILE_SIZE
-        enemy_tile_y = self.y // constants.TILE_SIZE
-        player_tile_x = self.player.centerx // constants.TILE_SIZE
-        player_tile_y = self.player.centery // constants.TILE_SIZE        
+        # calculate distance in tiles using cached tile size
+        enemy_tile_x = self.x // self._tile_size
+        enemy_tile_y = self.y // self._tile_size
+        player_tile_x = self.player.centerx // self._tile_size
+        player_tile_y = self.player.centery // self._tile_size        
         dx = player_tile_x - enemy_tile_x
         dy = player_tile_y - enemy_tile_y
 
-        # determine target tile to move to
+        # determine target tile to move to using cached tile size
         target_x = self.x
         target_y = self.y
         # prefer horizontal or vertical movement based on greater distance
         if abs(dx) > abs(dy): # move horizontally
-            if dx > 0:  target_x = self.x + constants.TILE_SIZE # player is to the right
-            else:       target_x = self.x - constants.TILE_SIZE # player is to the left
+            if dx > 0:  target_x = self.x + self._tile_size # player is to the right
+            else:       target_x = self.x - self._tile_size # player is to the left
         else: # move vertically
-            if dy > 0:  target_y = self.y + constants.TILE_SIZE # player is below
-            else:       target_y = self.y - constants.TILE_SIZE # player is above        
+            if dy > 0:  target_y = self.y + self._tile_size # player is below
+            else:       target_y = self.y - self._tile_size # player is above        
         self.target_x = target_x
         self.target_y = target_y
         

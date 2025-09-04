@@ -32,7 +32,7 @@ from datetime import date
 from config import Configuration
 from font import Font
 from intro import Intro
-from explosion import Explosion
+from explosion import Explosion, ExplosionPool
 from floatingtext import FloatingText
 from hotspot import Hotspot
 
@@ -92,6 +92,17 @@ class Game():
         
         # create floating texts
         self.floating_text = FloatingText(self.srf_map)
+        
+        # create explosion pool for optimized memory management
+        self.explosion_pool = ExplosionPool(pool_size=15)
+        
+        # optimization: pre-calculate enemy scores and cache sound effects list
+        self._enemy_scores = {
+            enums.EN_SCORPION: ('+25', 25),
+            enums.EN_SNAKE: ('+50', 50), 
+            enums.EN_SOLDIER1: ('+75', 75)
+        }
+        self._blast_sfx_list = list(self.sfx_blast.values())  # pre-compute list once
 
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during game play.
@@ -472,13 +483,13 @@ class Game():
 
 
     # our player wins the game. End sequence
-    def win(self, score):
+    def win(self):
         self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False, False)
         # main theme song again
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
         pygame.mixer.music.play()
         self.wait_for_key()
-        self.update_high_score_table(score)
+        self.update_high_score_table(self.score)
         self.status = enums.GS_OVER
         return                    
             
@@ -500,10 +511,10 @@ class Game():
                 # shake the map
                 self.shake = [10, 6]
                 self.shake_timer = 14
-                # creates an explosion at tile center              
+                # creates an explosion at tile center using pool
                 blast_x = (tile_x * constants.TILE_SIZE) + constants.HALF_TILE_SIZE
                 blast_y = (tile_y * constants.TILE_SIZE) + 4    
-                blast = Explosion([blast_x, blast_y], self.blast_images[1])
+                blast = self.explosion_pool.get_explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(list(self.sfx_blast.values())).play()
                 player.invincible = False
@@ -535,8 +546,8 @@ class Game():
             self.shake = [4, 4]
             self.shake_timer = 4
 
-            # creates a magic halo
-            blast = Explosion(hotspot.rect.center, self.blast_images[2])
+            # creates a magic halo using pool
+            blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
             self.sprite_groups[enums.SG_BLASTS].add(blast)                
             self.sfx_hotspot[hotspot.type].play()
             
@@ -580,36 +591,39 @@ class Game():
 
 
     def check_bullet_collisions(self, player, scoreboard):                         
-        # bullets and enemies
-        if self.sprite_groups[enums.SG_SHOT].sprite is not None: # still shot in progress
-            for enemy in self.sprite_groups[enums.SG_ENEMIES]:
-                if enemy.rect.colliderect(self.sprite_groups[enums.SG_SHOT].sprite):
-                    enemy.health -= 1        
-                    # shake the map
-                    self.shake = [10, 6]
-                    self.shake_timer = 14                    
-                    # assigns a score according to the type of enemy                    
-                    ftext = '' # floating text
-                    if enemy.type == enums.EN_SCORPION:
-                        ftext = '+25'
-                        self.score += 25
-                    if enemy.type == enums.EN_SNAKE: 
-                        ftext = '+50'
-                        self.score += 50
-                    elif enemy.type == enums.EN_SOLDIER1: 
-                        ftext = '+75'
-                        self.score += 75
+        # bullets and enemies - optimized version
+        shot_sprite = self.sprite_groups[enums.SG_SHOT].sprite
+        if shot_sprite is not None:  # still shot in progress
+            # use pygame's optimized collision detection
+            enemies_group = self.sprite_groups[enums.SG_ENEMIES]
+            collided_enemies = pygame.sprite.spritecollide(shot_sprite, enemies_group, False)
+            
+            if collided_enemies:  # collision detected
+                enemy = collided_enemies[0]  # get first collided enemy
+                enemy.health -= 1
+                
+                # shake the map
+                self.shake = [10, 6]
+                self.shake_timer = 14
+                
+                # optimized scoring system using pre-calculated values
+                if enemy.type in self._enemy_scores:
+                    ftext, score = self._enemy_scores[enemy.type]
+                    self.score += score
                     self.floating_text.show(ftext, enemy.rect.x, enemy.rect.y)
-                    self.sprite_groups[enums.SG_SHOT].sprite.kill()
-                    # if it's the last life, the enemy dies
-                    if enemy.health == 0:
-                        blast = Explosion(enemy.rect.center, self.blast_images[0])
-                        self.sprite_groups[enums.SG_BLASTS].add(blast)                    
-                        random.choice(list(self.sfx_blast.values())).play()
-                        enemy.kill()                        
-                    # redraws the scoreboard
-                    scoreboard.invalidate()
-                    break
+                
+                shot_sprite.kill()  # remove the bullet
+                
+                # if it's the last life, the enemy dies
+                if enemy.health == 0:
+                    blast = self.explosion_pool.get_explosion(enemy.rect.center, self.blast_images[0])
+                    self.sprite_groups[enums.SG_BLASTS].add(blast)
+                    # use pre-computed sound effects list
+                    random.choice(self._blast_sfx_list).play()
+                    enemy.kill()
+                
+                # redraws the scoreboard
+                scoreboard.invalidate()
 
 
 
