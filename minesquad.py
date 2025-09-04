@@ -36,6 +36,9 @@ from menu import Menu
 from player import Player
 from jukebox import Jukebox
 
+# cache constants for better performance
+MAX_LEVEL = 8
+LOSS_SEQUENCE_DURATION = 70
 
 
 # initialisation
@@ -52,13 +55,13 @@ menu = Menu(game)
 # playlist with the X available tracks
 jukebox = Jukebox(constants.MUS_PATH, 'mus_ingame_', 10)
 
-intro.play() # shows an intro
+intro.play() # display the intro sequence
 
 # Main loop
 while True:
     if game.status == enums.GS_OVER: # game not running (menu)
-        menu.show() # displays the main menu   
-        # new unordered playlist with the 12 available music tracks
+        menu.show() # display the main menu   
+        # create new unordered playlist with the 12 available music tracks
         pygame.mixer.music.stop()
         jukebox.shuffle()
         # create the player
@@ -71,22 +74,22 @@ while True:
     else: # game running
         # event management
         for event in pygame.event.get():
-            # exit when click on the X in the window
+            # exit when clicking the X button on the window
             if event.type == pygame.QUIT:
                 game.exit()
-            elif event.type == pygame.KEYDOWN: # a key is pressed
-                # exit by pressing ESC key
+            elif event.type == pygame.KEYDOWN: # a key has been pressed
+                # exit by pressing the ESC key
                 if event.key == pygame.K_ESCAPE:
-                     # stops the music when the game is paused
+                     # stop the music when the game is paused
                     if game.music_status == enums.MS_UNMUTED:
                         pygame.mixer.music.pause()
                     if game.confirm_exit():
-                        game.status = enums.GS_OVER # go to the main menu
+                        game.status = enums.GS_OVER # return to the main menu
                     else:
-                        # restores the music if the game continues
+                        # restore the music if the game continues
                         if game.music_status == enums.MS_UNMUTED:
                             pygame.mixer.music.unpause()                            
-                # mutes the music, or vice versa               
+                # mute the music, or vice versa               
                 elif event.key == game.config.mute_key:
                     if game.music_status == enums.MS_MUTED:
                         game.music_status = enums.MS_UNMUTED
@@ -94,12 +97,10 @@ while True:
                     else:
                         game.music_status = enums.MS_MUTED
                         pygame.mixer.music.fadeout(1200)
-                # press fire
+                # handle fire and beacon keys
                 elif event.key == game.config.fire_key:
                     player.fire()
-                # press beacon
-                elif (event.key == game.config.beacon_key
-                      or  event.key == game.config.beacon_key2):
+                elif event.key in (game.config.beacon_key, game.config.beacon_key2):
                     player.place_beacon()
             # mouse clicks
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -111,7 +112,7 @@ while True:
         # change the map if necessary
         if map.number != map.last:
             map.change(player)
-            map.draw(camera) # draws the new map
+            map.draw(camera) # draw the new map
             scoreboard.reset(map.number)
             scoreboard.invalidate()
             scoreboard.update(player)
@@ -128,14 +129,15 @@ while True:
         ##########
         # UPDATE #
         ##########
-        player.update() # updates the player position and state   
+        player.update() # update the player position and state   
         camera.update(player.x, player.y) # update camera position based on player    
         
         # cache frequently accessed objects for better performance
-        enemies = game.sprite_groups[enums.SG_ENEMIES]
-        hotspots = game.sprite_groups[enums.SG_HOTSPOT]
-        shots = game.sprite_groups[enums.SG_SHOT]
-        blasts = game.sprite_groups[enums.SG_BLASTS]
+        sprite_groups = game.sprite_groups  # cache reference
+        enemies = sprite_groups[enums.SG_ENEMIES]
+        hotspots = sprite_groups[enums.SG_HOTSPOT]
+        shots = sprite_groups[enums.SG_SHOT]
+        blasts = sprite_groups[enums.SG_BLASTS]
         map_surface = game.srf_map
         
         # enemies, hotspots, blasts, shots
@@ -151,8 +153,8 @@ while True:
         # DRAW #
         ########       
         map.draw(camera) # visible map area, free of sprites and marks (15x11 tiles)        
-        map.draw_mine_data(camera, player) # draws the location of the mines                     
-        player.draw(camera) # draws the player
+        map.draw_mine_data(camera, player) # draw the location of the mines                     
+        player.draw(camera) # draw the player
         # enemies, hotspots, blasts, shots
         for enemy in enemies: enemy.draw(map_surface, camera)
         for hotspot in hotspots: hotspot.draw(map_surface, camera)
@@ -165,10 +167,10 @@ while True:
         # collision between bullets and enemies
         game.check_bullet_collisions(player, scoreboard)        
         
-        # renews the hotspot to score (if needed)
+        # regenerate the hotspot to score (if needed)
         game.regenerate_hotspot(map.map_data['tile_types'])
 
-        # updates the scoreboard, (if needed, needs_updating = True)
+        # update the scoreboard (if needed, needs_updating = True)
         scoreboard.update(player)
 
         # next track in the playlist if the music has been stopped
@@ -177,7 +179,7 @@ while True:
 
         # check map completion (9 levels from 0 to 8)
         if game.remaining_mines == 0:
-            if map.number < 8:
+            if map.number < MAX_LEVEL:
                 game.update_screen()
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
@@ -191,20 +193,21 @@ while True:
 
         # game over?
         if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
-            if player.energy < 0: player.energy = 0
+            if player.energy < 0: 
+                player.energy = 0
             if game.loss_sequence == 0: # blast animation completed                           
                 game.over()
                 game.update_high_score_table(game.score)
                 game.status = enums.GS_OVER
                 continue
-            else: # blast animation in progress
-                game.loss_sequence -= 1
+            # blast animation in progress
+            game.loss_sequence -= 1
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (228, 169))
         #game.fonts[enums.S_B_WHITE].render(str(player.state), game.srf_sboard, (100, 25))
         # ==========================================================================================
         
-        # increases the loop counter, up to a maximum of 10000 loops
+        # increment the loop counter, up to a maximum of 10000 loops
         game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
         game.update_screen()

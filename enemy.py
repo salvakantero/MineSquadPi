@@ -27,7 +27,7 @@ import constants
 import enums
 import random
 
-# cache flipped frames per image-list object id to avoid repeated transforms.
+# cache flipped frames per image-list object ID to avoid repeated transforms
 _FLIPPED_IMAGE_CACHE = {}
 # unit directions for random movement (no need to recreate list each call)
 _RANDOM_DIRECTIONS = ((0, -1), (1, 0), (0, 1), (-1, 0))

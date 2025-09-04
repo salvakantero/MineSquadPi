@@ -41,7 +41,7 @@ from hotspot import Hotspot
 class Game():
     def __init__(self):
         self.clock = pygame.time.Clock() # game clock for FPS and timers
-        self.config = Configuration() # reads the configuration file to apply the personal settings
+        self.config = Configuration() # read the configuration file to apply the personal settings
         self.config.load()
         self.loss_sequence = 0 # animated sequence on losing (if > 0)
         self.remaining_beacons = 0 # available beacons
@@ -70,7 +70,7 @@ class Game():
         self.win_size = constants.WIN_SIZE
         # main surface
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
-        # change the resolution and type of display according to the settings
+        # change the resolution and display type according to the settings
         self.apply_display_settings()
 
         # common fonts. S = small L = large F = foreground B = background
@@ -96,42 +96,45 @@ class Game():
         # create explosion pool for optimized memory management
         self.explosion_pool = ExplosionPool(pool_size=15)
         
-        # optimization: pre-calculate enemy scores and cache sound effects list
+        # optimization: pre-calculate enemy scores
         self._enemy_scores = {
             enums.EN_SCORPION: ('+25', 25),
             enums.EN_SNAKE: ('+50', 50), 
             enums.EN_SOLDIER1: ('+75', 75)
         }
-        self._blast_sfx_list = list(self.sfx_blast.values())  # pre-compute list once
+        
+        # helper function to load and convert images
+        def load_image(path):
+            return pygame.image.load(path).convert_alpha()
 
         # The following image lists are created here, not in their corresponding classes, 
-        # to avoid loading from disk during game play.
-        self.beacon_image = pygame.image.load(constants.SPR_PATH + 'beacon.png').convert_alpha()
+        # to avoid loading from disk during gameplay.
+        self.beacon_image = load_image(constants.SPR_PATH + 'beacon.png')
         self.enemy_images = {
             # animation sequence of the enemies depending on their type
             enums.EN_SCORPION: [
-                pygame.image.load(constants.SPR_PATH + 'scorpion_0.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'scorpion_1.png').convert_alpha()],
+                load_image(constants.SPR_PATH + 'scorpion_0.png'),
+                load_image(constants.SPR_PATH + 'scorpion_1.png')],
             enums.EN_SNAKE: [
-                pygame.image.load(constants.SPR_PATH + 'snake_0.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'snake_1.png').convert_alpha()],
+                load_image(constants.SPR_PATH + 'snake_0.png'),
+                load_image(constants.SPR_PATH + 'snake_1.png')],
             enums.EN_SOLDIER1: [
-                pygame.image.load(constants.SPR_PATH + 'soldier1_0.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'soldier1_1.png').convert_alpha()]}
+                load_image(constants.SPR_PATH + 'soldier1_0.png'),
+                load_image(constants.SPR_PATH + 'soldier1_1.png')]}
         self.hotspot_images = {
-            enums.HS_LIFE: pygame.image.load(constants.SPR_PATH + 'hotspot0.png').convert_alpha(),
-            enums.HS_SHIELD: pygame.image.load(constants.SPR_PATH + 'hotspot1.png').convert_alpha(),
-            enums.HS_AMMO: pygame.image.load(constants.SPR_PATH + 'hotspot2.png').convert_alpha(),
-            enums.HS_CANDY: pygame.image.load(constants.SPR_PATH + 'hotspot3.png').convert_alpha(),
-            enums.HS_APPLE: pygame.image.load(constants.SPR_PATH + 'hotspot4.png').convert_alpha(),
-            enums.HS_CHOCO: pygame.image.load(constants.SPR_PATH + 'hotspot5.png').convert_alpha(),
-            enums.HS_COIN: pygame.image.load(constants.SPR_PATH + 'hotspot6.png').convert_alpha()}
+            enums.HS_LIFE: load_image(constants.SPR_PATH + 'hotspot0.png'),
+            enums.HS_SHIELD: load_image(constants.SPR_PATH + 'hotspot1.png'),
+            enums.HS_AMMO: load_image(constants.SPR_PATH + 'hotspot2.png'),
+            enums.HS_CANDY: load_image(constants.SPR_PATH + 'hotspot3.png'),
+            enums.HS_APPLE: load_image(constants.SPR_PATH + 'hotspot4.png'),
+            enums.HS_CHOCO: load_image(constants.SPR_PATH + 'hotspot5.png'),
+            enums.HS_COIN: load_image(constants.SPR_PATH + 'hotspot6.png')}
         self.control_images = {
-            enums.CT_CLASSIC: pygame.image.load(constants.ASS_PATH + 'classic.png').convert_alpha(),
-            enums.CT_GAMER:  pygame.image.load(constants.ASS_PATH + 'gamer.png').convert_alpha(),
-            enums.CT_RETRO: pygame.image.load(constants.ASS_PATH + 'retro.png').convert_alpha(),
-            enums.CT_JOYSTICK: pygame.image.load(constants.ASS_PATH + 'joypad.png').convert_alpha(),
-            enums.CT_COMMON: pygame.image.load(constants.ASS_PATH + 'common.png').convert_alpha()
+            enums.CT_CLASSIC: load_image(constants.ASS_PATH + 'classic.png'),
+            enums.CT_GAMER: load_image(constants.ASS_PATH + 'gamer.png'),
+            enums.CT_RETRO: load_image(constants.ASS_PATH + 'retro.png'),
+            enums.CT_JOYSTICK: load_image(constants.ASS_PATH + 'joypad.png'),
+            enums.CT_COMMON: load_image(constants.ASS_PATH + 'common.png')
         }
         self.blast_images = {
             0: [ # explosion 1: in the air
@@ -170,7 +173,9 @@ class Game():
             enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
             enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
             enums.HS_COIN: pygame.mixer.Sound(constants.FX_PATH + 'sfx_coin.wav')}
-        # modifies the XY position of the map on the screen to create 
+        # cache sound effects tuple for better performance
+        self._blast_sfx_tuple = tuple(self.sfx_blast.values())
+        # modify the XY position of the map on the screen to create 
         # a shaking effect for a given number of frames (explosions)
         self.shake = [0, 0]
         self.shake_timer = 0
@@ -182,18 +187,18 @@ class Game():
 
 
 
-    # clears the input buffer (keyboard and joystick)
+    # clear the input buffer (keyboard and joystick)
     def clear_input_buffer(self):
         pygame.event.clear()
         if self.joystick is not None:
-            # waits until all buttons are released
+            # wait until all buttons are released
             while any(self.joystick.get_button(i) 
                       for i in range(self.joystick.get_numbuttons())):
                 pygame.event.pump()
 
 
 
-    # waits for a key to be pressed
+    # wait for a key to be pressed
     def wait_for_key(self):
         self.clear_input_buffer()
         while True:
@@ -214,12 +219,12 @@ class Game():
 
 
 
-    # windowed mode, generates a main window with title, icon, and 32-bit colour
+    # windowed mode, generate a main window with title, icon, and 32-bit colour
     def apply_windowed_mode(self):        
         # default margins
         self.v_margin = constants.V_MARGIN
         self.h_margin = constants.H_MARGIN
-        # creates the window
+        # create the window
         self.win_size = constants.WIN_SIZE
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         pygame.display.set_caption('.:: Mine Squad Pi ::.')
@@ -275,7 +280,7 @@ class Game():
 
 
 
-    # creates a window or full-screen environment 
+    # create a window or full-screen environment 
     def apply_display_settings(self):
         if self.config.data['screen_mode'] == enums.SM_4_3: # 4:3
             self.apply_screen_mode_4_3()
@@ -305,7 +310,7 @@ class Game():
 
 
 
-    # allows to enter the player's name
+    # allow the player to enter their name
     def get_player_name(self):
         self.message('You achieved a high score!', 'Enter your name...', False, False, True, False)
         pygame.event.clear(pygame.KEYDOWN)
@@ -314,21 +319,21 @@ class Game():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT: self.exit()
                 if event.type == pygame.KEYDOWN:
-                    # RETURN or ESC has been pressed, ends the entry of the name                  
+                    # RETURN or ESC has been pressed, end the entry of the name                  
                     if (event.key == pygame.K_ESCAPE or 
                         event.key == pygame.K_RETURN or
                         event.key == pygame.K_KP_ENTER):                    
                         return name.upper()
-                    # a key between 0 and Z has been pressed. Is added to the name
+                    # a key between 0 and Z has been pressed. Add to the name
                     elif (event.key > pygame.K_0 and event.key < pygame.K_z):
                         if len(name) < 12: name += pygame.key.name(event.key)
-                    # The space bar has been pressed. A space is added
+                    # the space bar has been pressed. Add a space
                     elif  event.key == pygame.K_SPACE:
                         if len(name) < 12: name += ' '
-                    # a delete key has been pressed, deletes the last character                       
+                    # a delete key has been pressed, delete the last character                       
                     elif event.key == pygame.K_BACKSPACE or event.key == pygame.K_DELETE:
                         name = name[:-1]
-                    # draws the current name
+                    # draw the current name
                     self.message('You achieved a high score!', name.upper(), False, True, True, False)
 
 
@@ -343,14 +348,14 @@ class Game():
 
 
 
-    # exits to the operating system
+    # exit to the operating system
     def exit(self):
         pygame.quit()
         sys.exit()
 
 
 
-    # draws scanlines
+    # draw scanlines
     def apply_scanlines(self):
         x = self.win_size[0]-self.h_margin-1
         y = self.v_margin    
@@ -359,13 +364,13 @@ class Game():
         else: # windowed mode: fixed bottom margin of 26 pixels
             height = self.win_size[1]-26
         while y < height:
-            # every 3 lines draws an almost black line
+            # every 3 lines draw an almost black line
             pygame.draw.line(self.screen, (10, 10, 10), (self.h_margin, y), (x, y))
             y += 3            
     
 
 
-    # dumps and scales surfaces to the screen
+    # dump and scale surfaces to the screen
     def update_screen(self):
         if self.status == enums.GS_OVER:
             # scale the menu
@@ -378,11 +383,11 @@ class Game():
                 self.srf_sboard, constants.SBOARD_SCALED_SIZE), 
                 (self.h_margin, self.v_margin))
                         
-            # shakes the surface of the map if it has been requested
+            # shake the surface of the map if it has been requested
             offset = [0,0]
             if self.shake_timer > 0:
                 if self.shake_timer == 1: # last frame shaken
-                    # it's necessary to clean the edges of the map after shaking it
+                    # it's necessary to clean the edges of the map after shaking
                     if self.config.data['screen_mode'] == enums.SM_16_9: # 16:9 fullscreen
                         self.screen.blit(self.img_background, (0,0))
                     else: # 4:3 fullscreen or windowed mode
@@ -398,23 +403,23 @@ class Game():
                 constants.SBOARD_SCALED_SIZE[1] + self.v_margin + offset[1]))
         
         if self.config.data['scanlines']: self.apply_scanlines()
-        pygame.display.flip() # refreshes the screen
+        pygame.display.flip() # refresh the screen
         self.clock.tick(60) # 60 FPS
 
 
 
-    # displays a message, darkening the screen
+    # display a message, darkening the screen
     def message(self, msg1, msg2, darken, muted, opaque, control_info):
-        # obscures the surface of the map
+        # obscure the surface of the map
         if darken:
             self.srf_map.set_alpha(115)
             self.update_screen()
-        # saves a copy of the darkened screen
+        # save a copy of the darkened screen
         aux_surf = pygame.Surface((constants.SCREEN_MAP_UNSCALED_SIZE), pygame.SRCALPHA)    
         aux_surf.blit(self.srf_map, (0,0))
-        # draws the light message on the dark background
+        # draw the light message on the dark background
         height = 36
-        # calculates the width of the box
+        # calculate the width of the box
         message1_len = len(msg1) * 7 # approximate length of text 1 in pixels
         message2_len = len(msg2) * 4 # approximate length of text 2 in pixels
         # width = length of the longest text + margin
@@ -423,7 +428,7 @@ class Game():
         if control_info:
             width = max(width, 160)
             height = height + 50
-        # calculates the position of the box
+        # calculate the position of the box
         x = (constants.SCREEN_MAP_UNSCALED_SIZE[0]//2) - (width//2)
         y = (constants.SCREEN_MAP_UNSCALED_SIZE[1]//2) - (height//2)
         # blackest window
@@ -431,7 +436,7 @@ class Game():
         if opaque:
             opacity = 255
         pygame.draw.rect(aux_surf, (0, 0, 0, opacity),(x, y, width, height))
-        # draws the text centred inside the window (Y positions are fixed)
+        # draw the text centred inside the window (Y positions are fixed)
         # line 1
         text_x = (x + (width//2)) - (message1_len//2)
         text_y = y + 5
@@ -455,13 +460,13 @@ class Game():
 
 
 
-    # displays a message to confirm exit
+    # display a message to confirm exit
     def confirm_exit(self):
         self.message('Leave the current game?', 'ESC TO EXIT. ANY OTHER KEY TO CONTINUE', True, False, False, False)
         pygame.event.clear(pygame.KEYDOWN)
         while True:
             for event in pygame.event.get():
-                # exit when click on the X in the window
+                # exit when clicking the X button on the window
                 if event.type == pygame.QUIT:
                     self.exit()
                 elif event.type == pygame.KEYDOWN:
@@ -471,7 +476,7 @@ class Game():
 
 
 
-    # displays a 'game over' message and waits
+    # display a 'game over' message and wait
     def over(self):
         self.shake_timer = 1 # clean the edges 
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
@@ -506,17 +511,17 @@ class Game():
             0 <= tile_y < constants.MAP_TILE_SIZE[1]):            
             tile_type = map_data['tile_types'][tile_y][tile_x]            
             if tile_type == enums.TT_MINE:
-                # eliminates the mine
+                # eliminate the mine
                 map_data['tile_types'][tile_y][tile_x] = enums.TT_NO_ACTION
                 # shake the map
                 self.shake = [10, 6]
                 self.shake_timer = 14
-                # creates an explosion at tile center using pool
+                # create an explosion at tile center using pool
                 blast_x = (tile_x * constants.TILE_SIZE) + constants.HALF_TILE_SIZE
-                blast_y = (tile_y * constants.TILE_SIZE) + 4    
+                blast_y = (tile_y * constants.TILE_SIZE) + constants.TILE_CENTER_OFFSET    
                 blast = self.explosion_pool.get_explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
-                random.choice(list(self.sfx_blast.values())).play()
+                random.choice(self._blast_sfx_tuple).play()
                 player.invincible = False
                 player.loses_energy(20) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
@@ -546,12 +551,12 @@ class Game():
             self.shake = [4, 4]
             self.shake_timer = 4
 
-            # creates a magic halo using pool
+            # create a magic halo using pool
             blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
             self.sprite_groups[enums.SG_BLASTS].add(blast)                
             self.sfx_hotspot[hotspot.type].play()
             
-            # manages the object according to the type
+            # manage the object according to the type
             ftext = '' # floating text
             # power-ups
             if hotspot.type == enums.HS_LIFE:
@@ -584,7 +589,7 @@ class Game():
                 hotspot.tile_x * constants.TILE_SIZE, 
                 hotspot.tile_y * constants.TILE_SIZE)
             
-            hotspot.kill() # removes the collided hotspot
+            hotspot.kill() # remove the collided hotspot
                                     
             return
 
@@ -618,16 +623,16 @@ class Game():
                 if enemy.health == 0:
                     blast = self.explosion_pool.get_explosion(enemy.rect.center, self.blast_images[0])
                     self.sprite_groups[enums.SG_BLASTS].add(blast)
-                    # use pre-computed sound effects list
-                    random.choice(self._blast_sfx_list).play()
+                    # use pre-computed sound effects tuple
+                    random.choice(self._blast_sfx_tuple).play()
                     enemy.kill()
                 
-                # redraws the scoreboard
+                # redraw the scoreboard
                 scoreboard.invalidate()
 
 
 
-    # renews the hotspot to score (if needed)
+    # regenerate the hotspot to score (if needed)
     def regenerate_hotspot(self, tile_types):
         has_score_hotspot = any(
             hotspot.type >= enums.HS_CANDY 

@@ -34,11 +34,11 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, game, map, scoreboard):
         super().__init__()
         # initialize player position
-        # starts at the centre of the map, 1/4 from the left and at the bottom
+        # start at the centre of the map, 1/4 from the left and at the bottom
         self.x, self.y = constants.PLAYER_X_INI, constants.PLAYER_Y_INI
         # movement
         self.direction = pygame.math.Vector2(0.0, 0.0) # direction of movement
-        self.steps = -1 # check that the distance does not exceed the size of the tile.
+        self.steps = -1 # check that the distance does not exceed the size of the tile
         self.target_x = self.x
         self.target_y = self.y
         self.move_progress = 0
