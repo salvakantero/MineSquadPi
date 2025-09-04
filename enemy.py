@@ -29,7 +29,7 @@ import random
 
 # cache flipped frames per image-list object ID to avoid repeated transforms
 _FLIPPED_IMAGE_CACHE = {}
-# unit directions for random movement (no need to recreate list each call)
+# unit directions for random movement
 _RANDOM_DIRECTIONS = ((0, -1), (1, 0), (0, 1), (-1, 0))
 
 
@@ -49,17 +49,16 @@ class Enemy(pygame.sprite.Sprite):
         # health
         self.health = constants.ENEMY_LIFE[self.type]
         
-        # optimization: cache frequently used values
+        # cache frequently used values
         self._tile_size = constants.TILE_SIZE
         self._activation_range_squared = constants.CHASER_ACTIVATION_RANGE * constants.CHASER_ACTIVATION_RANGE
         # from xy values
-        self.x = self.x1 = enemy_data[3] * constants.TILE_SIZE
-        self.y = self.y1 = enemy_data[4] * constants.TILE_SIZE
+        self.x = self.x1 = enemy_data[3] * self._tile_size
+        self.y = self.y1 = enemy_data[4] * self._tile_size
         # to xy values
-        self.x2 = enemy_data[5] * constants.TILE_SIZE
-        self.y2 = enemy_data[6] * constants.TILE_SIZE
+        self.x2 = enemy_data[5] * self._tile_size
+        self.y2 = enemy_data[6] * self._tile_size
         # speed
-        self.speed = 1
         self.vx = 0
         self.vy = 0
         # RANDOM/CHASER auxiliar variables
@@ -92,9 +91,9 @@ class Enemy(pygame.sprite.Sprite):
 
         # determine initial direction (moved here so self.rect exists before validation)
         if self.movement == enums.EM_HORIZONTAL:
-            self.vx = self.speed if self.x2 > self.x1 else -self.speed
+            self.vx = 1 if self.x2 > self.x1 else -1
         elif self.movement == enums.EM_VERTICAL:
-            self.vy = self.speed if self.y2 > self.y1 else -self.speed
+            self.vy = 1 if self.y2 > self.y1 else -1
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()
 
@@ -109,7 +108,7 @@ class Enemy(pygame.sprite.Sprite):
             tx = self.x + dx * self._tile_size
             ty = self.y + dy * self._tile_size
             if self._is_position_valid(tx, ty):
-                self.vx, self.vy = dx * self.speed, dy * self.speed
+                self.vx, self.vy = dx, dy
                 self.target_x, self.target_y = tx, ty
                 self.moving_to_target = True
                 self.is_paused = False
@@ -216,11 +215,11 @@ class Enemy(pygame.sprite.Sprite):
         dx_target = self.target_x - self.x
         dy_target = self.target_y - self.y        
         if dx_target != 0:
-            self.vx = self.speed if dx_target > 0 else -self.speed
+            self.vx = 1 if dx_target > 0 else -1
             self.vy = 0
         else:
             self.vx = 0
-            self.vy = self.speed if dy_target > 0 else -self.speed
+            self.vy = 1 if dy_target > 0 else -1
         
         self.moving_to_target = True
 
@@ -263,7 +262,6 @@ class Enemy(pygame.sprite.Sprite):
         elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
         elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
         elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
-
         # apply the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y

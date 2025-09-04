@@ -37,6 +37,7 @@ class Explosion(pygame.sprite.Sprite):
             self.initialize(pos, blast_animation)
     
     
+    
     # initialize/reset explosion for reuse from pool
     def initialize(self, pos, blast_animation):
         self.frame_index = 0
@@ -69,17 +70,19 @@ class Explosion(pygame.sprite.Sprite):
         surface.blit(self.image, (screen_x, screen_y))
 
 
+
+# bbject pool for explosion instances to reduce memory allocation overhead
 class ExplosionPool:
-    """Object pool for explosion instances to reduce memory allocation overhead"""
     
-    def __init__(self, pool_size=15):
+    def __init__(self, pool_size=10):
         # create pool of pre-allocated explosion objects
         self.available = [Explosion() for _ in range(pool_size)]
         self.active = []
     
     
+
+    # get an explosion from the pool or create new one if pool is empty
     def get_explosion(self, pos, blast_animation):
-        """Get an explosion from the pool or create new one if pool is empty"""
         if self.available:
             explosion = self.available.pop()
             explosion.initialize(pos, blast_animation)
@@ -92,13 +95,13 @@ class ExplosionPool:
             return explosion
     
     
-    def update(self):
-        """Update pool - move inactive explosions back to available pool"""
+
+    # update pool - move inactive explosions back to available pool
+    def update(self):        
         inactive_explosions = []
         for i, explosion in enumerate(self.active):
             if not explosion.active:
-                inactive_explosions.append(i)
-        
+                inactive_explosions.append(i)        
         # remove inactive explosions from active list and return to pool
         for i in reversed(inactive_explosions):  # reverse order to maintain indices
             explosion = self.active.pop(i)
@@ -108,9 +111,10 @@ class ExplosionPool:
             explosion.frames = None
             self.available.append(explosion)
     
+
     
+    # clear all explosions and return them to the pool
     def clear(self):
-        """Clear all explosions and return them to the pool"""
         for explosion in self.active:
             explosion.active = False
             explosion.kill()
@@ -120,6 +124,7 @@ class ExplosionPool:
         self.active.clear()
     
     
+
+    # get number of currently active explosions
     def get_active_count(self):
-        """Get number of currently active explosions"""
         return len(self.active)
