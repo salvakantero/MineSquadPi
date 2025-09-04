@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- selección del jugador al comenzar la partida
 - gráficos de PIPER
 - gráficos de enemigos stage 1
 
@@ -28,6 +27,7 @@ POR HACER
 
 HECHO
 =====
+03/09/25 - selección del jugador al comenzar la partida
 01/09/25 - gestión de colisiones enemies-players-shots
 31/08/25 - gestionar enemigos
 18/08/25 - carátula IA

@@ -25,6 +25,7 @@
 import pygame
 import constants
 import enums
+
 from shot import Shot
 
 
@@ -38,6 +39,10 @@ class Player(pygame.sprite.Sprite):
         # movement
         self.direction = pygame.math.Vector2(0.0, 0.0) # direction of movement
         self.steps = -1 # check that the distance does not exceed the size of the tile.
+        self.target_x = self.x
+        self.target_y = self.y
+        self.move_progress = 0
+        self.is_moving_to_target = False
         # player state
         self.state = enums.PS_IDLE_UP # to know the animation to be applied
         self.look_at = enums.DI_UP # where the player looks
@@ -52,6 +57,7 @@ class Player(pygame.sprite.Sprite):
         # images
         self._load_player_images(game.selected_player)
         self.image = self.image_list[self.state][0] # 1st frame of the animation
+        self.rect = pygame.Rect(self.x, self.y, constants.TILE_SIZE, constants.TILE_SIZE)
         # invincibility
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect begins
@@ -68,7 +74,7 @@ class Player(pygame.sprite.Sprite):
         self.map = map
         self.scoreboard = scoreboard
         # attributes
-        self.energy, self.speed = self.set_player_attributes()
+        self.energy, self.move_time = self.set_player_attributes()
         self.ammo = 10
         # cache frequently used values
         self._direction_mappings = {
@@ -86,10 +92,10 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # set energy and speed based on player type
-    def set_player_attributes(self):                      # ENERGY  SPEED
-        if self.game.selected_player == enums.PL_PIPER:  return 10, 2
-        else:                                            return 14, 1
+    # set energy and move_time based on player type
+    def set_player_attributes(self):                      # ENERGY  MOVE_TIME
+        if self.game.selected_player == enums.PL_PIPER:  return 11, 20
+        else:                                            return 14, 30
 
 
 
@@ -193,7 +199,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # keyboard/mouse/joystick keystroke input
-    def get_input(self): 
+    def _get_input(self): 
         # joystick buttons
         if self.game.joystick is not None:
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
@@ -235,14 +241,6 @@ class Player(pygame.sprite.Sprite):
             self.direction.update(direction_vector)
             self.steps = 0
 
-        #=================================================================
-        # BETA trick
-        #if key_state[pygame.K_KP_PLUS] or key_state[pygame.K_PLUS]:
-        #    if self.lives < 99: 
-        #        self.lives += 1
-        #        self.scoreboard.invalidate() 
-        # ================================================================          
-
 
 
     def _handle_turning(self):
@@ -262,7 +260,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # determines the player's state based on movement
-    def get_state(self):
+    def _get_state(self):
         is_moving = self.direction.x != 0 or self.direction.y != 0
         if self.look_at in self._state_mappings:
             idle_state, walk_state = self._state_mappings[self.look_at]
@@ -271,31 +269,74 @@ class Player(pygame.sprite.Sprite):
 
 
     # moves the player in the specified axis
-    def move(self, axis):
-        collision = True
+    def _move(self, axis):
+        if self.is_moving_to_target:
+            return  # Ya está en movimiento, esperar a completar
+        
+        # Calcular nueva posición objetivo
         if axis == enums.CA_HORIZONTAL:
-            new_x = self.x + self.direction.x * self.speed
-            temp_rect = pygame.Rect(new_x, self.y, constants.TILE_SIZE, constants.TILE_SIZE)
-            # check for horizontal collisions
-            if not self._check_collision(temp_rect, enums.CA_HORIZONTAL):
-                self.x = self.rect.x = new_x
-                collision = False
-        else: # vertical movement
-            new_y = self.y + self.direction.y * self.speed
-            temp_rect = pygame.Rect(self.x, new_y, constants.TILE_SIZE, constants.TILE_SIZE)
-            # verify if the new position is within the map boundaries
+            new_target_x = self.target_x + (constants.TILE_SIZE if self.direction.x > 0 else -constants.TILE_SIZE)
+            temp_rect = pygame.Rect(new_target_x, self.target_y, constants.TILE_SIZE, constants.TILE_SIZE)
+            
+            if not self._check_collision(temp_rect, axis):
+                self.target_x = new_target_x
+                self.is_moving_to_target = True
+                self.move_progress = 0
+            else:
+                if self.sfx_blocked.get_num_channels() == 0:
+                    self.sfx_blocked.play()        
+        else:  # vertical
+            new_target_y = self.target_y + (constants.TILE_SIZE if self.direction.y > 0 else -constants.TILE_SIZE)
+            temp_rect = pygame.Rect(self.target_x, new_target_y, constants.TILE_SIZE, constants.TILE_SIZE)
+            
+            # Verificar límites del mapa
             if (temp_rect.top < 0 or temp_rect.bottom > constants.MAP_TILE_SIZE[1] * constants.TILE_SIZE):
                 return
-            # check for vertical collisions
-            if not self._check_collision(temp_rect, enums.CA_VERTICAL):
-                self.y = self.rect.y = new_y
-                collision = False
-        if collision: # sounds when the player hits a block
-            if self.sfx_blocked.get_num_channels() == 0:
-                self.sfx_blocked.play()
-        elif self.steps < 0: # mark the tile as visited
-            self.map.mark_tile(int(self.x // constants.TILE_SIZE), 
-                               int(self.y // constants.TILE_SIZE))
+                
+            if not self._check_collision(temp_rect, axis):
+                self.target_y = new_target_y
+                self.is_moving_to_target = True
+                self.move_progress = 0
+            else:
+                if self.sfx_blocked.get_num_channels() == 0:
+                    self.sfx_blocked.play()
+
+
+
+    # update the smooth movement towards the target
+    def _update_movement(self):
+        if self.is_moving_to_target:
+            self.move_progress += 1            
+            # calculate interpolated position
+            progress_ratio = self.move_progress / self.move_time
+            if progress_ratio >= 1.0:
+                # movement completed
+                self.x = self.target_x
+                self.y = self.target_y
+                self.is_moving_to_target = False
+                self.steps = -1
+                self.map.mark_tile(int(self.x // constants.TILE_SIZE), 
+                                    int(self.y // constants.TILE_SIZE))
+            else:
+                # calculate position between origin and destination
+                if self.direction.x > 0:
+                    start_x = self.target_x - constants.TILE_SIZE
+                elif self.direction.x < 0:
+                    start_x = self.target_x + constants.TILE_SIZE
+                else:
+                    start_x = self.target_x
+                if self.direction.y > 0:
+                    start_y = self.target_y - constants.TILE_SIZE
+                elif self.direction.y < 0:
+                    start_y = self.target_y + constants.TILE_SIZE
+                else:
+                    start_y = self.target_y
+                
+                self.x = start_x + (self.target_x - start_x) * progress_ratio
+                self.y = start_y + (self.target_y - start_y) * progress_ratio
+            
+            self.rect.x = self.x
+            self.rect.y = self.y
 
 
 
@@ -315,11 +356,11 @@ class Player(pygame.sprite.Sprite):
                 tile_y = rect.top // constants.TILE_SIZE
         # returns True if the tile is an obstacle
         return self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE
-    
+
 
 
     # animates the player sprite based on the current state
-    def animate(self):
+    def _animate(self):
         self.animation_speed = (constants.ANIM_SPEED_IDLE 
                               if self.state <= enums.PS_IDLE_RIGHT 
                               else constants.ANIM_SPEED_WALK)
@@ -365,11 +406,14 @@ class Player(pygame.sprite.Sprite):
 
     # updates the player position and state
     def update(self):
-        self.get_input()
-        self.get_state()
-        if self.direction.x != 0: self.move(enums.CA_HORIZONTAL)
-        if self.direction.y != 0: self.move(enums.CA_VERTICAL)
-        self.animate()
+        self._get_input()
+        self._get_state()        
+        # only process movement if not already in motion
+        if not self.is_moving_to_target:
+            if self.direction.x != 0:   self._move(enums.CA_HORIZONTAL)
+            elif self.direction.y != 0: self._move(enums.CA_VERTICAL)        
+        self._update_movement()        
+        self._animate()
         self._check_timer()
 
 
