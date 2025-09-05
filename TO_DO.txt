@@ -10,12 +10,14 @@ EN PROCESO
 
 BUGS
 ====
+eliminar loop_counter?
 FX de tile bloqueante no adecuado
 revisar funcionalidad del joypad en menús y ventanas
 
 
 POR HACER
 =========
+- gráficos de explosión de enemigos
 - gráficos de tiles stage 1
 - gráficos de enemigos stage 2
 - gráficos de enemigos stage 3

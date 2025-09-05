@@ -46,6 +46,38 @@ class Hotspot(pygame.sprite.Sprite):
 
 
 
+    def update(self, camera):
+        if not self._is_visible(camera):
+            return
+        # movement (up and down)
+        if self.animation_timer > 1: # time to change the offset
+            self.animation_timer = 0
+            if self.going_up:
+                if self.y_offset < 5: self.y_offset += 1
+                else: self.going_up = False
+            else: # going down
+                if self.y_offset > 0: self.y_offset -= 1                
+                else: self.going_up = True            
+        # apply the offset
+        self.rect.y = (self.tile_y * constants.TILE_SIZE) - self.y_offset
+        self.animation_timer += 1
+
+
+
+    # draws the hotspot on the screen
+    def draw(self, surface, camera):
+        if not self._is_visible(camera):
+            return
+        screen_x = self.rect.x - camera.x
+        screen_y = self.rect.y - camera.y
+        screen_shadow_y = self.shadow_y - camera.y
+        surface.blit(self.shadow_image, (screen_x, screen_shadow_y))
+        surface.blit(self.image, (screen_x, screen_y))
+
+
+
+    ##### auxiliary functions #####
+
     def _generate_position(self, tile_data):
         available_tiles = []        
         for row_index, row in enumerate(tile_data):
@@ -75,34 +107,4 @@ class Hotspot(pygame.sprite.Sprite):
             and self.rect.y + self.rect.height > camera.y
             # check top edge
             and self.rect.y < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
-
-
-
-    def update(self, camera):
-        if not self._is_visible(camera):
-            return
-        # movement (up and down)
-        if self.animation_timer > 1: # time to change the offset
-            self.animation_timer = 0
-            if self.going_up:
-                if self.y_offset < 5: self.y_offset += 1
-                else: self.going_up = False
-            else: # going down
-                if self.y_offset > 0: self.y_offset -= 1                
-                else: self.going_up = True            
-        # apply the offset
-        self.rect.y = (self.tile_y * constants.TILE_SIZE) - self.y_offset
-        self.animation_timer += 1
-
-
-
-    # draws the hotspot on the screen
-    def draw(self, surface, camera):
-        if not self._is_visible(camera):
-            return
-        screen_x = self.rect.x - camera.x
-        screen_y = self.rect.y - camera.y
-        screen_shadow_y = self.shadow_y - camera.y
-        surface.blit(self.shadow_image, (screen_x, screen_shadow_y))
-        surface.blit(self.image, (screen_x, screen_y))
 

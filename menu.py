@@ -69,58 +69,14 @@ class Menu():
 
 
 
-    # draws a text with its shadow
-    def shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
-        font_BG.render(text, surface, (x, y))  # shadow
-        font_FG.render(text, surface, (x-offset, y-offset))
-
-
-
-    # draws the player's characteristics graphically
-    def draw_player_info(self, x, player, page):
-        # player characteristics
-        if player == enums.PL_BLAZE:
-            speed = 4
-            strength = 4
-            rank = 'Sergeant'
-            age = '23'
-            origin = 'Brighton (England)'
-        else:
-            speed = 5
-            strength = 3
-            rank = 'Corporal'
-            age = '20'
-            origin = 'Glasgow (Scotland)'
-        # headers
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 21, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 51, 1)
-        self.shaded_text(fb, ff, 'RANK', self.menu_pages[page], x, 81, 1)
-        self.shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 111, 1) 
-        self.shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 141, 1) 
-        # draws the data (using stars)
-        for i in range(speed):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 27))
-        for i in range(strength):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 57))
-        # draws more data (using text)
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         rank, self.menu_pages[page], x, 90, 1)
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         age, self.menu_pages[page], x, 120, 1)
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         origin , self.menu_pages[page], x, 150, 1)     
-
-
-
     def page_0(self): # main menu options      
         options = ['Start Game', 'Settings', 'Exit']
         x, y = 90, 70
         # draws the options
         for i, option in enumerate(options):
-            self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+            self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                              option, self.menu_pages[0], x, y + i*20, 1)            
-        self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
+        self._shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                         self.tip, self.menu_pages[0], 12, y-55, 1)
 
 
@@ -128,7 +84,7 @@ class Menu():
     def page_1(self): # high scores
         # header
         x, y = 85, 32
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN],
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN],
                          'High Scores', self.menu_pages[1], x, y, 1)                
         y = 60
         for i in range(8):
@@ -139,26 +95,26 @@ class Menu():
                 fb = self.game.fonts[enums.S_B_BROWN] # small dark green font for the background
                 ff = self.game.fonts[enums.S_F_BROWN] # small green font for the foreground
             # names
-            self.shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[1], 50, y, 1)
+            self._shaded_text(fb, ff, self.game.high_scores[i][0], self.menu_pages[1], 50, y, 1)
             # dates and scores
-            self.shaded_text(fb, ff, self.game.high_scores[i][1] + '    ' + 
+            self._shaded_text(fb, ff, self.game.high_scores[i][1] + '    ' + 
                 str(self.game.high_scores[i][2]).rjust(6, '0'), self.menu_pages[1], 115, y, 1)
             y += 10
 
 
 
     def page_2(self): # Blaze info        
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 1, 1)
-        self.draw_player_info(115, enums.PL_BLAZE, 2)
+        self._draw_player_info(115, enums.PL_BLAZE, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
 
 
     def page_3(self): # Piper info
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 1, 1)
-        self.draw_player_info(10, enums.PL_PIPER, 3)
+        self._draw_player_info(10, enums.PL_PIPER, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
 
 
@@ -172,11 +128,11 @@ class Menu():
             (self.game.control_images[3], (53, 110), 'Joypad', (70, 149)),
             (self.game.control_images[4], (119, 101), 'Common keys', (131, 149))]
         # header
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'Controls', self.menu_pages[4], 90, 27, 1)        
         # images and descriptions
         for image, img_pos, text, text_pos in layouts:
             self.menu_pages[4].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
+            self._shaded_text(fb, ff, text, self.menu_pages[4], text_pos[0], text_pos[1], 1)
 
 
 
@@ -192,14 +148,14 @@ class Menu():
             (self.game.hotspot_images[enums.HS_CHOCO], (140, 100), 'CHOCOLATE +100', (161, 106)),
             (self.game.hotspot_images[enums.HS_COIN], (140, 120), 'COIN +200', (161, 126))]
         # header
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 95, 27, 1)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 'HotSpots', self.menu_pages[5], 95, 27, 1)
         # images and descriptions
         for image, img_pos, text, text_pos in hotspots1:
             self.menu_pages[5].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
+            self._shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
         for image, img_pos, text, text_pos in hotspots2:
             self.menu_pages[5].blit(image, img_pos)
-            self.shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
+            self._shaded_text(fb, ff, text, self.menu_pages[5], text_pos[0], text_pos[1], 1)
 
 
 
@@ -214,26 +170,26 @@ class Menu():
         if self.game.config.data['screen_mode'] == enums.SM_4_3: value = '4:3'
         elif self.game.config.data['screen_mode'] == enums.SM_16_9: value = '16:9'
         else: value = 'WINDOW'
-        self.shaded_text(fb, ff, 'Screen mode:', self.menu_pages[6], x, y, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
+        self._shaded_text(fb, ff, 'Screen mode:', self.menu_pages[6], x, y, 1)
+        self._shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y, 1)
 
         # scanlines filter 
         if self.game.config.data['scanlines']: value = 'ON'
         else: value = 'OFF'
-        self.shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
+        self._shaded_text(fb, ff, 'Scanlines:', self.menu_pages[6], x, y+20, 1)
+        self._shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+20, 1)
 
         # control keys
         if self.game.config.data['control'] == enums.CT_CLASSIC: value = 'CLASSIC' 
         elif self.game.config.data['control'] == enums.CT_GAMER: value = 'GAMER'
         elif self.game.config.data['control'] == enums.CT_RETRO: value = 'RETRO'
         else: value = 'JOYPAD'
-        self.shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+40, 1)
-        self.shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
+        self._shaded_text(fb, ff, 'Control Keys:', self.menu_pages[6], x, y+40, 1)
+        self._shaded_text(fb2, ff2, value, self.menu_pages[6], x+105, y+40, 1)
 
         # exit
-        self.shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+60, 1)
-        self.shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
+        self._shaded_text(fb, ff, 'Exit Options', self.menu_pages[6], x, y+60, 1)
+        self._shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                 self.tip, self.menu_pages[6], 12, 5, 1)
 
 
@@ -241,46 +197,39 @@ class Menu():
     def page_7(self):  # player selection
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         # title
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_BROWN], 
                         'Select Player', self.menu_pages[7], 80, 1, 1)
         # instructions
-        self.shaded_text(self.game.fonts[enums.S_B_BROWN], 
+        self._shaded_text(self.game.fonts[enums.S_B_BROWN], 
                         self.game.fonts[enums.S_F_BROWN], 
                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', 
                         self.menu_pages[7], 12, 22, 1)                        
         # Blaze info (left side)
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'B L A Z E', self.menu_pages[7], 27, 36, 1)
         self.menu_pages[7].blit(self.img_blaze, (15, 115))
         x = 20
         y = 60
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
+        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
         for i in range(4):
             self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
         for i in range(4):
             self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))        
         # Piper info (right side)
-        self.shaded_text(self.game.fonts[enums.L_B_BROWN], 
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'P I P E R', self.menu_pages[7], 152, 36, 1)
         self.menu_pages[7].blit(self.img_piper_flipped, (135, 115))
         x = 138       
-        self.shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        self.shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
+        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
         for i in range(5):
             self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
         for i in range(3):
             self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))         
-
-
-
-    # draw a box to mark the selected player
-    def _draw_selection_box(self, surface, x, y, width, height):
-        pygame.draw.rect(surface, constants.PALETTE['WHITE2'], 
-                         (x-2, y-2, width+4, height+4), 2, border_radius=10)
 
 
 
@@ -507,3 +456,57 @@ class Menu():
 
             self.game.update_screen()
             # next loop...
+
+
+
+        ##### auxiliary functions #####
+
+    # draws a text with its shadow
+    def _shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
+        font_BG.render(text, surface, (x, y))  # shadow
+        font_FG.render(text, surface, (x-offset, y-offset))
+
+
+
+    # draws the player's characteristics graphically
+    def _draw_player_info(self, x, player, page):
+        # player characteristics
+        if player == enums.PL_BLAZE:
+            speed = 4
+            strength = 4
+            rank = 'Sergeant'
+            age = '23'
+            origin = 'Brighton (England)'
+        else:
+            speed = 5
+            strength = 3
+            rank = 'Corporal'
+            age = '20'
+            origin = 'Glasgow (Scotland)'
+        # headers
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 21, 1)
+        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 51, 1)
+        self._shaded_text(fb, ff, 'RANK', self.menu_pages[page], x, 81, 1)
+        self._shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 111, 1) 
+        self._shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 141, 1) 
+        # draws the data (using stars)
+        for i in range(speed):
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 27))
+        for i in range(strength):
+            self.menu_pages[page].blit(self.img_star, (x+i*18, 57))
+        # draws more data (using text)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         rank, self.menu_pages[page], x, 90, 1)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         age, self.menu_pages[page], x, 120, 1)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                         origin , self.menu_pages[page], x, 150, 1)     
+
+
+
+    # draw a box to mark the selected player
+    def _draw_selection_box(self, surface, x, y, width, height):
+        pygame.draw.rect(surface, constants.PALETTE['WHITE2'], 
+                         (x-2, y-2, width+4, height+4), 2, border_radius=10)
+

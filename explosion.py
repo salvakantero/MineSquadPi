@@ -71,7 +71,7 @@ class Explosion(pygame.sprite.Sprite):
 
 
 
-# bbject pool for explosion instances to reduce memory allocation overhead
+# object pool for explosion instances to reduce memory allocation overhead
 class ExplosionPool:
     
     def __init__(self, pool_size=10):

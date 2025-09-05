@@ -46,12 +46,12 @@ class Scoreboard():
             # player data
             self.draw_energy_bar(player.energy)
             self.clear_zone(88, 15)
-            self.shaded_text(player.ammo, 90, 6)
-            self.shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
+            self._shaded_text(player.ammo, 90, 6)
+            self._shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
             self.clear_zone(147, 15)
-            self.shaded_text(self.game.remaining_beacons, 149, 6)
+            self._shaded_text(self.game.remaining_beacons, 149, 6)
             self.clear_zone(183, 15)
-            self.shaded_text(self.game.remaining_mines, 185, 6)
+            self._shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
                        
             x = 204
@@ -120,7 +120,7 @@ class Scoreboard():
 
 
     # draws a text with its shadow
-    def shaded_text(self, data, x, y):       
+    def _shaded_text(self, data, x, y):       
         self.game.fonts[enums.L_B_BLACK].render(
             str(data).rjust(2, '0'), self.game.srf_sboard, (x, y))  # shadow
         self.game.fonts[enums.L_F_WHITE].render(

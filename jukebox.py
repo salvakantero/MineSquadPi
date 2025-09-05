@@ -42,20 +42,21 @@ class Jukebox():
 
 
 
-    # load the next track from the playlist
-    # for example: 'sounds/music/'+'mus_ingame_'+'9' + '.ogg'
-    def load_next(self):
-        pygame.mixer.music.load(self.path + self.base_filename + 
-            str(self.track_list[self.track_index]) + '.ogg')        
-        # next number in the playlist         
-        self.track_index = (self.track_index + 1) % len(self.track_list)
-
-
-
     def update(self):
         if not pygame.mixer.music.get_busy(): # if a track is not playing...
-            self.load_next() # load in memory the following track
+            self._load_next() # load in memory the following track
             # and plays the track at low volume
             pygame.mixer.music.set_volume(0.5)
             pygame.mixer.music.play()
      
+
+
+    ##### auxiliary functions #####
+
+    # load the next track from the playlist
+    # for example: 'sounds/music/'+'mus_ingame_'+'9' + '.ogg'
+    def _load_next(self):
+        pygame.mixer.music.load(self.path + self.base_filename + 
+            str(self.track_list[self.track_index]) + '.ogg')        
+        # next number in the playlist         
+        self.track_index = (self.track_index + 1) % len(self.track_list)

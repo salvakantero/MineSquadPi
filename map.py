@@ -51,37 +51,9 @@ class Map():
         self._player_tile_cache = (-1, -1)  # (tile_x, tile_y)
         self._alpha_cache = {}  # {(tile_x, tile_y): alpha_value}
         self._text_surfaces_cache = {}  # {(value, alpha): surface}
-        self._tile_size = constants.TILE_SIZE  # cache for performance
+        self._tile_size = constants.TILE_SIZE
         self._half_tile_size = constants.HALF_TILE_SIZE
 
-
-
-    # updates alpha cache when player position changes
-    def _update_alpha_cache(self, player_tile_x, player_tile_y):
-        self._alpha_cache.clear()
-        # pre-calculate alpha values for all potentially visible tiles
-        for row_index in range(constants.MAP_TILE_SIZE[1]):
-            for col_index in range(constants.MAP_TILE_SIZE[0]):
-                distance = max(abs(col_index - player_tile_x), abs(row_index - player_tile_y))
-                if distance > 1:
-                    alpha = max(20, 255 - (distance - 1) * 50)
-                else:
-                    alpha = 255
-                self._alpha_cache[(col_index, row_index)] = alpha
-        self._player_tile_cache = (player_tile_x, player_tile_y)
-
-
-    # gets or creates a cached surface for text rendering
-    def _get_text_surface(self, value, alpha):
-        cache_key = (value, alpha)
-        if cache_key not in self._text_surfaces_cache:
-            surface = pygame.Surface((self._tile_size, self._tile_size), pygame.SRCALPHA)
-            self.game.fonts[enums.L_B_BLACK].render(str(value), surface, (self._half_tile_size-2, self._half_tile_size-6))
-            self.game.fonts[enums.L_F_RED].render(str(value), surface, (self._half_tile_size-3, self._half_tile_size-7))
-            if alpha < 255:
-                surface.set_alpha(alpha)
-            self._text_surfaces_cache[cache_key] = surface
-        return self._text_surfaces_cache[cache_key]
 
 
     # does everything necessary to change the map and add enemies and hotspots.
@@ -132,69 +104,6 @@ class Map():
 
 
 
-    # loads a map from the json file
-    def _load(self):
-        # reads the entire contents of the json
-        with open('maps/map{}.json'.format(self.number)) as json_data:
-            data_read = json.load(json_data)
-        # the raw_data is a list of tiles in a 1D array
-        raw_data = data_read['layers'][0]['data']
-        # converts the list of tiles into an array of the map dimensions
-        self.map_data['data'] = [
-            raw_data[i:i + constants.MAP_TILE_SIZE[0]]
-            for i in range(0, len(raw_data), constants.MAP_TILE_SIZE[0])
-        ]
-        # loads the tileset data
-        tileset_path = 'maps/' + data_read['tilesets'][0]['source'].replace('.tsx', '.json')
-        with open(tileset_path) as f:
-            tileset = json.load(f)        
-        self.map_data['tiles'] = tileset['tiles']
-        for tile in self.map_data['tiles']:
-            # gets the tile ID and image name
-            tile['image'] = os.path.basename(tile['image'])
-            tile['id'] += 1            
-            # stores the tile in the dictionary by ID
-            self._tiles_by_id[tile['id']] = tile            
-            # loads the tile image only once and saves it in the dictionary.
-            img_path = f"images/tiles/{tile['image']}"
-            if tile['image'] not in self.tile_images:
-                self.tile_images[tile['image']] = pygame.image.load(img_path).convert()        
-        # randomly places mines on the map (generates mines and proximity info)
-        self.map_data['mines_info'] = self.generate_mines(self.map_data['data'])
-        # tiles trodden by the player (marked as False by default)
-        self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
-                                for _ in range(constants.MAP_TILE_SIZE[1])]
-        self._generate_tile_types()
-
-
-
-    def _generate_tile_types(self):
-        height, width = constants.MAP_TILE_SIZE[1], constants.MAP_TILE_SIZE[0]
-        self.map_data['tile_types'] = [[enums.TT_NO_ACTION] * width for _ in range(height)]        
-        for y in range(height):
-            for x in range(width):
-                tile_id = self.map_data['data'][y][x]
-                if tile_id in self._tiles_by_id:
-                    tile = self._tiles_by_id[tile_id]
-                    tile_num = self._get_tile_number(tile['image'])                    
-                    # generates the behaviour of the current tile
-                    # from T16.png to T35.png : tiles that block (OBSTACLE)
-                    # from T70.png to T75.png : tiles that kill (KILLER)
-                    if 16 <= tile_num <= 35: tile_type = enums.TT_OBSTACLE
-                    elif 70 <= tile_num <= 75: tile_type = enums.TT_KILLER
-                    elif self.map_data['mines_info'][y][x] == enums.MI_MINE: 
-                        tile_type = enums.TT_MINE
-                    else: tile_type = enums.TT_NO_ACTION                    
-                    self.map_data['tile_types'][y][x] = tile_type
-
-
-
-    # extracts the tile number from the file name
-    def _get_tile_number(self, tile_name):
-        return int(tile_name.replace('.png', '').replace('T', ''))  
-    
-
-
     def draw(self, camera):
         tile_size = constants.TILE_SIZE
         map_width, map_height = constants.MAP_TILE_SIZE
@@ -233,34 +142,6 @@ class Map():
             0 <= y < constants.MAP_TILE_SIZE[1]):
             return self.map_data['tile_types'][y][x]
         return enums.TT_OBSTACLE  # default to obstacle if out of bounds
-
-
-
-    # function to generate mines on the game map
-    def generate_mines(self, tilemap):      
-        available_tiles = [] # list of tiles on which to lay mines
-        for row_index, row in enumerate(tilemap):
-            for col_index, tile in enumerate(row):
-                # if number of tile less than 15, is passable
-                # we will not use the two rows closest to the player.
-                if tile < 15 and row_index < len(tilemap) - 2:
-                    available_tiles.append((row_index, col_index))
-        # initial mine map with all its values at 0
-        mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
-                    for _ in range(constants.MAP_TILE_SIZE[1])]
-        # choose random mine positions among the passable tiles
-        mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
-        for mine in mines:
-            row, col = mine
-            mine_data[row][col] = enums.MI_MINE # mark the mine
-            # Increases the counter of adjacent tiles.
-            for i in range(row - 1, row + 2):
-                for j in range(col - 1, col + 2):
-                    if 0 <= i < constants.MAP_TILE_SIZE[1] \
-                    and 0 <= j < constants.MAP_TILE_SIZE[0] \
-                    and mine_data[i][j] != enums.MI_MINE:
-                        mine_data[i][j] += 1
-        return mine_data
 
 
 
@@ -319,3 +200,126 @@ class Map():
                     if 0 <= i < constants.MAP_TILE_SIZE[1] \
                     and 0 <= j < constants.MAP_TILE_SIZE[0]:
                         self.map_data['marks'][i][j] = True
+
+
+
+    ##### auxiliary functions #####
+
+    # updates alpha cache when player position changes
+    def _update_alpha_cache(self, player_tile_x, player_tile_y):
+        self._alpha_cache.clear()
+        # pre-calculate alpha values for all potentially visible tiles
+        for row_index in range(constants.MAP_TILE_SIZE[1]):
+            for col_index in range(constants.MAP_TILE_SIZE[0]):
+                distance = max(abs(col_index - player_tile_x), abs(row_index - player_tile_y))
+                if distance > 1:
+                    alpha = max(20, 255 - (distance - 1) * 50)
+                else:
+                    alpha = 255
+                self._alpha_cache[(col_index, row_index)] = alpha
+        self._player_tile_cache = (player_tile_x, player_tile_y)
+
+
+
+    # gets or creates a cached surface for text rendering
+    def _get_text_surface(self, value, alpha):
+        cache_key = (value, alpha)
+        if cache_key not in self._text_surfaces_cache:
+            surface = pygame.Surface((self._tile_size, self._tile_size), pygame.SRCALPHA)
+            self.game.fonts[enums.L_B_BLACK].render(str(value), surface, (self._half_tile_size-2, self._half_tile_size-6))
+            self.game.fonts[enums.L_F_RED].render(str(value), surface, (self._half_tile_size-3, self._half_tile_size-7))
+            if alpha < 255:
+                surface.set_alpha(alpha)
+            self._text_surfaces_cache[cache_key] = surface
+        return self._text_surfaces_cache[cache_key]
+
+
+
+    # loads a map from the json file
+    def _load(self):
+        # reads the entire contents of the json
+        with open('maps/map{}.json'.format(self.number)) as json_data:
+            data_read = json.load(json_data)
+        # the raw_data is a list of tiles in a 1D array
+        raw_data = data_read['layers'][0]['data']
+        # converts the list of tiles into an array of the map dimensions
+        self.map_data['data'] = [
+            raw_data[i:i + constants.MAP_TILE_SIZE[0]]
+            for i in range(0, len(raw_data), constants.MAP_TILE_SIZE[0])
+        ]
+        # loads the tileset data
+        tileset_path = 'maps/' + data_read['tilesets'][0]['source'].replace('.tsx', '.json')
+        with open(tileset_path) as f:
+            tileset = json.load(f)        
+        self.map_data['tiles'] = tileset['tiles']
+        for tile in self.map_data['tiles']:
+            # gets the tile ID and image name
+            tile['image'] = os.path.basename(tile['image'])
+            tile['id'] += 1            
+            # stores the tile in the dictionary by ID
+            self._tiles_by_id[tile['id']] = tile            
+            # loads the tile image only once and saves it in the dictionary.
+            img_path = f"images/tiles/{tile['image']}"
+            if tile['image'] not in self.tile_images:
+                self.tile_images[tile['image']] = pygame.image.load(img_path).convert()        
+        # randomly places mines on the map (generates mines and proximity info)
+        self.map_data['mines_info'] = self._generate_mines(self.map_data['data'])
+        # tiles trodden by the player (marked as False by default)
+        self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
+                                for _ in range(constants.MAP_TILE_SIZE[1])]
+        self._generate_tile_types()
+
+
+
+    def _generate_tile_types(self):
+        height, width = constants.MAP_TILE_SIZE[1], constants.MAP_TILE_SIZE[0]
+        self.map_data['tile_types'] = [[enums.TT_NO_ACTION] * width for _ in range(height)]        
+        for y in range(height):
+            for x in range(width):
+                tile_id = self.map_data['data'][y][x]
+                if tile_id in self._tiles_by_id:
+                    tile = self._tiles_by_id[tile_id]
+                    tile_num = self._get_tile_number(tile['image'])                    
+                    # generates the behaviour of the current tile
+                    # from T16.png to T35.png : tiles that block (OBSTACLE)
+                    # from T70.png to T75.png : tiles that kill (KILLER)
+                    if 16 <= tile_num <= 35: tile_type = enums.TT_OBSTACLE
+                    elif 70 <= tile_num <= 75: tile_type = enums.TT_KILLER
+                    elif self.map_data['mines_info'][y][x] == enums.MI_MINE: 
+                        tile_type = enums.TT_MINE
+                    else: tile_type = enums.TT_NO_ACTION                    
+                    self.map_data['tile_types'][y][x] = tile_type
+
+
+
+    # extracts the tile number from the file name
+    def _get_tile_number(self, tile_name):
+        return int(tile_name.replace('.png', '').replace('T', ''))  
+    
+
+
+    # function to generate mines on the game map
+    def _generate_mines(self, tilemap):      
+        available_tiles = [] # list of tiles on which to lay mines
+        for row_index, row in enumerate(tilemap):
+            for col_index, tile in enumerate(row):
+                # if number of tile less than 15, is passable
+                # we will not use the two rows closest to the player.
+                if tile < 15 and row_index < len(tilemap) - 2:
+                    available_tiles.append((row_index, col_index))
+        # initial mine map with all its values at 0
+        mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
+                    for _ in range(constants.MAP_TILE_SIZE[1])]
+        # choose random mine positions among the passable tiles
+        mines = random.sample(available_tiles, constants.NUM_MINES[self.number])
+        for mine in mines:
+            row, col = mine
+            mine_data[row][col] = enums.MI_MINE # mark the mine
+            # Increases the counter of adjacent tiles.
+            for i in range(row - 1, row + 2):
+                for j in range(col - 1, col + 2):
+                    if 0 <= i < constants.MAP_TILE_SIZE[1] \
+                    and 0 <= j < constants.MAP_TILE_SIZE[0] \
+                    and mine_data[i][j] != enums.MI_MINE:
+                        mine_data[i][j] += 1
+        return mine_data    

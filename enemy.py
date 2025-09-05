@@ -99,43 +99,44 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    # sets a random direction for the RANDOM type
-    def _set_random_direction(self):        
-        # try directions in random order until a valid one is found
-        dirs = list(_RANDOM_DIRECTIONS)
-        random.shuffle(dirs)
-        for dx, dy in dirs:
-            tx = self.x + dx * self._tile_size
-            ty = self.y + dy * self._tile_size
-            if self._is_position_valid(tx, ty):
-                self.vx, self.vy = dx, dy
-                self.target_x, self.target_y = tx, ty
-                self.moving_to_target = True
-                self.is_paused = False
-                self.pause_timer = 0
-                return
-        # no valid direction found - stay paused
-        self.vx = self.vy = 0
-        self.moving_to_target = False
-        self.is_paused = True
-        self.pause_timer = 0
+    def update(self):   
+        # movement handling
+        if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
+        elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
+        elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
+        elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
+        # apply the calculated position and the corresponding frame
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self._animate()
 
 
 
-    # checks for collisions with obstacle tiles
-    def _check_collision(self, rect, axis, direction):        
-        if axis == enums.CA_HORIZONTAL:
-            if direction > 0: tile_x = rect.right - 1
-            else: tile_x = rect.left
-            tile_y = rect.y
-        else:  # vertical
-            tile_x = rect.x
-            if direction > 0: tile_y = rect.bottom - 1
-            else: tile_y = rect.top
+    def draw(self, surface, camera):
+        if self._is_visible(camera):
+            # draw the enemy on the screen with camera offset
+            screen_x = self.x - camera.x
+            screen_y = self.y - camera.y
+            surface.blit(self.image, (screen_x, screen_y))
 
-        # returns True if the tile is an obstacle
-        return self.map.get_tile_type(
-            tile_x // self._tile_size, tile_y // self._tile_size) == enums.TT_OBSTACLE
+
+
+    ##### auxiliary functions #####
+    
+    def _animate(self):
+        self.animation_timer += 1
+
+        # exceeded the frame time?
+        if self.animation_timer >= self.animation_speed:
+            self.animation_timer = 0
+            # cycle through frames 
+            self.frame_index = (self.frame_index + 1) % len(self.image_list)
+      
+        # use precomputed flipped frames to avoid per-frame transform
+        if self.vx >= 0:
+            self.image = self.image_list[self.frame_index]
+        else:
+            self.image = self.flipped_list[self.frame_index]
 
 
 
@@ -163,6 +164,29 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
+    # sets a random direction for the RANDOM type
+    def _set_random_direction(self):        
+        # try directions in random order until a valid one is found
+        dirs = list(_RANDOM_DIRECTIONS)
+        random.shuffle(dirs)
+        for dx, dy in dirs:
+            tx = self.x + dx * self._tile_size
+            ty = self.y + dy * self._tile_size
+            if self._is_position_valid(tx, ty):
+                self.vx, self.vy = dx, dy
+                self.target_x, self.target_y = tx, ty
+                self.moving_to_target = True
+                self.is_paused = False
+                self.pause_timer = 0
+                return
+        # no valid direction found - stay paused
+        self.vx = self.vy = 0
+        self.moving_to_target = False
+        self.is_paused = True
+        self.pause_timer = 0
+
+
+    
     # check whether the player is within the activation range.
     def _is_player_in_range(self):
         if self.player is None:
@@ -225,23 +249,6 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    def animate(self):
-        self.animation_timer += 1
-
-        # exceeded the frame time?
-        if self.animation_timer >= self.animation_speed:
-            self.animation_timer = 0
-            # cycle through frames 
-            self.frame_index = (self.frame_index + 1) % len(self.image_list)
-      
-        # use precomputed flipped frames to avoid per-frame transform
-        if self.vx >= 0:
-            self.image = self.image_list[self.frame_index]
-        else:
-            self.image = self.flipped_list[self.frame_index]
-
-
-
     # check if enemy is visible within camera bounds
     def _is_visible(self, camera):
         return (
@@ -253,19 +260,6 @@ class Enemy(pygame.sprite.Sprite):
             self.y + self.rect.height > camera.y and
             # check top edge
             self.y < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
-
-
-
-    def update(self):   
-        # movement handling
-        if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
-        elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
-        elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
-        elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
-        # apply the calculated position and the corresponding frame
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self.animate()
 
 
 
@@ -398,9 +392,5 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    def draw(self, surface, camera):
-        if self._is_visible(camera):
-            # draw the enemy on the screen with camera offset
-            screen_x = self.x - camera.x
-            screen_y = self.y - camera.y
-            surface.blit(self.image, (screen_x, screen_y))
+
+

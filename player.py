@@ -99,42 +99,10 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # update cached tile position when player moves
-    def _update_tile_position(self):
-        new_tile_x = int(self.x // self._tile_size)
-        new_tile_y = int(self.y // self._tile_size)
-        if new_tile_x != self._current_tile_x or new_tile_y != self._current_tile_y:
-            self._current_tile_x = new_tile_x
-            self._current_tile_y = new_tile_y
-            return True  # position changed
-        return False  # position unchanged
-
-
-
     # set energy and move_time based on player type
     def set_player_attributes(self):                      # ENERGY  MOVE_TIME
         if self.game.selected_player == enums.PL_PIPER:  return 11, 20
         else:                                            return 14, 30
-
-
-
-    # load player images for animations
-    def _load_player_images(self, who_is):
-        base_path = constants.SPR_PATH + 'player/' + str(who_is) + '/'        
-        image_files = {
-            enums.PS_IDLE_UP: ['player0.png', 'player1.png'],
-            enums.PS_WALK_UP: ['player2.png', 'player1.png', 'player3.png', 'player1.png'],
-            enums.PS_IDLE_DOWN: ['player4.png', 'player5.png'],
-            enums.PS_WALK_DOWN: ['player6.png', 'player5.png', 'player7.png', 'player5.png'],
-            enums.PS_IDLE_LEFT: ['player8.png', 'player9.png'],
-            enums.PS_WALK_LEFT: ['player10.png', 'player9.png', 'player11.png', 'player9.png'],
-            enums.PS_IDLE_RIGHT: ['player12.png', 'player13.png'],
-            enums.PS_WALK_RIGHT: ['player14.png', 'player13.png', 'player15.png', 'player13.png'],
-        }        
-        self.image_list = {}
-        for state, files in image_files.items():
-            self.image_list[state] = [pygame.image.load(f"{base_path}{filename}").convert_alpha()
-                for filename in files]
 
 
 
@@ -200,93 +168,6 @@ class Player(pygame.sprite.Sprite):
             self.sfx_no_ammo.play()
         # clears the input buffer (keyboard and joystick)
         self.game.clear_input_buffer()
-
-
-
-    def _get_joystick_direction(self):
-        if self.game.joystick is None:
-            return None, pygame.math.Vector2(0, 0)
-        # dead zone for joystick movement
-        def delete_false_mov(valor):
-            return valor if abs(valor) >= 0.1 else 0.0
-        axis_x = delete_false_mov(self.game.joystick.get_axis(0))
-        axis_y = delete_false_mov(self.game.joystick.get_axis(1))
-        # determine direction based on axis values
-        if axis_y < -0.5:   return enums.DI_UP, pygame.math.Vector2(0, -1)
-        elif axis_y > 0.5:  return enums.DI_DOWN, pygame.math.Vector2(0, 1)
-        elif axis_x < -0.5: return enums.DI_LEFT, pygame.math.Vector2(-1, 0)
-        elif axis_x > 0.5:  return enums.DI_RIGHT, pygame.math.Vector2(1, 0)
-        return None, pygame.math.Vector2(0, 0)
-
-
-
-    # keyboard/mouse/joystick keystroke input
-    def _get_input(self): 
-        # joystick buttons
-        if self.game.joystick is not None:
-            if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
-                self.fire()
-            if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
-                self.place_beacon()
-        # keyboard keys
-        key_state = pygame.key.get_pressed()
-        pressed_key = next((k for k in self._direction_mappings if key_state[k]), None)
-        if pressed_key:
-            look_at, direction_vector = self._direction_mappings[pressed_key]
-        else:
-            # check joystick direction if no key is pressed
-            look_at, direction_vector = self._get_joystick_direction()
-
-        # if the direction has changed, apply a pause before moving
-        previous_look_at = self.look_at
-        if self.steps >= 0:
-            self.steps += 1
-            if self.steps >= constants.TILE_SIZE-1:
-                self.steps = -1
-            return
-        # currently turning?
-        if self.is_turning:
-            self._handle_turning()
-            return
-        # no input detected
-        if look_at is None:
-            self.direction.update(0, 0)
-            return
-        # update direction and state
-        self.look_at = look_at
-        self.last_key_pressed = pressed_key
-        if previous_look_at != self.look_at:
-            self.direction.update(0, 0)
-            self.turn_timer = pygame.time.get_ticks()
-            self.is_turning = True
-        else:
-            self.direction.update(direction_vector)
-            self.steps = 0
-
-
-
-    def _handle_turning(self):
-        current_time = pygame.time.get_ticks()
-        if current_time - self.turn_timer > 120: # waiting time (120ms)
-            self.is_turning = False
-            # verifies if the last key pressed is still held down
-            # (we only move forward if the key is still pressed)
-            key_state = pygame.key.get_pressed()
-            if (self.last_key_pressed and 
-                key_state[self.last_key_pressed] and 
-                self.last_key_pressed in self._direction_mappings):
-                _, direction_vector = self._direction_mappings[self.last_key_pressed]
-                self.direction.update(direction_vector)
-                self.steps = 0
-
-
-
-    # determines the player's state based on movement
-    def _get_state(self):
-        is_moving = self.direction.x != 0 or self.direction.y != 0
-        if self.look_at in self._state_mappings:
-            idle_state, walk_state = self._state_mappings[self.look_at]
-            self.state = walk_state if is_moving else idle_state          
 
 
 
@@ -456,3 +337,124 @@ class Player(pygame.sprite.Sprite):
             screen_x = self.x - camera.x
             screen_y = self.y - camera.y
             self.game.srf_map.blit(self.image, (screen_x, screen_y))
+
+
+
+    ##### auxiliary functions #####
+    
+    # update cached tile position when player moves
+    def _update_tile_position(self):
+        new_tile_x = int(self.x // self._tile_size)
+        new_tile_y = int(self.y // self._tile_size)
+        if new_tile_x != self._current_tile_x or new_tile_y != self._current_tile_y:
+            self._current_tile_x = new_tile_x
+            self._current_tile_y = new_tile_y
+            return True  # position changed
+        return False  # position unchanged
+
+
+
+        # load player images for animations
+    def _load_player_images(self, who_is):
+        base_path = constants.SPR_PATH + 'player/' + str(who_is) + '/'        
+        image_files = {
+            enums.PS_IDLE_UP: ['player0.png', 'player1.png'],
+            enums.PS_WALK_UP: ['player2.png', 'player1.png', 'player3.png', 'player1.png'],
+            enums.PS_IDLE_DOWN: ['player4.png', 'player5.png'],
+            enums.PS_WALK_DOWN: ['player6.png', 'player5.png', 'player7.png', 'player5.png'],
+            enums.PS_IDLE_LEFT: ['player8.png', 'player9.png'],
+            enums.PS_WALK_LEFT: ['player10.png', 'player9.png', 'player11.png', 'player9.png'],
+            enums.PS_IDLE_RIGHT: ['player12.png', 'player13.png'],
+            enums.PS_WALK_RIGHT: ['player14.png', 'player13.png', 'player15.png', 'player13.png'],
+        }        
+        self.image_list = {}
+        for state, files in image_files.items():
+            self.image_list[state] = [pygame.image.load(f"{base_path}{filename}").convert_alpha()
+                for filename in files]
+
+
+
+    def _get_joystick_direction(self):
+        if self.game.joystick is None:
+            return None, pygame.math.Vector2(0, 0)
+        # dead zone for joystick movement
+        def delete_false_mov(valor):
+            return valor if abs(valor) >= 0.1 else 0.0
+        axis_x = delete_false_mov(self.game.joystick.get_axis(0))
+        axis_y = delete_false_mov(self.game.joystick.get_axis(1))
+        # determine direction based on axis values
+        if axis_y < -0.5:   return enums.DI_UP, pygame.math.Vector2(0, -1)
+        elif axis_y > 0.5:  return enums.DI_DOWN, pygame.math.Vector2(0, 1)
+        elif axis_x < -0.5: return enums.DI_LEFT, pygame.math.Vector2(-1, 0)
+        elif axis_x > 0.5:  return enums.DI_RIGHT, pygame.math.Vector2(1, 0)
+        return None, pygame.math.Vector2(0, 0)
+
+
+
+    # keyboard/mouse/joystick keystroke input
+    def _get_input(self): 
+        # joystick buttons
+        if self.game.joystick is not None:
+            if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
+                self.fire()
+            if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
+                self.place_beacon()
+        # keyboard keys
+        key_state = pygame.key.get_pressed()
+        pressed_key = next((k for k in self._direction_mappings if key_state[k]), None)
+        if pressed_key:
+            look_at, direction_vector = self._direction_mappings[pressed_key]
+        else:
+            # check joystick direction if no key is pressed
+            look_at, direction_vector = self._get_joystick_direction()
+
+        # if the direction has changed, apply a pause before moving
+        previous_look_at = self.look_at
+        if self.steps >= 0:
+            self.steps += 1
+            if self.steps >= constants.TILE_SIZE-1:
+                self.steps = -1
+            return
+        # currently turning?
+        if self.is_turning:
+            self._handle_turning()
+            return
+        # no input detected
+        if look_at is None:
+            self.direction.update(0, 0)
+            return
+        # update direction and state
+        self.look_at = look_at
+        self.last_key_pressed = pressed_key
+        if previous_look_at != self.look_at:
+            self.direction.update(0, 0)
+            self.turn_timer = pygame.time.get_ticks()
+            self.is_turning = True
+        else:
+            self.direction.update(direction_vector)
+            self.steps = 0
+
+
+
+    def _handle_turning(self):
+        current_time = pygame.time.get_ticks()
+        if current_time - self.turn_timer > 120: # waiting time (120ms)
+            self.is_turning = False
+            # verifies if the last key pressed is still held down
+            # (we only move forward if the key is still pressed)
+            key_state = pygame.key.get_pressed()
+            if (self.last_key_pressed and 
+                key_state[self.last_key_pressed] and 
+                self.last_key_pressed in self._direction_mappings):
+                _, direction_vector = self._direction_mappings[self.last_key_pressed]
+                self.direction.update(direction_vector)
+                self.steps = 0
+
+
+
+    # determines the player's state based on movement
+    def _get_state(self):
+        is_moving = self.direction.x != 0 or self.direction.y != 0
+        if self.look_at in self._state_mappings:
+            idle_state, walk_state = self._state_mappings[self.look_at]
+            self.state = walk_state if is_moving else idle_state          
