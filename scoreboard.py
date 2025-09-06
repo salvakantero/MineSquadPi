@@ -44,7 +44,7 @@ class Scoreboard():
     def update(self, player):
         if self.needs_updating:
             # player data
-            self.draw_energy_bar(player.energy)
+            self._draw_energy_bar(player.energy)
             self.clear_zone(88, 15)
             self._shaded_text(player.ammo, 90, 6)
             self._shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
@@ -86,8 +86,16 @@ class Scoreboard():
 
 
 
+    # forces the redrawing of the data
+    def invalidate(self):
+        self.needs_updating = True
+
+
+
+    ##### auxiliary functions #####
+
     # 16-position multi-coloured energy bar
-    def draw_energy_bar(self, energy):
+    def _draw_energy_bar(self, energy):
         x, y = 20, 7
         bar_units = 14
         bar_unit_width, bar_unit_height = 2, 10
@@ -105,16 +113,10 @@ class Scoreboard():
             pygame.draw.rect(self.game.srf_sboard, color, 
                              (rect_x, y, bar_unit_width, bar_unit_height))
             
-            
-
-    # forces the redrawing of the data
-    def invalidate(self):
-        self.needs_updating = True
-
 
 
     # clean the previous data
-    def clear_zone(self, x, width):
+    def _clear_zone(self, x, width):
         pygame.draw.rect(self.game.srf_sboard, self.back_colour[self.stage_number], ((x, 3),(width, 15)))
 
 
