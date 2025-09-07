@@ -45,18 +45,18 @@ class Scoreboard():
         if self.needs_updating:
             # player data
             self._draw_energy_bar(player.energy)
-            self.clear_zone(88, 15)
+            self._clear_zone(88, 15)
             self._shaded_text(player.ammo, 90, 6)
             self._shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
-            self.clear_zone(147, 15)
+            self._clear_zone(147, 15)
             self._shaded_text(self.game.remaining_beacons, 149, 6)
-            self.clear_zone(183, 15)
+            self._clear_zone(183, 15)
             self._shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
                        
             x = 204
             y = 3
-            self.clear_zone(x, 34)
+            self._clear_zone(x, 34)
             # show score
             text = 'SC:' + str(self.game.score).rjust(6, '0')
             self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow

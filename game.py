@@ -31,8 +31,7 @@ import pickle
 from datetime import date
 from config import Configuration
 from font import Font
-from intro import Intro
-from explosion import Explosion, ExplosionPool
+from explosion import ExplosionPool
 from floatingtext import FloatingText
 from hotspot import Hotspot
 
@@ -72,6 +71,84 @@ class Game():
         self.screen = pygame.display.set_mode(self.win_size, 0, 32)
         # change the resolution and display type according to the settings
         self.apply_display_settings()
+
+        # The following image lists are created here, not in their corresponding classes, 
+        # to avoid loading from disk during gameplay.
+        self.beacon_image = self._load_image(constants.SPR_PATH + 'beacon.png')
+        self.enemy_images = {
+            # animation sequence of the enemies depending on their type
+            enums.EN_SCORPION: [
+                self._load_image(constants.SPR_PATH + 'scorpion_0.png'),
+                self._load_image(constants.SPR_PATH + 'scorpion_1.png')],
+            enums.EN_SNAKE: [
+                self._load_image(constants.SPR_PATH + 'snake_0.png'),
+                self._load_image(constants.SPR_PATH + 'snake_1.png')],
+            enums.EN_SOLDIER1: [
+                self._load_image(constants.SPR_PATH + 'soldier1_0.png'),
+                self._load_image(constants.SPR_PATH + 'soldier1_1.png')]}
+        self.hotspot_images = {
+            enums.HS_LIFE: self._load_image(constants.SPR_PATH + 'hotspot0.png'),
+            enums.HS_SHIELD: self._load_image(constants.SPR_PATH + 'hotspot1.png'),
+            enums.HS_AMMO: self._load_image(constants.SPR_PATH + 'hotspot2.png'),
+            enums.HS_CANDY: self._load_image(constants.SPR_PATH + 'hotspot3.png'),
+            enums.HS_APPLE: self._load_image(constants.SPR_PATH + 'hotspot4.png'),
+            enums.HS_CHOCO: self._load_image(constants.SPR_PATH + 'hotspot5.png'),
+            enums.HS_COIN: self._load_image(constants.SPR_PATH + 'hotspot6.png')}
+        self.control_images = {
+            enums.CT_CLASSIC: self._load_image(constants.ASS_PATH + 'classic.png'),
+            enums.CT_GAMER: self._load_image(constants.ASS_PATH + 'gamer.png'),
+            enums.CT_RETRO: self._load_image(constants.ASS_PATH + 'retro.png'),
+            enums.CT_JOYSTICK: self._load_image(constants.ASS_PATH + 'joypad.png'),
+            enums.CT_COMMON: self._load_image(constants.ASS_PATH + 'common.png')
+        }
+        self.blast_images = {
+            0: [ # explosion 1: enemies
+                pygame.image.load(constants.SPR_PATH + 'blast0.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast1.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast2.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast3.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
+                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
+            1: [ # explosion 2: mines
+                pygame.image.load(constants.SPR_PATH + 'blast7.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast8.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast9.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast10.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
+                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
+            2: [ # magic halo for hotspots
+                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast11.png').convert_alpha(),
+                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha()]}        
+        # sound effects
+        self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
+        self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
+        self.sfx_blast = {
+            0: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast0.wav'),
+            1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
+            2: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast2.wav'),
+            3: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast3.wav')}
+        self.sfx_hotspot = {
+            enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
+            enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
+            enums.HS_AMMO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_ammo.wav'),
+            enums.HS_CANDY: pygame.mixer.Sound(constants.FX_PATH + 'sfx_candy.wav'),
+            enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
+            enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
+            enums.HS_COIN: pygame.mixer.Sound(constants.FX_PATH + 'sfx_coin.wav')}
+        # cache sound effects tuple for better performance
+        self._blast_sfx_tuple = tuple(self.sfx_blast.values())
+        # modify the XY position of the map on the screen to create 
+        # a shaking effect for a given number of frames (explosions)
+        self.shake = [0, 0]
+        self.shake_timer = 0
+        # high scores table
+        self.high_scores = []
+        self._load_high_scores()
+        # create a joystick/joypad/gamepad object
+        self.joystick = self.config.prepare_joystick()
 
         # common fonts. S = small L = large F = foreground B = background
         self.fonts = {
@@ -475,86 +552,8 @@ class Game():
     ##### auxiliary functions #####
 
     # helper function to load and convert images
-    def _load_image(path):
+    def _load_image(self, path):
         return pygame.image.load(path).convert_alpha()
-
-    # The following image lists are created here, not in their corresponding classes, 
-    # to avoid loading from disk during gameplay.
-    self.beacon_image = _load_image(constants.SPR_PATH + 'beacon.png')
-    self.enemy_images = {
-        # animation sequence of the enemies depending on their type
-        enums.EN_SCORPION: [
-            _load_image(constants.SPR_PATH + 'scorpion_0.png'),
-            _load_image(constants.SPR_PATH + 'scorpion_1.png')],
-        enums.EN_SNAKE: [
-            _load_image(constants.SPR_PATH + 'snake_0.png'),
-            _load_image(constants.SPR_PATH + 'snake_1.png')],
-        enums.EN_SOLDIER1: [
-            _load_image(constants.SPR_PATH + 'soldier1_0.png'),
-            _load_image(constants.SPR_PATH + 'soldier1_1.png')]}
-    self.hotspot_images = {
-        enums.HS_LIFE: _load_image(constants.SPR_PATH + 'hotspot0.png'),
-        enums.HS_SHIELD: _load_image(constants.SPR_PATH + 'hotspot1.png'),
-        enums.HS_AMMO: _load_image(constants.SPR_PATH + 'hotspot2.png'),
-        enums.HS_CANDY: _load_image(constants.SPR_PATH + 'hotspot3.png'),
-        enums.HS_APPLE: _load_image(constants.SPR_PATH + 'hotspot4.png'),
-        enums.HS_CHOCO: _load_image(constants.SPR_PATH + 'hotspot5.png'),
-        enums.HS_COIN: _load_image(constants.SPR_PATH + 'hotspot6.png')}
-    self.control_images = {
-        enums.CT_CLASSIC: _load_image(constants.ASS_PATH + 'classic.png'),
-        enums.CT_GAMER: _load_image(constants.ASS_PATH + 'gamer.png'),
-        enums.CT_RETRO: _load_image(constants.ASS_PATH + 'retro.png'),
-        enums.CT_JOYSTICK: _load_image(constants.ASS_PATH + 'joypad.png'),
-        enums.CT_COMMON: _load_image(constants.ASS_PATH + 'common.png')
-    }
-    self.blast_images = {
-        0: [ # explosion 1: enemies
-            pygame.image.load(constants.SPR_PATH + 'blast0.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast1.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast2.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast3.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
-            pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
-        1: [ # explosion 2: mines
-            pygame.image.load(constants.SPR_PATH + 'blast7.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast8.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast9.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast10.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
-            pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
-        2: [ # magic halo for hotspots
-            pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast11.png').convert_alpha(),
-            pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha()]}        
-    # sound effects
-    self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
-    self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
-    self.sfx_blast = {
-        0: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast0.wav'),
-        1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
-        2: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast2.wav'),
-        3: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast3.wav')}
-    self.sfx_hotspot = {
-        enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
-        enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
-        enums.HS_AMMO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_ammo.wav'),
-        enums.HS_CANDY: pygame.mixer.Sound(constants.FX_PATH + 'sfx_candy.wav'),
-        enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
-        enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
-        enums.HS_COIN: pygame.mixer.Sound(constants.FX_PATH + 'sfx_coin.wav')}
-    # cache sound effects tuple for better performance
-    self._blast_sfx_tuple = tuple(self.sfx_blast.values())
-    # modify the XY position of the map on the screen to create 
-    # a shaking effect for a given number of frames (explosions)
-    self.shake = [0, 0]
-    self.shake_timer = 0
-    # high scores table
-    self.high_scores = []
-    self._load_high_scores()
-    # create a joystick/joypad/gamepad object
-    self.joystick = self.config.prepare_joystick()
 
 
 
