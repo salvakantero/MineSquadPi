@@ -171,8 +171,21 @@ class Player(pygame.sprite.Sprite):
 
 
 
+    # subtracts one energy unit and applies temporary invincibility
+    def loses_energy(self, value):
+        if not self.invincible:
+            self.energy -= value
+            if self.sfx_death.get_num_channels() == 0:
+                self.sfx_death.play()
+            if self.energy >= 0:
+                self.invincible = True
+                self.timer_from = pygame.time.get_ticks()
+                self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
+
+
+
     # moves the player in the specified axis
-    def _move(self, axis):
+    def move(self, axis):
         if self.is_moving_to_target:
             return  # Ya está en movimiento, esperar a completar
         
@@ -207,7 +220,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # update the smooth movement towards the target
-    def _update_movement(self):
+    def update_movement(self):
         if self.is_moving_to_target:
             self.move_progress += 1            
             # calculate interpolated position
@@ -244,28 +257,8 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # checks for collisions with obstacle tiles
-    def _check_collision(self, rect, axis):
-        # use cached tile size for better performance
-        if axis == enums.CA_HORIZONTAL:
-            if self.look_at == enums.DI_RIGHT:
-                tile_x = (rect.right - 1) // self._tile_size
-            else:
-                tile_x = rect.left // self._tile_size
-            tile_y = rect.y // self._tile_size
-        else:  # vertical
-            tile_x = rect.x // self._tile_size
-            if self.look_at == enums.DI_DOWN:
-                tile_y = (rect.bottom - 1) // self._tile_size
-            else:
-                tile_y = rect.top // self._tile_size
-        # returns True if the tile is an obstacle
-        return self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE
-
-
-
     # animates the player sprite based on the current state
-    def _animate(self):
+    def animate(self):
         self.animation_speed = (constants.ANIM_SPEED_IDLE 
                               if self.state <= enums.PS_IDLE_RIGHT 
                               else constants.ANIM_SPEED_WALK)
@@ -284,50 +277,17 @@ class Player(pygame.sprite.Sprite):
 
 
 
-    # invincible effect (player blinks)
-    def _handle_invincibility_effect(self):
-        if self.invincible:
-            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-                self.image.set_alpha(0) # visible
-            else: 
-                self.image.set_alpha(255) # no visible
-        else:
-            self.image.set_alpha(255)
-
-
-
-    # subtracts one energy unit and applies temporary invincibility
-    def loses_energy(self, value):
-        if not self.invincible:
-            self.energy -= value
-            if self.sfx_death.get_num_channels() == 0:
-                self.sfx_death.play()
-            if self.energy >= 0:
-                self.invincible = True
-                self.timer_from = pygame.time.get_ticks()
-                self.timer_from -= (constants.TIME_REMAINING - 3000)  # 3 secs.
-
-
-
     # updates the player position and state
     def update(self):
         self._get_input()
         self._get_state()        
         # only process movement if not already in motion
         if not self.is_moving_to_target:
-            if self.direction.x != 0:   self._move(enums.CA_HORIZONTAL)
-            elif self.direction.y != 0: self._move(enums.CA_VERTICAL)        
-        self._update_movement()        
-        self._animate()
+            if self.direction.x != 0:   self.move(enums.CA_HORIZONTAL)
+            elif self.direction.y != 0: self.move(enums.CA_VERTICAL)        
+        self.update_movement()        
+        self.animate()
         self._check_timer()
-
-
-
-    # controls the shield time
-    def _check_timer(self):
-        if self.invincible:
-            if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
-                self.invincible = False
 
 
 
@@ -342,19 +302,7 @@ class Player(pygame.sprite.Sprite):
 
     ##### auxiliary functions #####
     
-    # update cached tile position when player moves
-    def _update_tile_position(self):
-        new_tile_x = int(self.x // self._tile_size)
-        new_tile_y = int(self.y // self._tile_size)
-        if new_tile_x != self._current_tile_x or new_tile_y != self._current_tile_y:
-            self._current_tile_x = new_tile_x
-            self._current_tile_y = new_tile_y
-            return True  # position changed
-        return False  # position unchanged
-
-
-
-        # load player images for animations
+    # load player images for animations
     def _load_player_images(self, who_is):
         base_path = constants.SPR_PATH + 'player/' + str(who_is) + '/'        
         image_files = {
@@ -452,9 +400,61 @@ class Player(pygame.sprite.Sprite):
 
 
 
+    # update cached tile position when player moves
+    def _update_tile_position(self):
+        new_tile_x = int(self.x // self._tile_size)
+        new_tile_y = int(self.y // self._tile_size)
+        if new_tile_x != self._current_tile_x or new_tile_y != self._current_tile_y:
+            self._current_tile_x = new_tile_x
+            self._current_tile_y = new_tile_y
+            return True  # position changed
+        return False  # position unchanged
+
+
+
     # determines the player's state based on movement
     def _get_state(self):
         is_moving = self.direction.x != 0 or self.direction.y != 0
         if self.look_at in self._state_mappings:
             idle_state, walk_state = self._state_mappings[self.look_at]
             self.state = walk_state if is_moving else idle_state          
+
+
+
+    # controls the shield time
+    def _check_timer(self):
+        if self.invincible:
+            if (pygame.time.get_ticks() - self.timer_from) >= self.timer_to:
+                self.invincible = False
+
+
+
+    # checks for collisions with obstacle tiles
+    def _check_collision(self, rect, axis):
+        # use cached tile size for better performance
+        if axis == enums.CA_HORIZONTAL:
+            if self.look_at == enums.DI_RIGHT:
+                tile_x = (rect.right - 1) // self._tile_size
+            else:
+                tile_x = rect.left // self._tile_size
+            tile_y = rect.y // self._tile_size
+        else:  # vertical
+            tile_x = rect.x // self._tile_size
+            if self.look_at == enums.DI_DOWN:
+                tile_y = (rect.bottom - 1) // self._tile_size
+            else:
+                tile_y = rect.top // self._tile_size
+        # returns True if the tile is an obstacle
+        return self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE
+    
+
+
+    # invincible effect (player blinks)
+    def _handle_invincibility_effect(self):
+        if self.invincible:
+            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
+                self.image.set_alpha(0) # visible
+            else: 
+                self.image.set_alpha(255) # no visible
+        else:
+            self.image.set_alpha(255)

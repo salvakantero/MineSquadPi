@@ -99,31 +99,7 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    def update(self):   
-        # movement handling
-        if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
-        elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
-        elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
-        elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
-        # apply the calculated position and the corresponding frame
-        self.rect.x = self.x
-        self.rect.y = self.y
-        self._animate()
-
-
-
-    def draw(self, surface, camera):
-        if self._is_visible(camera):
-            # draw the enemy on the screen with camera offset
-            screen_x = self.x - camera.x
-            screen_y = self.y - camera.y
-            surface.blit(self.image, (screen_x, screen_y))
-
-
-
-    ##### auxiliary functions #####
-    
-    def _animate(self):
+    def animate(self):
         self.animation_timer += 1
 
         # exceeded the frame time?
@@ -139,6 +115,30 @@ class Enemy(pygame.sprite.Sprite):
             self.image = self.flipped_list[self.frame_index]
 
 
+
+    def update(self):   
+        # movement handling
+        if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
+        elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
+        elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
+        elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
+        # apply the calculated position and the corresponding frame
+        self.rect.x = self.x
+        self.rect.y = self.y
+        self.animate()
+
+
+
+    def draw(self, surface, camera):
+        if self._is_visible(camera):
+            # draw the enemy on the screen with camera offset
+            screen_x = self.x - camera.x
+            screen_y = self.y - camera.y
+            surface.blit(self.image, (screen_x, screen_y))
+
+
+
+    ##### auxiliary functions #####
 
     # check whether a position is within the map boundaries and there are no obstacles.
     def _is_position_valid(self, x, y):        
