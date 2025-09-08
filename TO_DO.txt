@@ -10,7 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-eliminar loop_counter?
 FX de tile bloqueante no adecuado
 revisar funcionalidad del joypad en menús y ventanas
 

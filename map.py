@@ -68,7 +68,6 @@ class Map():
         # load the new map
         self._load()
         # reset some vars
-        self.game.loop_counter = 0
         self.game.floating_text.active = False
         self.game.loss_sequence = 0
         # reset optimization caches

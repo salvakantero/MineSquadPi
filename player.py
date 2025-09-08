@@ -452,9 +452,12 @@ class Player(pygame.sprite.Sprite):
     # invincible effect (player blinks)
     def _handle_invincibility_effect(self):
         if self.invincible:
-            if (self.game.loop_counter >> 3) & 1 == 0: # % 8
-                self.image.set_alpha(0) # visible
+            # Use elapsed time since invincibility began
+            elapsed_time = pygame.time.get_ticks() - self.timer_from
+            # Blink every 133ms (equivalent to 8 frames at 60fps)
+            if (elapsed_time // 133) & 1 == 0:
+                self.image.set_alpha(128)  # semi-transparent
             else: 
-                self.image.set_alpha(255) # no visible
+                self.image.set_alpha(255)  # fully visible
         else:
             self.image.set_alpha(255)

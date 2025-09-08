@@ -208,6 +208,4 @@ while True:
         #game.fonts[enums.S_B_WHITE].render(str(player.state), game.srf_sboard, (100, 25))
         # ==========================================================================================
         
-        # increment the loop counter, up to a maximum of 10000 loops
-        game.loop_counter = 0 if game.loop_counter == 9999 else game.loop_counter + 1
         game.update_screen()

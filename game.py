@@ -48,7 +48,6 @@ class Game():
         self.score = 0 # current game score
         self.status = enums.GS_OVER # start from menus
         self.music_status = enums.MS_UNMUTED # Music!
-        self.loop_counter = 0 # main loop cycles for various uses
         # area covered by the menu
         self.srf_menu = pygame.Surface(constants.MENU_UNSCALED_SIZE)
         # area covered by the map
