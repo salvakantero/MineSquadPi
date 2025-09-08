@@ -209,27 +209,27 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'B L A Z E', self.menu_pages[7], 27, 36, 1)
-        self.menu_pages[7].blit(self.img_blaze, (15, 115))
-        x = 20
-        y = 60
-        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
-        for i in range(4):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
-        for i in range(4):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))        
+        self.menu_pages[7].blit(self.img_blaze, (15, 55))
+        # x = 20
+        # y = 60
+        # self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        # self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
+        # for i in range(4):
+        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
+        # for i in range(4):
+        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))        
         # Piper info (right side)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'P I P E R', self.menu_pages[7], 152, 36, 1)
-        self.menu_pages[7].blit(self.img_piper_flipped, (135, 115))
-        x = 138       
-        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
-        for i in range(5):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
-        for i in range(3):
-            self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))         
+        self.menu_pages[7].blit(self.img_piper_flipped, (130, 55))
+        # x = 138       
+        # self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
+        # self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
+        # for i in range(5):
+        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
+        # for i in range(3):
+        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))         
 
 
 

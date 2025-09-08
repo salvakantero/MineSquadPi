@@ -56,6 +56,8 @@ class Game():
         self.srf_sboard = pygame.Surface(constants.SBOARD_UNSCALED_SIZE)
         # player selected BLAZE/PIPER
         self.selected_player = enums.PL_BLAZE
+        # default difficulty
+        self.difficulty = enums.DF_NORMAL
         # sprite control groups (for update and collision detection)
         self.sprite_groups = [
             pygame.sprite.Group(),          # [0] explosions

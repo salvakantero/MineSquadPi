@@ -73,3 +73,6 @@ SG_BLASTS, SG_ENEMIES, SG_HOTSPOT, SG_SHOT = 0, 1, 2, 3
 # screen modes
 SM_WINDOW, SM_4_3, SM_16_9 = 0, 1, 2
 
+# difficulties
+DF_EASY, DF_NORMAL, DF_HARD = 0, 1, 2
+
