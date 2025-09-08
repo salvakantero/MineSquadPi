@@ -1,4 +1,3 @@
-
 # ==============================================================================
 # .::Player class::.
 # Create the main sprite and manage keyboard/mouse/joystick control, 
@@ -101,8 +100,8 @@ class Player(pygame.sprite.Sprite):
 
     # set energy and move_time based on player type
     def set_player_attributes(self):                      # ENERGY  MOVE_TIME
-        if self.game.selected_player == enums.PL_PIPER:  return 11, 20
-        else:                                            return 14, 30
+        if self.game.selected_player == enums.PL_PIPER:  return 11, 10
+        else:                                            return 14, 20
 
 
 
@@ -369,7 +368,9 @@ class Player(pygame.sprite.Sprite):
             return
         # no input detected
         if look_at is None:
-            self.direction.update(0, 0)
+            # if not moving to a target, stop completely
+            if not self.is_moving_to_target:
+                self.direction.update(0, 0)
             return
         # update direction and state
         self.look_at = look_at
