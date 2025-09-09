@@ -108,7 +108,7 @@ class Player(pygame.sprite.Sprite):
             enums.DF_HARD:   (8, 10)    # Hard: Less energy, faster movement
         }
         # return the tuple (energy, move_time) for the selected difficulty
-        return difficulty_stats.get(self.game.difficulty, (11, 15))
+        return difficulty_stats.get(self.game.selected_difficulty, (11, 15))
 
 
 

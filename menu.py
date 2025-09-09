@@ -54,8 +54,9 @@ class Menu():
         # page 5: hotspots info
         # page 6: settings
         # page 7: player selection
+        # page 8: difficulty selection
         self.menu_pages = []
-        for _ in range(0, 8):
+        for _ in range(0, 9):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
@@ -66,6 +67,7 @@ class Menu():
         self.page_4()
         self.page_5()        
         self.page_7()
+        self.page_8()
 
 
 
@@ -105,7 +107,7 @@ class Menu():
 
     def page_2(self): # Blaze info        
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
-                         'B L A Z E', self.menu_pages[2], 115, 1, 1)
+                         'B L A Z E', self.menu_pages[2], 115, 30, 1)
         self._draw_player_info(115, enums.PL_BLAZE, 2)
         self.menu_pages[2].blit(self.img_blaze, (10, 0))
 
@@ -113,7 +115,7 @@ class Menu():
 
     def page_3(self): # Piper info
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
-                         'P I P E R', self.menu_pages[3], 10, 1, 1)
+                         'P I P E R', self.menu_pages[3], 10, 30, 1)
         self._draw_player_info(10, enums.PL_PIPER, 3)
         self.menu_pages[3].blit(self.img_piper, (120, 0))
 
@@ -209,27 +211,33 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'B L A Z E', self.menu_pages[7], 27, 36, 1)
-        self.menu_pages[7].blit(self.img_blaze, (15, 55))
-        # x = 20
-        # y = 60
-        # self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        # self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
-        # for i in range(4):
-        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
-        # for i in range(4):
-        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))        
+        self.menu_pages[7].blit(self.img_blaze, (15, 60))      
         # Piper info (right side)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'P I P E R', self.menu_pages[7], 152, 36, 1)
-        self.menu_pages[7].blit(self.img_piper_flipped, (130, 55))
-        # x = 138       
-        # self._shaded_text(fb, ff, 'SPEED', self.menu_pages[7], x, y, 1)
-        # self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[7] ,x, y+26, 1)
-        # for i in range(5):
-        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+6))
-        # for i in range(3):
-        #     self.menu_pages[7].blit(self.img_star, (x+i*18, y+32))         
+        self.menu_pages[7].blit(self.img_piper_flipped, (129, 60))      
+
+
+
+    def page_8(self):  # difficulty selection
+        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+        # title
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
+                        'Select Difficulty', self.menu_pages[8], 68, 1, 1)
+        # instructions
+        self._shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
+                        'Use mouse, joypad, or cursors and SPACE/ENTER to select', 
+                        self.menu_pages[8], 12, 22, 1)
+        # Easy difficulty (left)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
+                        'EASY', self.menu_pages[8], 32, 45, 1)        
+        # Normal difficulty (center)
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
+                        'NORMAL', self.menu_pages[8], 100, 45, 1)
+        # Hard difficulty (right)  
+        self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
+                        'HARD', self.menu_pages[8], 182, 45, 1)
 
 
 
@@ -283,6 +291,107 @@ class Menu():
         
         return selected_player
 
+
+
+    def select_difficulty(self):
+        selected_difficulty = enums.DF_NORMAL  # balanced difficulty by default
+        confirmed = False
+        speed = 4
+        strength = 4
+
+        self.game.clear_input_buffer()        
+        while not confirmed:
+            self.srf_menu.blit(self.img_menu, (0, 0))
+            
+            # Recrear la página 8 cada vez para limpiar las estrellas anteriores
+            self.menu_pages[8] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+            self.menu_pages[8].set_colorkey(constants.PALETTE['BLACK0'])
+            self.page_8()  # Redibuja el contenido base
+            
+            self.srf_menu.blit(self.menu_pages[8], (0, 0))            
+            
+            # draw selection boxes according to the chosen difficulty
+            if selected_difficulty == enums.DF_EASY:
+                self._draw_selection_box(self.srf_menu, 15, 35, 60, 30)
+                speed = 3
+                strength = 5                           
+            elif selected_difficulty == enums.DF_NORMAL:
+                self._draw_selection_box(self.srf_menu, 90, 35, 60, 30)
+                speed = 4
+                strength = 4
+            else:  # DF_HARD
+                self._draw_selection_box(self.srf_menu, 165, 35, 60, 30)
+                speed = 5
+                strength = 3            
+                
+            # Dibujar el personaje sobre la superficie del menú, no en la página
+            if self.game.selected_player == enums.PL_BLAZE:
+                self.srf_menu.blit(self.img_blaze, (125, 75))
+            else:  # PL_PIPER
+                self.srf_menu.blit(self.img_piper, (125, 75))
+
+            x = 30
+            y = 120
+            fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
+            self._shaded_text(fb, ff, 'SPEED', self.srf_menu, x, y, 1)
+            self._shaded_text(fb, ff, 'STRENGTH', self.srf_menu, x, y+30, 1)
+            
+            # Dibujar las estrellas sobre la superficie del menú, no en la página
+            for i in range(speed):
+                self.srf_menu.blit(self.img_star, (x+i*18, y+6))
+            for i in range(strength):
+                self.srf_menu.blit(self.img_star, (x+i*18, y+36))        
+
+            # event management
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:                       
+                        return None  # cancel, return to player selection         
+                    elif event.key == pygame.K_LEFT:
+                        if selected_difficulty == enums.DF_NORMAL:
+                            selected_difficulty = enums.DF_EASY
+                            self.sfx_menu_click.play()
+                        elif selected_difficulty == enums.DF_HARD:
+                            selected_difficulty = enums.DF_NORMAL
+                            self.sfx_menu_click.play()
+                    elif event.key == pygame.K_RIGHT:
+                        if selected_difficulty == enums.DF_EASY:
+                            selected_difficulty = enums.DF_NORMAL
+                            self.sfx_menu_click.play()
+                        elif selected_difficulty == enums.DF_NORMAL:
+                            selected_difficulty = enums.DF_HARD
+                            self.sfx_menu_click.play()
+                    elif (event.key == pygame.K_RETURN or 
+                        event.key == pygame.K_KP_ENTER or 
+                        event.key == pygame.K_SPACE):
+                        self.sfx_menu_select.play()
+                        confirmed = True                
+                # joystick/gamepad
+                elif event.type == pygame.JOYBUTTONDOWN:
+                    self.sfx_menu_select.play()
+                    confirmed = True                
+                elif event.type == pygame.JOYAXISMOTION:
+                    if event.axis == 0:  # horizontal axis
+                        if event.value < -0.5: # left
+                            if selected_difficulty == enums.DF_NORMAL:
+                                selected_difficulty = enums.DF_EASY
+                                self.sfx_menu_click.play()
+                            elif selected_difficulty == enums.DF_HARD:
+                                selected_difficulty = enums.DF_NORMAL
+                                self.sfx_menu_click.play()
+                        elif event.value > 0.5: # right
+                            if selected_difficulty == enums.DF_EASY:
+                                selected_difficulty = enums.DF_NORMAL
+                                self.sfx_menu_click.play()
+                            elif selected_difficulty == enums.DF_NORMAL:
+                                selected_difficulty = enums.DF_HARD
+                                self.sfx_menu_click.play()
+            self.game.update_screen()
+        
+        return selected_difficulty
+        
 
 
     def show(self):
@@ -408,10 +517,15 @@ class Menu():
                 if confirmed_option:
                     # main menu page
                     if selected_option == enums.MO_START:
+                        # player selection
                         selected_player = self.select_player()
-                        if selected_player is not None: # no se canceló
+                        if selected_player is not None: # not cancelled
                             self.game.selected_player = selected_player
-                            return
+                            # difficulty selection
+                            selected_difficulty = self.select_difficulty()
+                            if selected_difficulty is not None: # not cancelled
+                                self.game.selected_difficulty = selected_difficulty
+                                return
                         confirmed_option = False
                         page_timer = 0
                     # config page
@@ -472,36 +586,25 @@ class Menu():
     def _draw_player_info(self, x, player, page):
         # player characteristics
         if player == enums.PL_BLAZE:
-            speed = 4
-            strength = 4
             rank = 'Sergeant'
             age = '23'
             origin = 'Brighton (England)'
         else:
-            speed = 5
-            strength = 3
             rank = 'Corporal'
             age = '20'
             origin = 'Glasgow (Scotland)'
         # headers
         fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
-        self._shaded_text(fb, ff, 'SPEED', self.menu_pages[page], x, 21, 1)
-        self._shaded_text(fb, ff, 'STRENGTH', self.menu_pages[page] ,x, 51, 1)
-        self._shaded_text(fb, ff, 'RANK', self.menu_pages[page], x, 81, 1)
-        self._shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 111, 1) 
-        self._shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 141, 1) 
-        # draws the data (using stars)
-        for i in range(speed):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 27))
-        for i in range(strength):
-            self.menu_pages[page].blit(self.img_star, (x+i*18, 57))
-        # draws more data (using text)
+        self._shaded_text(fb, ff, 'RANK', self.menu_pages[page], x, 65, 1)
+        self._shaded_text(fb, ff, 'AGE', self.menu_pages[page], x, 95, 1) 
+        self._shaded_text(fb, ff, 'ORIGIN', self.menu_pages[page], x, 125, 1)
+        # data
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         rank, self.menu_pages[page], x, 90, 1)
+                         rank, self.menu_pages[page], x, 75, 1)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         age, self.menu_pages[page], x, 120, 1)
+                         age, self.menu_pages[page], x, 105, 1)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
-                         origin , self.menu_pages[page], x, 150, 1)     
+                         origin , self.menu_pages[page], x, 135, 1)     
 
 
 
