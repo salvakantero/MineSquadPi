@@ -229,13 +229,13 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.S_B_BROWN], self.game.fonts[enums.S_F_BROWN], 
                         'Use mouse, joypad, or cursors and SPACE/ENTER to select', 
                         self.menu_pages[8], 12, 22, 1)
-        # Easy difficulty (left)
+        # easy difficulty (left)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                         'EASY', self.menu_pages[8], 32, 45, 1)        
-        # Normal difficulty (center)
+        # normal difficulty (center)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                         'NORMAL', self.menu_pages[8], 100, 45, 1)
-        # Hard difficulty (right)  
+        # hard difficulty (right)  
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                         'HARD', self.menu_pages[8], 182, 45, 1)
 
@@ -296,47 +296,34 @@ class Menu():
     def select_difficulty(self):
         selected_difficulty = enums.DF_NORMAL  # balanced difficulty by default
         confirmed = False
-        speed = 4
-        strength = 4
+        speed, strength = 4, 4
 
         self.game.clear_input_buffer()        
         while not confirmed:
             self.srf_menu.blit(self.img_menu, (0, 0))
-            
-            # Recrear la página 8 cada vez para limpiar las estrellas anteriores
             self.menu_pages[8] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             self.menu_pages[8].set_colorkey(constants.PALETTE['BLACK0'])
-            self.page_8()  # Redibuja el contenido base
-            
-            self.srf_menu.blit(self.menu_pages[8], (0, 0))            
-            
+            self.page_8()  # redraw the base content            
+            self.srf_menu.blit(self.menu_pages[8], (0, 0))                        
             # draw selection boxes according to the chosen difficulty
             if selected_difficulty == enums.DF_EASY:
                 self._draw_selection_box(self.srf_menu, 15, 35, 60, 30)
-                speed = 3
-                strength = 5                           
+                speed, strength = 3, 5                           
             elif selected_difficulty == enums.DF_NORMAL:
                 self._draw_selection_box(self.srf_menu, 90, 35, 60, 30)
-                speed = 4
-                strength = 4
             else:  # DF_HARD
                 self._draw_selection_box(self.srf_menu, 165, 35, 60, 30)
-                speed = 5
-                strength = 3            
-                
-            # Dibujar el personaje sobre la superficie del menú, no en la página
+                speed, strength = 5, 3                            
+
             if self.game.selected_player == enums.PL_BLAZE:
                 self.srf_menu.blit(self.img_blaze, (125, 75))
             else:  # PL_PIPER
                 self.srf_menu.blit(self.img_piper, (125, 75))
-
-            x = 30
-            y = 120
+            # stars
+            x, y = 30, 120
             fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
             self._shaded_text(fb, ff, 'SPEED', self.srf_menu, x, y, 1)
-            self._shaded_text(fb, ff, 'STRENGTH', self.srf_menu, x, y+30, 1)
-            
-            # Dibujar las estrellas sobre la superficie del menú, no en la página
+            self._shaded_text(fb, ff, 'STRENGTH', self.srf_menu, x, y+30, 1)        
             for i in range(speed):
                 self.srf_menu.blit(self.img_star, (x+i*18, y+6))
             for i in range(strength):
@@ -573,7 +560,7 @@ class Menu():
 
 
 
-        ##### auxiliary functions #####
+    ##### auxiliary functions #####
 
     # draws a text with its shadow
     def _shaded_text(self, font_BG, font_FG, text, surface, x, y, offset):
