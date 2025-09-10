@@ -89,8 +89,8 @@ Notas
 - Cenital 2D basado en buscaminas
 
 - Dos personajes a elegir (forman parte de un equipo de zapadores):
-    Blaze: (sargento) Hombre, velocidad normal, resistencia alta
-    Piper: (suboficial) Mujer, velocidad alta, resistencia baja
+    Blaze: (sargento) Hombre
+    Piper: (suboficial) Mujer
 
 - Escenarios (3 stages, 3 levels per stage):
      
