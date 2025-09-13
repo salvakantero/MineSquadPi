@@ -11,7 +11,6 @@ EN PROCESO
 BUGS
 ====
 FX de tile bloqueante no adecuado
-revisar funcionalidad del joypad en menús y ventanas
 
 
 POR HACER

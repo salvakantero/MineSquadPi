@@ -311,6 +311,7 @@ class Menu():
                 speed, strength = 3, 5                           
             elif selected_difficulty == enums.DF_NORMAL:
                 self._draw_selection_box(self.srf_menu, 90, 35, 60, 30)
+                speed, strength = 4, 4
             else:  # DF_HARD
                 self._draw_selection_box(self.srf_menu, 165, 35, 60, 30)
                 speed, strength = 5, 3                            
