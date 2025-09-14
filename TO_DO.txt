@@ -4,13 +4,13 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de PIPER
 - gráficos de enemigos stage 1
 
 
 BUGS
 ====
 FX de tile bloqueante no adecuado
+gráficos de Blaze (ojos blancos?)
 
 
 POR HACER
@@ -27,6 +27,7 @@ POR HACER
 
 HECHO
 =====
+14/09/25 - gráficos de PIPER
 09/09/25 - selección de dificultad al comenzar la partida
 03/09/25 - selección del jugador al comenzar la partida
 01/09/25 - gestión de colisiones enemies-players-shots
