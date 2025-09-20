@@ -32,8 +32,9 @@ class Scoreboard():
         self.game = game
         self.needs_updating = False # redrawing of the data if True
         # icons
-        self.energy_icon = pygame.image.load(constants.SPR_PATH + 'player/0/player14.png').convert_alpha()
         self.landmine_image = pygame.image.load(constants.SPR_PATH + 'landmine.png').convert_alpha()
+        self.player0_image = pygame.image.load(constants.SPR_PATH + 'player/0/player12.png').convert_alpha()
+        self.player1_image = pygame.image.load(constants.SPR_PATH + 'player/1/player12.png').convert_alpha()
         # background dark colour for each level: red, blue, green
         self.back_colour = ((100,10,10), (10,10,100), (10,100,10))
         self.stage_number = 0
@@ -79,10 +80,11 @@ class Scoreboard():
         # delete the entire scoreboard
         self.game.srf_sboard.fill(self.back_colour[self.stage_number])
         # draw icons
-        self.game.srf_sboard.blit(self.energy_icon, (2, 2))
         self.game.srf_sboard.blit(self.game.hotspot_images[enums.HS_AMMO], (70, 2))
         self.game.srf_sboard.blit(self.game.beacon_image, (130, 3))
         self.game.srf_sboard.blit(self.landmine_image, (165, 2))
+        energy_icon = self.player0_image if self.game.selected_player == enums.PL_BLAZE else self.player1_image
+        self.game.srf_sboard.blit(energy_icon, (2, 2))
 
 
 

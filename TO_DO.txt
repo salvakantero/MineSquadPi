@@ -9,8 +9,7 @@ EN PROCESO
 
 BUGS
 ====
-FX de tile bloqueante no adecuado
-gráficos de Blaze (ojos blancos?)
+FX de tile bloqueante sin pausa
 
 
 POR HACER
