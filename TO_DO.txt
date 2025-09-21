@@ -10,6 +10,7 @@ EN PROCESO
 BUGS
 ====
 FX de tile bloqueante sin pausa
+Perseguidor en tiles block
 
 
 POR HACER

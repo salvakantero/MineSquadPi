@@ -74,7 +74,7 @@ class Enemy(pygame.sprite.Sprite):
         self.image_list = enemy_images
         self.frame_index = 0  # frame number
         self.animation_timer = 0  # timer to change frame (start at 0)
-        self.animation_speed = 12  # frame dwell time
+        self.animation_speed = 18  # frame dwell time
         self.image = self.image_list[0]  # first frame
 
         # build or reuse flipped frames cache keyed by id(image_list).
