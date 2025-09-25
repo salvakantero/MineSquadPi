@@ -116,16 +116,53 @@ class Enemy(pygame.sprite.Sprite):
 
 
 
-    def update(self):   
+    def update(self, camera):
+        # optimization: cache screen dimensions and calculate activation margin
+        screen_width = constants.SCREEN_MAP_UNSCALED_SIZE[0]  # 240
+        screen_height = constants.SCREEN_MAP_UNSCALED_SIZE[1]  # 176
+        margin = constants.TILE_SIZE * 3  # 48 pixels (3 tiles margin for smooth activation)
+
+        # check if enemy is within update range (visible area + margin)
+        in_update_range = (
+            self.x + self.rect.width >= camera.x - margin and
+            self.x <= camera.x + screen_width + margin and
+            self.y + self.rect.height >= camera.y - margin and
+            self.y <= camera.y + screen_height + margin
+        )
+
+        if not in_update_range:
+            # enemy is too far from camera, skip update to save CPU
+            # special handling for different movement types
+            if self.movement == enums.EM_CHASER:
+                # deactivate chaser when out of range
+                self.is_active = False
+            elif self.movement == enums.EM_RANDOM:
+                # pause random enemy when out of range
+                self.is_paused = True
+                self.pause_timer = 0
+                self.moving_to_target = False
+            # horizontal and vertical enemies maintain their state
+            return
+
+        # enemy is in range, perform normal update
+        # special reactivation for enemies coming back into range
+        if self.movement == enums.EM_RANDOM and self.is_paused and not self.moving_to_target:
+            # reactivate random enemy that was paused out of range
+            self._set_random_direction()
+
         # movement handling
         if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
         elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
         elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
         elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
-        # apply the calculated position and the corresponding frame
+
+        # apply the calculated position
         self.rect.x = self.x
         self.rect.y = self.y
-        self.animate()
+
+        # only animate if visible on screen (smaller range than update range)
+        if self._is_visible(camera):
+            self.animate()
 
 
 
@@ -209,7 +246,7 @@ class Enemy(pygame.sprite.Sprite):
     def _update_chaser_direction(self):
         if self.player is None:
             return
-        
+
         # align to nearest tile using cached tile size
         self.x = round(self.x / self._tile_size) * self._tile_size
         self.y = round(self.y / self._tile_size) * self._tile_size
@@ -218,33 +255,89 @@ class Enemy(pygame.sprite.Sprite):
         enemy_tile_x = self.x // self._tile_size
         enemy_tile_y = self.y // self._tile_size
         player_tile_x = self.player.centerx // self._tile_size
-        player_tile_y = self.player.centery // self._tile_size        
+        player_tile_y = self.player.centery // self._tile_size
         dx = player_tile_x - enemy_tile_x
         dy = player_tile_y - enemy_tile_y
 
         # determine target tile to move to using cached tile size
         target_x = self.x
         target_y = self.y
-        # prefer horizontal or vertical movement based on greater distance
-        if abs(dx) > abs(dy): # move horizontally
-            if dx > 0:  target_x = self.x + self._tile_size # player is to the right
-            else:       target_x = self.x - self._tile_size # player is to the left
-        else: # move vertically
-            if dy > 0:  target_y = self.y + self._tile_size # player is below
-            else:       target_y = self.y - self._tile_size # player is above        
-        self.target_x = target_x
-        self.target_y = target_y
-        
+
+        # try to move towards the player, checking for obstacles
+        horizontal_blocked = False
+        vertical_blocked = False
+
+        # check horizontal movement
+        if dx != 0:
+            if dx > 0:
+                test_x = self.x + self._tile_size  # player is to the right
+            else:
+                test_x = self.x - self._tile_size  # player is to the left
+            if self._is_position_valid(test_x, self.y):
+                target_x = test_x
+            else:
+                horizontal_blocked = True
+
+        # check vertical movement
+        if dy != 0:
+            if dy > 0:
+                test_y = self.y + self._tile_size  # player is below
+            else:
+                test_y = self.y - self._tile_size  # player is above
+            if self._is_position_valid(self.x, test_y):
+                target_y = test_y
+            else:
+                vertical_blocked = True
+
+        # decide which direction to move based on distance and obstacles
+        if horizontal_blocked and vertical_blocked:
+            # both directions blocked, stay in place
+            self.moving_to_target = False
+            self.vx = self.vy = 0
+            return
+        elif horizontal_blocked:
+            # can only move vertically
+            if target_y != self.y:
+                self.target_x = self.x
+                self.target_y = target_y
+            else:
+                self.moving_to_target = False
+                self.vx = self.vy = 0
+                return
+        elif vertical_blocked:
+            # can only move horizontally
+            if target_x != self.x:
+                self.target_x = target_x
+                self.target_y = self.y
+            else:
+                self.moving_to_target = False
+                self.vx = self.vy = 0
+                return
+        else:
+            # both directions are valid, choose based on greater distance
+            if abs(dx) > abs(dy):
+                # prefer horizontal movement
+                self.target_x = target_x
+                self.target_y = self.y
+            else:
+                # prefer vertical movement
+                self.target_x = self.x
+                self.target_y = target_y
+
         # set velocity towards the target tile
         dx_target = self.target_x - self.x
-        dy_target = self.target_y - self.y        
+        dy_target = self.target_y - self.y
         if dx_target != 0:
             self.vx = 1 if dx_target > 0 else -1
             self.vy = 0
-        else:
+        elif dy_target != 0:
             self.vx = 0
             self.vy = 1 if dy_target > 0 else -1
-        
+        else:
+            self.vx = self.vy = 0
+            self.moving_to_target = False
+            return
+
         self.moving_to_target = True
 
 

@@ -141,7 +141,7 @@ while True:
         map_surface = game.srf_map
         
         # enemies, hotspots, blasts, shots
-        for enemy in enemies: enemy.update()
+        for enemy in enemies: enemy.update(camera)
         for hotspot in hotspots: hotspot.update(camera)
         for shot in shots: shot.update(camera)
         blasts.update() # use native pygame group update (no parameters needed)
