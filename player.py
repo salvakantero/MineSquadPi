@@ -66,8 +66,9 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
+        self.sfx_beacon.set_volume(0.7)
         self.sfx_blocked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_blocked.wav')
-        self.sfx_blocked.set_volume(0.8)
+        self.sfx_blocked.set_volume(0.7)
         # objects and others
         self.game = game
         self.map = map
@@ -103,9 +104,9 @@ class Player(pygame.sprite.Sprite):
         # define stats based on difficulty level, independent of the character.
         # Format: (energy, move_time) - Lower move_time is faster.
         difficulty_stats = {
-            enums.DF_EASY:   (14, 20),  # Easy: More energy, slower movement
-            enums.DF_NORMAL: (11, 15),  # Normal: Balanced energy and speed
-            enums.DF_HARD:   (8, 10)    # Hard: Less energy, faster movement
+            enums.DF_EASY:   (14, 25),  # Easy: More energy, slower movement
+            enums.DF_NORMAL: (12, 16),  # Normal: Balanced energy and speed
+            enums.DF_HARD:   (10, 12)    # Hard: Less energy, faster movement
         }
         # return the tuple (energy, move_time) for the selected difficulty
         return difficulty_stats.get(self.game.selected_difficulty, (11, 15))
