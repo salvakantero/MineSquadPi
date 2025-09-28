@@ -7,6 +7,7 @@ EN PROCESO
 - gráficos de enemigos stage 1
 - FX de tile bloqueante
 - FX de mensaje
+- No hacer flip de enemigos (miran al frente)
 
 
 BUGS
