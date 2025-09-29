@@ -8,6 +8,7 @@ EN PROCESO
 - FX de tile bloqueante
 - FX de mensaje
 - FX de enemigo tocado
+- gráficos de explosión de enemigos
 
 
 BUGS
@@ -16,12 +17,11 @@ BUGS
 
 POR HACER
 =========
-- gráficos de explosión de enemigos
 - gráficos de tiles stage 1
-- gráficos de enemigos stage 2
-- gráficos de enemigos stage 3
 - gráficos de tiles stage 2
+- gráficos de enemigos stage 2
 - gráficos de tiles stage 3
+- gráficos de enemigos stage 3
 - mapeado definitivo
 - secuencia WIN
 
