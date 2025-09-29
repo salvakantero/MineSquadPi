@@ -12,6 +12,7 @@ EN PROCESO
 
 BUGS
 ====
+- eliminar updates optimizados en enemies
 
 
 POR HACER
