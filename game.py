@@ -413,7 +413,7 @@ class Game():
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(self._blast_sfx_tuple).play()
                 player.invincible = False
-                player.loses_energy(20) # game over
+                player.loses_energy(20, play_sound=False) # game over
                 self.loss_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
                 return
@@ -493,21 +493,21 @@ class Game():
             if collided_enemies:  # collision detected
                 enemy = collided_enemies[0]  # get first collided enemy
                 enemy.health -= 1
-                
-                # shake the map
-                self.shake = [10, 6]
-                self.shake_timer = 14
-                
+
                 # optimized scoring system using pre-calculated values
                 if enemy.type in self._enemy_scores:
                     ftext, score = self._enemy_scores[enemy.type]
                     self.score += score
                     self.floating_text.show(ftext, enemy.rect.x, enemy.rect.y)
-                
+
                 shot_sprite.kill()  # remove the bullet
-                
+
                 # if it's the last life, the enemy dies
                 if enemy.health == 0:
+                    # shake the map only when enemy dies
+                    self.shake = [10, 6]
+                    self.shake_timer = 14
+
                     blast = self.explosion_pool.get_explosion(enemy.rect.center, self.blast_images[0])
                     self.sprite_groups[enums.SG_BLASTS].add(blast)
                     # use pre-computed sound effects tuple

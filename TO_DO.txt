@@ -7,13 +7,11 @@ EN PROCESO
 - gráficos de enemigos stage 1
 - FX de tile bloqueante
 - FX de mensaje
-- No hacer flip de enemigos (miran al frente)
+- FX de enemigo tocado
 
 
 BUGS
 ====
-- al explosionar bomba no FX de tocado
-- al tocar enemigo no vibrar pero hacer FX
 
 
 POR HACER

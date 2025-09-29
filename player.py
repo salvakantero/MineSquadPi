@@ -179,10 +179,10 @@ class Player(pygame.sprite.Sprite):
 
 
     # subtracts one energy unit and applies temporary invincibility
-    def loses_energy(self, value):
+    def loses_energy(self, value, play_sound=True):
         if not self.invincible:
             self.energy -= value
-            if self.sfx_death.get_num_channels() == 0:
+            if play_sound and self.sfx_death.get_num_channels() == 0:
                 self.sfx_death.play()
             if self.energy >= 0:
                 self.invincible = True

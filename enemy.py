@@ -27,8 +27,6 @@ import constants
 import enums
 import random
 
-# cache flipped frames per image-list object ID to avoid repeated transforms
-_FLIPPED_IMAGE_CACHE = {}
 # unit directions for random movement
 _RANDOM_DIRECTIONS = ((0, -1), (1, 0), (0, 1), (-1, 0))
 
@@ -77,15 +75,6 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_speed = 18  # frame dwell time
         self.image = self.image_list[0]  # first frame
 
-        # build or reuse flipped frames cache keyed by id(image_list).
-        key = id(self.image_list)
-        cached = _FLIPPED_IMAGE_CACHE.get(key)
-        if cached is not None and cached[0] is self.image_list:
-            self.flipped_list = cached[1]
-        else:
-            flipped = [pygame.transform.flip(img, True, False) for img in self.image_list]
-            _FLIPPED_IMAGE_CACHE[key] = (self.image_list, flipped)
-            self.flipped_list = flipped
 
         self.rect = self.image.get_rect()
 
@@ -108,11 +97,8 @@ class Enemy(pygame.sprite.Sprite):
             # cycle through frames 
             self.frame_index = (self.frame_index + 1) % len(self.image_list)
       
-        # use precomputed flipped frames to avoid per-frame transform
-        if self.vx >= 0:
-            self.image = self.image_list[self.frame_index]
-        else:
-            self.image = self.flipped_list[self.frame_index]
+        # always use the normal image (enemies always face forward)
+        self.image = self.image_list[self.frame_index]
 
 
 
