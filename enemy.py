@@ -97,58 +97,21 @@ class Enemy(pygame.sprite.Sprite):
             # cycle through frames 
             self.frame_index = (self.frame_index + 1) % len(self.image_list)
       
-        # always use the normal image (enemies always face forward)
         self.image = self.image_list[self.frame_index]
 
 
 
-    def update(self, camera):
-        # optimization: cache screen dimensions and calculate activation margin
-        screen_width = constants.SCREEN_MAP_UNSCALED_SIZE[0]  # 240
-        screen_height = constants.SCREEN_MAP_UNSCALED_SIZE[1]  # 176
-        margin = constants.TILE_SIZE * 3  # 48 pixels (3 tiles margin for smooth activation)
-
-        # check if enemy is within update range (visible area + margin)
-        in_update_range = (
-            self.x + self.rect.width >= camera.x - margin and
-            self.x <= camera.x + screen_width + margin and
-            self.y + self.rect.height >= camera.y - margin and
-            self.y <= camera.y + screen_height + margin
-        )
-
-        if not in_update_range:
-            # enemy is too far from camera, skip update to save CPU
-            # special handling for different movement types
-            if self.movement == enums.EM_CHASER:
-                # deactivate chaser when out of range
-                self.is_active = False
-            elif self.movement == enums.EM_RANDOM:
-                # pause random enemy when out of range
-                self.is_paused = True
-                self.pause_timer = 0
-                self.moving_to_target = False
-            # horizontal and vertical enemies maintain their state
-            return
-
-        # enemy is in range, perform normal update
-        # special reactivation for enemies coming back into range
-        if self.movement == enums.EM_RANDOM and self.is_paused and not self.moving_to_target:
-            # reactivate random enemy that was paused out of range
-            self._set_random_direction()
-
+    def update(self):
         # movement handling
         if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
         elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
         elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
         elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
 
-        # apply the calculated position
+        # apply the calculated position and the corresponding frame
         self.rect.x = self.x
         self.rect.y = self.y
-
-        # only animate if visible on screen (smaller range than update range)
-        if self._is_visible(camera):
-            self.animate()
+        self.animate()
 
 
 
