@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- gráficos de enemigos stage 1
 - FX de tile bloqueante
 - FX de mensaje
 - FX de enemigo tocado
@@ -28,6 +27,7 @@ POR HACER
 
 HECHO
 =====
+01/10/25 - gráficos de enemigos stage 1
 14/09/25 - gráficos de PIPER
 09/09/25 - selección de dificultad al comenzar la partida
 03/09/25 - selección del jugador al comenzar la partida
