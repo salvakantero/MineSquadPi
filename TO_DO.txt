@@ -4,14 +4,16 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- respawn de enemigos
 - FX de tile bloqueante
 - FX de mensaje
 - FX de enemigo tocado
-- gráficos de explosión de enemigos
 
 
 BUGS
 ====
+sonido para respawn de enemigos?
+nuevo blast nube de polvo para respawn de enemigos?
 
 
 POR HACER

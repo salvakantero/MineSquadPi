@@ -424,11 +424,13 @@ class Game():
     
             # player and enemies
             if not player.invincible:
-                if pygame.sprite.spritecollide(
-                    player, self.sprite_groups[enums.SG_ENEMIES], False, pygame.sprite.collide_rect_ratio(0.60)):
-                    player.loses_energy(1)        
-                    scoreboard.invalidate() # redraws the scoreboard
-                    return     
+                # filter only alive enemies for collisions
+                alive_enemies = [e for e in self.sprite_groups[enums.SG_ENEMIES] if not e.is_dead]
+                for enemy in alive_enemies:
+                    if pygame.sprite.collide_rect_ratio(0.60)(player, enemy):
+                        player.loses_energy(1)
+                        scoreboard.invalidate() # redraws the scoreboard
+                        return     
            
         # player and hotspot
         collided_hotspots = pygame.sprite.spritecollide(
@@ -483,15 +485,18 @@ class Game():
 
 
 
-    def check_bullet_collisions(self, player, scoreboard):                         
+    def check_bullet_collisions(self, player, scoreboard):
         # bullets and enemies
         shot_sprite = self.sprite_groups[enums.SG_SHOT].sprite
         if shot_sprite is not None:  # still shot in progress
             enemies_group = self.sprite_groups[enums.SG_ENEMIES]
             collided_enemies = pygame.sprite.spritecollide(shot_sprite, enemies_group, False)
-            
-            if collided_enemies:  # collision detected
-                enemy = collided_enemies[0]  # get first collided enemy
+
+            # filter only alive enemies
+            alive_collided = [e for e in collided_enemies if not e.is_dead]
+
+            if alive_collided:  # collision detected
+                enemy = alive_collided[0]  # get first collided enemy
                 enemy.health -= 1
 
                 # optimized scoring system using pre-calculated values
@@ -512,7 +517,8 @@ class Game():
                     self.sprite_groups[enums.SG_BLASTS].add(blast)
                     # use pre-computed sound effects tuple
                     random.choice(self._blast_sfx_tuple).play()
-                    enemy.kill()
+                    # mark as dead instead of permanently removing
+                    enemy.mark_as_dead()
                 
                 # redraw the scoreboard
                 scoreboard.invalidate()
@@ -522,15 +528,37 @@ class Game():
     # regenerate the hotspot to score (if needed)
     def regenerate_hotspot(self, tile_types):
         has_score_hotspot = any(
-            hotspot.type >= enums.HS_CANDY 
-                for hotspot in self.sprite_groups[enums.SG_HOTSPOT])        
+            hotspot.type >= enums.HS_CANDY
+                for hotspot in self.sprite_groups[enums.SG_HOTSPOT])
         if not has_score_hotspot:
             # inverse probabilities: lower value = higher probability
             weights = [40, 30, 20, 10]  # CANDY(40%), APPLE(30%), CHOCO(20%), COIN(10%)
-            type = random.choices([enums.HS_CANDY, enums.HS_APPLE, enums.HS_CHOCO, enums.HS_COIN], 
+            type = random.choices([enums.HS_CANDY, enums.HS_APPLE, enums.HS_CHOCO, enums.HS_COIN],
                                   weights=weights)[0]
             new_hotspot = Hotspot(type, self.hotspot_images[type], tile_types)
             self.sprite_groups[enums.SG_HOTSPOT].add(new_hotspot)
+
+
+
+    # check and respawn dead enemies after delay
+    def check_enemy_respawn(self):
+        current_time = pygame.time.get_ticks()
+        for enemy in self.sprite_groups[enums.SG_ENEMIES]:
+            if enemy.is_dead:
+                # check if respawn time has elapsed
+                if current_time - enemy.death_time >= enemy.respawn_delay:
+                    # only respawn if player is not too close
+                    if not enemy.is_player_near_respawn():
+                        # create magic halo effect at respawn position
+                        spawn_x = enemy.original_data[3] * constants.TILE_SIZE
+                        spawn_y = enemy.original_data[4] * constants.TILE_SIZE
+                        respawn_center = (spawn_x + constants.HALF_TILE_SIZE, spawn_y + constants.HALF_TILE_SIZE)
+                        blast = self.explosion_pool.get_explosion(respawn_center, self.blast_images[2])
+                        self.sprite_groups[enums.SG_BLASTS].add(blast)
+                        # play a respawn sound effect
+                        self.sfx_hotspot[enums.HS_SHIELD].play()
+                        # respawn the enemy
+                        enemy.respawn()
 
 
 

@@ -170,6 +170,9 @@ while True:
         # regenerate the hotspot to score (if needed)
         game.regenerate_hotspot(map.map_data['tile_types'])
 
+        # check and respawn dead enemies
+        game.check_enemy_respawn()
+
         # update the scoreboard (if needed, needs_updating = True)
         scoreboard.update(player)
 

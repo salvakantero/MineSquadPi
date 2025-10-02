@@ -35,9 +35,9 @@ _RANDOM_DIRECTIONS = ((0, -1), (1, 0), (0, 1), (-1, 0))
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images, map):
         super().__init__()
-        self.map = map # get_tile_type()        
+        self.map = map # get_tile_type()
         # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
-        # enemy type: 
+        # enemy type:
         # SCORPION, SNAKE, SOLDIER1
         # CRAB, PROJECTILE, SOLDIER2
         # SKIER, HABALI, SOLDIER3
@@ -46,6 +46,13 @@ class Enemy(pygame.sprite.Sprite):
         self.movement = enemy_data[2]
         # health
         self.health = constants.ENEMY_LIFE[self.type]
+        self.max_health = constants.ENEMY_LIFE[self.type]
+
+        # respawn system
+        self.is_dead = False
+        self.death_time = 0
+        self.respawn_delay = constants.ENEMY_RESPAWN_TIME
+        self.original_data = enemy_data  # store original data for respawn
         
         # cache frequently used values
         self._tile_size = constants.TILE_SIZE
@@ -102,6 +109,10 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def update(self):
+        # if dead, do not update movement or animation
+        if self.is_dead:
+            return
+
         # movement handling
         if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
         elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
@@ -116,6 +127,10 @@ class Enemy(pygame.sprite.Sprite):
 
 
     def draw(self, surface, camera):
+        # do not draw if dead
+        if self.is_dead:
+            return
+
         if self._is_visible(camera):
             # draw the enemy on the screen with camera offset
             screen_x = self.x - camera.x
@@ -426,11 +441,85 @@ class Enemy(pygame.sprite.Sprite):
                         self.y = self.target_y
                         reached = True
                     # if reached the target tile, start a pause before the next move
-                    if reached:                        
+                    if reached:
                         self.moving_to_target = False
                         self.vx = self.vy = 0
                         self.is_paused = True
                         self.pause_timer = 0
+
+
+
+    # mark the enemy as dead and record the time
+    def mark_as_dead(self):
+        self.is_dead = True
+        self.death_time = pygame.time.get_ticks()
+        self.health = 0
+
+
+
+    # check if the player is too close to the respawn position
+    def is_player_near_respawn(self):
+        if self.player is None:
+            return False
+
+        # calculate spawn position
+        spawn_x = self.original_data[3] * self._tile_size
+        spawn_y = self.original_data[4] * self._tile_size
+
+        # calculate distance to player in tiles
+        spawn_tile_x = spawn_x // self._tile_size
+        spawn_tile_y = spawn_y // self._tile_size
+        player_tile_x = self.player.centerx // self._tile_size
+        player_tile_y = self.player.centery // self._tile_size
+
+        dx = spawn_tile_x - player_tile_x
+        dy = spawn_tile_y - player_tile_y
+        distance_squared = dx * dx + dy * dy
+
+        # check if player is within safe respawn distance (5 tiles)
+        safe_distance_squared = constants.ENEMY_RESPAWN_SAFE_DISTANCE * constants.ENEMY_RESPAWN_SAFE_DISTANCE
+        return distance_squared < safe_distance_squared
+
+
+
+    # revive the enemy by restoring its original state
+    def respawn(self):
+        # restore initial position
+        self.x = self.x1 = self.original_data[3] * self._tile_size
+        self.y = self.y1 = self.original_data[4] * self._tile_size
+        self.x2 = self.original_data[5] * self._tile_size
+        self.y2 = self.original_data[6] * self._tile_size
+
+        # restore health
+        self.health = self.max_health
+        self.is_dead = False
+        self.death_time = 0
+
+        # restore velocity and state
+        self.vx = 0
+        self.vy = 0
+        self.is_active = False
+        self.is_paused = False
+        self.pause_timer = 0
+        self.target_x = 0
+        self.target_y = 0
+        self.moving_to_target = False
+
+        # restart animation
+        self.frame_index = 0
+        self.animation_timer = 0
+
+        # determine initial direction based on movement type
+        if self.movement == enums.EM_HORIZONTAL:
+            self.vx = 1 if self.x2 > self.x1 else -1
+        elif self.movement == enums.EM_VERTICAL:
+            self.vy = 1 if self.y2 > self.y1 else -1
+        elif self.movement == enums.EM_RANDOM:
+            self._set_random_direction()
+
+        # update rect
+        self.rect.x = self.x
+        self.rect.y = self.y
 
 
 
