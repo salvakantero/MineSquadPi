@@ -8,12 +8,10 @@ EN PROCESO
 - FX de tile bloqueante
 - FX de mensaje
 - FX de enemigo tocado
-
+- FX de respawn de enemigos
 
 BUGS
 ====
-sonido para respawn de enemigos?
-nuevo blast nube de polvo para respawn de enemigos?
 
 
 POR HACER
