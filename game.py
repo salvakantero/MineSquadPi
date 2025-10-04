@@ -126,6 +126,8 @@ class Game():
         # sound effects
         self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
+        self.sfx_respawn = pygame.mixer.Sound(constants.FX_PATH + 'sfx_respawn.wav')
+        self.sfx_hit = pygame.mixer.Sound(constants.FX_PATH + 'sfx_hit.wav')
         self.sfx_blast = {
             0: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast0.wav'),
             1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
@@ -519,7 +521,9 @@ class Game():
                     random.choice(self._blast_sfx_tuple).play()
                     # mark as dead instead of permanently removing
                     enemy.mark_as_dead()
-                
+                else:
+                    self.sfx_hit.play()
+
                 # redraw the scoreboard
                 scoreboard.invalidate()
 
@@ -556,7 +560,7 @@ class Game():
                         blast = self.explosion_pool.get_explosion(respawn_center, self.blast_images[2])
                         self.sprite_groups[enums.SG_BLASTS].add(blast)
                         # play a respawn sound effect
-                        self.sfx_hotspot[enums.HS_SHIELD].play()
+                        self.sfx_respawn.play()
                         # respawn the enemy
                         enemy.respawn()
 

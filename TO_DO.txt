@@ -4,19 +4,16 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- respawn de enemigos
-- FX de tile bloqueante
-- FX de mensaje
-- FX de enemigo tocado
-- FX de respawn de enemigos
+- gráficos de tiles stage 1
+
 
 BUGS
 ====
+- sonido de respawn y efecto blast solo dentro de cámara
 
 
 POR HACER
 =========
-- gráficos de tiles stage 1
 - gráficos de tiles stage 2
 - gráficos de enemigos stage 2
 - gráficos de tiles stage 3
@@ -27,6 +24,7 @@ POR HACER
 
 HECHO
 =====
+02/10/25 - respawn de enemigos
 01/10/25 - gráficos de enemigos stage 1
 14/09/25 - gráficos de PIPER
 09/09/25 - selección de dificultad al comenzar la partida
