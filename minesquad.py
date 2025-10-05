@@ -55,7 +55,7 @@ menu = Menu(game)
 # playlist with the X available tracks
 jukebox = Jukebox(constants.MUS_PATH, 'mus_ingame_', 10)
 
-#intro.play() # display the intro sequence
+intro.play() # display the intro sequence
 
 # Main loop
 while True:

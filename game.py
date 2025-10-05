@@ -415,7 +415,8 @@ class Game():
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(self._blast_sfx_tuple).play()
                 player.invincible = False
-                player.loses_energy(20, play_sound=False) # game over
+                player.loses_energy(7, play_sound=False)
+                self.remaining_mines -= 1
                 self.loss_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
                 return
@@ -430,7 +431,7 @@ class Game():
                 alive_enemies = [e for e in self.sprite_groups[enums.SG_ENEMIES] if not e.is_dead]
                 for enemy in alive_enemies:
                     if pygame.sprite.collide_rect_ratio(0.60)(player, enemy):
-                        player.loses_energy(1)
+                        player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     
            

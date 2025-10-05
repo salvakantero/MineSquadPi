@@ -139,7 +139,7 @@ ENEMIES_DATA = [
     #           2) SNAKE 
     #           3) SOLDIER1
     # 0
-    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 6, 35, 10, 35),
+    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
     (0, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
     (0, enums.EN_SOLDIER1, enums.EM_CHASER, 5, 5, 0, 0),

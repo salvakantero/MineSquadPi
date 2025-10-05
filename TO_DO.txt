@@ -4,13 +4,13 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- mapeado stage 1
 - gráficos de tiles stage 1
 
 
 BUGS
 ====
 - sonido de respawn y efecto blast solo dentro de cámara
-- inmunidad no parece funcionar en enemigos lineales
 
 
 POR HACER
@@ -19,7 +19,8 @@ POR HACER
 - gráficos de enemigos stage 2
 - gráficos de tiles stage 3
 - gráficos de enemigos stage 3
-- mapeado definitivo
+- mapeado stage 2
+- mapeado stage 3
 - secuencia WIN
 
 
