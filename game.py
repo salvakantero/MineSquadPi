@@ -76,17 +76,41 @@ class Game():
         # The following image lists are created here, not in their corresponding classes, 
         # to avoid loading from disk during gameplay.
         self.beacon_image = self._load_image(constants.SPR_PATH + 'beacon.png')
+
+        # enemies
+        enem_path = constants.SPR_PATH + 'enemies/'
         self.enemy_images = {
-            # animation sequence of the enemies depending on their type
+            # stage 1
             enums.EN_SCORPION: [
-                self._load_image(constants.SPR_PATH + 'scorpion_0.png'),
-                self._load_image(constants.SPR_PATH + 'scorpion_1.png')],
+                self._load_image(enem_path + 'scorpion_0.png'),
+                self._load_image(enem_path + 'scorpion_1.png')],
             enums.EN_SNAKE: [
-                self._load_image(constants.SPR_PATH + 'snake_0.png'),
-                self._load_image(constants.SPR_PATH + 'snake_1.png')],
+                self._load_image(enem_path + 'snake_0.png'),
+                self._load_image(enem_path + 'snake_1.png')],
+            enums.EN_SOLDIER0: [
+                self._load_image(enem_path + 'soldier0_0.png'),
+                self._load_image(enem_path + 'soldier0_1.png')],
+            # stage 2
+            enums.EN_PROJECTILE: [
+                self._load_image(enem_path + 'projectile_0.png'),
+                self._load_image(enem_path + 'projectile_1.png')],
+            enums.EN_CRAB: [
+                self._load_image(enem_path + 'crab_0.png'),
+                self._load_image(enem_path + 'crab_1.png')],
             enums.EN_SOLDIER1: [
-                self._load_image(constants.SPR_PATH + 'soldier1_0.png'),
-                self._load_image(constants.SPR_PATH + 'soldier1_1.png')]}
+                self._load_image(enem_path + 'soldier1_0.png'),
+                self._load_image(enem_path + 'soldier1_1.png')],
+            # stage 3
+            enums.EN_SKIER: [
+                self._load_image(enem_path + 'skier_0.png'),
+                self._load_image(enem_path + 'skier_1.png')],
+            enums.EN_BOAR: [
+                self._load_image(enem_path + 'boar_0.png'),
+                self._load_image(enem_path + 'boar_1.png')],
+            enums.EN_SOLDIER2: [
+                self._load_image(enem_path + 'soldier2_0.png'),
+                self._load_image(enem_path + 'soldier2_1.png')]                               
+        }
         self.hotspot_images = {
             enums.HS_LIFE: self._load_image(constants.SPR_PATH + 'hotspot0.png'),
             enums.HS_SHIELD: self._load_image(constants.SPR_PATH + 'hotspot1.png'),
@@ -180,7 +204,7 @@ class Game():
         self._enemy_scores = {
             enums.EN_SCORPION: ('+25', 25),
             enums.EN_SNAKE: ('+50', 50), 
-            enums.EN_SOLDIER1: ('+75', 75)
+            enums.EN_SOLDIER0: ('+75', 75)
         }
         
 

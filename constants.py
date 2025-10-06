@@ -53,10 +53,10 @@ PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
 RANDOM_ENEMY_PAUSE_DURATION = 30 # duration of pause in frames
 CHASER_ENEMY_PAUSE_DURATION = 60 # duration of pause in frames
 CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away
-ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (15 seconds)
+ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (10 seconds)
 ENEMY_RESPAWN_SAFE_DISTANCE = 5  # minimum distance in tiles between player and enemy respawn position
-# SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, HABALI, SOLDIER3
-ENEMY_LIFE = 1, 1, 2, 2, 3, 3, 4, 3, 4
+# SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
+ENEMY_LIFE = 1, 1, 2, 2, 3, 3, 2, 3, 4
 # paths
 FX_PATH = 'sounds/fx/'
 MUS_PATH = 'sounds/music/'
@@ -142,7 +142,7 @@ ENEMIES_DATA = [
     (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
     (0, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
-    (0, enums.EN_SOLDIER1, enums.EM_CHASER, 5, 5, 0, 0),
+    (0, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
     # 1
     (192, 112, 32, 112, -2, 0, 1),
     (208, 16, 144, 64, -.5, .5, 2),
