@@ -79,8 +79,8 @@ class Map():
         # clear explosion pool for new map
         self.game.explosion_pool.clear()
         # player in its starting position
-        player.rect = player.image.get_rect(
-            topleft = (constants.PLAYER_X_INI, constants.PLAYER_Y_INI))
+        player.x, player.y = constants.PLAYER_X_INI, constants.PLAYER_Y_INI
+        player.target_x, player.target_y = player.x, player.y
         # marks the initial tile
         self.mark_tile(int(constants.PLAYER_X_INI // constants.TILE_SIZE), 
                        int(constants.PLAYER_Y_INI // constants.TILE_SIZE))

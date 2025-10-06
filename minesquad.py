@@ -102,6 +102,10 @@ while True:
                     player.fire()
                 elif event.key in (game.config.beacon_key, game.config.beacon_key2):
                     player.place_beacon()
+                # change the map for testing purposes ###########################################
+                elif event.key == pygame.K_x:
+                    map.number += 1
+                #################################################################################
             # mouse clicks
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:  # 1 = left click (fire)

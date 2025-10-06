@@ -144,12 +144,15 @@ ENEMIES_DATA = [
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
     (0, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
     # 1
-    (192, 112, 32, 112, -2, 0, 1),
-    (208, 16, 144, 64, -.5, .5, 2),
-    (80, 64, 80, 16, 0, -1, 3),
+    (1, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
+    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
     # 2
-    (112, 144, 112, 32, 0, -1, 4),
-    (208, 112, 16, 80, -1, -1, 2),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
+    (2, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
+    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
 
     #-----------STAGE 2-------------
     #
@@ -171,7 +174,7 @@ ENEMIES_DATA = [
     #-----------LEVEL 3-------------
     #
     # types:    7) SKIER
-    #           8) HABALI
+    #           8) BOAR
     #           9) SOLDIER3
     # 6
     (80, 128, 112, 128, 0, 0, 5),
