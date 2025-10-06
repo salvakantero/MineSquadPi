@@ -10,7 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- blast de enemigos demasiado gris
 
 
 POR HACER
