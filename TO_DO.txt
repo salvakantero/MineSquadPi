@@ -10,7 +10,7 @@ EN PROCESO
 
 BUGS
 ====
-- sonido de respawn y efecto blast solo dentro de cámara
+- blast de enemigos demasiado gris
 
 
 POR HACER

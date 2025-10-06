@@ -546,7 +546,7 @@ class Game():
 
 
     # check and respawn dead enemies after delay
-    def check_enemy_respawn(self):
+    def check_enemy_respawn(self, camera):
         current_time = pygame.time.get_ticks()
         for enemy in self.sprite_groups[enums.SG_ENEMIES]:
             if enemy.is_dead:
@@ -554,14 +554,16 @@ class Game():
                 if current_time - enemy.death_time >= enemy.respawn_delay:
                     # only respawn if player is not too close
                     if not enemy.is_player_near_respawn():
-                        # create magic halo effect at respawn position
-                        spawn_x = enemy.original_data[3] * constants.TILE_SIZE
-                        spawn_y = enemy.original_data[4] * constants.TILE_SIZE
-                        respawn_center = (spawn_x + constants.HALF_TILE_SIZE, spawn_y + constants.HALF_TILE_SIZE)
-                        blast = self.explosion_pool.get_explosion(respawn_center, self.blast_images[2])
-                        self.sprite_groups[enums.SG_BLASTS].add(blast)
-                        # play a respawn sound effect
-                        self.sfx_respawn.play()
+                        # only show blast and play FX if the spawn is visible on screen
+                        if enemy._is_visible(camera):
+                            # create magic halo effect at respawn position
+                            spawn_x = enemy.original_data[3] * constants.TILE_SIZE
+                            spawn_y = enemy.original_data[4] * constants.TILE_SIZE
+                            respawn_center = (spawn_x + constants.HALF_TILE_SIZE, spawn_y + constants.HALF_TILE_SIZE)
+                            blast = self.explosion_pool.get_explosion(respawn_center, self.blast_images[2])
+                            self.sprite_groups[enums.SG_BLASTS].add(blast)
+                            self.sfx_respawn.play()
+
                         # respawn the enemy
                         enemy.respawn()
 
