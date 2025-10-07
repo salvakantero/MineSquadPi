@@ -140,19 +140,27 @@ ENEMIES_DATA = [
     #           3) SOLDIER1
     # 0
     (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 13, 36),
-    (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 34),
-    (0, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
-    (0, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
+    (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
+    (0, enums.EN_SNAKE, enums.EM_RANDOM, 26, 16, 0, 0),
+    (0, enums.EN_SOLDIER0, enums.EM_CHASER, 10, 5, 0, 0),
     # 1
-    (1, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
-    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
-    (1, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
-    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 9, 1, 9, 38),
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 21, 38, 21, 1),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 22, 36, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 23, 22, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 14, 3, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 5, 20, 0, 0),
+    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 12, 0, 0),
+    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 25, 0, 0),
     # 2
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
-    (2, enums.EN_SCORPION, enums.EM_VERTICAL, 20, 35, 20, 10),
-    (2, enums.EN_SNAKE, enums.EM_RANDOM, 25, 5, 0, 0),
-    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 5, 5, 0, 0),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 12, 36),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 1, 29, 8, 29),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 19, 18, 28, 18),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 4, 9, 9, 9),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 20, 32, 0, 0),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 22, 5, 0, 0),
+    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 24, 18, 0, 0),
+    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 12, 4, 0, 0),
 
     #-----------STAGE 2-------------
     #
@@ -190,10 +198,15 @@ ENEMIES_DATA = [
 
 # hotspot data
 HOTSPOT_DATA = [
-    # Type              Map
-    [enums.HS_SHIELD,   0],
-    [enums.HS_LIFE,     0],
-    [enums.HS_AMMO,     0]]
+    # Type            Map
+    [enums.HS_LIFE,   0],
+    [enums.HS_AMMO,   0],
+    [enums.HS_SHIELD, 0],
+    [enums.HS_SHIELD, 1],
+    [enums.HS_SHIELD, 1],
+    [enums.HS_AMMO,   1],
+    [enums.HS_LIFE,   2],
+    [enums.HS_SHIELD, 2],]
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [
