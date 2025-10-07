@@ -156,14 +156,13 @@ class Player(pygame.sprite.Sprite):
             if self.map.map_data['tile_types'][y][x] != enums.TT_OBSTACLE and \
                self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
                 # if there is a mine in the marked tile
-                if self.map.map_data['mines_info'][y][x] == enums.MI_MINE:
+                if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
                     self.game.remaining_mines -= 1                    
                     self.game.score += 125
                     self.game.floating_text.show('+125', 
                         x * self._tile_size, y * self._tile_size)
-                    # if there is a mine on the tile, remove it                       
-                    if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
-                        self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
+                    # clear the mine from the map                    
+                    self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
                 # place the beacon
                 self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
                 self.sfx_beacon.play()

@@ -61,7 +61,6 @@ class Menu():
             surface.set_colorkey(constants.PALETTE['BLACK0'])
             self.menu_pages.append(surface)   
         self.page_0()
-        self.page_1()
         self.page_2()
         self.page_3()
         self.page_4()
@@ -84,6 +83,7 @@ class Menu():
 
 
     def page_1(self): # high scores
+        self.menu_pages[1].fill(constants.PALETTE['BLACK0']) # black background
         # header
         x, y = 85, 32
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN],
@@ -197,7 +197,6 @@ class Menu():
 
 
     def page_7(self):  # player selection
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         # title
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_BROWN], 
@@ -221,7 +220,6 @@ class Menu():
 
 
     def page_8(self):  # difficulty selection
-        fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]
         # title
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_BROWN], 
                         'Select Difficulty', self.menu_pages[8], 68, 1, 1)
@@ -407,7 +405,8 @@ class Menu():
         menu_page = 0 # page displayed (0 to 5 automatically. 6 = config page)
         page_timer = 0 # number of loops the page remains on screen (up to 500)
         y = -(constants.MENU_UNSCALED_SIZE[1]) # for vertical scrolling of pages
-
+        # refresh the high scores page
+        self.page_1()
         # clears the input buffer (keyboard and joystick)
         self.game.clear_input_buffer()
 

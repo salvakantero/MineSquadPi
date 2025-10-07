@@ -10,9 +10,7 @@ EN PROCESO
 
 BUGS
 ====
-- no refresca la high scores hasta que no entro de nuevo en el juego
 - fx de respawn suena cuando quiere en enemigos CHASER
-- al poner beacon en mina explotada aun puntúa
 
 
 POR HACER
