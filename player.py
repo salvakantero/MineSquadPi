@@ -66,7 +66,8 @@ class Player(pygame.sprite.Sprite):
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
         self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
-        self.sfx_beacon.set_volume(0.7)
+        self.sfx_beacon.set_volume(0.6)
+        self.sfx_beacon_error = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon_error.wav')
         self.sfx_blocked = pygame.mixer.Sound(constants.FX_PATH + 'sfx_blocked.wav')
         self.sfx_blocked.set_volume(0.7)
         # objects and others
@@ -157,15 +158,17 @@ class Player(pygame.sprite.Sprite):
                self.map.map_data['mines_info'][y][x] != enums.MI_BEACON:
                 # if there is a mine in the marked tile
                 if self.map.map_data['tile_types'][y][x] == enums.TT_MINE:
+                    self.sfx_beacon.play()
                     self.game.remaining_mines -= 1                    
                     self.game.score += 125
                     self.game.floating_text.show('+125', 
                         x * self._tile_size, y * self._tile_size)
                     # clear the mine from the map                    
                     self.map.map_data['tile_types'][y][x] = enums.TT_NO_ACTION
+                else:
+                    self.sfx_beacon_error.play()
                 # place the beacon
                 self.map.map_data['mines_info'][y][x] = enums.MI_BEACON
-                self.sfx_beacon.play()
                 self.game.remaining_beacons -= 1
                 self.scoreboard.invalidate()
             else: # if there is a beacon on the tile                
