@@ -578,17 +578,26 @@ class Game():
                 if current_time - enemy.death_time >= enemy.respawn_delay:
                     # only respawn if player is not too close
                     if not enemy.is_player_near_respawn():
+                        # calculate respawn position once
+                        spawn_x = enemy.original_data[3] * constants.TILE_SIZE
+                        spawn_y = enemy.original_data[4] * constants.TILE_SIZE
+                        respawn_center = (spawn_x + constants.HALF_TILE_SIZE, spawn_y + constants.HALF_TILE_SIZE)
+
+                        # create a temporary rect at respawn position to check visibility
+                        temp_rect = pygame.Rect(spawn_x, spawn_y, enemy.rect.width, enemy.rect.height)
+                        is_spawn_visible = (
+                            temp_rect.right > camera.x and
+                            temp_rect.left < camera.x + constants.SCREEN_MAP_UNSCALED_SIZE[0] and
+                            temp_rect.bottom > camera.y and
+                            temp_rect.top < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
+
                         # only show blast and play FX if the spawn is visible on screen
-                        if enemy._is_visible(camera):
-                            # create magic halo effect at respawn position
-                            spawn_x = enemy.original_data[3] * constants.TILE_SIZE
-                            spawn_y = enemy.original_data[4] * constants.TILE_SIZE
-                            respawn_center = (spawn_x + constants.HALF_TILE_SIZE, spawn_y + constants.HALF_TILE_SIZE)
+                        if is_spawn_visible:
                             blast = self.explosion_pool.get_explosion(respawn_center, self.blast_images[2])
                             self.sprite_groups[enums.SG_BLASTS].add(blast)
                             self.sfx_respawn.play()
 
-                        # respawn the enemy
+                        # respawn the enemy (always, regardless of visibility)
                         enemy.respawn()
 
 
