@@ -126,27 +126,28 @@ class Game():
             enums.CT_JOYSTICK: self._load_image(constants.ASS_PATH + 'joypad.png'),
             enums.CT_COMMON: self._load_image(constants.ASS_PATH + 'common.png')
         }
+        blast_path = constants.SPR_PATH
         self.blast_images = {
             0: [ # explosion 1: enemies
-                pygame.image.load(constants.SPR_PATH + 'blast0.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast1.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast2.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast3.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
-                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
+                self._load_image(blast_path + 'blast0.png'),
+                self._load_image(blast_path + 'blast1.png'),
+                self._load_image(blast_path + 'blast2.png'),
+                self._load_image(blast_path + 'blast3.png'),
+                self._load_image(blast_path + 'blast4.png'),
+                self._load_image(blast_path + 'blast5.png'),
+                self._load_image(blast_path + 'blast6.png')],
             1: [ # explosion 2: mines
-                pygame.image.load(constants.SPR_PATH + 'blast7.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast8.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast9.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast10.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast4.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast5.png').convert_alpha(),                                 
-                pygame.image.load(constants.SPR_PATH + 'blast6.png').convert_alpha()],
+                self._load_image(blast_path + 'blast7.png'),
+                self._load_image(blast_path + 'blast8.png'),
+                self._load_image(blast_path + 'blast9.png'),
+                self._load_image(blast_path + 'blast10.png'),
+                self._load_image(blast_path + 'blast4.png'),
+                self._load_image(blast_path + 'blast5.png'),
+                self._load_image(blast_path + 'blast6.png')],
             2: [ # magic halo for hotspots
-                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast11.png').convert_alpha(),
-                pygame.image.load(constants.SPR_PATH + 'blast12.png').convert_alpha()]}        
+                self._load_image(blast_path + 'blast12.png'),
+                self._load_image(blast_path + 'blast11.png'),
+                self._load_image(blast_path + 'blast12.png')]}        
         # sound effects
         self.sfx_message = pygame.mixer.Sound(constants.FX_PATH + 'sfx_message.wav')
         self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
@@ -203,9 +204,12 @@ class Game():
         # pre-calculate enemy scores
         self._enemy_scores = {
             enums.EN_SCORPION: ('+25', 25),
-            enums.EN_SNAKE: ('+50', 50), 
+            enums.EN_SNAKE: ('+50', 50),
             enums.EN_SOLDIER0: ('+75', 75)
         }
+
+        # cache scanline values to avoid recalculation
+        self._scanline_cache = None
         
 
 
@@ -241,14 +245,16 @@ class Game():
 
 
 
-    # create a window or full-screen environment 
+    # create a window or full-screen environment
     def apply_display_settings(self):
         if self.config.data['screen_mode'] == enums.SM_4_3: # 4:3
             self._apply_screen_mode_4_3()
         elif self.config.data['screen_mode'] == enums.SM_16_9: # 16:9
             self._apply_screen_mode_16_9()
         else:
-            self._apply_windowed_mode()        
+            self._apply_windowed_mode()
+        # invalidate scanline cache after display change
+        self._scanline_cache = None        
 
 
 
@@ -273,12 +279,18 @@ class Game():
 
     # draw scanlines
     def apply_scanlines(self):
-        x = self.win_size[0]-self.h_margin-1
-        y = self.v_margin    
-        if self.config.data['screen_mode'] is not enums.SM_WINDOW: 
-            height = self.win_size[1]-self.v_margin
-        else: # windowed mode: fixed bottom margin of 26 pixels
-            height = self.win_size[1]-26
+        # use cached values if available
+        if self._scanline_cache is None:
+            x = self.win_size[0] - self.h_margin - 1
+            if self.config.data['screen_mode'] is not enums.SM_WINDOW:
+                height = self.win_size[1] - self.v_margin
+            else: # windowed mode: fixed bottom margin of 26 pixels
+                height = self.win_size[1] - 26
+            self._scanline_cache = (x, height)
+        else:
+            x, height = self._scanline_cache
+
+        y = self.v_margin
         while y < height:
             # every 3 lines draw an almost black line
             pygame.draw.line(self.screen, (10, 10, 10), (self.h_margin, y), (x, y))
@@ -425,7 +437,7 @@ class Game():
         # check bounds and get tile type
         if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
             0 <= tile_y < constants.MAP_TILE_SIZE[1]):            
-            tile_type = map_data['tile_types'][tile_y][tile_x]            
+            tile_type = map_data['tile_types'][tile_y][tile_x]
             if tile_type == enums.TT_MINE:
                 # eliminate the mine
                 map_data['tile_types'][tile_y][tile_x] = enums.TT_NO_ACTION
@@ -433,8 +445,9 @@ class Game():
                 self.shake = [10, 6]
                 self.shake_timer = 14
                 # create an explosion at tile center
-                blast_x = (tile_x * constants.TILE_SIZE) + constants.HALF_TILE_SIZE
-                blast_y = (tile_y * constants.TILE_SIZE) + constants.TILE_CENTER_OFFSET    
+                tile_size = constants.TILE_SIZE
+                blast_x = (tile_x * tile_size) + constants.HALF_TILE_SIZE
+                blast_y = (tile_y * tile_size) + constants.TILE_CENTER_OFFSET
                 blast = self.explosion_pool.get_explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(self._blast_sfx_tuple).play()

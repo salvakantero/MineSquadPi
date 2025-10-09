@@ -43,9 +43,9 @@ class Map():
         self.last = -1 # last map loaded
         self.map_data = {} # all the information needed to build the map
         self.tile_images = {} # dictionary for storing tile images
-        self._tiles_by_id = {}  # cache for quick ID searches        
+        self._tiles_by_id = {}  # cache for quick ID searches
         self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
-        self.stage_name2 = ("EGYPT, OCTOBER 1942", "NORMANDY, JUNE 1944", 
+        self.stage_name2 = ("EGYPT, OCTOBER 1942", "NORMANDY, JUNE 1944",
                             "ARDENNES FOREST, JANUARY 1945")
         # optimization cache for draw_mine_data
         self._player_tile_cache = (-1, -1)  # (tile_x, tile_y)
@@ -53,6 +53,9 @@ class Map():
         self._text_surfaces_cache = {}  # {(value, alpha): surface}
         self._tile_size = constants.TILE_SIZE
         self._half_tile_size = constants.HALF_TILE_SIZE
+        # pre-create fog surface (avoid creating one per tile per frame)
+        self._fog_surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE), pygame.SRCALPHA)
+        self._fog_surface.fill((0, 0, 0, 35))
 
 
 
@@ -127,11 +130,9 @@ class Map():
                         tile_image = self.tile_images[tile_data['image']]
                         self.game.srf_map.blit(tile_image, (screen_x, screen_y))
                         # 'fog of war'
-                        if (not self.map_data['marks'][y][x] 
+                        if (not self.map_data['marks'][y][x]
                             and self.map_data['tile_types'][y][x] in (enums.TT_NO_ACTION, enums.TT_MINE)):
-                            fog_surface = pygame.Surface((tile_size, tile_size), pygame.SRCALPHA)
-                            fog_surface.fill((0, 0, 0, 35))  # RGBA
-                            self.game.srf_map.blit(fog_surface, (screen_x, screen_y))
+                            self.game.srf_map.blit(self._fog_surface, (screen_x, screen_y))
 
 
 
@@ -237,7 +238,7 @@ class Map():
     # loads a map from the json file
     def _load(self):
         # reads the entire contents of the json
-        with open('maps/map{}.json'.format(self.number)) as json_data:
+        with open(f'maps/map{self.number}.json') as json_data:
             data_read = json.load(json_data)
         # the raw_data is a list of tiles in a 1D array
         raw_data = data_read['layers'][0]['data']

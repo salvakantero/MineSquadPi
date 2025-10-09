@@ -29,20 +29,31 @@ import random
 
 
 class Hotspot(pygame.sprite.Sprite):
+    # class constants
+    ANIMATION_TIMER_INIT = 2
+    MAX_Y_OFFSET = 5
+
+    # class variable shared by all instances (loaded once)
+    _shadow_image = None
+
     def __init__(self, type, image, tile_data):
         super().__init__()
         self.type = type # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
         self.y_offset = 0 # to animate the hotspot (up and down)
         self.going_up = True
-        self.animation_timer = 2 # timer to change position (frame counter)
+        self.animation_timer = self.ANIMATION_TIMER_INIT
         # image
         self.image = image
-        self.shadow_image = pygame.image.load(constants.SPR_PATH + 'hotspot_shadow.png').convert_alpha()
+        # load shadow once for all instances
+        if Hotspot._shadow_image is None:
+            Hotspot._shadow_image = pygame.image.load(constants.SPR_PATH + 'hotspot_shadow.png').convert_alpha()
+        self.shadow_image = Hotspot._shadow_image
         self.rect = self.image.get_rect()
         # random coordinates in tiles (have to be converted to pixels)
         self.tile_x, self.tile_y = self._generate_position(tile_data)
-        self.shadow_y = (self.tile_y * constants.TILE_SIZE) + 1 # shadow is always at the bottom of the tile
-        self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.tile_y * constants.TILE_SIZE)   
+        self.base_y = self.tile_y * constants.TILE_SIZE # pre-calculate base Y position
+        self.shadow_y = self.base_y + 1 # shadow is always at the bottom of the tile
+        self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.base_y)   
 
 
 
@@ -53,13 +64,17 @@ class Hotspot(pygame.sprite.Sprite):
         if self.animation_timer > 1: # time to change the offset
             self.animation_timer = 0
             if self.going_up:
-                if self.y_offset < 5: self.y_offset += 1
-                else: self.going_up = False
+                if self.y_offset < self.MAX_Y_OFFSET:
+                    self.y_offset += 1
+                else:
+                    self.going_up = False
             else: # going down
-                if self.y_offset > 0: self.y_offset -= 1                
-                else: self.going_up = True            
-        # apply the offset
-        self.rect.y = (self.tile_y * constants.TILE_SIZE) - self.y_offset
+                if self.y_offset > 0:
+                    self.y_offset -= 1
+                else:
+                    self.going_up = True
+        # apply the offset using pre-calculated base_y
+        self.rect.y = self.base_y - self.y_offset
         self.animation_timer += 1
 
 
@@ -79,20 +94,31 @@ class Hotspot(pygame.sprite.Sprite):
     ##### auxiliary functions #####
 
     def _generate_position(self, tile_data):
-        available_tiles = []        
+        # use random search instead of building full list (more efficient)
+        max_attempts = 100  # prevent infinite loop
+        rows = len(tile_data)
+        cols = len(tile_data[0]) if rows > 0 else 0
+
+        for _ in range(max_attempts):
+            row = random.randint(0, rows - 1)
+            col = random.randint(0, cols - 1)
+            # 0:no action, 1:obstacle, 2:mine, 3:killer
+            if tile_data[row][col] == 0:
+                return col, row
+
+        # fallback: build full list if random search fails
+        available_tiles = []
         for row_index, row in enumerate(tile_data):
             for col_index, tile in enumerate(row):
-                # 0:no action, 1:obstacle, 2:mine, 3:killer
-                if (tile == 0):
-                    available_tiles.append((row_index, col_index))        
-        # choose a random tile from the available ones
+                if tile == 0:
+                    available_tiles.append((row_index, col_index))
+
         if available_tiles:
             row, col = random.choice(available_tiles)
             return col, row
-        else:
-            # no available tiles, return a default position
-            # this should not happen
-            return -1, -1
+
+        # no available tiles, return a default position (should not happen)
+        return -1, -1
     
 
   

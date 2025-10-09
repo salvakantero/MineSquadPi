@@ -331,14 +331,17 @@ class Player(pygame.sprite.Sprite):
 
 
 
+    @staticmethod
+    def _apply_deadzone(value, threshold=0.1):
+        """Apply deadzone to joystick axis to eliminate drift"""
+        return value if abs(value) >= threshold else 0.0
+
     def _get_joystick_direction(self):
         if self.game.joystick is None:
             return None, pygame.math.Vector2(0, 0)
-        # dead zone for joystick movement
-        def delete_false_mov(valor):
-            return valor if abs(valor) >= 0.1 else 0.0
-        axis_x = delete_false_mov(self.game.joystick.get_axis(0))
-        axis_y = delete_false_mov(self.game.joystick.get_axis(1))
+        # apply dead zone for joystick movement
+        axis_x = self._apply_deadzone(self.game.joystick.get_axis(0))
+        axis_y = self._apply_deadzone(self.game.joystick.get_axis(1))
         # determine direction based on axis values
         if axis_y < -0.5:   return enums.DI_UP, pygame.math.Vector2(0, -1)
         elif axis_y > 0.5:  return enums.DI_DOWN, pygame.math.Vector2(0, 1)

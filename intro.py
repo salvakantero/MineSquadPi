@@ -27,40 +27,50 @@ import constants
 
 
 class Intro():
+    # class constants
+    INITIAL_WAIT = 500
+    LOGO_FADE_OPACITY = 45
+    LOGO_FADE_DELAY = 12
+    INTRO_FADE_DELAY = 60
+    PAUSE_DURATION = 1500
+    POLL_DELAY = 10
+
     def __init__(self, game):
         self.game = game
         self.srf_intro = game.srf_menu
-        # PlayOnRetro logo 
+        # cache frequently used color
+        self._black = constants.PALETTE['BLACK0']
+        # PlayOnRetro logo
         self.img_logo = pygame.image.load(constants.ASS_PATH + 'logo.png').convert()
         self.sfx_logo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_logo.wav')
         # MineSquad logo
-        self.img_intro = pygame.image.load(constants.ASS_PATH + 'intro.png').convert()       
+        self.img_intro = pygame.image.load(constants.ASS_PATH + 'intro.png').convert()
         # auxiliary surface for fading and flashing visual effects
         self.srf_aux = pygame.Surface(constants.MENU_UNSCALED_SIZE, pygame.SRCALPHA)
 
 
 
     def play(self):
-        if self._wait_with_skip(500): return True
+        if self._wait_with_skip(self.INITIAL_WAIT): return True
 
         # PlayOnRetro logo
         # fade in
-        self.srf_intro.fill(constants.PALETTE['BLACK0']) # black background
+        self.srf_intro.fill(self._black)
         self.srf_aux.blit(self.img_logo, (0, 0))
-        if self._fades_surface(self.srf_intro, self.srf_aux, 45, 12): return True
+        if self._fades_surface(self.srf_intro, self.srf_aux, self.LOGO_FADE_OPACITY, self.LOGO_FADE_DELAY): return True
         self.sfx_logo.play()
-        if self._wait_with_skip(1500): return True
+        if self._wait_with_skip(self.PAUSE_DURATION): return True
         # fade out
-        self.srf_aux.fill(constants.PALETTE['BLACK0']) # black background
-        if self._fades_surface(self.srf_intro, self.srf_aux, 45, 12): return True
+        self.srf_aux.fill(self._black)
+        if self._fades_surface(self.srf_intro, self.srf_aux, self.LOGO_FADE_OPACITY, self.LOGO_FADE_DELAY): return True
 
         # MineSquad logo
         # fade in
-        self.srf_intro.fill(constants.PALETTE['BLACK0'])
+        self.srf_intro.fill(self._black)
         self.srf_aux.blit(self.img_intro, (0, 0))
-        if self._fades_surface(self.srf_intro, self.srf_aux, 45, 60): return True
+        if self._fades_surface(self.srf_intro, self.srf_aux, self.LOGO_FADE_OPACITY, self.INTRO_FADE_DELAY): return True
         # pause for recreation. Waooouuu!
-        if self._wait_with_skip(1500): return True
+        if self._wait_with_skip(self.PAUSE_DURATION): return True
 
 
 
@@ -78,12 +88,12 @@ class Intro():
 
 
     # wait for a duration while checking for skip keys
-    def _wait_with_skip(self, milliseconds):        
+    def _wait_with_skip(self, milliseconds):
         start_time = pygame.time.get_ticks()
         while pygame.time.get_ticks() - start_time < milliseconds:
             # check for skip keys
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN: return True
                 elif event.type == pygame.QUIT: self.game.exit()
-            pygame.time.delay(10)  # reduce CPU usage
+            pygame.time.delay(self.POLL_DELAY)  # reduce CPU usage
         return False    

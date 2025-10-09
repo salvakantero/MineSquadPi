@@ -26,13 +26,14 @@ import pygame
 
 
 class Explosion(pygame.sprite.Sprite):
+    ANIMATION_SPEED = 0.12  # class constant for all explosions
+
     def __init__(self, pos=None, blast_animation=None):
         super().__init__()
         # initialize with default values for pooling
-        self.frame_index = 0 # frame number
-        self.animation_speed = 0.12 # frame dwell time
-        self.frames = blast_animation # image list
-        self.active = False # pool management flag
+        self.frame_index = 0
+        self.frames = None
+        self.active = False
         if pos is not None and blast_animation is not None:
             self.initialize(pos, blast_animation)
     
@@ -52,7 +53,7 @@ class Explosion(pygame.sprite.Sprite):
     def update(self):
         if not self.active:
             return
-        self.frame_index += self.animation_speed
+        self.frame_index += self.ANIMATION_SPEED
         if self.frame_index >= len(self.frames): # end of the animation
             self.active = False
             self.kill()  # remove from sprite group
@@ -97,19 +98,18 @@ class ExplosionPool:
     
 
     # update pool - move inactive explosions back to available pool
-    def update(self):        
-        inactive_explosions = []
-        for i, explosion in enumerate(self.active):
-            if not explosion.active:
-                inactive_explosions.append(i)        
-        # remove inactive explosions from active list and return to pool
-        for i in reversed(inactive_explosions):  # reverse order to maintain indices
-            explosion = self.active.pop(i)
-            # reset explosion for reuse
-            explosion.frame_index = 0
-            explosion.active = False
-            explosion.frames = None
-            self.available.append(explosion)
+    def update(self):
+        # move inactive explosions back to pool in single pass
+        still_active = []
+        for explosion in self.active:
+            if explosion.active:
+                still_active.append(explosion)
+            else:
+                # reset explosion for reuse
+                explosion.frame_index = 0
+                explosion.frames = None
+                self.available.append(explosion)
+        self.active = still_active
     
 
     
@@ -118,10 +118,7 @@ class ExplosionPool:
         for explosion in self.active:
             explosion.active = False
             explosion.kill()
-            explosion.frame_index = 0
-            explosion.frames = None
-            self.available.append(explosion)
-        self.active.clear()
+        self.update()  # reuse update logic to return to pool
     
     
 

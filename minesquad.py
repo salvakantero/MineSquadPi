@@ -38,7 +38,6 @@ from jukebox import Jukebox
 
 # cache constants for better performance
 MAX_LEVEL = 8
-LOSS_SEQUENCE_DURATION = 70
 
 
 # initialisation
@@ -120,9 +119,9 @@ while True:
             scoreboard.reset(map.number)
             scoreboard.invalidate()
             scoreboard.update(player)
-            game.message(map.stage_name1[map.stage], 
-                         map.stage_name2[map.stage] + 
-                         '. - LEVEL ' + str(map.number+1), True, False, False, True)
+            game.message(map.stage_name1[map.stage],
+                         f"{map.stage_name2[map.stage]}. - LEVEL {map.number + 1}",
+                         True, False, False, True)
             if not pygame.mixer.music.get_busy():
                 pygame.mixer.music.load(constants.MUS_PATH + 'mus_new_level.ogg')
                 pygame.mixer.music.set_volume(1)

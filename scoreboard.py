@@ -38,6 +38,12 @@ class Scoreboard():
         # background dark colour for each level: red, blue, green
         self.back_colour = ((100,10,10), (10,10,100), (10,100,10))
         self.stage_number = 0
+        # pre-create energy bar colors (avoid recreation in loop)
+        self._energy_bar_colors = (
+            [constants.PALETTE['RED1']] * 4 +
+            [constants.PALETTE['YELLOW1']] * 4 +
+            [constants.PALETTE['GREEN1']] * 6
+        )
 
 
 
@@ -59,14 +65,14 @@ class Scoreboard():
             y = 3
             self._clear_zone(x, 34)
             # show score
-            text = 'SC:' + str(self.game.score).rjust(6, '0')
+            text = f"SC:{self.game.score:06d}"
             self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
             self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
             # show high score
             y = 11
             hi = self.game.high_scores[0][2]
             score = hi if hi > self.game.score else self.game.score
-            text = 'HI:' + str(score).rjust(6, '0')
+            text = f"HI:{score:06d}"
             self.game.fonts[enums.S_B_BROWN].render(text, self.game.srf_sboard, (x+1, y+1)) # shadow
             self.game.fonts[enums.S_F_BROWN].render(text, self.game.srf_sboard, (x, y))
 
@@ -105,14 +111,10 @@ class Scoreboard():
 
         # draw as many units as the player has energy
         for i in range(bar_units):
-            # block colours: 4 reds, 4 yellows, 6 green
-            colors = [constants.PALETTE['RED1']] * 4 + \
-                    [constants.PALETTE['YELLOW1']] * 4 + \
-                    [constants.PALETTE['GREEN1']] * 6
-            # draws the bar units
+            # draws the bar units using pre-created color array
             rect_x = x + i * (bar_unit_width + bar_unit_spacing)
-            color = colors[i] if i < energy else constants.PALETTE['BLACK0']
-            pygame.draw.rect(self.game.srf_sboard, color, 
+            color = self._energy_bar_colors[i] if i < energy else constants.PALETTE['BLACK0']
+            pygame.draw.rect(self.game.srf_sboard, color,
                              (rect_x, y, bar_unit_width, bar_unit_height))
             
 
@@ -124,8 +126,7 @@ class Scoreboard():
 
 
     # draws a text with its shadow
-    def _shaded_text(self, data, x, y):       
-        self.game.fonts[enums.L_B_BLACK].render(
-            str(data).rjust(2, '0'), self.game.srf_sboard, (x, y))  # shadow
-        self.game.fonts[enums.L_F_WHITE].render(
-            str(data).rjust(2, '0'), self.game.srf_sboard, (x-2, y-2))
+    def _shaded_text(self, data, x, y):
+        text = str(data).rjust(2, '0')
+        self.game.fonts[enums.L_B_BLACK].render(text, self.game.srf_sboard, (x, y))  # shadow
+        self.game.fonts[enums.L_F_WHITE].render(text, self.game.srf_sboard, (x-2, y-2))

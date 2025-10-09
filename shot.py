@@ -27,11 +27,17 @@ import constants
 
 
 class Shot(pygame.sprite.Sprite):
+    # class variable - load bullet image once for all instances
+    _bullet_image = None
+
     def __init__(self, player_x, player_y, vector, srf_map):
         super().__init__()
         self.vector = vector # direction and speed
         self.surface = srf_map # map surface
-        self.image = pygame.image.load(constants.SPR_PATH + 'bullet.png').convert_alpha()
+        # load image only once for all shot instances
+        if Shot._bullet_image is None:
+            Shot._bullet_image = pygame.image.load(constants.SPR_PATH + 'bullet.png').convert_alpha()
+        self.image = Shot._bullet_image
         self.rect = self.image.get_rect()        
         # starting position        
         self.rect.x = player_x + (constants.HALF_TILE_SIZE // 2)
@@ -46,11 +52,9 @@ class Shot(pygame.sprite.Sprite):
     def update(self, camera):
         # moves the bullet according to the direction
         self.rect.move_ip(self.vector)
-        # removes the bullet if it has reached the limits of the screen
-        screen_x = self.rect.x - camera.x
-        screen_y = self.rect.y - camera.y
-        if (screen_x < 0 or screen_x > constants.SCREEN_MAP_UNSCALED_SIZE[0] or
-            screen_y < 0 or screen_y > constants.SCREEN_MAP_UNSCALED_SIZE[1]):
+        # removes the bullet if it has reached the limits of the map
+        if (self.rect.x < 0 or self.rect.x > constants.MAP_PIXEL_SIZE[0] or
+            self.rect.y < 0 or self.rect.y > constants.MAP_PIXEL_SIZE[1]):
             self.kill()
 
 

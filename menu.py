@@ -46,6 +46,10 @@ class Menu():
         self.sfx_menu_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
         self.sfx_menu_select = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_select.wav')
 
+        # pre-create fonts for marquee (avoid recreation on each show())
+        self._marquee_help_font = Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE2'], True)
+        self._marquee_credits_font = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GREEN0'], True)
+
         # page 0: menu options
         # page 1: high scores
         # page 2: Blaze info
@@ -295,13 +299,19 @@ class Menu():
         selected_difficulty = enums.DF_NORMAL  # balanced difficulty by default
         confirmed = False
         speed, strength = 4, 4
+        previous_difficulty = None  # track changes to avoid unnecessary redraws
 
-        self.game.clear_input_buffer()        
+        self.game.clear_input_buffer()
         while not confirmed:
             self.srf_menu.blit(self.img_menu, (0, 0))
-            self.menu_pages[8] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
-            self.menu_pages[8].set_colorkey(constants.PALETTE['BLACK0'])
-            self.page_8()  # redraw the base content            
+
+            # only recreate surface when difficulty changes
+            if previous_difficulty != selected_difficulty:
+                self.menu_pages[8] = pygame.Surface(constants.MENU_UNSCALED_SIZE)
+                self.menu_pages[8].set_colorkey(constants.PALETTE['BLACK0'])
+                self.page_8()  # redraw the base content
+                previous_difficulty = selected_difficulty
+
             self.srf_menu.blit(self.menu_pages[8], (0, 0))                        
             # draw selection boxes according to the chosen difficulty
             if selected_difficulty == enums.DF_EASY:
@@ -390,13 +400,13 @@ class Menu():
         if self.game.config.data['screen_mode'] == enums.SM_16_9: # 16:9
             self.game.set_background(-1) # no level number (menu screen)
 
-        # help text
+        # help text (using pre-created fonts)
         marquee_help = MarqueeText(
-            self.srf_menu, Font(constants.FNT_PATH + 'large_font.png', constants.PALETTE['ORANGE2'], True),
+            self.srf_menu, self._marquee_help_font,
             self.srf_menu.get_height() - 26, .8, constants.HELP, 2400)
-        # credit text     
+        # credit text (using pre-created fonts)
         marquee_credits = MarqueeText(
-            self.srf_menu, Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['GREEN0'], True),
+            self.srf_menu, self._marquee_credits_font,
             self.srf_menu.get_height() - 8, .5, constants.CREDITS, 3000)
     
         # some local variables are initialised

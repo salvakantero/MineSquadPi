@@ -28,15 +28,16 @@ from font import Font
 
 
 class FloatingText():
-    def __init__(self, surface): 
+    ACCELERATION = 0.03  # class constant for upward acceleration
+
+    def __init__(self, surface):
         self.font = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['WHITE2'], True)
-        self.font2 = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['BLACK1'], True) 
+        self.font2 = Font(constants.FNT_PATH + 'small_font.png', constants.PALETTE['BLACK1'], True)
         self.surface = surface
         self.text = ""
         self.x = 0
         self.y = 0
         self.speed = 0
-        self.acceleration = 0.03
         self.active = False
 
 
@@ -53,9 +54,9 @@ class FloatingText():
     # update the xy position (only if drawn inside the screen)
     def update(self, camera):
         if not self.active:
-            return            
+            return
         if self.y > camera.y:
-            self.speed += self.acceleration
+            self.speed += self.ACCELERATION
             self.y -= self.speed  # decreases Y, goes upwards
         else:
             self.active = False

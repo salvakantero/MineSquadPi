@@ -28,16 +28,20 @@ import pygame
 
 # creates a new font from an image path and a colour
 class Font():
+    FONT_ORDER = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
+        'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
+        'x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5',
+        '6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
+
     def __init__(self, path, colour, transparent):
         self.path = path
         self.colour = colour
         self.transparent = transparent # does not erase the background if True
         self.letters, self.letter_spacing, self.line_height = self._load_font_img()
-        self.font_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
-        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e',
-        'f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w',
-        'x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5',
-        '6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
+        # create lookup dictionaries for O(1) access (only for characters that exist in the font)
+        self.letter_dict = {char: self.letters[i] for i, char in enumerate(self.FONT_ORDER) if i < len(self.letters)}
+        self.spacing_dict = {char: self.letter_spacing[i] for i, char in enumerate(self.FONT_ORDER) if i < len(self.letter_spacing)}
         self.space_width = self.letter_spacing[0]
         self.base_spacing = 1
         self.line_spacing = 2
@@ -51,8 +55,8 @@ class Font():
         for char in text:
             if char not in ['\n', ' ']:
                 # draw the letter and add the width
-                surf.blit(self.letters[self.font_order.index(char)], (loc[0] + x_offset, loc[1] + y_offset))
-                x_offset += self.letter_spacing[self.font_order.index(char)] + self.base_spacing
+                surf.blit(self.letter_dict[char], (loc[0] + x_offset, loc[1] + y_offset))
+                x_offset += self.spacing_dict[char] + self.base_spacing
             elif char == ' ':
                 x_offset += self.space_width + self.base_spacing
             else: # line feed
@@ -98,7 +102,6 @@ class Font():
                 # saves the width of the letter
                 letter_spacing.append(x - last_x)
                 last_x = x + 1
-            x += 1
         if self.transparent:
             # erases the background colour of each letter in the array
             for letter in letters:

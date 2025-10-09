@@ -24,13 +24,15 @@
 
 class MarqueeText():
     def __init__(self, surface, font, y, speed, text, text_width):
-        self.surface = surface    
+        self.surface = surface
         self.font = font
-        self.x = surface.get_width() # to the far right
-        self.y = y  
-        self.speed = speed # in pixels
+        self._surface_width = surface.get_width()  # cache surface width
+        self.x = self._surface_width  # to the far right
+        self.y = y
+        self.speed = speed  # in pixels
         self.text = text
-        self.text_width = text_width # in pixels
+        self.text_width = text_width  # in pixels
+        self._reset_x = -text_width  # pre-calculate reset threshold
 
 
 
@@ -40,4 +42,5 @@ class MarqueeText():
         self.x -= self.speed
         self.font.render(self.text, self.surface, (self.x, self.y))
         # resets when a certain number of pixels are shifted
-        if self.x < -self.text_width: self.x = self.surface.get_width()
+        if self.x < self._reset_x:
+            self.x = self._surface_width
