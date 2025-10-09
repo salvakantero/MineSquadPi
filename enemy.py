@@ -101,10 +101,9 @@ class Enemy(pygame.sprite.Sprite):
         # exceeded the frame time?
         if self.animation_timer >= self.animation_speed:
             self.animation_timer = 0
-            # cycle through frames 
+            # cycle through frames
             self.frame_index = (self.frame_index + 1) % len(self.image_list)
-      
-        self.image = self.image_list[self.frame_index]
+            self.image = self.image_list[self.frame_index]
 
 
 
@@ -142,25 +141,19 @@ class Enemy(pygame.sprite.Sprite):
     ##### auxiliary functions #####
 
     # check whether a position is within the map boundaries and there are no obstacles.
-    def _is_position_valid(self, x, y):        
+    def _is_position_valid(self, x, y):
         # check map limits
-        if not (x >= 0 and y >= 0 and 
-                x + self.rect.width <= constants.MAP_PIXEL_SIZE[0] and 
-                y + self.rect.height <= constants.MAP_PIXEL_SIZE[1]):
+        if not (0 <= x <= constants.MAP_PIXEL_SIZE[0] - self.rect.width and
+                0 <= y <= constants.MAP_PIXEL_SIZE[1] - self.rect.height):
             return False
-                                  
-        # check for obstacles in the way
-        temp_rect = pygame.Rect(x, y, self.rect.width, self.rect.height)  
-        points_to_check = [
-            (temp_rect.left, temp_rect.top),
-            (temp_rect.right - 1, temp_rect.top), 
-            (temp_rect.left, temp_rect.bottom - 1),
-            (temp_rect.right - 1, temp_rect.bottom - 1)]        
-        for px, py in points_to_check:
-            tile_x = px // self._tile_size
-            tile_y = py // self._tile_size
-            if self.map.get_tile_type(tile_x, tile_y) == enums.TT_OBSTACLE:
-                return False                
+
+        # check corners for obstacles
+        tile_size = self._tile_size
+        rect_w = self.rect.width - 1
+        rect_h = self.rect.height - 1
+        for dx, dy in ((0, 0), (rect_w, 0), (0, rect_h), (rect_w, rect_h)):
+            if self.map.get_tile_type((x + dx) // tile_size, (y + dy) // tile_size) == enums.TT_OBSTACLE:
+                return False
         return True
 
 
@@ -211,19 +204,19 @@ class Enemy(pygame.sprite.Sprite):
         if self.player is None:
             return
 
-        # align to nearest tile using cached tile size
-        self.x = round(self.x / self._tile_size) * self._tile_size
-        self.y = round(self.y / self._tile_size) * self._tile_size
+        # align to nearest tile and calculate positions in one pass
+        tile_size = self._tile_size
+        self.x = round(self.x / tile_size) * tile_size
+        self.y = round(self.y / tile_size) * tile_size
 
-        # calculate distance in tiles using cached tile size
-        enemy_tile_x = self.x // self._tile_size
-        enemy_tile_y = self.y // self._tile_size
-        player_tile_x = self.player.centerx // self._tile_size
-        player_tile_y = self.player.centery // self._tile_size
+        enemy_tile_x = self.x // tile_size
+        enemy_tile_y = self.y // tile_size
+        player_tile_x = self.player.centerx // tile_size
+        player_tile_y = self.player.centery // tile_size
         dx = player_tile_x - enemy_tile_x
         dy = player_tile_y - enemy_tile_y
 
-        # determine target tile to move to using cached tile size
+        # determine target tile to move to
         target_x = self.x
         target_y = self.y
 
@@ -233,10 +226,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # check horizontal movement
         if dx != 0:
-            if dx > 0:
-                test_x = self.x + self._tile_size  # player is to the right
-            else:
-                test_x = self.x - self._tile_size  # player is to the left
+            test_x = self.x + (tile_size if dx > 0 else -tile_size)
             if self._is_position_valid(test_x, self.y):
                 target_x = test_x
             else:
@@ -244,10 +234,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # check vertical movement
         if dy != 0:
-            if dy > 0:
-                test_y = self.y + self._tile_size  # player is below
-            else:
-                test_y = self.y - self._tile_size  # player is above
+            test_y = self.y + (tile_size if dy > 0 else -tile_size)
             if self._is_position_valid(self.x, test_y):
                 target_y = test_y
             else:

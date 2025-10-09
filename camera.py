@@ -42,7 +42,5 @@ class Camera:
         # updates the camera position based on the player's position
         # the camera should be centered on the player
         # the camera cannot go beyond the map boundaries
-        target_x = player_x - self.half_map_width
-        target_y = player_y - self.half_map_height 
-        self.x = max(0, min(target_x, self.max_x))          
-        self.y = max(0, min(target_y, self.max_y))
+        self.x = max(0, min(player_x - self.half_map_width, self.max_x))
+        self.y = max(0, min(player_y - self.half_map_height, self.max_y))

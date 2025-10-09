@@ -218,24 +218,26 @@ END_LEVEL_MESSAGES = [
     ('Objective achieved!', 'Level completed successfully!')]
 
 # help for the main menu
-HELP = 'Press a menu option to continue or ESC to exit...     '
-HELP += 'Mark all the mines in each level with the available beacons '
-HELP += 'as quickly as possible to clear the way for your troops. '
-HELP += 'To do so, use the proximity information displayed on the screen. '
-HELP += 'Watch out! a horde of enemies is waiting to make things difficult for you... '
+HELP = (
+    'Press a menu option to continue or ESC to exit...     '
+    'Mark all the mines in each level with the available beacons '
+    'as quickly as possible to clear the way for your troops. '
+    'To do so, use the proximity information displayed on the screen. '
+    'Watch out! a horde of enemies is waiting to make things difficult for you... ')
 
 # credits for the main menu
-CREDITS  = 'Mine Squad Pi v1.0 (2025)     '
-CREDITS += 'PROGRAMMING: salvaKantero     '
-CREDITS += 'GRAPHICS: salvaKantero     '
-CREDITS += 'MENU MUSIC: SigmaMusicArt     '
-CREDITS += 'IN-GAME MUSIC: "Never Ceasing Militarism", "March", "National March of Quan and Raiku"'
-CREDITS += ', "Some militaristic tune" by Spring Spring     '
-CREDITS += '"The Tread of War", "Market on the Sea", "Cant Stop Winning" by Jonathan Shaw     '
-CREDITS += '"Thunderchild" by Otto Halmen     "RPG title" by HitCtrl     '
-CREDITS += '"Ashen" by TheMightyRager     "Battle" by Beau Buckley     "Game Over" by Umplix     '
-CREDITS += 'SOUND EFFECTS: Juhani Junkala     '
-CREDITS += 'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Clear Code YT channel, '
-CREDITS += 'Mark Vanstone, Ryan Lambie, Kenney...     '
-CREDITS += 'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi     '
-CREDITS += 'Thanks for playing!!'
+CREDITS = (
+    'Mine Squad Pi v1.0 (2025)     '
+    'PROGRAMMING: salvaKantero     '
+    'GRAPHICS: salvaKantero     '
+    'MENU MUSIC: SigmaMusicArt     '
+    'IN-GAME MUSIC: "Never Ceasing Militarism", "March", "National March of Quan and Raiku"'
+    ', "Some militaristic tune" by Spring Spring     '
+    '"The Tread of War", "Market on the Sea", "Cant Stop Winning" by Jonathan Shaw     '
+    '"Thunderchild" by Otto Halmen     "RPG title" by HitCtrl     '
+    '"Ashen" by TheMightyRager     "Battle" by Beau Buckley     "Game Over" by Umplix     '
+    'SOUND EFFECTS: Juhani Junkala     '
+    'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Clear Code YT channel, '
+    'Mark Vanstone, Ryan Lambie, Kenney...     '
+    'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi     '
+    'Thanks for playing!!')

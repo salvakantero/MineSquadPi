@@ -34,7 +34,7 @@ class Configuration():
     def __init__(self):
         self.OS = platform.system()
         self.filename = 'config.dat'
-        self.data = { 
+        self.data = {
             # default values
             'screen_mode' : 0, # 0 = window, 1 = 4:3, 2 = 16:9
             'scanlines' : True,
@@ -71,22 +71,16 @@ class Configuration():
 
     # assigns the keys corresponding to the selected layout
     def apply_controls(self):
-        if (self.data['control'] == enums.CT_CLASSIC or # cursors
-            self.data['control'] == enums.CT_JOYSTICK):
-            self.up_key = pygame.K_UP
-            self.down_key = pygame.K_DOWN
-            self.left_key = pygame.K_LEFT
-            self.right_key = pygame.K_RIGHT
-        elif self.data['control'] == enums.CT_GAMER: # W,S,A,D
-            self.up_key = pygame.K_w
-            self.down_key = pygame.K_s
-            self.left_key = pygame.K_a
-            self.right_key = pygame.K_d
-        elif self.data['control'] == enums.CT_RETRO: # Q,A,O,P
-            self.up_key = pygame.K_q
-            self.down_key = pygame.K_a
-            self.left_key = pygame.K_o
-            self.right_key = pygame.K_p
+        # control mappings: (up, down, left, right)
+        control_mappings = {
+            enums.CT_CLASSIC: (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT),
+            enums.CT_JOYSTICK: (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT),
+            enums.CT_GAMER: (pygame.K_w, pygame.K_s, pygame.K_a, pygame.K_d),
+            enums.CT_RETRO: (pygame.K_q, pygame.K_a, pygame.K_o, pygame.K_p)
+        }
+        keys = control_mappings.get(self.data['control'],
+                                     (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT))
+        self.up_key, self.down_key, self.left_key, self.right_key = keys
     
 
 

@@ -10,7 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- fx de respawn suena cuando quiere
 
 
 POR HACER
