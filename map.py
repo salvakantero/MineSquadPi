@@ -130,8 +130,9 @@ class Map():
                         tile_image = self.tile_images[tile_data['image']]
                         self.game.srf_map.blit(tile_image, (screen_x, screen_y))
                         # 'fog of war'
-                        if (not self.map_data['marks'][y][x]
-                            and self.map_data['tile_types'][y][x] in (enums.TT_NO_ACTION, enums.TT_MINE)):
+                        if (not self.map_data['marks'][y][x]):
+                            #and self.map_data['tile_types'][y][x] in (
+                            #    enums.TT_NO_ACTION, enums.TT_MINE, enums.TT_KILLER)):
                             self.game.srf_map.blit(self._fog_surface, (screen_x, screen_y))
 
 
