@@ -10,6 +10,8 @@ EN PROCESO
 
 BUGS
 ====
+- reducir arrays de datos de mapa?
+
 
 
 POR HACER
