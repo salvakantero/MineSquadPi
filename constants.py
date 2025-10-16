@@ -34,12 +34,14 @@ SBOARD_UNSCALED_SIZE = 240, 22 # scoreboard size (unscaled)
 TILE_SIZE = 16 # size of each tile in pixels (square, 16*16)
 HALF_TILE_SIZE = TILE_SIZE // 2 # half size of each tile in pixels
 TILE_CENTER_OFFSET = 4  # pre-calculated for blast positioning
-MAP_TILE_SIZE = 30, 40 # map size in tilesp
+MAP_TILE_SIZE = 30, 40 # map size in tiles (width, height)
 MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # map size in pixels
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
+
 NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
-NUM_BEACONS = 37, 40, 43, 46, 49, 52, 55, 58, 61 # number of flags/beacons per map
+NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
+
 # player
 TIME_REMAINING = 20000 # remaining shield time (approximately 20 seconds)
 MAX_AMMO = 20 # maximum number of bullets
@@ -49,14 +51,88 @@ ANIM_SPEED_WALK = 6 # loops between each frame change in walking state
 # XY starting position
 PLAYER_X_INI = int(MAP_TILE_SIZE[0] // 4) * TILE_SIZE
 PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
+
 # enemies
-RANDOM_ENEMY_PAUSE_DURATION = 30 # duration of pause in frames
-CHASER_ENEMY_PAUSE_DURATION = 60 # duration of pause in frames
+# Base pause durations (will decrease based on stage)
+def get_random_enemy_pause_duration(stage):
+    base_durations = [30, 25, 20]  # stage 1, 2, 3
+    return base_durations[min(stage, 2)]
+
+def get_chaser_enemy_pause_duration(stage):
+    base_durations = [60, 50, 40]  # stage 1, 2, 3
+    return base_durations[min(stage, 2)]
+
 CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away
 ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (10 seconds)
 ENEMY_RESPAWN_SAFE_DISTANCE = 5  # minimum distance in tiles between player and enemy respawn position
 # SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
 ENEMY_LIFE = 1, 1, 2, 2, 3, 3, 2, 3, 4
+
+# enemies per map (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
+ENEMIES_DATA = [
+    #-----------STAGE 1-------------
+    #
+    # types:    1) SCORPION 
+    #           2) SNAKE 
+    #           3) SOLDIER1
+    # 0
+    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 13, 36),
+    (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
+    (0, enums.EN_SNAKE, enums.EM_RANDOM, 26, 16, 0, 0),
+    (0, enums.EN_SNAKE, enums.EM_RANDOM, 10, 5, 0, 0),
+    # 1
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 9, 1, 9, 38),
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 21, 38, 21, 1),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 22, 36, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 23, 22, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 14, 3, 0, 0),
+    (1, enums.EN_SNAKE, enums.EM_RANDOM, 5, 20, 0, 0),
+    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 12, 0, 0),
+    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 25, 0, 0),
+    # 2
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 12, 36),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 1, 29, 8, 29),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 19, 18, 28, 18),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 4, 9, 9, 9),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 20, 32, 0, 0),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 22, 5, 0, 0),
+    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 24, 18, 0, 0),
+    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 12, 4, 0, 0),
+
+    #-----------STAGE 2-------------
+    #
+    # types:    4) CRAB
+    #           5) PROJECTILE
+    #           6) SOLDIER2
+    # 3
+    (32, 96, 32, 112, 0, 0, 5),
+    (192, 16, 128, 128, -1, 1, 2),
+    # 4
+    (176, 48, 64, 48, -.5, 0, 1),
+    (48, 128, 32, 16, -1, -1, 3),
+    (64, 48, 176, 48, 1, 0, 1),
+    # 5
+    (64, 16, 80, 128, 1, 1, 2),
+    (96, 32, 160, 32, 1, 0, 1),
+    (16, 96, 16, 16, 0, -1, 3),
+
+    #-----------LEVEL 3-------------
+    #
+    # types:    7) SKIER
+    #           8) BOAR
+    #           9) SOLDIER3
+    # 6
+    (80, 128, 112, 128, 0, 0, 5),
+    (112, 112, 144, 112, 1, 0, 2),
+    # 7
+    (192, 64, 32, 32, -1, -1, 2),
+    (48, 128, 224, 112, 1, -1, 2),
+    (16, 64, 32, 64, 0, 0, 5),
+    # 8
+    (160, 128, 160, 16, 0, -2, 3),
+    (112, 32, 112, 128, 0, 2, 3),
+    (64, 128, 16, 16, -2, -2, 2)]
+
 # paths
 FX_PATH = 'sounds/fx/'
 MUS_PATH = 'sounds/music/'
@@ -130,71 +206,6 @@ PALETTE = {
     'SAND0' : (205, 154, 120),
     'SAND1' : (255, 204, 170),
     'SAND2' : (250, 249, 215)}
-
-# enemies per map (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
-ENEMIES_DATA = [
-    #-----------STAGE 1-------------
-    #
-    # types:    1) SCORPION 
-    #           2) SNAKE 
-    #           3) SOLDIER1
-    # 0
-    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 13, 36),
-    (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
-    (0, enums.EN_SNAKE, enums.EM_RANDOM, 26, 16, 0, 0),
-    (0, enums.EN_SOLDIER0, enums.EM_CHASER, 10, 5, 0, 0),
-    # 1
-    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 9, 1, 9, 38),
-    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 21, 38, 21, 1),
-    (1, enums.EN_SNAKE, enums.EM_RANDOM, 22, 36, 0, 0),
-    (1, enums.EN_SNAKE, enums.EM_RANDOM, 23, 22, 0, 0),
-    (1, enums.EN_SNAKE, enums.EM_RANDOM, 14, 3, 0, 0),
-    (1, enums.EN_SNAKE, enums.EM_RANDOM, 5, 20, 0, 0),
-    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 12, 0, 0),
-    (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 25, 0, 0),
-    # 2
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 12, 36),
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 1, 29, 8, 29),
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 19, 18, 28, 18),
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 4, 9, 9, 9),
-    (2, enums.EN_SNAKE, enums.EM_RANDOM, 20, 32, 0, 0),
-    (2, enums.EN_SNAKE, enums.EM_RANDOM, 22, 5, 0, 0),
-    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 24, 18, 0, 0),
-    (2, enums.EN_SOLDIER0, enums.EM_CHASER, 12, 4, 0, 0),
-
-    #-----------STAGE 2-------------
-    #
-    # types:    4) CRAB
-    #           5) PROJECTILE
-    #           6) SOLDIER2
-    # 3
-    (32, 96, 32, 112, 0, 0, 5),
-    (192, 16, 128, 128, -1, 1, 2),
-    # 4
-    (176, 48, 64, 48, -.5, 0, 1),
-    (48, 128, 32, 16, -1, -1, 3),
-    (64, 48, 176, 48, 1, 0, 1),
-    # 5
-    (64, 16, 80, 128, 1, 1, 2),
-    (96, 32, 160, 32, 1, 0, 1),
-    (16, 96, 16, 16, 0, -1, 3),
-
-    #-----------LEVEL 3-------------
-    #
-    # types:    7) SKIER
-    #           8) BOAR
-    #           9) SOLDIER3
-    # 6
-    (80, 128, 112, 128, 0, 0, 5),
-    (112, 112, 144, 112, 1, 0, 2),
-    # 7
-    (192, 64, 32, 32, -1, -1, 2),
-    (48, 128, 224, 112, 1, -1, 2),
-    (16, 64, 32, 64, 0, 0, 5),
-    # 8
-    (160, 128, 160, 16, 0, -2, 3),
-    (112, 32, 112, 128, 0, 2, 3),
-    (64, 128, 16, 16, -2, -2, 2)]
 
 # hotspot data
 HOTSPOT_DATA = [

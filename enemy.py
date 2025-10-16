@@ -36,14 +36,17 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, enemy_data, player_rect, enemy_images, map):
         super().__init__()
         self.map = map # get_tile_type()
+        self.stage = map.stage # current stage (0, 1, 2)
         # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         # enemy type:
         # SCORPION, SNAKE, SOLDIER1
         # CRAB, PROJECTILE, SOLDIER2
         # SKIER, HABALI, SOLDIER3
         self.type = enemy_data[1]
+
         # movement type: HORIZONTAL, VERTICAL, RANDOM, CHASER
         self.movement = enemy_data[2]
+
         # health
         self.health = constants.ENEMY_LIFE[self.type]
         self.max_health = constants.ENEMY_LIFE[self.type]
@@ -57,6 +60,7 @@ class Enemy(pygame.sprite.Sprite):
         # cache frequently used values
         self._tile_size = constants.TILE_SIZE
         self._activation_range_squared = constants.CHASER_ACTIVATION_RANGE * constants.CHASER_ACTIVATION_RANGE
+        
         # from xy values
         self.x = self.x1 = enemy_data[3] * self._tile_size
         self.y = self.y1 = enemy_data[4] * self._tile_size
@@ -66,6 +70,7 @@ class Enemy(pygame.sprite.Sprite):
         # speed
         self.vx = 0
         self.vy = 0
+
         # RANDOM/CHASER auxiliar variables
         self.is_active = False # whether the enemy is active or not
         self.is_paused = False # if the enemy is paused
@@ -73,8 +78,10 @@ class Enemy(pygame.sprite.Sprite):
         self.target_x = 0 # target X position for current movement
         self.target_y = 0 # target Y position for current movement
         self.moving_to_target = False # if moving towards a target
-        # player's current position (some enemies look at the player)
+
+        # player's current position
         self.player = player_rect
+
         # images
         self.image_list = enemy_images
         self.frame_index = 0  # frame number
@@ -82,10 +89,9 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_speed = 18  # frame dwell time
         self.image = self.image_list[0]  # first frame
 
-
         self.rect = self.image.get_rect()
 
-        # determine initial direction (moved here so self.rect exists before validation)
+        # determine initial direction based on movement type
         if self.movement == enums.EM_HORIZONTAL:
             self.vx = 1 if self.x2 > self.x1 else -1
         elif self.movement == enums.EM_VERTICAL:
@@ -186,7 +192,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.player is None:
             return False
              
-        # calculate distance in tiles using cached values (optimized)
+        # calculate distance in tiles using cached values
         enemy_tile_x = (self.x + self.rect.width // 2) // self._tile_size
         enemy_tile_y = (self.y + self.rect.height // 2) // self._tile_size
         player_tile_x = self.player.centerx // self._tile_size
@@ -338,7 +344,7 @@ class Enemy(pygame.sprite.Sprite):
         if self.is_paused:
             self.pause_timer += 1
             self.vx = self.vy = 0
-            if self.pause_timer >= constants.RANDOM_ENEMY_PAUSE_DURATION:
+            if self.pause_timer >= constants.get_random_enemy_pause_duration(self.stage):
                 self.is_paused = False
                 self.pause_timer = 0
                 self._set_random_direction()
@@ -376,10 +382,10 @@ class Enemy(pygame.sprite.Sprite):
 
 
     # manages the pursuit movement with activation zone and pauses
-    def _update_chaser_movement(self):                
+    def _update_chaser_movement(self):
         # check if the player is in range
         player_in_range = self._is_player_in_range()
-        
+
         # handle activation/deactivation
         if player_in_range and not self.is_active:
             # player enters range - activate enemy
@@ -401,8 +407,8 @@ class Enemy(pygame.sprite.Sprite):
             # manage pauses and movement towards the player
             if self.is_paused:
                 self.pause_timer += 1
-                self.vx = self.vy = 0                
-                if self.pause_timer >= constants.CHASER_ENEMY_PAUSE_DURATION:
+                self.vx = self.vy = 0
+                if self.pause_timer >= constants.get_chaser_enemy_pause_duration(self.stage):
                     # end the pause and start moving towards the player
                     self.is_paused = False
                     self.pause_timer = 0
