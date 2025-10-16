@@ -36,7 +36,7 @@ class Hotspot(pygame.sprite.Sprite):
     # class variable shared by all instances (loaded once)
     _shadow_image = None
 
-    def __init__(self, type, image, tile_data):
+    def __init__(self, type, image, map_instance):
         super().__init__()
         self.type = type # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
         self.y_offset = 0 # to animate the hotspot (up and down)
@@ -50,7 +50,7 @@ class Hotspot(pygame.sprite.Sprite):
         self.shadow_image = Hotspot._shadow_image
         self.rect = self.image.get_rect()
         # random coordinates in tiles (have to be converted to pixels)
-        self.tile_x, self.tile_y = self._generate_position(tile_data)
+        self.tile_x, self.tile_y = self._generate_position(map_instance)
         self.base_y = self.tile_y * constants.TILE_SIZE # pre-calculate base Y position
         self.shadow_y = self.base_y + 1 # shadow is always at the bottom of the tile
         self.rect.topleft = (self.tile_x * constants.TILE_SIZE, self.base_y)   
@@ -93,24 +93,24 @@ class Hotspot(pygame.sprite.Sprite):
 
     ##### auxiliary functions #####
 
-    def _generate_position(self, tile_data):
+    def _generate_position(self, map_instance):
         # use random search instead of building full list (more efficient)
         max_attempts = 100  # prevent infinite loop
-        rows = len(tile_data)
-        cols = len(tile_data[0]) if rows > 0 else 0
+        rows = constants.MAP_TILE_SIZE[1]
+        cols = constants.MAP_TILE_SIZE[0]
 
         for _ in range(max_attempts):
             row = random.randint(0, rows - 1)
             col = random.randint(0, cols - 1)
             # 0:no action, 1:obstacle, 2:mine, 3:killer
-            if tile_data[row][col] == 0:
+            if map_instance.get_tile_type(col, row) == 0:
                 return col, row
 
         # fallback: build full list if random search fails
         available_tiles = []
-        for row_index, row in enumerate(tile_data):
-            for col_index, tile in enumerate(row):
-                if tile == 0:
+        for row_index in range(rows):
+            for col_index in range(cols):
+                if map_instance.get_tile_type(col_index, row_index) == 0:
                     available_tiles.append((row_index, col_index))
 
         if available_tiles:

@@ -20,7 +20,8 @@
       "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
       "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
       "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
-      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)"
+      "Read(/C:\\auxiliar\\proyectos\\MineSquad_Pi/**)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []

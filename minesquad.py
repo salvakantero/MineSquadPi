@@ -165,13 +165,13 @@ while True:
         for blast in blasts: blast.draw(map_surface, camera)
         game.floating_text.draw(camera)
 
-        # collision between player and enemies, mines or hotspots      
-        game.check_player_collisions(player, scoreboard, map.number, map.map_data)
+        # collision between player and enemies, mines or hotspots
+        game.check_player_collisions(player, scoreboard, map)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard)        
-        
+        game.check_bullet_collisions(player, scoreboard)
+
         # regenerate the hotspot to score (if needed)
-        game.regenerate_hotspot(map.map_data['tile_types'])
+        game.regenerate_hotspot(map)
 
         # check and respawn dead enemies
         game.check_enemy_respawn(camera)

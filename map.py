@@ -95,7 +95,7 @@ class Map():
         map_hotspots = [hotspot for hotspot in constants.HOTSPOT_DATA if hotspot[1] == self.number]
         for hotspot_data in map_hotspots:
             type = hotspot_data[0] # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
-            hotspot_sprite = Hotspot(type, self.game.hotspot_images[type], self.map_data['tile_types'])
+            hotspot_sprite = Hotspot(type, self.game.hotspot_images[type], self)
             self.game.sprite_groups[enums.SG_HOTSPOT].add(hotspot_sprite)
 
         # add enemies to the map reading from 'ENEMIES_DATA' list
@@ -137,11 +137,25 @@ class Map():
 
 
 
-    # gets the tile type at a specific tile position
+    # gets the tile type at a specific tile position (calculated dynamically)
     def get_tile_type(self, x, y):
-        if (0 <= x < constants.MAP_TILE_SIZE[0] and 
+        if (0 <= x < constants.MAP_TILE_SIZE[0] and
             0 <= y < constants.MAP_TILE_SIZE[1]):
-            return self.map_data['tile_types'][y][x]
+            # calculate tile type from tile ID and mines_info
+            tile_id = self.map_data['data'][y][x]
+            if tile_id in self._tiles_by_id:
+                tile = self._tiles_by_id[tile_id]
+                tile_num = self._get_tile_number(tile['image'])
+                # from T16.png to T35.png : tiles that block (OBSTACLE)
+                if 16 <= tile_num <= 35:
+                    return enums.TT_OBSTACLE
+                # from T70.png to T75.png : tiles that kill (KILLER)
+                elif 70 <= tile_num <= 75:
+                    return enums.TT_KILLER
+                # check if it's a mine
+                elif self.map_data['mines_info'][y][x] == enums.MI_MINE:
+                    return enums.TT_MINE
+            return enums.TT_NO_ACTION
         return enums.TT_OBSTACLE  # default to obstacle if out of bounds
 
 
@@ -266,30 +280,9 @@ class Map():
         # randomly places mines on the map (generates mines and proximity info)
         self.map_data['mines_info'] = self._generate_mines(self.map_data['data'])
         # tiles trodden by the player (marked as False by default)
-        self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0] 
+        self.map_data['marks'] = [[False] * constants.MAP_TILE_SIZE[0]
                                 for _ in range(constants.MAP_TILE_SIZE[1])]
-        self._generate_tile_types()
 
-
-
-    def _generate_tile_types(self):
-        height, width = constants.MAP_TILE_SIZE[1], constants.MAP_TILE_SIZE[0]
-        self.map_data['tile_types'] = [[enums.TT_NO_ACTION] * width for _ in range(height)]        
-        for y in range(height):
-            for x in range(width):
-                tile_id = self.map_data['data'][y][x]
-                if tile_id in self._tiles_by_id:
-                    tile = self._tiles_by_id[tile_id]
-                    tile_num = self._get_tile_number(tile['image'])                    
-                    # generates the behaviour of the current tile
-                    # from T16.png to T35.png : tiles that block (OBSTACLE)
-                    # from T70.png to T75.png : tiles that kill (KILLER)
-                    if 16 <= tile_num <= 35: tile_type = enums.TT_OBSTACLE
-                    elif 70 <= tile_num <= 75: tile_type = enums.TT_KILLER
-                    elif self.map_data['mines_info'][y][x] == enums.MI_MINE: 
-                        tile_type = enums.TT_MINE
-                    else: tile_type = enums.TT_NO_ACTION                    
-                    self.map_data['tile_types'][y][x] = tile_type
 
 
 

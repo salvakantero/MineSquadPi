@@ -429,18 +429,18 @@ class Game():
 
 
     # collisions between the player and mines, killer tiles, enemies and hotspots
-    def check_player_collisions(self, player, scoreboard, map_number, map_data):
+    def check_player_collisions(self, player, scoreboard, map_instance):
         # player and killer tiles or mines
         # convert player position to tile coordinates
         tile_x = int(player.x // constants.TILE_SIZE)
-        tile_y = int(player.y // constants.TILE_SIZE)    
+        tile_y = int(player.y // constants.TILE_SIZE)
         # check bounds and get tile type
-        if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and 
-            0 <= tile_y < constants.MAP_TILE_SIZE[1]):            
-            tile_type = map_data['tile_types'][tile_y][tile_x]
+        if (0 <= tile_x < constants.MAP_TILE_SIZE[0] and
+            0 <= tile_y < constants.MAP_TILE_SIZE[1]):
+            tile_type = map_instance.get_tile_type(tile_x, tile_y)
             if tile_type == enums.TT_MINE:
-                # eliminate the mine
-                map_data['tile_types'][tile_y][tile_x] = enums.TT_NO_ACTION
+                # eliminate the mine by setting it to free (this changes get_tile_type result)
+                map_instance.map_data['mines_info'][tile_y][tile_x] = enums.MI_FREE
                 # shake the map
                 self.shake = [10, 6]
                 self.shake_timer = 14
@@ -568,7 +568,7 @@ class Game():
 
 
     # regenerate the hotspot to score (if needed)
-    def regenerate_hotspot(self, tile_types):
+    def regenerate_hotspot(self, map_instance):
         has_score_hotspot = any(
             hotspot.type >= enums.HS_CANDY
                 for hotspot in self.sprite_groups[enums.SG_HOTSPOT])
@@ -577,7 +577,7 @@ class Game():
             weights = [40, 30, 20, 10]  # CANDY(40%), APPLE(30%), CHOCO(20%), COIN(10%)
             type = random.choices([enums.HS_CANDY, enums.HS_APPLE, enums.HS_CHOCO, enums.HS_COIN],
                                   weights=weights)[0]
-            new_hotspot = Hotspot(type, self.hotspot_images[type], tile_types)
+            new_hotspot = Hotspot(type, self.hotspot_images[type], map_instance)
             self.sprite_groups[enums.SG_HOTSPOT].add(new_hotspot)
 
 
