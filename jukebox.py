@@ -27,17 +27,13 @@ import random
 
 
 class Jukebox():
-    # class constants
-    DEFAULT_VOLUME = 0.5
-    FILE_EXTENSION = '.ogg'
+    FILE_EXTENSION = '.ogg' # audio file extension
 
-    def __init__(self, path, base_filename, tracks, volume=DEFAULT_VOLUME):
+    def __init__(self, path, base_filename, tracks):
         self.track_list = list(range(0, tracks)) # sorted playlist
         self.track_index = 0 # current theme song number
         self.path = path # path to the folder with the music tracks
         self.base_filename = base_filename # common name of the files
-        # set volume once
-        pygame.mixer.music.set_volume(volume)
 
 
 
@@ -52,6 +48,7 @@ class Jukebox():
         if not pygame.mixer.music.get_busy(): # if a track is not playing...
             self._load_next() # load in memory the following track
             pygame.mixer.music.play()
+            pygame.mixer.music.set_volume(0.5)
      
 
 
