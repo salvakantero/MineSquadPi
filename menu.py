@@ -63,7 +63,8 @@ class Menu():
         for _ in range(0, 9):
             surface = pygame.Surface(constants.MENU_UNSCALED_SIZE)
             surface.set_colorkey(constants.PALETTE['BLACK0'])
-            self.menu_pages.append(surface)   
+            self.menu_pages.append(surface)  
+        # preload static pages 
         self.page_0()
         self.page_2()
         self.page_3()

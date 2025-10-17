@@ -196,9 +196,9 @@ class Player(pygame.sprite.Sprite):
     # moves the player in the specified axis
     def move(self, axis):
         if self.is_moving_to_target:
-            return  # Ya está en movimiento, esperar a completar
+            return  # already in progress, waiting to complete
         
-        # Calcular nueva posición objetivo using cached tile size
+        # calculate new target position using cached tile size
         if axis == enums.CA_HORIZONTAL:
             new_target_x = self.target_x + (self._tile_size if self.direction.x > 0 else -self._tile_size)
             temp_rect = pygame.Rect(new_target_x, self.target_y, self._tile_size, self._tile_size)
@@ -214,7 +214,7 @@ class Player(pygame.sprite.Sprite):
             new_target_y = self.target_y + (self._tile_size if self.direction.y > 0 else -self._tile_size)
             temp_rect = pygame.Rect(self.target_x, new_target_y, self._tile_size, self._tile_size)
             
-            # Verificar límites del mapa using cached map height
+            # verify map boundaries using cached map height
             if (temp_rect.top < 0 or temp_rect.bottom > self._map_height_pixels):
                 return
                 
@@ -331,10 +331,12 @@ class Player(pygame.sprite.Sprite):
 
 
 
+    #apply deadzone to joystick axis to eliminate drift
     @staticmethod
-    def _apply_deadzone(value, threshold=0.1):
-        """Apply deadzone to joystick axis to eliminate drift"""
+    def _apply_deadzone(value, threshold=0.1):        
         return value if abs(value) >= threshold else 0.0
+
+
 
     def _get_joystick_direction(self):
         if self.game.joystick is None:
@@ -466,9 +468,9 @@ class Player(pygame.sprite.Sprite):
     # invincible effect (player blinks)
     def _handle_invincibility_effect(self):
         if self.invincible:
-            # Use elapsed time since invincibility began
+            # use elapsed time since invincibility began
             elapsed_time = pygame.time.get_ticks() - self.timer_from
-            # Blink every 133ms (equivalent to 8 frames at 60fps)
+            # blink every 133ms (equivalent to 8 frames at 60fps)
             if (elapsed_time // 133) & 1 == 0:
                 self.image.set_alpha(128)  # semi-transparent
             else: 

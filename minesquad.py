@@ -36,9 +36,9 @@ from menu import Menu
 from player import Player
 from jukebox import Jukebox
 
-# cache constants for better performance
-MAX_LEVEL = 8
 
+
+MAX_LEVEL = 8
 
 # initialisation
 pygame.init()
@@ -201,13 +201,12 @@ while True:
         if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
             if player.energy < 0: 
                 player.energy = 0
-            if game.loss_sequence == 0: # blast animation completed                           
+            if game.blast_sequence == 0: # blast animation completed                           
                 game.over()
                 game.update_high_score_table(game.score)
                 game.status = enums.GS_OVER
-                continue
-            # blast animation in progress
-            game.loss_sequence -= 1
+                continue            
+            game.blast_sequence -= 1 # blast animation in progress
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (228, 169))

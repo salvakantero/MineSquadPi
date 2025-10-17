@@ -72,7 +72,7 @@ class Map():
         self._load()
         # reset some vars
         self.game.floating_text.active = False
-        self.game.loss_sequence = 0
+        self.game.blast_sequence = 0
         # reset optimization caches
         self._player_tile_cache = (-1, -1)
         self._alpha_cache.clear()

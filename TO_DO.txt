@@ -22,6 +22,9 @@ POR HACER
 - mapeado stage 3
 - secuencia WIN
 
+- eliminar recuento de FPS
+- eliminar truco de saltar niveles
+
 
 HECHO
 =====

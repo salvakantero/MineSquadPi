@@ -69,7 +69,7 @@ class Intro():
         self.srf_intro.fill(self._black)
         self.srf_aux.blit(self.img_intro, (0, 0))
         if self._fades_surface(self.srf_intro, self.srf_aux, self.LOGO_FADE_OPACITY, self.INTRO_FADE_DELAY): return True
-        # pause for recreation. Waooouuu!
+        # pause for recreation
         if self._wait_with_skip(self.PAUSE_DURATION): return True
 
 

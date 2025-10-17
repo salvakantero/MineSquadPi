@@ -24,6 +24,7 @@
 
 import pygame
 import constants
+import enums
 import random
 
 
@@ -94,7 +95,6 @@ class Hotspot(pygame.sprite.Sprite):
     ##### auxiliary functions #####
 
     def _generate_position(self, map_instance):
-        # use random search instead of building full list (more efficient)
         max_attempts = 100  # prevent infinite loop
         rows = constants.MAP_TILE_SIZE[1]
         cols = constants.MAP_TILE_SIZE[0]
@@ -102,15 +102,14 @@ class Hotspot(pygame.sprite.Sprite):
         for _ in range(max_attempts):
             row = random.randint(0, rows - 1)
             col = random.randint(0, cols - 1)
-            # 0:no action, 1:obstacle, 2:mine, 3:killer
-            if map_instance.get_tile_type(col, row) == 0:
+            if map_instance.get_tile_type(col, row) == enums.TT_NO_ACTION:
                 return col, row
 
         # fallback: build full list if random search fails
         available_tiles = []
         for row_index in range(rows):
             for col_index in range(cols):
-                if map_instance.get_tile_type(col_index, row_index) == 0:
+                if map_instance.get_tile_type(col_index, row_index) == enums.TT_NO_ACTION:
                     available_tiles.append((row_index, col_index))
 
         if available_tiles:

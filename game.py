@@ -42,7 +42,7 @@ class Game():
         self.clock = pygame.time.Clock() # game clock for FPS and timers
         self.config = Configuration() # read the configuration file to apply the personal settings
         self.config.load()
-        self.loss_sequence = 0 # animated sequence on losing (if > 0)
+        self.blast_sequence = 0 # animated sequence upon explosion (if > 0)
         self.remaining_beacons = 0 # available beacons
         self.remaining_mines = 0 # mines left (to be deactivated)
         self.score = 0 # current game score
@@ -73,8 +73,7 @@ class Game():
         # change the resolution and display type according to the settings
         self.apply_display_settings()
 
-        # The following image lists are created here, not in their corresponding classes, 
-        # to avoid loading from disk during gameplay.
+        # load images and sound effects
         self.beacon_image = self._load_image(constants.SPR_PATH + 'beacon.png')
 
         # enemies
@@ -199,7 +198,7 @@ class Game():
         self.floating_text = FloatingText(self.srf_map)
         
         # create explosion pool
-        self.explosion_pool = ExplosionPool(pool_size=10)
+        self.explosion_pool = ExplosionPool(pool_size=8)
         
         # pre-calculate enemy scores
         self._enemy_scores = {
@@ -439,7 +438,7 @@ class Game():
             0 <= tile_y < constants.MAP_TILE_SIZE[1]):
             tile_type = map_instance.get_tile_type(tile_x, tile_y)
             if tile_type == enums.TT_MINE:
-                # eliminate the mine by setting it to free (this changes get_tile_type result)
+                # eliminate the mine by setting it to free
                 map_instance.map_data['mines_info'][tile_y][tile_x] = enums.MI_FREE
                 # shake the map
                 self.shake = [10, 6]
@@ -454,7 +453,7 @@ class Game():
                 player.invincible = False
                 player.loses_energy(7, play_sound=False)
                 self.remaining_mines -= 1
-                self.loss_sequence = 70 # allows to end the animation of the explosion
+                self.blast_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
                 return
             elif tile_type == enums.TT_KILLER:
@@ -477,7 +476,7 @@ class Game():
             player, self.sprite_groups[enums.SG_HOTSPOT], False, pygame.sprite.collide_rect_ratio(0.60))
 
         if collided_hotspots:
-            hotspot = collided_hotspots[0]  # Solo el primero, que será el único
+            hotspot = collided_hotspots[0]  # only the first one on the list, which will be the only one
 
             # shake the map (just a little)
             self.shake = [4, 4]
@@ -708,7 +707,7 @@ class Game():
         else: # default values
             today = str(date.today())
             for _ in range(8):
-                self.high_scores.append(['SALVAKANTERO', today, 0])
+                self.high_scores.append(['PLAYONRETRO', today, 0])
 
 
 
