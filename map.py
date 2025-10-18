@@ -180,7 +180,8 @@ class Map():
             for col_index, value in enumerate(row):
                 if (value > enums.MI_FREE and 
                     marks[row_index][col_index] and 
-                    tilemap[row_index][col_index] < 15):
+                    # if number of tile less than 7, is passable (json map file)
+                    tilemap[row_index][col_index] < 7):
                     
                     screen_x = (col_index * self._tile_size) - camera.x
                     screen_y = (row_index * self._tile_size) - camera.y
@@ -296,9 +297,9 @@ class Map():
         available_tiles = [] # list of tiles on which to lay mines
         for row_index, row in enumerate(tilemap):
             for col_index, tile in enumerate(row):
-                # if number of tile less than 15, is passable
+                # if number of tile less than 7, is passable (json map file)
                 # we will not use the two rows closest to the player.
-                if tile < 15 and row_index < len(tilemap) - 2:
+                if tile < 7 and row_index < len(tilemap) - 2:
                     available_tiles.append((row_index, col_index))
         # initial mine map with all its values at 0
         mine_data = [[enums.MI_FREE] * constants.MAP_TILE_SIZE[0] 
