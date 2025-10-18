@@ -55,178 +55,81 @@
         
         {
          "id":6,
-         "image":"..\/images\/tiles\/T6.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":7,
-         "image":"..\/images\/tiles\/T7.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":8,
-         "image":"..\/images\/tiles\/T8.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":9,
-         "image":"..\/images\/tiles\/T9.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":10,
-         "image":"..\/images\/tiles\/T10.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":11,
-         "image":"..\/images\/tiles\/T11.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":12,
-         "image":"..\/images\/tiles\/T12.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":62,
-         "image":"..\/images\/tiles\/T13.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":63,
-         "image":"..\/images\/tiles\/T14.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":16,
-         "image":"..\/images\/tiles\/T16.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":17,
-         "image":"..\/images\/tiles\/T17.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":18,
-         "image":"..\/images\/tiles\/T18.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":19,
-         "image":"..\/images\/tiles\/T19.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":20,
          "image":"..\/images\/tiles\/T20.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":21,
+         "id":7,
          "image":"..\/images\/tiles\/T21.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":22,
+         "id":8,
          "image":"..\/images\/tiles\/T22.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":23,
+         "id":9,
          "image":"..\/images\/tiles\/T23.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":24,
+         "id":10,
          "image":"..\/images\/tiles\/T24.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":65,
-         "image":"..\/images\/tiles\/T30.png",
+         "id":11,
+         "image":"..\/images\/tiles\/T25.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":66,
-         "image":"..\/images\/tiles\/T31.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":67,
-         "image":"..\/images\/tiles\/T32.png",
-         "imageheight":16,
-         "imagewidth":16
-        },         
-        {
-         "id":70,
-         "image":"..\/images\/tiles\/T33.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":68,
-         "image":"..\/images\/tiles\/T34.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":71,
-         "image":"..\/images\/tiles\/T70.png",
-         "imageheight":16,
-         "imagewidth":16
-        }, 
-        {
-         "id":26,
+         "id":12,
          "image":"..\/images\/tiles\/T26.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":27,
+         "id":13,
          "image":"..\/images\/tiles\/T27.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":28,
+         "id":14,
          "image":"..\/images\/tiles\/T28.png",
          "imageheight":16,
          "imagewidth":16
         }, 
+
+
+
+
+
         {
-         "id":72,
-         "image":"..\/images\/tiles\/T71.png",
+         "id":15,
+         "image":"..\/images\/tiles\/T40.png",
          "imageheight":16,
          "imagewidth":16
         }, 
         {
-         "id":40,
-         "image":"..\/images\/tiles\/T40.png",
+         "id":16,
+         "image":"..\/images\/tiles\/T41.png",
          "imageheight":16,
          "imagewidth":16
-        }],
+        }, 
+        {
+         "id":17,
+         "image":"..\/images\/tiles\/T42.png",
+         "imageheight":16,
+         "imagewidth":16
+        }], 
  "tilewidth":16,
  "type":"tileset",
  "version":"1.9"
