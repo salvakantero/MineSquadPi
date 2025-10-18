@@ -144,11 +144,12 @@ class Map():
             if tile_id in self._tiles_by_id:
                 tile = self._tiles_by_id[tile_id]
                 tile_num = self._get_tile_number(tile['image'])
-                # from T16.png to T35.png : tiles that block (OBSTACLE)
-                if 16 <= tile_num <= 35:
+                # from T0.png to T19.png : tiles that allow movement (PASSABLE)
+                # from T20.png to T39.png : tiles that block (OBSTACLE)
+                if 20 <= tile_num <= 39:
                     return enums.TT_OBSTACLE
-                # from T70.png to T75.png : tiles that kill (KILLER)
-                elif 70 <= tile_num <= 75:
+                # from T40.png to T49.png : tiles that kill (KILLER)
+                elif 40 <= tile_num <= 49:
                     return enums.TT_KILLER
                 # check if it's a mine
                 elif self.map_data['mines_info'][y][x] == enums.MI_MINE:
