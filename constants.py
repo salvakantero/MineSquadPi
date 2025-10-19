@@ -40,7 +40,7 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area (windo
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 
 NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
-NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
+NUM_BEACONS = 34, 38, 42, 44, 48, 52, 54, 58, 62 # number of flags/beacons per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield time (approximately 20 seconds)
@@ -76,7 +76,7 @@ ENEMIES_DATA = [
     #           2) SNAKE 
     #           3) SOLDIER1
     # 0
-    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 13, 36),
+    (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
     (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 26, 16, 0, 0),
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 10, 5, 0, 0),
@@ -90,7 +90,7 @@ ENEMIES_DATA = [
     (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 12, 0, 0),
     (1, enums.EN_SOLDIER0, enums.EM_CHASER, 15, 25, 0, 0),
     # 2
-    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 36, 12, 36),
+    (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 12, 35),
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 1, 29, 8, 29),
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 19, 18, 28, 18),
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 4, 9, 9, 9),

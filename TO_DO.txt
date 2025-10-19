@@ -5,7 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- gráficos de tiles stage 1
+- sprite diferente para baliza incorrecta
+- scanlines desactivado por defecto
 
 
 BUGS
@@ -28,6 +29,7 @@ POR HACER
 
 HECHO
 =====
+19/10/25 - gráficos de tiles stage 1
 06/10/25 - mapeado stage 1
 02/10/25 - respawn de enemigos
 01/10/25 - gráficos de enemigos stage 1
