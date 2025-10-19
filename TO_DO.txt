@@ -5,7 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- sprite diferente para baliza incorrecta
 
 
 BUGS
