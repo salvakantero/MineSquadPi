@@ -241,6 +241,7 @@ CREDITS = (
     'Mine Squad Pi v1.0 (2025)     '
     'PROGRAMMING: salvaKantero     '
     'GRAPHICS: salvaKantero     '
+    'BETA TESTING: Luna_314 '
     'MENU MUSIC: SigmaMusicArt     '
     'IN-GAME MUSIC: "Never Ceasing Militarism", "March", "National March of Quan and Raiku"'
     ', "Some militaristic tune" by Spring Spring     '

@@ -6,11 +6,11 @@ EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
 - sprite diferente para baliza incorrecta
-- scanlines desactivado por defecto
 
 
 BUGS
 ====
+- perseguidor se para sobre bombas o balizas?
 
 
 POR HACER
@@ -23,6 +23,7 @@ POR HACER
 - mapeado stage 3
 - secuencia WIN
 
+- documentación
 - eliminar recuento de FPS
 - eliminar truco de saltar niveles
 

@@ -174,6 +174,7 @@ class Map():
         tilemap = self.map_data['data']
         map_surface = self.game.srf_map
         beacon_image = self.game.beacon_image
+        beacon2_image = self.game.beacon2_image
         
         # optimized main loop
         for row_index, row in enumerate(mines_info):
@@ -189,6 +190,9 @@ class Map():
                     # draw the beacon if the mine is deactivated
                     if value == enums.MI_BEACON:
                         map_surface.blit(beacon_image, (screen_x, screen_y))
+                    # draw the red flag for incorrect beacon
+                    elif value == enums.MI_BEACON2:
+                        map_surface.blit(beacon2_image, (screen_x, screen_y))
                     # draw the proximity number if the mine is active
                     else:
                         # get pre-calculated alpha value

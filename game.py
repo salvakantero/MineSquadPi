@@ -75,6 +75,7 @@ class Game():
 
         # load images and sound effects
         self.beacon_image = self._load_image(constants.SPR_PATH + 'beacon.png')
+        self.beacon2_image = self._load_image(constants.SPR_PATH + 'beacon2.png')
 
         # enemies
         enem_path = constants.SPR_PATH + 'enemies/'
