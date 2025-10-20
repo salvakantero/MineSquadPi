@@ -5,20 +5,19 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
+- mapeado stage 2
+- gráficos de tiles stage 2
 
 
 BUGS
 ====
-- perseguidor se para sobre bombas o balizas?
 
 
 POR HACER
 =========
-- gráficos de tiles stage 2
 - gráficos de enemigos stage 2
 - gráficos de tiles stage 3
 - gráficos de enemigos stage 3
-- mapeado stage 2
 - mapeado stage 3
 - secuencia WIN
 
