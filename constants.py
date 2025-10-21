@@ -65,8 +65,8 @@ def get_chaser_enemy_pause_duration(stage):
 CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away
 ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (10 seconds)
 ENEMY_RESPAWN_SAFE_DISTANCE = 5  # minimum distance in tiles between player and enemy respawn position
-# SCORPION, SNAKE, SOLDIER1, CRAB, PROJECTILE, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
-ENEMY_LIFE = 1, 1, 2, 2, 3, 3, 2, 3, 4
+# SCORPION, SNAKE, SOLDIER1, PROJECTILE, CRAB, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
+ENEMY_LIFE = 1, 1, 2, 2, 2, 3, 2, 3, 4
 
 # enemies per map (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
 ENEMIES_DATA = [
@@ -230,7 +230,6 @@ END_LEVEL_MESSAGES = [
 
 # help for the main menu
 HELP = (
-    'Press a menu option to continue or ESC to exit...     '
     'Mark all the mines in each level with the available beacons '
     'as quickly as possible to clear the way for your troops. '
     'To do so, use the proximity information displayed on the screen. '
@@ -242,11 +241,7 @@ CREDITS = (
     'PROGRAMMING: salvaKantero     '
     'GRAPHICS: salvaKantero     '
     'MENU MUSIC: SigmaMusicArt     '
-    'IN-GAME MUSIC: "Never Ceasing Militarism", "March", "National March of Quan and Raiku"'
-    ', "Some militaristic tune" by Spring Spring     '
-    '"The Tread of War", "Market on the Sea", "Cant Stop Winning" by Jonathan Shaw     '
-    '"Thunderchild" by Otto Halmen     "RPG title" by HitCtrl     '
-    '"Ashen" by TheMightyRager     "Battle" by Beau Buckley     "Game Over" by Umplix     '
+    'IN-GAME MUSIC: Spring Spring, Jonathan Shaw, Otto Halmen, HitCtrl, TheMightyRager, Beau Buckley, Umplix     '
     'SOUND EFFECTS: Juhani Junkala     '
     'BETA TESTING: Luna_314     '
     'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Clear Code YT channel, '

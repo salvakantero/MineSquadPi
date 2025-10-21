@@ -92,9 +92,9 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # determine initial direction based on movement type
-        if self.movement == enums.EM_HORIZONTAL:
+        if self.movement == enums.EM_HORIZONTAL or self.movement == enums.EM_HORIZONTAL_LOOP:
             self.vx = 1 if self.x2 > self.x1 else -1
-        elif self.movement == enums.EM_VERTICAL:
+        elif self.movement == enums.EM_VERTICAL or self.movement == enums.EM_VERTICAL_LOOP:
             self.vy = 1 if self.y2 > self.y1 else -1
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()
@@ -121,6 +121,8 @@ class Enemy(pygame.sprite.Sprite):
         # movement handling
         if self.movement == enums.EM_HORIZONTAL: self._update_horizontal_movement()
         elif self.movement == enums.EM_VERTICAL: self._update_vertical_movement()
+        elif self.movement == enums.EM_HORIZONTAL_LOOP: self._update_horizontal_loop_movement()
+        elif self.movement == enums.EM_VERTICAL_LOOP: self._update_vertical_loop_movement()
         elif self.movement == enums.EM_RANDOM:   self._update_random_movement()
         elif self.movement == enums.EM_CHASER:   self._update_chaser_movement()
 
@@ -327,15 +329,41 @@ class Enemy(pygame.sprite.Sprite):
 
 
     # handle vertical movement
-    def _update_vertical_movement(self):        
+    def _update_vertical_movement(self):
         self.y = self.y + self.vy
         # determine upper and lower boundaries
-        min_y, max_y = min(self.y1, self.y2), max(self.y1, self.y2)        
+        min_y, max_y = min(self.y1, self.y2), max(self.y1, self.y2)
         # detect when reaching either boundary and reverse direction
         if self.y <= min_y or self.y >= max_y:
             self.vy = -self.vy
             # ensure position stays within boundaries
             self.y = max(min_y, min(self.y, max_y))
+
+
+
+    # handle horizontal loop movement (teleports back to start)
+    def _update_horizontal_loop_movement(self):
+        self.x = self.x + self.vx
+        # determine direction and check if reached end
+        if self.vx > 0:  # moving right
+            if self.x >= self.x2:
+                self.x = self.x1  # teleport back to start
+        else:  # moving left
+            if self.x <= self.x2:
+                self.x = self.x1  # teleport back to start
+
+
+
+    # handle vertical loop movement (teleports back to start)
+    def _update_vertical_loop_movement(self):
+        self.y = self.y + self.vy
+        # determine direction and check if reached end
+        if self.vy > 0:  # moving down
+            if self.y >= self.y2:
+                self.y = self.y1  # teleport back to start
+        else:  # moving up
+            if self.y <= self.y2:
+                self.y = self.y1  # teleport back to start
 
 
 
@@ -503,9 +531,9 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_timer = 0
 
         # determine initial direction based on movement type
-        if self.movement == enums.EM_HORIZONTAL:
+        if self.movement == enums.EM_HORIZONTAL or self.movement == enums.EM_HORIZONTAL_LOOP:
             self.vx = 1 if self.x2 > self.x1 else -1
-        elif self.movement == enums.EM_VERTICAL:
+        elif self.movement == enums.EM_VERTICAL or self.movement == enums.EM_VERTICAL_LOOP:
             self.vy = 1 if self.y2 > self.y1 else -1
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()

@@ -1,126 +1,200 @@
-﻿
+
 =============================
  Mine Squad Pi v1.0 (C) 2025
-=============================                
+=============================
 Para Raspberry Pi / Windows *
 
 * y otros sistemas compatibles con pygame 2.6.1 (SDL 2.28.4, Python 3.13.6) o superior.
   (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
 
 
+Formas parte de un equipo de élite de zapadores durante la Segunda Guerra Mundial. 
+Tu misión: Desactivar todos los campos minados en tres frentes de batalla cruciales sin activar ninguna mina. 
+Usa tu ingenio y las pistas numéricas para localizar las minas ocultas, márcalas con balizas y despeja cada sector para avanzar.
 
-Conduce a nuestro héroe al subsuelo de la antigua estación espacial para volar todo el complejo y acabar con sus malignos habitantes.
-Pero cuidado, el entorno es peligroso. Evita entrar en contacto con los alienígenas, y caer en los pozos de lava o de residuos radiactivos.
+
+PERSONAJES
+==========
+
+Al inicio de la partida puedes elegir entre dos miembros del escuadrón de zapadores:
+BLAZE: Sargento veterano, experto en desactivación de explosivos.
+PIPER: Suboficial, especialista en reconocimiento de terreno peligroso.
 
 
-OBJETOS
-=======
+ESCENARIOS
+==========
 
-EXPLOSIVO: Para acabar con éxito la misión debes obtener los 15 explosivos que hay repartidos por la estación, y situarlos en el depósito de explosivos, en lo más profundo de la base marciana.
-Una vez depositados, tienes que regresar al centro de control y activar el detonador.
+El juego se desarrolla en tres escenarios de operaciones históricas de la Segunda Guerra Mundial, cada uno con 3 niveles de dificultad creciente:
 
-TARJETA: En ocasiones tendrás que acceder a zonas cerradas con tarjeta de acceso, por lo que previamente deberás localizar estas tarjetas para continuar tu misión.
+BATALLA DE EL ALAMEIN (Egipto - Octubre 1942)
+---------------------------------------------
+Desierto hostil del norte de África durante la ofensiva aliada.
+Enemigos: Escorpiones, serpientes, soldados del Afrika Korps.
+Obstáculos: Cactus que dañan al contacto.
 
-PUERTA: Solo podrás abrirlas si dispones de alguna tarjeta. 
-Las tarjetas son de un solo uso, pero la puerta permanecerá abierta.
+INVASIÓN DEL DÍA D (Normandía - Junio 1944)
+-------------------------------------------
+Playas de Normandía durante el histórico desembarco aliado.
+Enemigos: Cangrejos, proyectiles enemigos, soldados alemanes.
+Obstáculos: Alambradas que causan heridas.
 
-MUNICIÓN: Tienes la posibilidad de disparar balas de plasma contra tus enemigos, pero cuidado, no malgastes munición, ya que ésta es escasa.
-Hay recargas repartidas por todo el complejo.
+BATALLA DE LAS ARDENAS (Bélgica - Enero 1945)
+---------------------------------------------
+Bosque nevado durante la ofensiva alemana de invierno.
+Enemigos: Esquiadores, jabalíes, soldados de montaña.
+Obstáculos: Cepos ocultos que hieren.
 
-OXÍGENO: Vigila el estado de tus botellas de oxígeno y busca otras nuevas antes de que se agoten o morirás en el acto.
 
-DISKETTE: Graba la situación actual de la partida para continuarla en otra ocasión.
-Podrás localizarlos en las pantallas donde previamente había tarjetas. 
+MECÁNICA DE JUEGO
+=================
 
-BURGER, CAKE, DONUT: Sí, a los marcianos también les gustan. 
-Cómetelos si quieres ver aumentar tu puntuación.
+El campo de batalla es una cuadrícula rectangular de 30x40 celdas. 
+Algunas celdas contienen minas ocultas que debes localizar sin pisarlas.
+
+Al moverte por el terreno, las celdas adyacentes revelan información:
+- Si no hay mina, aparece un NÚMERO indicando cuántas minas hay en las 8 celdas circundantes.
+- Si hay mina, la pisarás y perderás energía vital.
+
+Tu objetivo es marcar TODAS las minas con balizas para completar el nivel.
+
+ADVERTENCIA: El número de balizas es limitado. A mayor nivel, más minas y menos balizas disponibles. Usa la lógica del buscaminas para deducir dónde están las minas antes de colocar tus balizas.
+
+
+OBJETOS Y POWER-UPS
+===================
+
+BALIZA/BANDERA: Márcala en una celda que creas que contiene una mina. Las balizas son limitadas.
+El nivel se supera cuando todas las minas estén correctamente marcadas.
+En todo momento se puede ver en el marcador el número de balizas/minas restantes.
+
+POWER-UPS:
+
+VIDA EXTRA: Rellena completamente tu barra de energía.
+
+ESCUDO: Te vuelve invencible durante 30 segundos. Aprovecha para explorar zonas peligrosas.
+
+MUNICIÓN: Te permite disparar contra enemigos (+10 balas cada recarga).
+
+OBJETOS PARA PUNTUAR*:
+
+CHUCHE:      50 puntos
+MANZANA:     75 puntos
+CHOCOLATE:  100 puntos
+MONEDA:     200 puntos
+
+*Estos objetos aparecen de forma aleatoria por el mapa. Al recogerlos, se genera otro inmediatamente en otra ubicación. Los de menor valor aparecen con mayor frecuencia.
 
 
 ENEMIGOS
 ========
 
-INFECTADO: Anteriores compañeros que intentaron realizar la misión y no lo consiguieron.
-La picadura de los aracnovirus les mantiene en un estado de NO muertos.
-Se mueven de manera lineal y pueden ser muy rápidos, elimínalos antes de que te contagien.
+Los enemigos patrullan el campo de batalla y representan una amenaza constante. 
+Algunos se mueven linealmente, otros erráticamente, y los más peligrosos te persiguen.
+Su número, velocidad y resistencia aumentan con cada nivel.
 
-ARACNOVIRUS/PELUSOIDE: De movimientos erráticos y rápidos.
-Suelen moverse por el aire. Son los alienígenas más numerosos que han colonizado la base.
+NIVEL 1-3: EL ALAMEIN (Desierto)
+--------------------------------
+ESCORPIÓN:       Movimiento lineal      10 puntos   1 vida
+SERPIENTE:       Movimiento aleatorio   20 puntos   1 vida
+SOLDADO MARRÓN:  Persigue al jugador    50 puntos   2 vidas
 
-PELUSOIDE FANTY: Son muy inteligentes. Pueden permanecer agazapados esperando tu llegada.
-Si te ven o te oyen, se abalanzarán sobre ti. 
-En ese caso acaba con ellos cuanto antes. 
+NIVEL 4-6: NORMANDÍA (Playa)
+----------------------------
+PROYECTIL:       Movimiento lineal      20 puntos   2 vidas
+CANGREJO:        Movimiento aleatorio   40 puntos   2 vidas
+SOLDADO GRIS:    Persigue al jugador   100 puntos   3 vidas
+
+NIVEL 7-9: ARDENAS (Bosque nevado)
+----------------------------------
+ESQUIADOR:       Movimiento lineal      40 puntos   2 vidas
+JABALÍ:          Movimiento aleatorio   80 puntos   3 vidas
+SOLDADO BLANCO:  Persigue al jugador   200 puntos   4 vidas
+
+OBSTÁCULOS MORTALES:
+Los cactus, alambradas y cepos son obstáculos del terreno que puedes atravesar, pero te causarán daño al hacerlo.
 
 
-PUNTUACIÓN
+DIFICULTAD
 ==========
 
-INFECTADO	 25 puntos
-ARACNOVIRUS	 50 puntos
-PELUSOIDE	 75 puntos
-FANTY		100 puntos
---------------------------
-TNT		 50 puntos
-MUNICIÓN	 75 puntos
-OXÍGENO		100 puntos
-TARJETA		125 puntos
-PUERTA		150 puntos
---------------------------
-DONUT		200 puntos
-TARTA		350 puntos
-HAMBURGUESA	500 puntos
+Al inicio de cada partida puedes elegir entre tres niveles de dificultad:
+
+FÁCIL:   Jugador lento, con toda la energía disponible.
+NORMAL:  Equilibrio entre velocidad y energía disponible para el jugador.
+DIFÍCIL: Jugador más rápido y menos resistente.
 
 
-MENU PRINCIPAL
+MENÚ PRINCIPAL
 ==============
 
-Tras una breve intro inicial o tras cada partida se muestra el menú principal. 
-Éste se compone de una pantalla con las opciones de juego y otra con las opciones de configuración. 
-Si no se pulsa ninguna tecla, cada pocos segundos se muestran páginas deslizantes con la tabla de mejores puntuaciones, ayuda e información resumida de este manual.
+Si no se pulsa ninguna tecla, el menú muestra automáticamente páginas con:
+- Tabla de mejores puntuaciones
+- Ayuda resumida
+- Información del juego
 
-En el menú principal podremos comenzar una partida nueva o continuar una partida anterior a partir del último diskette que cogimos. 
-También podemos cambiar la configuración o salir al sistema operativo.
+En el menú de juego puedes:
+- Comenzar una nueva partida
+- Seleccionar personaje (BLAZE o PIPER)
+- Elegir nivel de dificultad
+- Ver las mejores puntuaciones
+- Salir del juego
 
-En el menú de configuración podremos cambiar varias características del programa:
-  - La opción "Full Screen" nos permite ver el juego en una ventana, o bien en pantalla completa. A su vez en pantalla completa disponemos de dos opciones. 
-      - La opción "4:3" nos permite disfrutar del juego ocupando toda la pantalla de un monitor o TV  no panorámico con el aspecto correcto. 
-      - Si nuestra pantalla es panorámica probablemente veamos el juego muy achatado. Para corregir ese problema debemos seleccionar la siguiente opción, que es "16:9". Esta opción nos muestra el juego en la parte central de la pantalla con el aspecto correcto.
-  - "Scanlines" simula la imagen que ofrecían las máquinas ARCADE de la época en sus pantallas de tubo, mostrándolas con líneas oscuras visibles.
-  - "Map Transition" desactivado muestra las nuevas pantallas inmediatamente. Si activamos esta opción mostrará la siguiente pantalla deslizándose junto con la anterior. Es más lento pero muestra el mapa de juego como un todo...
-  - "Game Control" ...
+En el menú de configuración puedes ajustar:
+
+FULL SCREEN:
+  - WINDOWED: Juega en ventana.
+  - 4:3: Pantalla completa para monitores tradicionales.
+  - 16:9: Pantalla completa para monitores panorámicos (la zona de juego aparece centrada sin achatar).
+
+SCANLINES:
+  Simula el efecto de las pantallas CRT de las máquinas arcade clásicas.
+
+GAME CONTROL:
+  Selecciona tu esquema de control preferido (ver siguiente sección).
 
 
 CONTROL DE JUEGO
 ================
 
-		GAMER		RETRO		CLASSIC		JOYPAD
-		----------------------------------------------------------------
-salto:		W		Q		cur.arriba	botón A / B / joy.arriba	
-acción:		S		A		cur.abajo	joy.abajo
-izquierda:	A		O		cur.izda.	joy.izda.
-derecha:	D		P		cur.derecha	joy.derecha
-disparo*:	SPACE		SPACE		SPACE		botón X / botón Y	 		
+            GAMER       RETRO       CLASSIC       JOYPAD
+            --------------------------------------------------
+arriba:     W           Q           cur.arriba    joy.arriba
+abajo:      S           A           cur.abajo     joy.abajo
+izquierda:  A           O           cur.izda.     joy.izda.
+derecha:    D           P           cur.derecha   joy.derecha
+baliza:     B ,         B ,         B ,           botón L / R
+disparo:    SPACE       SPACE       SPACE         botón X / Y
 
-* también botón izquierdo del ratón
+RATÓN:
+Puedes disparar con el botón izquierdo del ratón.
+Puedes colocar balizas con el botón derecho del ratón.
 
 Teclas comunes a todas las configuraciones:
 M:      Música Sí/No.
 ESC:    Pausa / Cancelar partida.
 
+IMPORTANTE: Una pulsación corta para moverse encara al jugador hacia la celda correspondiente a la tecla pulsada, pero no se produce movimiento.
+Usa este sistema para colocar balizas sin llegar a pisar la mina.
+
 
 CONSEJOS Y TRUCOS
 =================
 
-- Reserva algo de munición y oxígeno para cuando hayas colocado los explosivos y regreses al centro de control.
-En caso de escasez de oxígeno sonará una alarma durante la cual la prioridad será buscar botellas nuevas.
+- Usa la lógica del buscaminas: si una celda muestra "1" y solo hay una celda sin revelar adyacente, esa celda contiene una mina seguro.
 
-- Extrema la precaución en los pasillos verticales. Son las zonas más traicioneras.
+- Las balizas son limitadas. No las malgastes marcando celdas al azar. Deduce la ubicación exacta de las minas usando los números.
 
-- Siempre que sea posible, es mejor no molestar a los FANTYS
+- Elimina enemigos cuando sean una amenaza, pero prioriza revelar celdas seguras y marcar minas.
 
-- Usa el guardado de partida cuando la situación del juego sea adecuada, es decir, con un número de vidas y oxígeno suficiente para acabar la partida. 
-Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
+- El escudo de invencibilidad es ideal para explorar zonas con muchos enemigos.
 
-- Para colocar los explosivos en su emplazamiento final y para usar el detonador se debe pulsar la tecla ACCIÓN (abajo), en caso contrario no ocurrirá nada.
+- Evita los obstáculos del terreno (cactus, alambradas, cepos) siempre que sea posible, ya que dañan tu energía.
+
+- En niveles avanzados, los enemigos que persiguen son muy peligrosos. Elimínalos antes de que te acorralen.
+
+- Cada escenario tiene enemigos diferentes. Aprende sus patrones de movimiento para anticiparte.
+
+- Si te quedas sin balizas pero aún hay minas sin marcar, el juego termina. Planifica bien antes de colocarlas.
 
 
 ===================================
@@ -129,8 +203,27 @@ Mine Squad Pi  (C) PlayOnRetro 2025
 
 PROGRAMA: salvaKantero
 GRÁFICOS: salvaKantero
-MÚSICA DEL MENÚ: Masterklown
-MÚSICA IN-GAME: Centurion of war
+MÚSICA DEL MENÚ: SigmaMusicArt
+MÚSICA IN-GAME: 
+  Spring Spring:
+    - "Never Ceasing Militarism"
+    - "March"
+    - "National March of Quan and Raiku"
+    - "Some militaristic tune"
+  Jonathan Shaw:
+    - "The Tread of War"
+    - "Market on the Sea"
+    - "Cant Stop Winning"
+  Otto Halmen:
+    - "Thunderchild"
+  HitCtrl:
+    - "RPG title"
+  TheMightyRager:
+    - "Ashen"
+  Beau Buckley:
+    - "Battle"
+  Umplix:
+    - "Game Over"
 EFECTOS DE SONIDO: Juhani Junkala
 BETA TESTING: Luna_314
 

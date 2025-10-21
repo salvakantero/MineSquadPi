@@ -1,152 +1,242 @@
 
-============================
-Mine Squad Pi v1.0 (C) 2025
-============================
-for Raspberry Pi / Windows *
+=============================
+ Mine Squad Pi v1.0 (C) 2025
+=============================
+For Raspberry Pi / Windows *
 
-*and other systems supporting pygame 2.1.2 (SDL 2.0.18, Python 3.9.13) or higher.
- (Windows and Raspberry Pi installers and executables in the /PUB folder)
-
-
-Lead our hero into the underground of the old space station to blow up the entire complex and wipe out its evil inhabitants.
-But beware, the environment is dangerous. Avoid coming into contact with the aliens, and falling into the lava or radioactive waste pits.
+* and other systems compatible with pygame 2.6.1 (SDL 2.28.4, Python 3.13.6) or higher.
+  (Windows and Raspberry Pi installers and executables in the /PUB folder)
 
 
-ITEMS
-=====
+Join an elite squad of sappers in the Second World War.
+Your mission: defuse all minefields across three crucial battlefronts without triggering a single mine.
+Use your wits and numerical clues to locate hidden mines, mark them with beacons, and clear each sector to advance.
 
-EXPLOSIVES: To successfully complete the mission you must obtain the 15 explosives scattered around the station and place them in the explosives depot, deep inside the Martian base.
-Once deposited, you must return to the control centre and activate the detonator.
 
-KEY CARD: Sometimes you will have to access locked areas with access cards, so you will have to locate these cards before you can continue your mission.
+CHARACTERS
+==========
 
-AMMO: You have the possibility to fire plasma bullets at your enemies, but be careful not to waste ammunition, which is scarce.
-There are reloads scattered throughout the complex.
+At the start of the game you can choose between two members of the sapper squad:
+BLAZE: Veteran sergeant, expert in Explosive Ordnance Disposal.
+PIPER: Non-commissioned officer, specialist in reconnaissance across dangerous terrain.
 
-OXYGEN: Keep an eye on the condition of your oxygen cylinders and find new ones before they run out or you will die on the spot.
 
-DISKETTE: Save the current game situation to continue the game at another time.
-You will be able to locate them on the screens where there were previously cards. 
+SCENARIOS
+=========
 
-BURGER, CAKE, DONUT: Yes, Martians like them too. 
-Eat them if you want to see your score go up.
+The game takes place across three historical Second World War theatres of operations, each with 3 levels of increasing difficulty:
+
+BATTLE OF EL ALAMEIN (Egypt – October 1942)
+-------------------------------------------
+Hostile North African desert during the Allied offensive.
+Enemies: Scorpions, snakes, Afrika Korps troops.
+Obstacles: Cacti that cause damage on contact.
+
+D-DAY INVASION (Normandy – June 1944)
+-------------------------------------
+Normandy beaches during the historic Allied landings.
+Enemies: Crabs, enemy projectiles, German soldiers.
+Obstacles: Barbed wire that causes injury.
+
+BATTLE OF THE BULGE (Belgium – January 1945)
+--------------------------------------------
+Snowy forest during the German winter offensive.
+Enemies: Skiers, boars, mountain soldiers.
+Obstacles: Hidden traps that cause injury.
+
+
+GAME MECHANICS
+==============
+
+The battlefield is a rectangular grid of 30×40 cells.
+Some cells contain hidden mines that you must locate without stepping on them.
+
+As you move across the terrain, adjacent cells reveal information:
+- If there’s no mine, a NUMBER appears indicating how many mines are in the 8 surrounding cells.
+- If there’s a mine, you’ll step on it and lose health.
+
+Your objective is to mark ALL mines with beacons to complete the level.
+
+WARNING: The number of beacons is limited. At higher levels, there are more mines and fewer beacons available. Use minesweeper logic to deduce where the mines are before placing your beacons.
+
+
+OBJECTS AND POWER-UPS
+=====================
+
+BEACON/FLAG: Place it on a cell you believe contains a mine. Beacons are limited.
+The level is completed when all mines are correctly marked.
+The number of remaining beacons/mines can be seen on the scoreboard at all times.
+
+POWER-UPS:
+
+EXTRA LIFE: Completely refills your health bar.
+
+SHIELD: Makes you invincible for 30 seconds. Use this to explore dangerous zones.
+
+AMMUNITION: Allows you to shoot at enemies (+10 bullets per reload).
+
+SCORING OBJECTS*:
+
+SWEET:       50 points
+APPLE:       75 points
+CHOCOLATE:  100 points
+COIN:       200 points
+
+*These objects appear randomly across the map. When collected, another is immediately generated at a different location. Lower-value items appear more frequently.
 
 
 ENEMIES
 =======
 
-INFECTED: Previous companions who attempted the mission and failed. 
-The bite of the arachnoviruses keeps them in an undead state.
-They move in a linear fashion and can be very fast. 
-Take them out before they infect you.
+Enemies patrol the battlefield and represent a constant threat. Some move linearly, others erratically, and the most dangerous ones will pursue you.
 
-ARACHNOVIRUS/PELUSOID: Erratic and fast moving.
-They usually move through the air. 
-They are the most numerous aliens that have colonised the base.
+Their number, speed and resistance increase with each level.
 
-FANTY: They are very intelligent. They can lie low and wait for your arrival.
-If they see or hear you, they will pounce on you. 
-In that case, finish them off as soon as possible. 
+LEVEL 1-3: EL ALAMEIN (Desert)
+------------------------------
+SCORPION:        Linear movement       10 points    1 life
+SNAKE:           Random movement       20 points    1 life
+BROWN SOLDIER:   Chases the player     50 points    2 lives
+
+LEVEL 4-6: NORMANDY (Beach)
+---------------------------
+PROJECTILE:      Linear movement       20 points    2 lives
+CRAB:            Random movement       40 points    2 lives
+GREY SOLDIER:    Chases the player    100 points    3 lives
+
+LEVEL 7-9: ARDENNES (Snowy Forest)
+----------------------------------
+SKIER:           Linear movement       40 points    2 lives
+BOAR:            Random movement       80 points    3 lives
+WHITE SOLDIER:   Chases the player    200 points    4 lives
+
+DEADLY OBSTACLES:
+Cacti, barbed wire and traps are terrain obstacles that can be traversed, but will cause damage when doing so.
 
 
-SCORE
-=====
+DIFFICULTY
+==========
 
-INFECTED	 25 points
-ARACHNOVIRUS	 50 points
-PELUSOID	 75 points
-FANTY		100 points
-----------------------------
-TNT		 50 points
-AMMO		 75 points
-OXYGEN		100 points
-KEYCARD		125 points
-----------------------------
-DONUT		200 points
-CAKE		350 points
-HAMBURGER	500 points
+At the start of each game you can choose between three difficulty levels:
+
+EASY:   Slower player, with full health available.
+NORMAL: Balanced speed and health.
+HARD:   Faster player, but less resistant.
 
 
 MAIN MENU
 =========
 
-After a short intro or after each game, the main menu is displayed. 
-This consists of a screen with the game options and a screen with the configuration options. 
-If no key is pressed, sliding pages with the highscore table, help and summary information from this manual are displayed every few seconds.
+If no key is pressed, the menu automatically cycles through pages showing:
+- High score table
+- Brief help
+- Game information
 
--In the main menu we can start a new game or continue a previous game from the last floppy disk we took.
-We can also change the configuration or exit to the operating system.
+In the game menu you can:
+- Start a new game
+- Select character (BLAZE or PIPER)
+- Choose difficulty level
+- View high scores
+- Exit the game
 
--In the configuration menu you can change various features of the programme.
-	-The "Full Screen" option allows us to view the game in a window, or in full screen. 
-	In addition, there are two options available in full screen.
-		-The "4:3" option allows us to enjoy the game occupying the entire screen of a non-widescreen monitor or TV with the correct aspect ratio.
-		-If our screen is widescreen we will probably see the game very flattened. To correct this problem we must select the next option, which is "16:9". This option shows the game in the central part of the screen with the correct aspect ratio.
-	- "Scanlines" simulates the image provided by ARCADE machines of the time on their tube screens, showing them with visible dark lines.
-	- "Map Transition" deactivated shows the new screens immediately. If this option is activated it will show the next screen sliding along with the previous one. It is slower but shows the game map as a whole...
-	- "Game Control" ...
+In the configuration menu you can adjust:
+
+FULL SCREEN:
+  - WINDOWED: Play in a window.
+  - 4:3: Full screen for traditional monitors.
+  - 16:9: Full screen for widescreen monitors (the game area appears centred without stretching).
+
+SCANLINES:
+  Simulates the look of classic arcade CRT screens.
+
+GAME CONTROL:
+  Select your preferred control scheme (see next section).
 
 
 GAME CONTROL
 ============
 
-		GAMER		RETRO		CLASSIC		JOYPAD
-		--------------------------------------------------------------------
-jump:		W		Q		cur.up	button A / button B / joy.up	
-action:		S		A		cur.down	joy.down
-left:		A		O		cur.left	joy.left
-right:		D		P		cur.right	joy.right
-fire*:		SPACE		SPACE		SPACE		button X / button Y	 		
-* also left mouse button
+            GAMER       RETRO       CLASSIC       JOYPAD
+            --------------------------------------------------
+up:         W           Q           cursor up     joy.up
+down:       S           A           cursor down   joy.down
+left:       A           O           cursor left   joy.left
+right:      D           P           cursor right  joy.right
+beacon:     B ,         B ,         B ,           L / R button
+fire:       SPACE       SPACE       SPACE         X / Y button
+
+MOUSE:
+You can fire with the left mouse button.
+You can place beacons with the right mouse button.
 
 Keys common to all configurations:
-M: 	Music Yes/No.
-ESC:	Pause / Cancel game.
+M:      Music On/Off.
+ESC:    Pause / Cancel game.
+
+IMPORTANT: A short press makes the player face the cell corresponding to the key pressed, but does not move them.
+Use this feature to place beacons without stepping on a mine.
 
 
 TIPS AND TRICKS
 ===============
 
-- Reserve some ammunition and oxygen for when you have placed the explosives and returned to the control centre.
-In the event of an oxygen shortage, an alarm will sound during which the priority is to search for new cylinders.
+- Use minesweeper logic: if a cell shows “1” and there’s only one unrevealed adjacent cell, that cell definitely contains a mine.
 
-- Use extreme caution in the vertical corridors. These are the most treacherous areas.
+- Beacons are limited. Don’t waste them marking cells at random. Deduce the exact location of mines using the numbers.
 
-- Whenever possible, it is best not to disturb the FANTYS.
+- Eliminate enemies when they pose a threat, but prioritise revealing safe cells and marking mines.
 
-- Use the save game when the game situation is appropriate, i.e. with enough lives and oxygen to finish the game.
-Remember that selecting a DISKETTE overwrites the previous game.
+- The invincibility shield is ideal for exploring zones with many enemies.
 
-- To place the explosives in their final location and use the detonator, press the ACTION key (below), otherwise nothing will happen.
+- Avoid terrain obstacles (cacti, barbed wire, traps) whenever possible, as they reduce your health.
+
+- At higher levels, pursuing enemies become very dangerous. Eliminate them before they corner you.
+
+- Each scenario has different enemies. Learn their movement patterns to anticipate them.
+
+- If you run out of beacons but there are still unmarked mines, the game ends. Plan carefully before placing them.
 
 
 ===================================
-Mine Squad Pi  (C) PlayOnRetro 2024
+Mine Squad Pi  (C) PlayOnRetro 2025
 ===================================
 
-PROGRAM: salvaKantero
+PROGRAMME: salvaKantero
 GRAPHICS: salvaKantero
-COVER ILLUSTRATION: Masterklown 
-MENU MUSIC: Masterklown
-IN-GAME MUSIC: Centurion of war
+MENU MUSIC: SigmaMusicArt
+IN-GAME MUSIC:
+  Spring Spring:
+    - "Never Ceasing Militarism"
+    - "March"
+    - "National March of Quan and Raiku"
+    - "Some Militaristic Tune"
+  Jonathan Shaw:
+    - "The Tread of War"
+    - "Market on the Sea"
+    - "Can’t Stop Winning"
+  Otto Halmen:
+    - "Thunderchild"
+  HitCtrl:
+    - "RPG Title"
+  TheMightyRager:
+    - "Ashen"
+  Beau Buckley:
+    - "Battle"
+  Umplix:
+    - "Game Over"
 SOUND EFFECTS: Juhani Junkala
-16/9 MODE BACKGROUND IMAGE: NASA (Hubble, Dec 2 2022)
+BETA TESTING: Luna_314
 
-Mine Squad Pi is released under GPL v3 for all software components* (see license.txt).
-* However, please note that the illustrations used for the cover artwork are NOT released under the GPL v3 license. 
-These illustrations are the intellectual property of Masterklown and are subject to separate licensing terms. 
-Any use, reproduction, or distribution of the illustrations must be authorized by Masterklown. 
-
-PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi
-
-ACKNOWLEDGEMENTS*: 
-Mojon Twins (MK1 8bit game engine)
+ACKNOWLEDGEMENTS*:
 DaFluffyPotato (Font class, screen scaling)
 Chris (Clear Code YT channel)
 Rik Cross (Raspberry Pi Foundation)
 Mark Vanstone (Raspberry Pi Press tutorials)
 Ryan Lambie (Raspberry Pi Press tutorials)
 Cesar Gomez (Mundo Python YT channel)
-Kenney (Keyboard/Mouse Graphics)
+Kenney (keyboard/mouse graphics)
 
-* Thanks to all of them for sharing their knowledge, techniques and resources. 
+* Thanks to all of them for sharing their knowledge, techniques and resources.
+
+PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi
+Mine Squad Pi is published under the GPL v3 licence. (see licence.txt)

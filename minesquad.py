@@ -198,7 +198,7 @@ while True:
             else: game.win()
 
         # game over?
-        if player.energy <= 0 or (game.remaining_beacons == 0 and game.remaining_mines > 0):
+        if player.energy <= 0 or (game.remaining_beacons < game.remaining_mines):
             if player.energy < 0: 
                 player.energy = 0
             if game.blast_sequence == 0: # blast animation completed                           
