@@ -1,10 +1,10 @@
 ﻿
 =============================
- Mine Squad Pi v1.0 (C) 2024
+ Mine Squad Pi v1.0 (C) 2025
 =============================                
 Para Raspberry Pi / Windows *
 
-* y otros sistemas compatibles con pygame 2.1.2 (SDL 2.0.18, Python 3.9.13) o superior.
+* y otros sistemas compatibles con pygame 2.6.1 (SDL 2.28.4, Python 3.13.6) o superior.
   (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
 
 
@@ -124,19 +124,17 @@ Recuerda que al seleccionar un DISKETTE, se sobreescribe la anterior partida.
 
 
 ===================================
-Mine Squad Pi  (C) PlayOnRetro 2024
+Mine Squad Pi  (C) PlayOnRetro 2025
 ===================================
 
 PROGRAMA: salvaKantero
 GRÁFICOS: salvaKantero
-ILUSTRACIÓN DE PORTADA: Masterklown 
 MÚSICA DEL MENÚ: Masterklown
 MÚSICA IN-GAME: Centurion of war
 EFECTOS DE SONIDO: Juhani Junkala
-IMAGEN DE FONDO MODO 16/9: NASA (Hubble, Dec 2 2022)
+BETA TESTING: Luna_314
 
 AGRADECIMIENTOS*: 
-Mojon Twins (MK1 motor de juegos de 8bits)
 DaFluffyPotato (clase Font, escalado de pantallas)
 Chris (Clear Code canal de YT)
 Rik Cross (Raspberry Pi Foundation)
@@ -150,4 +148,3 @@ Kenney (gráficos de teclas/ratón)
 CÓDIGO FUENTE PYTHON Y RECURSOS DISPONIBLES EN https://github.com/salvakantero/MineSquadPi
 Mine Squad Pi se publica bajo licencia GPL v3. (ver license.txt)
 
-Gracias por jugar!!

@@ -1,6 +1,6 @@
 
 ============================
-Mine Squad Pi v1.0 (C) 2024
+Mine Squad Pi v1.0 (C) 2025
 ============================
 for Raspberry Pi / Windows *
 
