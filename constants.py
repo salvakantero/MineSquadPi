@@ -213,10 +213,14 @@ HOTSPOT_DATA = [
     [enums.HS_LIFE,   0],
     [enums.HS_AMMO,   0],
     [enums.HS_SHIELD, 0],
-    [enums.HS_SHIELD, 1],
-    [enums.HS_SHIELD, 1],
-    [enums.HS_AMMO,   1],
+
+    [enums.HS_LIFE, 1],
+    [enums.HS_AMMO, 1],
+    [enums.HS_AMMO, 1],
+
     [enums.HS_LIFE,   2],
+    [enums.HS_SHIELD, 2],
+    [enums.HS_SHIELD, 2],
     [enums.HS_SHIELD, 2],]
 
 # end-of-level messages (title, message)
@@ -232,8 +236,8 @@ END_LEVEL_MESSAGES = [
 HELP = (
     'Mark all the mines in each level with the available beacons '
     'as quickly as possible to clear the way for your troops. '
-    'To do so, use the proximity information displayed on the screen. '
-    'Watch out! a horde of enemies is waiting to make things difficult for you... ')
+    'To do this, use the proximity information displayed on the screen. '
+    'Watch out! A horde of enemies are waiting to get in your way...')
 
 # credits for the main menu
 CREDITS = (
