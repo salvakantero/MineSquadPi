@@ -7,6 +7,7 @@ EN PROCESO
 - calibrar jugabilidad/dificultad
 - mapeado stage 2
 - gráficos de tiles stage 2
+- gráficos de enemigos stage 2
 
 
 BUGS
@@ -15,11 +16,11 @@ BUGS
 
 POR HACER
 =========
-- gráficos de enemigos stage 2
 - gráficos de tiles stage 3
 - gráficos de enemigos stage 3
 - mapeado stage 3
 - secuencia WIN
+- miniatura de mapa??
 
 - documentación
 - eliminar recuento de FPS
