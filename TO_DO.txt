@@ -4,13 +4,10 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- hotspot pack de 5 balizas
 - calibrar jugabilidad/dificultad
 
-- mapeado stage 3
-- gráficos de tiles stage 2
-- gráficos de enemigos stage 2
-- gráficos de tiles stage 3
-- gráficos de enemigos stage 3
+
 
 BUGS
 ====
@@ -18,11 +15,14 @@ BUGS
 
 POR HACER
 =========
+- doble HS para puntuar por mapa
+- mapeado stage 3
+- gráficos de tiles stage 2
+- gráficos de enemigos stage 2
+- gráficos de tiles stage 3
+- gráficos de enemigos stage 3
 - secuencia WIN
 - miniatura de mapa
-- hotspot pack de 5 balizas
-- sonido al tocar límite de mapa
-
 
 - documentación
 - eliminar recuento de FPS
@@ -134,15 +134,16 @@ Notas
         (0) Vida extra: rellena barra de energía
         (1) Escudo: invencible (30 secs)
         (2) Munición: permite disparar (+10)
+        (3) Pack balizas: 5 balizas extra
     Puntuación extra*:    
-        (3) Chuche       50
-        (4) Manzana      75
-        (5) Chocolate   100
-        (6) Moneda      200
+        (4) Chuche       50
+        (5) Manzana      75
+        (6) Chocolate   100
+        (7) Moneda      200
     * ambos tipos se distribuyen por el mapa aleatoriamente    
-    Aplicable a los tipos 0 al 2:
+    Aplicable a los tipos 0 al 3:
     * definidos en HOTSPOT_DATA [tipo, mapa] 
-    Aplicable a los tipos 3 al 6:
+    Aplicable a los tipos 4 al 7:
     * siempre uno (aleatorio) en todo momento en el mapa
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación

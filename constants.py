@@ -213,6 +213,7 @@ HOTSPOT_DATA = [
     [enums.HS_LIFE,   0],
     [enums.HS_AMMO,   0],
     [enums.HS_SHIELD, 0],
+    [enums.HS_BEACONS, 0],
 
     [enums.HS_LIFE, 1],
     [enums.HS_AMMO, 1],

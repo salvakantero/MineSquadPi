@@ -216,6 +216,8 @@ class Player(pygame.sprite.Sprite):
             
             # verify map boundaries using cached map height
             if (temp_rect.top < 0 or temp_rect.bottom > self._map_height_pixels):
+                if self.sfx_blocked.get_num_channels() == 0:
+                    self.sfx_blocked.play()
                 return
                 
             if not self._check_collision(temp_rect, axis):

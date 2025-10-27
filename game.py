@@ -115,10 +115,11 @@ class Game():
             enums.HS_LIFE: self._load_image(constants.SPR_PATH + 'hotspot0.png'),
             enums.HS_SHIELD: self._load_image(constants.SPR_PATH + 'hotspot1.png'),
             enums.HS_AMMO: self._load_image(constants.SPR_PATH + 'hotspot2.png'),
-            enums.HS_CANDY: self._load_image(constants.SPR_PATH + 'hotspot3.png'),
-            enums.HS_APPLE: self._load_image(constants.SPR_PATH + 'hotspot4.png'),
-            enums.HS_CHOCO: self._load_image(constants.SPR_PATH + 'hotspot5.png'),
-            enums.HS_COIN: self._load_image(constants.SPR_PATH + 'hotspot6.png')}
+            enums.HS_BEACONS: self._load_image(constants.SPR_PATH + 'hotspot3.png'),
+            enums.HS_CANDY: self._load_image(constants.SPR_PATH + 'hotspot4.png'),
+            enums.HS_APPLE: self._load_image(constants.SPR_PATH + 'hotspot5.png'),
+            enums.HS_CHOCO: self._load_image(constants.SPR_PATH + 'hotspot6.png'),
+            enums.HS_COIN: self._load_image(constants.SPR_PATH + 'hotspot7.png')}
         self.control_images = {
             enums.CT_CLASSIC: self._load_image(constants.ASS_PATH + 'classic.png'),
             enums.CT_GAMER: self._load_image(constants.ASS_PATH + 'gamer.png'),
@@ -162,6 +163,7 @@ class Game():
             enums.HS_LIFE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_life.wav'),
             enums.HS_SHIELD: pygame.mixer.Sound(constants.FX_PATH + 'sfx_shield.wav'),
             enums.HS_AMMO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_ammo.wav'),
+            enums.HS_BEACONS: pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacons.wav'),
             enums.HS_CANDY: pygame.mixer.Sound(constants.FX_PATH + 'sfx_candy.wav'),
             enums.HS_APPLE: pygame.mixer.Sound(constants.FX_PATH + 'sfx_apple.wav'),
             enums.HS_CHOCO: pygame.mixer.Sound(constants.FX_PATH + 'sfx_choco.wav'),
@@ -499,8 +501,11 @@ class Game():
                 player.invincible = True
                 player.timer_from = pygame.time.get_ticks()         
             elif hotspot.type == enums.HS_AMMO:
-                player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
                 ftext = 'Ammo +10'
+                player.ammo = min(player.ammo + constants.AMMO_ROUND, constants.MAX_AMMO)
+            elif hotspot.type == enums.HS_BEACONS:
+                ftext = 'Beacons +5'
+                self.remaining_beacons += 5
             # gifts
             elif hotspot.type == enums.HS_CANDY:
                 ftext = '+50'
