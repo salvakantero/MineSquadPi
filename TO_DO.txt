@@ -5,10 +5,12 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- mapeado stage 2
+
+- mapeado stage 3
 - gráficos de tiles stage 2
 - gráficos de enemigos stage 2
-
+- gráficos de tiles stage 3
+- gráficos de enemigos stage 3
 
 BUGS
 ====
@@ -16,11 +18,11 @@ BUGS
 
 POR HACER
 =========
-- gráficos de tiles stage 3
-- gráficos de enemigos stage 3
-- mapeado stage 3
 - secuencia WIN
-- miniatura de mapa??
+- miniatura de mapa
+- hotspot pack de 5 balizas
+- sonido al tocar límite de mapa
+
 
 - documentación
 - eliminar recuento de FPS
@@ -29,6 +31,7 @@ POR HACER
 
 HECHO
 =====
+26/10/25 - mapeado stage 2
 19/10/25 - gráficos de tiles stage 1
 06/10/25 - mapeado stage 1
 02/10/25 - respawn de enemigos
