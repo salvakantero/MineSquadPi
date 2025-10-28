@@ -574,10 +574,15 @@ class Game():
 
     # regenerate the hotspot to score (if needed)
     def regenerate_hotspot(self, map_instance):
-        has_score_hotspot = any(
-            hotspot.type >= enums.HS_CANDY
-                for hotspot in self.sprite_groups[enums.SG_HOTSPOT])
-        if not has_score_hotspot:
+        # count current score hotspots (CANDY, APPLE, CHOCO, COIN)
+        score_hotspots_count = sum(
+            1 for hotspot in self.sprite_groups[enums.SG_HOTSPOT]
+            if hotspot.type >= enums.HS_CANDY)
+
+        # maintain 2 score hotspots at all times
+        hotspots_to_create = 2 - score_hotspots_count
+
+        for _ in range(hotspots_to_create):
             # inverse probabilities: lower value = higher probability
             weights = [40, 30, 20, 10]  # CANDY(40%), APPLE(30%), CHOCO(20%), COIN(10%)
             type = random.choices([enums.HS_CANDY, enums.HS_APPLE, enums.HS_CHOCO, enums.HS_COIN],
