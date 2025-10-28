@@ -148,7 +148,8 @@ class Menu():
         hotspots1 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_LIFE], (40, 60), 'FULL ENERGY', (61, 66)),
             (self.game.hotspot_images[enums.HS_SHIELD], (40, 80), 'INVULNERABLE', (61, 86)),
-            (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106))]
+            (self.game.hotspot_images[enums.HS_AMMO], (40, 100), 'AMMO +10', (61, 106)),
+            (self.game.hotspot_images[enums.HS_BEACON], (40, 120), 'BEACONS +5', (61, 126))]
         hotspots2 = [ # hotspot index, image pos, description, text pos
             (self.game.hotspot_images[enums.HS_CANDY], (140, 60), 'CANDY +50', (161, 66)),
             (self.game.hotspot_images[enums.HS_APPLE], (140, 80), 'APPLE +75', (161, 86)),

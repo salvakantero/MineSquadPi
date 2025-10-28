@@ -94,7 +94,7 @@ class Map():
         # add the hotspots
         map_hotspots = [hotspot for hotspot in constants.HOTSPOT_DATA if hotspot[1] == self.number]
         for hotspot_data in map_hotspots:
-            type = hotspot_data[0] # LIFE, SHIELD, AMMO, CANDY, APPLE, CHOCOLATE, COIN
+            type = hotspot_data[0] # LIFE, SHIELD, AMMO, BEACON_PACK, CANDY, APPLE, CHOCOLATE, COIN
             hotspot_sprite = Hotspot(type, self.game.hotspot_images[type], self)
             self.game.sprite_groups[enums.SG_HOTSPOT].add(hotspot_sprite)
 

@@ -4,9 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- hotspot pack de 5 balizas
 - calibrar jugabilidad/dificultad
-
+- doble HS para puntuar por mapa
 
 
 BUGS
@@ -15,7 +14,6 @@ BUGS
 
 POR HACER
 =========
-- doble HS para puntuar por mapa
 - mapeado stage 3
 - gráficos de tiles stage 2
 - gráficos de enemigos stage 2
@@ -31,6 +29,7 @@ POR HACER
 
 HECHO
 =====
+28/10/25 - hotspot pack de 5 balizas
 26/10/25 - mapeado stage 2
 19/10/25 - gráficos de tiles stage 1
 06/10/25 - mapeado stage 1
