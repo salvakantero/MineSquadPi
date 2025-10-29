@@ -125,8 +125,18 @@ class Game():
             enums.CT_GAMER: self._load_image(constants.ASS_PATH + 'gamer.png'),
             enums.CT_RETRO: self._load_image(constants.ASS_PATH + 'retro.png'),
             enums.CT_JOYSTICK: self._load_image(constants.ASS_PATH + 'joypad.png'),
-            enums.CT_COMMON: self._load_image(constants.ASS_PATH + 'common.png')
-        }
+            enums.CT_COMMON: self._load_image(constants.ASS_PATH + 'common.png')}
+        self.map_images = {
+            self._load_image(constants.MAP_PATH + 'map0.png'),
+            self._load_image(constants.MAP_PATH + 'map1.png'),
+            self._load_image(constants.MAP_PATH + 'map2.png'),
+            self._load_image(constants.MAP_PATH + 'map0.png'),
+            self._load_image(constants.MAP_PATH + 'map1.png'),
+            self._load_image(constants.MAP_PATH + 'map2.png'),
+            self._load_image(constants.MAP_PATH + 'map0.png'),
+            self._load_image(constants.MAP_PATH + 'map1.png'),
+            self._load_image(constants.MAP_PATH + 'map2.png')}
+        
         blast_path = constants.SPR_PATH
         self.blast_images = {
             0: [ # explosion 1: enemies
@@ -339,7 +349,7 @@ class Game():
 
 
     # display a message, darkening the screen
-    def message(self, msg1, msg2, darken, muted, opaque, control_info):
+    def message(self, msg1, msg2, darken, muted, opaque, show_info):
         # obscure the surface of the map
         if darken:
             self.srf_map.set_alpha(115)
@@ -355,7 +365,7 @@ class Game():
         # width = length of the longest text + margin
         width = max(message1_len, message2_len) + 30
         # extra width and height with control info
-        if control_info:
+        if show_info:
             width = max(width, 160)
             height = height + 50
         # calculate the position of the box
@@ -378,7 +388,7 @@ class Game():
         self.fonts[enums.S_B_GREEN].render(msg2, aux_surf, (text_x, text_y))
         self.fonts[enums.S_F_GREEN].render(msg2, aux_surf, (text_x - 1, text_y - 1))
         # control images
-        if control_info:
+        if show_info:
             aux_surf.blit(self.control_images[self.config.data['control']], (x + 15, y + 45))
             aux_surf.blit(self.control_images[4], (x + width - 85, y + 39))
         # return the copy with the message on the map surface and redraw it.
@@ -569,6 +579,25 @@ class Game():
 
                 # redraw the scoreboard
                 scoreboard.invalidate()
+
+
+
+    # check if the game is impossible to complete
+    def is_game_impossible(self):
+        # if we have enough beacons, game is not impossible
+        if self.remaining_beacons >= self.remaining_mines:
+            return False
+
+        # count available beacon hotspots in the map
+        beacon_hotspots = sum(
+            1 for hotspot in self.sprite_groups[enums.SG_HOTSPOT]
+            if hotspot.type == enums.HS_BEACON)
+
+        # calculate potential beacons: current + (beacon_packs * 5)
+        potential_beacons = self.remaining_beacons + (beacon_hotspots * 5)
+
+        # game is impossible if even with all beacon packs we can't mark all mines
+        return potential_beacons < self.remaining_mines
 
 
 

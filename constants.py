@@ -139,6 +139,7 @@ MUS_PATH = 'sounds/music/'
 FNT_PATH = 'images/fonts/'
 SPR_PATH = 'images/sprites/'
 ASS_PATH = 'images/assets/'
+MAP_PATH = 'images/maps/'
 
 # colour palette (similar to Pico8 tones)
 # 0 = darker, 1 = original, 2 = lighter

@@ -197,16 +197,24 @@ while True:
                 map.number += 1 
             else: game.win()
 
-        # game over?
-        if player.energy <= 0 or (game.remaining_beacons < game.remaining_mines):
-            if player.energy < 0: 
-                player.energy = 0
-            if game.blast_sequence == 0: # blast animation completed                           
-                game.over()
-                game.update_high_score_table(game.score)
-                game.status = enums.GS_OVER
-                continue            
-            game.blast_sequence -= 1 # blast animation in progress
+        # game over conditions
+        game_over = False
+        # condition 1: player has no energy
+        if player.energy <= 0:
+            player.energy = 0
+            if game.blast_sequence == 0: # blast animation completed
+                game_over = True
+            else:
+                game.blast_sequence -= 1 # blast animation in progress
+        # condition 2: impossible to complete (not enough beacons)
+        if game.is_game_impossible():
+            game_over = True
+        # handle game over
+        if game_over:
+            game.over()
+            game.update_high_score_table(game.score)
+            game.status = enums.GS_OVER
+            continue
 
         # TEST ZONE ================================================================================
         game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (228, 169))
