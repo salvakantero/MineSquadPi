@@ -105,9 +105,9 @@ class Player(pygame.sprite.Sprite):
         # define stats based on difficulty level, independent of the character.
         # Format: (energy, move_time) - Lower move_time is faster.
         difficulty_stats = {
-            enums.DF_EASY:   (14, 25),  # Easy: More energy, slower movement
-            enums.DF_NORMAL: (12, 16),  # Normal: Balanced energy and speed
-            enums.DF_HARD:   (10, 12)    # Hard: Less energy, faster movement
+            enums.DF_EASY:   (14, 28),  # Easy: More energy, slower movement
+            enums.DF_NORMAL: (12, 24),  # Normal: Balanced energy and speed
+            enums.DF_HARD:   (10, 20)    # Hard: Less energy, faster movement
         }
         # return the tuple (energy, move_time) for the selected difficulty
         return difficulty_stats.get(self.game.selected_difficulty, (11, 15))

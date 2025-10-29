@@ -40,7 +40,7 @@ H_MARGIN = 40 # horizontal distance between the edge and the playing area (windo
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 
 NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
-NUM_BEACONS = 34, 38, 42, 44, 48, 52, 54, 58, 62 # number of flags/beacons per map
+NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield time (approximately 20 seconds)
@@ -139,7 +139,6 @@ MUS_PATH = 'sounds/music/'
 FNT_PATH = 'images/fonts/'
 SPR_PATH = 'images/sprites/'
 ASS_PATH = 'images/assets/'
-MAP_PATH = 'images/maps/'
 
 # colour palette (similar to Pico8 tones)
 # 0 = darker, 1 = original, 2 = lighter
@@ -212,13 +211,17 @@ PALETTE = {
 HOTSPOT_DATA = [
     # Type            Map
     [enums.HS_LIFE,   0],
+    [enums.HS_LIFE,   0],
+    [enums.HS_AMMO,   0],
     [enums.HS_AMMO,   0],
     [enums.HS_SHIELD, 0],
     [enums.HS_BEACON, 0],
 
-    [enums.HS_LIFE, 1],
-    [enums.HS_AMMO, 1],
-    [enums.HS_AMMO, 1],
+    [enums.HS_LIFE,   1],
+    [enums.HS_LIFE,   1],
+    [enums.HS_AMMO,   1],
+    [enums.HS_AMMO,   1],
+    [enums.HS_BEACON, 1],
 
     [enums.HS_LIFE,   2],
     [enums.HS_SHIELD, 2],
@@ -249,7 +252,7 @@ CREDITS = (
     'MENU MUSIC: SigmaMusicArt     '
     'IN-GAME MUSIC: Spring Spring, Jonathan Shaw, Otto Halmen, HitCtrl, TheMightyRager, Beau Buckley, Umplix     '
     'SOUND EFFECTS: Juhani Junkala     '
-    'BETA TESTING: Luna_314     '
+    'BETA TESTING: lou_314     '
     'ACKNOWLEDGEMENTS: DaFluffyPotato, Rik Cross, Clear Code YT channel, '
     'Mark Vanstone, Ryan Lambie, Kenney...     '
     'PYTHON SOURCE CODE AND RESOURCES AVAILABLE AT https://github.com/salvakantero/MineSquadPi     '

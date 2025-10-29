@@ -126,16 +126,6 @@ class Game():
             enums.CT_RETRO: self._load_image(constants.ASS_PATH + 'retro.png'),
             enums.CT_JOYSTICK: self._load_image(constants.ASS_PATH + 'joypad.png'),
             enums.CT_COMMON: self._load_image(constants.ASS_PATH + 'common.png')}
-        self.map_images = {
-            self._load_image(constants.MAP_PATH + 'map0.png'),
-            self._load_image(constants.MAP_PATH + 'map1.png'),
-            self._load_image(constants.MAP_PATH + 'map2.png'),
-            self._load_image(constants.MAP_PATH + 'map0.png'),
-            self._load_image(constants.MAP_PATH + 'map1.png'),
-            self._load_image(constants.MAP_PATH + 'map2.png'),
-            self._load_image(constants.MAP_PATH + 'map0.png'),
-            self._load_image(constants.MAP_PATH + 'map1.png'),
-            self._load_image(constants.MAP_PATH + 'map2.png')}
         
         blast_path = constants.SPR_PATH
         self.blast_images = {

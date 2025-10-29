@@ -5,8 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- miniatura de mapa
-
+- mina con escudo daña la mitad
 
 BUGS
 ====

@@ -409,7 +409,7 @@ class Menu():
         # credit text (using pre-created fonts)
         marquee_credits = MarqueeText(
             self.srf_menu, self._marquee_credits_font,
-            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2500)
+            self.srf_menu.get_height() - 8, .5, constants.CREDITS, 2100)
     
         # some local variables are initialised
         selected_option = enums.MO_START # option where the cursor is located
