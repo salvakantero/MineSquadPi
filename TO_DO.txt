@@ -5,21 +5,21 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- mina con escudo daña la mitad
+- gráficos de tiles stage 2
+- gráficos de enemigos stage 2
 
 BUGS
 ====
+- colores de fondo de scoreboard
 
 
 POR HACER
 =========
 - mapeado stage 3
-- gráficos de tiles stage 2
-- gráficos de enemigos stage 2
 - gráficos de tiles stage 3
 - gráficos de enemigos stage 3
 - secuencia WIN
-
+----------------------------------
 - documentación
 - eliminar recuento de FPS
 - eliminar truco de saltar niveles

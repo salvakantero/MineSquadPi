@@ -453,8 +453,11 @@ class Game():
                 blast = self.explosion_pool.get_explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(self._blast_sfx_tuple).play()
-                player.invincible = False
-                player.loses_energy(7, play_sound=False)
+                if player.invincible:
+                    player.invincible = False
+                    player.loses_energy(3, play_sound=False)
+                else:
+                    player.loses_energy(7, play_sound=False)
                 self.remaining_mines -= 1
                 self.blast_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
