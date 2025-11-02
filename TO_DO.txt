@@ -10,7 +10,7 @@ EN PROCESO
 
 BUGS
 ====
-- colores de fondo de scoreboard
+- colores de fondo de scoreboard!
 
 
 POR HACER
