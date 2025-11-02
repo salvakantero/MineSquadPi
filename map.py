@@ -44,7 +44,8 @@ class Map():
         self.map_data = {} # all the information needed to build the map
         self.tile_images = {} # dictionary for storing tile images
         self._tiles_by_id = {}  # cache for quick ID searches
-        self.stage_name1 = ("El Alamein", "D-Day", "Battle of the Bulge")
+        self.stage_name1 = ("Stage 1. El Alamein", "Stage 2. D-Day", 
+                            "Stage 3. Battle of the Bulge")
         self.stage_name2 = ("EGYPT, OCTOBER 1942", "NORMANDY, JUNE 1944",
                             "ARDENNES FOREST, JANUARY 1945")
         # optimization cache for draw_mine_data

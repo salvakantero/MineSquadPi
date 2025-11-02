@@ -8,9 +8,9 @@ EN PROCESO
 - gráficos de tiles stage 2
 - gráficos de enemigos stage 2
 
+
 BUGS
 ====
-- colores de fondo de scoreboard!
 
 
 POR HACER
@@ -159,13 +159,13 @@ Notas
         soldado marrón  persigue    50
 
     Normandía: (playa)
-        alambre puas    tile*
+        antitanques     tile*
         cangrejo        aleatorio   20
         proyectil       lineal      40
         soldado gris    persigue    100
 
     Ardenas: (bosque nevado)
-        cepo            tile*
+        alambre púas    tile*
         esquiador       lineal      40
         jabalí          aleatorio   80
         soldado blanco  persigue    200

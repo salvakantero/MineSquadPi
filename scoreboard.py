@@ -36,7 +36,7 @@ class Scoreboard():
         self.player0_image = pygame.image.load(constants.SPR_PATH + 'player/0/player12.png').convert_alpha()
         self.player1_image = pygame.image.load(constants.SPR_PATH + 'player/1/player12.png').convert_alpha()
         # background dark colour for each level: red, blue, green
-        self.back_colour = ((100,10,10), (10,10,100), (10,100,10))
+        self.back_colour = ((100,10,10), (10,10,120), (10,100,10))
         self.stage_number = 0
         # pre-create energy bar colors (avoid recreation in loop)
         self._energy_bar_colors = (
@@ -60,7 +60,7 @@ class Scoreboard():
             self._clear_zone(183, 15)
             self._shaded_text(self.game.remaining_mines, 185, 6)
             self.needs_updating = False
-                       
+
             x = 204
             y = 3
             self._clear_zone(x, 34)
@@ -82,7 +82,7 @@ class Scoreboard():
     def reset(self, map_number):
         # gets the stage number
         if map_number != 0:
-            self.stage_number = (map_number - 1) // 4
+            self.stage_number = map_number // 3
         # delete the entire scoreboard
         self.game.srf_sboard.fill(self.back_colour[self.stage_number])
         # draw icons
