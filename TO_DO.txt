@@ -113,7 +113,7 @@ Notas
     Contexto: Ofensiva alemana en la región de las Ardenas durante el invierno.
 
 - Objetivo general: 
-    Despejar el campo de juego sin activar ninguna mina.
+    Despejar el campo de juego de minas sin morir en el intento.
 
 - Campo de juego: 
     Rectangular 30x40 celdas con scroll. 
@@ -141,7 +141,7 @@ Notas
     Aplicable a los tipos 0 al 3:
     * definidos en HOTSPOT_DATA [tipo, mapa] 
     Aplicable a los tipos 4 al 7:
-    * siempre uno (aleatorio) en todo momento en el mapa
+    * siempre dos en todo momento en el mapa (aleatorio)
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación
 
