@@ -4,12 +4,12 @@
 =============================
 Para Raspberry Pi / Windows *
 
-* y otros sistemas compatibles con pygame 2.6.1 (SDL 2.28.4, Python 3.13.6) o superior.
+* y otros sistemas compatibles con python/pygame.
   (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
 
 
 Formas parte de un equipo de élite de zapadores durante la Segunda Guerra Mundial. 
-Tu misión: Desactivar todos los campos minados en tres frentes de batalla cruciales sin activar ninguna mina. 
+Tu misión: Desactivar todos los campos minados situados en tres frentes de batalla cruciales sin activar ninguna mina. 
 Usa tu ingenio y las pistas numéricas para localizar las minas ocultas, márcalas con balizas y despeja cada sector para avanzar.
 
 
@@ -36,13 +36,13 @@ INVASIÓN DEL DÍA D (Normandía - Junio 1944)
 -------------------------------------------
 Playas de Normandía durante el histórico desembarco aliado.
 Enemigos: Cangrejos, proyectiles enemigos, soldados alemanes.
-Obstáculos: Alambradas que causan heridas.
+Obstáculos: Barreras antitanques que causan heridas.
 
 BATALLA DE LAS ARDENAS (Bélgica - Enero 1945)
 ---------------------------------------------
 Bosque nevado durante la ofensiva alemana de invierno.
 Enemigos: Esquiadores, jabalíes, soldados de montaña.
-Obstáculos: Cepos ocultos que hieren.
+Obstáculos: Alambradas que hieren.
 
 
 MECÁNICA DE JUEGO
@@ -57,13 +57,15 @@ Al moverte por el terreno, las celdas adyacentes revelan información:
 
 Tu objetivo es marcar TODAS las minas con balizas para completar el nivel.
 
-ADVERTENCIA: El número de balizas es limitado. A mayor nivel, más minas y menos balizas disponibles. Usa la lógica del buscaminas para deducir dónde están las minas antes de colocar tus balizas.
+ADVERTENCIA: El número de balizas es limitado. A mayor nivel, más minas y menos balizas disponibles. 
+Usa la lógica del buscaminas para deducir dónde están las minas antes de colocar tus balizas.
 
 
 OBJETOS Y POWER-UPS
 ===================
 
 BALIZA/BANDERA: Márcala en una celda que creas que contiene una mina. Las balizas son limitadas.
+Las balizas situadas erroneamente en una celda sin mina tomarán un color rojizo.
 El nivel se supera cuando todas las minas estén correctamente marcadas.
 En todo momento se puede ver en el marcador el número de balizas/minas restantes.
 
@@ -75,6 +77,8 @@ ESCUDO: Te vuelve invencible durante 30 segundos. Aprovecha para explorar zonas 
 
 MUNICIÓN: Te permite disparar contra enemigos (+10 balas cada recarga).
 
+PACK BALIZAS: 5 balizas más.
+
 OBJETOS PARA PUNTUAR*:
 
 CHUCHE:      50 puntos
@@ -82,14 +86,15 @@ MANZANA:     75 puntos
 CHOCOLATE:  100 puntos
 MONEDA:     200 puntos
 
-*Estos objetos aparecen de forma aleatoria por el mapa. Al recogerlos, se genera otro inmediatamente en otra ubicación. Los de menor valor aparecen con mayor frecuencia.
+*Estos objetos aparecen en una posición aleatoria. Dos objetos por mapa. 
+Al recogerlos, se genera otro inmediatamente en otra ubicación. Los de menor valor aparecen con mayor frecuencia.
 
 
 ENEMIGOS
 ========
 
 Los enemigos patrullan el campo de batalla y representan una amenaza constante. 
-Algunos se mueven linealmente, otros erráticamente, y los más peligrosos te persiguen.
+Algunos se mueven linealmente, otros erráticamente, y los más peligrosos te persiguen cuando estás cerca.
 Su número, velocidad y resistencia aumentan con cada nivel.
 
 NIVEL 1-3: EL ALAMEIN (Desierto)
@@ -111,7 +116,7 @@ JABALÍ:          Movimiento aleatorio   80 puntos   3 vidas
 SOLDADO BLANCO:  Persigue al jugador   200 puntos   4 vidas
 
 OBSTÁCULOS MORTALES:
-Los cactus, alambradas y cepos son obstáculos del terreno que puedes atravesar, pero te causarán daño al hacerlo.
+Los cactus, alambradas y barreras antitanques son obstáculos del terreno que puedes atravesar, pero te causarán daño al hacerlo.
 
 
 DIFICULTAD
@@ -133,18 +138,16 @@ Si no se pulsa ninguna tecla, el menú muestra automáticamente páginas con:
 - Información del juego
 
 En el menú de juego puedes:
-- Comenzar una nueva partida
-- Seleccionar personaje (BLAZE o PIPER)
-- Elegir nivel de dificultad
-- Ver las mejores puntuaciones
-- Salir del juego
+  - Comenzar una nueva partida
+  - Seleccionar personaje (BLAZE o PIPER)
+    - Elegir nivel de dificultad
+  - Salir del juego
 
-En el menú de configuración puedes ajustar:
-
-FULL SCREEN:
+En el menú de configuración puedes ajustar*:
   - WINDOWED: Juega en ventana.
   - 4:3: Pantalla completa para monitores tradicionales.
-  - 16:9: Pantalla completa para monitores panorámicos (la zona de juego aparece centrada sin achatar).
+  - 16:9: Pantalla completa para monitores panorámicos (zona de juego centrada sin achatar).
+*los modos 4:3 y 19:9 solo están disponibles en Windows.
 
 SCANLINES:
   Simula el efecto de las pantallas CRT de las máquinas arcade clásicas.
@@ -186,15 +189,13 @@ CONSEJOS Y TRUCOS
 
 - Elimina enemigos cuando sean una amenaza, pero prioriza revelar celdas seguras y marcar minas.
 
-- El escudo de invencibilidad es ideal para explorar zonas con muchos enemigos.
+- El escudo de invencibilidad es ideal para explorar zonas con muchos enemigos o enemigos perseguidores.
 
-- Evita los obstáculos del terreno (cactus, alambradas, cepos) siempre que sea posible, ya que dañan tu energía.
+- Evita los obstáculos del terreno (cactus, alambradas, etc) siempre que sea posible, ya que restan energía.
 
 - En niveles avanzados, los enemigos que persiguen son muy peligrosos. Elimínalos antes de que te acorralen.
 
 - Cada escenario tiene enemigos diferentes. Aprende sus patrones de movimiento para anticiparte.
-
-- Si te quedas sin balizas pero aún hay minas sin marcar, el juego termina. Planifica bien antes de colocarlas.
 
 
 ===================================
@@ -225,7 +226,7 @@ MÚSICA IN-GAME:
   Umplix:
     - "Game Over"
 EFECTOS DE SONIDO: Juhani Junkala
-BETA TESTING: Luna_314
+BETA TESTING: lou_314
 
 AGRADECIMIENTOS*: 
 DaFluffyPotato (clase Font, escalado de pantallas)
