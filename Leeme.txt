@@ -143,7 +143,9 @@ En el menú de juego puedes:
     - Elegir nivel de dificultad
   - Salir del juego
 
-En el menú de configuración puedes ajustar*:
+En el menú de configuración puedes ajustar:
+
+SCREEN MODE*:
   - WINDOWED: Juega en ventana.
   - 4:3: Pantalla completa para monitores tradicionales.
   - 16:9: Pantalla completa para monitores panorámicos (zona de juego centrada sin achatar).
