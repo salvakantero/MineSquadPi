@@ -74,7 +74,7 @@ ENEMIES_DATA = [
     #
     # types:    1) SCORPION 
     #           2) SNAKE 
-    #           3) SOLDIER1
+    #           3) SOLDIER0
     # 0
     (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
     (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
@@ -101,16 +101,26 @@ ENEMIES_DATA = [
 
     #-----------STAGE 2-------------
     #
-    # types:    4) CRAB
-    #           5) PROJECTILE
-    #           6) SOLDIER2
+    # types:    4) PROJECTILE
+    #           5) CRAB
+    #           6) SOLDIER1
     # 3
-    (32, 96, 32, 112, 0, 0, 5),
-    (192, 16, 128, 128, -1, 1, 2),
+    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 10, 29, 10),
+    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 32, 29, 32),
+    (3, enums.EN_CRAB, enums.EM_RANDOM, 18, 36, 0, 0),
+    (3, enums.EN_CRAB, enums.EM_RANDOM, 7, 18, 0, 0),
+    (3, enums.EN_CRAB, enums.EM_RANDOM, 24, 21, 0, 0),
+    (3, enums.EN_CRAB, enums.EM_RANDOM, 12, 3, 0, 0),
     # 4
-    (176, 48, 64, 48, -.5, 0, 1),
-    (48, 128, 32, 16, -1, -1, 3),
-    (64, 48, 176, 48, 1, 0, 1),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 10, 29, 10),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 20, 29, 10),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 32, 29, 32),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 22, 36, 0, 0),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 23, 22, 0, 0),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 14, 3, 0, 0),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 5, 20, 0, 0),
+    (4, enums.EN_SOLDIER1, enums.EM_CHASER, 15, 12, 0, 0),
+    (4, enums.EN_SOLDIER1, enums.EM_CHASER, 15, 25, 0, 0),
     # 5
     (64, 16, 80, 128, 1, 1, 2),
     (96, 32, 160, 32, 1, 0, 1),
@@ -120,7 +130,7 @@ ENEMIES_DATA = [
     #
     # types:    7) SKIER
     #           8) BOAR
-    #           9) SOLDIER3
+    #           9) SOLDIER2
     # 6
     (80, 128, 112, 128, 0, 0, 5),
     (112, 112, 144, 112, 1, 0, 2),
