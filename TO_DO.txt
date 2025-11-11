@@ -11,6 +11,8 @@ EN PROCESO
 
 BUGS
 ====
+- disparo no se elimina al salir de cámara
+- descartar bloques antitanques?
 
 
 POR HACER

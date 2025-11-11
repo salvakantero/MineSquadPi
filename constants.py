@@ -105,8 +105,8 @@ ENEMIES_DATA = [
     #           5) CRAB
     #           6) SOLDIER1
     # 3
-    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 10, 29, 10),
-    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 32, 29, 32),
+    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 10, 30, 10),
+    (3, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 32, 30, 32),
     (3, enums.EN_CRAB, enums.EM_RANDOM, 18, 36, 0, 0),
     (3, enums.EN_CRAB, enums.EM_RANDOM, 7, 18, 0, 0),
     (3, enums.EN_CRAB, enums.EM_RANDOM, 24, 21, 0, 0),
