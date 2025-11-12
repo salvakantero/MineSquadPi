@@ -92,10 +92,14 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # determine initial direction based on movement type
-        if self.movement == enums.EM_HORIZONTAL or self.movement == enums.EM_HORIZONTAL_LOOP:
-            self.vx = 1 if self.x2 > self.x1 else -1
-        elif self.movement == enums.EM_VERTICAL or self.movement == enums.EM_VERTICAL_LOOP:
-            self.vy = 1 if self.y2 > self.y1 else -1
+        if self.movement == enums.EM_HORIZONTAL:
+            self.vx = -1 if self.x2 > self.x1 else 1
+        elif self.movement == enums.EM_HORIZONTAL_LOOP:
+            self.vx = -2 if self.x2 > self.x1 else 2
+        elif self.movement == enums.EM_VERTICAL:
+            self.vy = -1 if self.y2 > self.y1 else 1
+        elif self.movement == enums.EM_VERTICAL_LOOP:
+            self.vy = -2 if self.y2 > self.y1 else 2            
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()
 

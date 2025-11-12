@@ -56,11 +56,34 @@ class Shot(pygame.sprite.Sprite):
         if (self.rect.x < 0 or self.rect.x > constants.MAP_PIXEL_SIZE[0] or
             self.rect.y < 0 or self.rect.y > constants.MAP_PIXEL_SIZE[1]):
             self.kill()
+            return
+        # if the bullet is no longer visible on screen (camera view), remove it.
+        # (this allows the player to shoot again)
+        if not self._is_visible(camera):
+            self.kill()
 
 
 
     # draws the bullet on the screen
     def draw(self, surface, camera):
+        if not self._is_visible(camera):
+            return
         screen_x = self.rect.x - camera.x
         screen_y = self.rect.y - camera.y
         surface.blit(self.image, (screen_x, screen_y))
+
+
+
+    ##### auxiliary functions #####
+
+    def _is_visible(self, camera):
+        # Returns True if any part of the bullet rect intersects the camera viewport
+        return (
+            # right edge beyond camera left
+            self.rect.x + self.rect.width > camera.x
+            # left edge before camera right
+            and self.rect.x < camera.x + constants.SCREEN_MAP_UNSCALED_SIZE[0]
+            # bottom edge beyond camera top
+            and self.rect.y + self.rect.height > camera.y
+            # top edge before camera bottom
+            and self.rect.y < camera.y + constants.SCREEN_MAP_UNSCALED_SIZE[1])
