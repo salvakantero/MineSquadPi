@@ -93,13 +93,13 @@ class Enemy(pygame.sprite.Sprite):
 
         # determine initial direction based on movement type
         if self.movement == enums.EM_HORIZONTAL:
-            self.vx = -1 if self.x2 > self.x1 else 1
+            self.vx = 1 if self.x2 > self.x1 else -1
         elif self.movement == enums.EM_HORIZONTAL_LOOP:
-            self.vx = -2 if self.x2 > self.x1 else 2
+            self.vx = -2
         elif self.movement == enums.EM_VERTICAL:
-            self.vy = -1 if self.y2 > self.y1 else 1
+            self.vy = 1 if self.y2 > self.y1 else -1
         elif self.movement == enums.EM_VERTICAL_LOOP:
-            self.vy = -2 if self.y2 > self.y1 else 2            
+            self.vy = 2
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()
 
@@ -346,15 +346,12 @@ class Enemy(pygame.sprite.Sprite):
 
 
     # handle horizontal loop movement (teleports back to start)
+    # always moves from right to left
     def _update_horizontal_loop_movement(self):
-        self.x = self.x + self.vx
-        # determine direction and check if reached end
-        if self.vx > 0:  # moving right
-            if self.x >= self.x2:
-                self.x = self.x1  # teleport back to start
-        else:  # moving left
-            if self.x <= self.x2:
-                self.x = self.x1  # teleport back to start
+        self.x = self.x + self.vx      
+        if self.vx < 0:
+            if self.x <= self.x1: # check if reached end
+                self.x = self.x2  # teleport back to start
 
 
 
@@ -514,7 +511,8 @@ class Enemy(pygame.sprite.Sprite):
         self.y = self.y1 = self.original_data[4] * self._tile_size
         self.x2 = self.original_data[5] * self._tile_size
         self.y2 = self.original_data[6] * self._tile_size
-
+        if self.movement == enums.EM_HORIZONTAL_LOOP:
+            self.x = self.x2
         # restore health
         self.health = self.max_health
         self.is_dead = False
@@ -535,18 +533,17 @@ class Enemy(pygame.sprite.Sprite):
         self.animation_timer = 0
 
         # determine initial direction based on movement type
-        if self.movement == enums.EM_HORIZONTAL or self.movement == enums.EM_HORIZONTAL_LOOP:
+        if self.movement == enums.EM_HORIZONTAL:
             self.vx = 1 if self.x2 > self.x1 else -1
-        elif self.movement == enums.EM_VERTICAL or self.movement == enums.EM_VERTICAL_LOOP:
+        elif self.movement == enums.EM_HORIZONTAL_LOOP:
+            self.vx = -2
+        elif self.movement == enums.EM_VERTICAL:
             self.vy = 1 if self.y2 > self.y1 else -1
+        elif self.movement == enums.EM_VERTICAL_LOOP:
+            self.vy = 2
         elif self.movement == enums.EM_RANDOM:
             self._set_random_direction()
 
         # update rect
         self.rect.x = self.x
         self.rect.y = self.y
-
-
-
-
-

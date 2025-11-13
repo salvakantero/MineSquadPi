@@ -111,7 +111,7 @@ while True:
                     player.fire()
                 elif event.button == 3:  # 3 = right click (beacon)
                     player.place_beacon()
-                                       
+
         # change the map if necessary
         if map.number != map.last:
             map.change(player)

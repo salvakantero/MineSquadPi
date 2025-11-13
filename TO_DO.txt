@@ -10,7 +10,6 @@ EN PROCESO
 
 BUGS
 ====
-- balas de derecha a izquierda
 
 
 POR HACER
