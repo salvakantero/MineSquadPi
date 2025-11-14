@@ -64,6 +64,7 @@ class Player(pygame.sprite.Sprite):
         # FX sounds
         self.sfx_shot1 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_shot1.wav')
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
+        self.sfx_no_ammo.set_volume(0.6)
         self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
         self.sfx_beacon.set_volume(0.6)
