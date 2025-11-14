@@ -68,7 +68,7 @@ class Map():
         self.stage = self.number // 3
         # load the wallpaper if necessary
         if self.game.config.data['screen_mode'] == enums.SM_16_9: # 16:9
-            self.game.set_background(self.stage)
+            self.game.set_background(self.number)
         # load the new map
         self._load()
         # reset some vars
