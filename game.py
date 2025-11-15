@@ -154,6 +154,8 @@ class Game():
         self.sfx_click = pygame.mixer.Sound(constants.FX_PATH + 'sfx_menu_click.wav')
         self.sfx_respawn = pygame.mixer.Sound(constants.FX_PATH + 'sfx_respawn.wav')
         self.sfx_hit = pygame.mixer.Sound(constants.FX_PATH + 'sfx_hit.wav')
+        self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
+        self.sfx_death2 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death2.wav')
         self.sfx_blast = {
             0: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast0.wav'),
             1: pygame.mixer.Sound(constants.FX_PATH + 'sfx_blast1.wav'),
@@ -455,14 +457,15 @@ class Game():
                 random.choice(self._blast_sfx_tuple).play()
                 if player.invincible:
                     player.invincible = False
-                    player.loses_energy(3, play_sound=False)
+                    player.loses_energy(3)
                 else:
-                    player.loses_energy(7, play_sound=False)
+                    player.loses_energy(7)
                 self.remaining_mines -= 1
                 self.blast_sequence = 70 # allows to end the animation of the explosion
                 scoreboard.invalidate()
                 return
             elif tile_type == enums.TT_KILLER:
+                self.sfx_death.play()
                 player.loses_energy(1)
                 scoreboard.invalidate()
                 return
@@ -473,6 +476,7 @@ class Game():
                 alive_enemies = [e for e in self.sprite_groups[enums.SG_ENEMIES] if not e.is_dead]
                 for enemy in alive_enemies:
                     if pygame.sprite.collide_rect_ratio(0.60)(player, enemy):
+                        self.sfx_death2.play()
                         player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     

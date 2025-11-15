@@ -13,7 +13,6 @@ EN PROCESO
 
 BUGS
 ====
-- FX de tocado por enemigo
 
 
 POR HACER

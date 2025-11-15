@@ -65,7 +65,6 @@ class Player(pygame.sprite.Sprite):
         self.sfx_shot1 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_shot1.wav')
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')
         self.sfx_no_ammo.set_volume(0.6)
-        self.sfx_death = pygame.mixer.Sound(constants.FX_PATH + 'sfx_death.wav')
         self.sfx_beacon = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon.wav')
         self.sfx_beacon.set_volume(0.6)
         self.sfx_beacon_error = pygame.mixer.Sound(constants.FX_PATH + 'sfx_beacon_error.wav')
@@ -183,11 +182,9 @@ class Player(pygame.sprite.Sprite):
 
 
     # subtracts one energy unit and applies temporary invincibility
-    def loses_energy(self, value, play_sound=True):
+    def loses_energy(self, value):
         if not self.invincible:
             self.energy -= value
-            if play_sound and self.sfx_death.get_num_channels() == 0:
-                self.sfx_death.play()
             if self.energy >= 0:
                 self.invincible = True
                 self.timer_from = pygame.time.get_ticks()
