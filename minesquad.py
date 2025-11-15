@@ -201,11 +201,12 @@ while True:
         game_over = False
         # condition 1: player has no energy
         if player.energy <= 0:
-            player.energy = 0
-            if game.blast_sequence == 0: # blast animation completed
-                game_over = True
-            else:
-                game.blast_sequence -= 1 # blast animation in progress
+            player.energy = player.max_energy; # <- DEBUG: avoid game over ##################
+            #player.energy = 0
+            #if game.blast_sequence == 0: # blast animation completed
+            #    game_over = True
+            #else:
+            #    game.blast_sequence -= 1 # blast animation in progress
         # condition 2: impossible to complete (not enough beacons)
         if game.is_game_impossible():
             game_over = True

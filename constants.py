@@ -79,10 +79,10 @@ ENEMIES_DATA = [
     (0, enums.EN_SCORPION, enums.EM_HORIZONTAL, 2, 35, 13, 35),
     (0, enums.EN_SCORPION, enums.EM_VERTICAL, 23, 2, 23, 37),
     (0, enums.EN_SNAKE, enums.EM_RANDOM, 26, 16, 0, 0),
-    (0, enums.EN_SNAKE, enums.EM_RANDOM, 10, 5, 0, 0),
+    (0, enums.EN_SNAKE, enums.EM_RANDOM, 10, 8, 0, 0),
     # 1
     (1, enums.EN_SCORPION, enums.EM_VERTICAL, 9, 1, 9, 38),
-    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 21, 38, 21, 1),
+    (1, enums.EN_SCORPION, enums.EM_VERTICAL, 21, 1, 21, 37),
     (1, enums.EN_SNAKE, enums.EM_RANDOM, 22, 36, 0, 0),
     (1, enums.EN_SNAKE, enums.EM_RANDOM, 23, 22, 0, 0),
     (1, enums.EN_SNAKE, enums.EM_RANDOM, 14, 3, 0, 0),
@@ -94,7 +94,8 @@ ENEMIES_DATA = [
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 1, 29, 8, 29),
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 19, 18, 28, 18),
     (2, enums.EN_SCORPION, enums.EM_HORIZONTAL, 4, 9, 9, 9),
-    (2, enums.EN_SNAKE, enums.EM_RANDOM, 20, 32, 0, 0),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 20, 31, 0, 0),
+    (2, enums.EN_SNAKE, enums.EM_RANDOM, 11, 20, 0, 0),
     (2, enums.EN_SNAKE, enums.EM_RANDOM, 22, 5, 0, 0),
     (2, enums.EN_SOLDIER0, enums.EM_CHASER, 24, 18, 0, 0),
     (2, enums.EN_SOLDIER0, enums.EM_CHASER, 12, 4, 0, 0),
@@ -112,23 +113,24 @@ ENEMIES_DATA = [
     (3, enums.EN_CRAB, enums.EM_RANDOM, 24, 21, 0, 0),
     (3, enums.EN_CRAB, enums.EM_RANDOM, 12, 3, 0, 0),
     # 4
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 10, 29, 10),
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 20, 29, 10),
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 0, 32, 29, 32),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 14, 30, 10),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 24, 30, 10),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 35, 30, 32),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 22, 36, 0, 0),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 23, 22, 0, 0),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 14, 3, 0, 0),
-    (4, enums.EN_CRAB, enums.EM_RANDOM, 5, 20, 0, 0),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 1, 20, 0, 0),
+    (4, enums.EN_CRAB, enums.EM_RANDOM, 1, 1, 0, 0),
     (4, enums.EN_SOLDIER1, enums.EM_CHASER, 15, 12, 0, 0),
     (4, enums.EN_SOLDIER1, enums.EM_CHASER, 15, 25, 0, 0),
     # 5
-    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 2, 35, 12, 35),
-    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 1, 29, 8, 29),
-    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 19, 18, 28, 18),
-    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, 4, 9, 9, 9),
-    (5, enums.EN_CRAB, enums.EM_RANDOM, 20, 32, 0, 0),
-    (5, enums.EN_CRAB, enums.EM_RANDOM, 22, 5, 0, 0),
-    (5, enums.EN_SOLDIER1, enums.EM_CHASER, 24, 18, 0, 0),
+    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 11, 30, 11),
+    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 24, 30, 24),
+    (5, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 37, 30, 37),
+    (5, enums.EN_CRAB, enums.EM_RANDOM, 16, 32, 0, 0),
+    (5, enums.EN_CRAB, enums.EM_RANDOM, 18, 5, 0, 0),
+    (5, enums.EN_CRAB, enums.EM_RANDOM, 5, 34, 0, 0),
+    (5, enums.EN_SOLDIER1, enums.EM_CHASER, 4, 19, 0, 0),
     (5, enums.EN_SOLDIER1, enums.EM_CHASER, 12, 4, 0, 0),
 
     #-----------LEVEL 3-------------
@@ -162,6 +164,62 @@ ENEMIES_DATA = [
     (8, enums.EN_BOAR, enums.EM_RANDOM, 22, 5, 0, 0),
     (8, enums.EN_SOLDIER2, enums.EM_CHASER, 24, 18, 0, 0),
     (8, enums.EN_SOLDIER2, enums.EM_CHASER, 12, 4, 0, 0),]
+
+# hotspot data
+HOTSPOT_DATA = [
+    # Type            Map
+    [enums.HS_LIFE,   0],
+    [enums.HS_LIFE,   0],
+    [enums.HS_AMMO,   0],
+    [enums.HS_AMMO,   0],
+    [enums.HS_SHIELD, 0],
+    [enums.HS_BEACON, 0],
+
+    [enums.HS_LIFE,   1],
+    [enums.HS_LIFE,   1],
+    [enums.HS_AMMO,   1],
+    [enums.HS_AMMO,   1],
+    [enums.HS_BEACON, 1],
+
+    [enums.HS_LIFE,   2],
+    [enums.HS_AMMO,   2],
+    [enums.HS_SHIELD, 2],
+    [enums.HS_SHIELD, 2],
+    [enums.HS_BEACON, 2],
+    
+    [enums.HS_LIFE,   3],
+    [enums.HS_LIFE,   3],
+    [enums.HS_AMMO,   3],
+    [enums.HS_SHIELD, 3],
+    [enums.HS_BEACON, 3],
+    
+    [enums.HS_LIFE,   4],
+    [enums.HS_AMMO,   4],
+    [enums.HS_AMMO,   4],
+    [enums.HS_BEACON, 4],
+    
+    [enums.HS_AMMO,   5],
+    [enums.HS_SHIELD, 5],
+    [enums.HS_SHIELD, 5],
+    [enums.HS_SHIELD, 5],
+    [enums.HS_BEACON, 5],
+    
+    [enums.HS_LIFE,   6],
+    [enums.HS_LIFE,   6],
+    [enums.HS_AMMO,   6],
+    [enums.HS_SHIELD, 6],
+    [enums.HS_BEACON, 6],
+    
+    [enums.HS_LIFE,   7],
+    [enums.HS_LIFE,   7],
+    [enums.HS_AMMO,   7],
+    [enums.HS_AMMO,   7],
+    [enums.HS_BEACON, 7],
+    
+    [enums.HS_LIFE,   8],
+    [enums.HS_SHIELD, 8],
+    [enums.HS_SHIELD, 8],
+    [enums.HS_SHIELD, 8],]
 
 # paths
 FX_PATH = 'sounds/fx/'
@@ -236,61 +294,6 @@ PALETTE = {
     'SAND0' : (205, 154, 120),
     'SAND1' : (255, 204, 170),
     'SAND2' : (250, 249, 215)}
-
-# hotspot data
-HOTSPOT_DATA = [
-    # Type            Map
-    [enums.HS_LIFE,   0],
-    [enums.HS_LIFE,   0],
-    [enums.HS_AMMO,   0],
-    [enums.HS_AMMO,   0],
-    [enums.HS_SHIELD, 0],
-    [enums.HS_BEACON, 0],
-
-    [enums.HS_LIFE,   1],
-    [enums.HS_LIFE,   1],
-    [enums.HS_AMMO,   1],
-    [enums.HS_AMMO,   1],
-    [enums.HS_BEACON, 1],
-
-    [enums.HS_LIFE,   2],
-    [enums.HS_SHIELD, 2],
-    [enums.HS_SHIELD, 2],
-    [enums.HS_SHIELD, 2],
-    
-    [enums.HS_LIFE,   3],
-    [enums.HS_LIFE,   3],
-    [enums.HS_AMMO,   3],
-    [enums.HS_SHIELD, 3],
-    [enums.HS_BEACON, 3],
-    
-    [enums.HS_LIFE,   4],
-    [enums.HS_LIFE,   4],
-    [enums.HS_AMMO,   4],
-    [enums.HS_AMMO,   4],
-    [enums.HS_BEACON, 4],
-    
-    [enums.HS_LIFE,   5],
-    [enums.HS_SHIELD, 5],
-    [enums.HS_SHIELD, 5],
-    [enums.HS_SHIELD, 5],
-    
-    [enums.HS_LIFE,   6],
-    [enums.HS_LIFE,   6],
-    [enums.HS_AMMO,   6],
-    [enums.HS_SHIELD, 6],
-    [enums.HS_BEACON, 6],
-    
-    [enums.HS_LIFE,   7],
-    [enums.HS_LIFE,   7],
-    [enums.HS_AMMO,   7],
-    [enums.HS_AMMO,   7],
-    [enums.HS_BEACON, 7],
-    
-    [enums.HS_LIFE,   8],
-    [enums.HS_SHIELD, 8],
-    [enums.HS_SHIELD, 8],
-    [enums.HS_SHIELD, 8],]
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [

@@ -13,7 +13,7 @@ EN PROCESO
 
 BUGS
 ====
-- base de piedras redondeadas
+- FX de tocado por enemigo
 
 
 POR HACER
