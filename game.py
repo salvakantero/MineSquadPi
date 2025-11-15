@@ -515,13 +515,18 @@ class Game():
                 self.score += 50
             elif hotspot.type == enums.HS_APPLE:
                 ftext = '+75'
-                self.score += 75                    
+                self.score += 75              
             elif hotspot.type == enums.HS_CHOCO:
                 ftext = '+100'
                 self.score += 100
             elif hotspot.type == enums.HS_COIN:
                 ftext = '+200'
                 self.score += 200
+
+            # a bit of energy for score gifts
+            if (hotspot.type >= enums.HS_CANDY 
+                and player.energy < player.max_energy):
+                player.energy += 1
 
             scoreboard.invalidate()
             self.floating_text.show(ftext, 

@@ -77,6 +77,7 @@ class Player(pygame.sprite.Sprite):
         self.scoreboard = scoreboard
         # attributes
         self.energy, self.move_time = self.set_player_attributes()
+        self.max_energy = self.energy
         self.ammo = 10
         # cache frequently used values
         self._direction_mappings = {
@@ -111,7 +112,7 @@ class Player(pygame.sprite.Sprite):
             enums.DF_HARD:   (10, 20)    # Hard: Less energy, faster movement
         }
         # return the tuple (energy, move_time) for the selected difficulty
-        return difficulty_stats.get(self.game.selected_difficulty, (11, 15))
+        return difficulty_stats.get(self.game.selected_difficulty, (12, 24))
 
 
 
