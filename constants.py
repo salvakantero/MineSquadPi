@@ -273,7 +273,24 @@ HOTSPOT_DATA = [
     [enums.HS_LIFE,   5],
     [enums.HS_SHIELD, 5],
     [enums.HS_SHIELD, 5],
-    [enums.HS_SHIELD, 5],]
+    [enums.HS_SHIELD, 5],
+    
+    [enums.HS_LIFE,   6],
+    [enums.HS_LIFE,   6],
+    [enums.HS_AMMO,   6],
+    [enums.HS_SHIELD, 6],
+    [enums.HS_BEACON, 6],
+    
+    [enums.HS_LIFE,   7],
+    [enums.HS_LIFE,   7],
+    [enums.HS_AMMO,   7],
+    [enums.HS_AMMO,   7],
+    [enums.HS_BEACON, 7],
+    
+    [enums.HS_LIFE,   8],
+    [enums.HS_SHIELD, 8],
+    [enums.HS_SHIELD, 8],
+    [enums.HS_SHIELD, 8],]
 
 # end-of-level messages (title, message)
 END_LEVEL_MESSAGES = [
