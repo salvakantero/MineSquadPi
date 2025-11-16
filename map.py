@@ -85,6 +85,7 @@ class Map():
         # player in its starting position
         player.x, player.y = constants.PLAYER_X_INI, constants.PLAYER_Y_INI
         player.target_x, player.target_y = player.x, player.y
+        player.energy = player.max_energy
         # marks the initial tile
         self.mark_tile(int(constants.PLAYER_X_INI // constants.TILE_SIZE), 
                        int(constants.PLAYER_Y_INI // constants.TILE_SIZE))

@@ -39,8 +39,10 @@ MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # ma
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 
-NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
-NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
+#NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
+NUM_MINES =   25, 30, 35, 40, 45, 50, 55, 60, 65 # number of mines per map
+#NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
+NUM_BEACONS = 30, 35, 40, 45, 50, 55, 60, 65, 70 # number of flags/beacons per map
 
 # player
 TIME_REMAINING = 20000 # remaining shield time (approximately 20 seconds)
@@ -55,11 +57,11 @@ PLAYER_Y_INI = (MAP_TILE_SIZE[1] - 1) * TILE_SIZE
 # enemies
 # Base pause durations (will decrease based on stage)
 def get_random_enemy_pause_duration(stage):
-    base_durations = [30, 25, 20]  # stage 1, 2, 3
+    base_durations = [30, 27, 24]  # stage 1, 2, 3
     return base_durations[min(stage, 2)]
 
 def get_chaser_enemy_pause_duration(stage):
-    base_durations = [60, 50, 40]  # stage 1, 2, 3
+    base_durations = [60, 55, 50]  # stage 1, 2, 3
     return base_durations[min(stage, 2)]
 
 CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or less away
