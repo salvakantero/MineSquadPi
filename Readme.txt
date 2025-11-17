@@ -56,14 +56,14 @@ As you move across the terrain, adjacent cells reveal information:
 
 Your objective is to mark ALL mines with beacons to complete the level.
 
-WARNING: The number of beacons is limited. At higher levels, more mines and fewer available beacons. 
+WARNING: The number of beacons is limited. At higher levels, more mines. 
 Use minesweeper logic to deduce where the mines are before placing your beacons.
 
 
 ITEMS AND POWER-UPS
 ===================
 
-BEACON/FLAG: Mark it on a cell you believe contains a mine. Beacons are limited.
+BEACON/FLAG: Use it on a cell you believe contains a mine. Beacons are limited.
 Beacons placed incorrectly on a cell without a mine will turn reddish.
 The level is completed when all mines are correctly marked.
 You can see the number of remaining beacons/mines on the scoreboard at all times.
@@ -87,6 +87,7 @@ COIN:       200 points
 
 *These items appear at random positions. Two items per map. 
 When collected, another is immediately generated at a different location. Lower value items appear more frequently.
+Energy is increased by +1 unit.
 
 
 ENEMIES

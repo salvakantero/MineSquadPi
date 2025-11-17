@@ -68,7 +68,7 @@ CHASER_ACTIVATION_RANGE = 6  # the enemy activates when the player is X tiles or
 ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (10 seconds)
 ENEMY_RESPAWN_SAFE_DISTANCE = 5  # minimum distance in tiles between player and enemy respawn position
 # SCORPION, SNAKE, SOLDIER1, PROJECTILE, CRAB, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
-ENEMY_LIFE = 1, 1, 2, 1, 2, 3, 1, 3, 4
+ENEMY_LIFE = 1, 1, 2, 1, 2, 3, 1, 3, 3
 
 # enemies per map (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
 ENEMIES_DATA = [

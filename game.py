@@ -205,11 +205,17 @@ class Game():
         # create explosion pool
         self.explosion_pool = ExplosionPool(pool_size=8)
         
-        # pre-calculate enemy scores
+        # enemy scores
         self._enemy_scores = {
-            enums.EN_SCORPION: ('+25', 25),
-            enums.EN_SNAKE: ('+50', 50),
-            enums.EN_SOLDIER0: ('+75', 75)
+            enums.EN_SCORPION:  ('+10', 10),
+            enums.EN_SNAKE:     ('+20', 20),
+            enums.EN_SOLDIER0:  ('+50', 50),
+            enums.EN_PROJECTILE:('+20', 20),
+            enums.EN_CRAB:      ('+40', 40),
+            enums.EN_SOLDIER1:  ('+100', 100),
+            enums.EN_SKIER:     ('+40', 40),
+            enums.EN_BOAR:      ('+80', 80),
+            enums.EN_SOLDIER2:  ('+200', 200)
         }
 
         # cache scanline values to avoid recalculation

@@ -9,7 +9,7 @@ Para Raspberry Pi / Windows *
 
 
 Formas parte de un equipo de élite de zapadores durante la Segunda Guerra Mundial. 
-Tu misión: Desactivar todos los campos minados situados en tres frentes de batalla cruciales sin activar ninguna mina. 
+Tu misión: Desactivar todos los campos minados situados en tres frentes de batalla cruciales sin pisar ninguna mina. 
 Usa tu ingenio y las pistas numéricas para localizar las minas ocultas, márcalas con balizas y despeja cada sector para avanzar.
 
 
@@ -18,7 +18,7 @@ PERSONAJES
 
 Al inicio de la partida puedes elegir entre dos miembros del escuadrón de zapadores:
 BLAZE: Sargento veterano, experto en desactivación de explosivos.
-PIPER: Suboficial, especialista en reconocimiento de terreno peligroso.
+PIPER: Suboficial, especialista en reconocimiento de terreno minado.
 
 
 ESCENARIOS
@@ -57,14 +57,14 @@ Al moverte por el terreno, las celdas adyacentes revelan información:
 
 Tu objetivo es marcar TODAS las minas con balizas para completar el nivel.
 
-ADVERTENCIA: El número de balizas es limitado. A mayor nivel, más minas y menos balizas disponibles. 
+ADVERTENCIA: El número de balizas es limitado. A mayor nivel, más minas. 
 Usa la lógica del buscaminas para deducir dónde están las minas antes de colocar tus balizas.
 
 
 OBJETOS Y POWER-UPS
 ===================
 
-BALIZA/BANDERA: Márcala en una celda que creas que contiene una mina. Las balizas son limitadas.
+BALIZA/BANDERA: Úsala en una celda que creas que contiene una mina. Las balizas son limitadas.
 Las balizas situadas erroneamente en una celda sin mina tomarán un color rojizo.
 El nivel se supera cuando todas las minas estén correctamente marcadas.
 En todo momento se puede ver en el marcador el número de balizas/minas restantes.
@@ -88,6 +88,7 @@ MONEDA:     200 puntos
 
 *Estos objetos aparecen en una posición aleatoria. Dos objetos por mapa. 
 Al recogerlos, se genera otro inmediatamente en otra ubicación. Los de menor valor aparecen con mayor frecuencia.
+Se aumenta +1 unidad de energía.
 
 
 ENEMIGOS
@@ -179,7 +180,7 @@ M:      Música Sí/No.
 ESC:    Pausa / Cancelar partida.
 
 IMPORTANTE: Una pulsación corta para moverse encara al jugador hacia la celda correspondiente a la tecla pulsada, pero no se produce movimiento.
-Usa este sistema para colocar balizas sin llegar a pisar la mina.
+Usa este sistema para situarte correctamente antes de colocar una baliza sin riesgo de pisar una mina.
 
 
 CONSEJOS Y TRUCOS

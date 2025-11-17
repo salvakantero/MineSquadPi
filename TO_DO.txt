@@ -122,8 +122,8 @@ Notas
     El jugador se mueve con joystick o teclado 1 celda cada vez, revelando lo que hay en las celdas adyacentes.
     Si la celda no tiene una mina, mostrará un número que indica cuántas minas hay en las celdas adyacentes.
     El jugador puede marcar las celdas que piensa que contienen minas con una bandera/baliza.
-    Hay un número limitado de balizas. A mayor nivel, más minas / menos balizas.
-    El jugador gana el nivel al marcar todas las minas. Pierde si pisa una celda con una mina o acaba toda su energía.
+    Hay un número limitado de balizas. A mayor nivel, más minas.
+    El jugador gana el nivel al marcar todas las minas. Pierde si acaba con toda su energía.
     La estrategia es deducir la ubicación de las minas basándose en los números revelados en las celdas adyacentes.
 
 - Objetos (Hotspots): 
@@ -145,6 +145,7 @@ Notas
     * siempre dos en todo momento en el mapa (aleatorio)
     * al consumirlo se genera otro
     * a menor valor, mayor posibilidad de generación
+    * +1 unidad de energía
 
 - Enemigos:
     Se pasean por el mapa de manera lineal, aleatoria, o persiguen lentamente al jugador
@@ -161,8 +162,8 @@ Notas
 
     Normandía: (playa)
         antitanques     tile*
-        cangrejo        aleatorio   20
-        proyectil       lineal      40
+        proyectil       lineal      20
+        cangrejo        aleatorio   40
         soldado gris    persigue    100
 
     Ardenas: (bosque nevado)
