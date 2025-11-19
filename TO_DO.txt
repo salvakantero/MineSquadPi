@@ -13,9 +13,7 @@ EN PROCESO
 
 BUGS
 ====
-- documentación: +1 energía con hotspot. Enemigos más rápidos y resistentes según stage
 - posible bug en enemigo perseguidor al pararse en tile bloqueante?
-- sombra en el proyectil
 
 
 POR HACER
