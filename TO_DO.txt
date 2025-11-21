@@ -5,7 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-
+- documentación
 - mapeado stage 3
 - gráficos de tiles stage 3
 - gráficos de enemigos stage 3
@@ -20,7 +20,6 @@ POR HACER
 =========
 - secuencia WIN
 ----------------------------------
-- documentación
 - eliminar recuento de FPS
 - eliminar truco de saltar niveles
 

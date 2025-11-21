@@ -72,7 +72,8 @@ POWER-UPS:
 
 EXTRA LIFE: Completely refills your energy bar.
 
-SHIELD: Makes you invincible for 30 seconds. Take advantage to explore dangerous areas.
+SHIELD: Makes you invincible for 30 seconds. Take advantage to explore dangerous areas. 
+If you step on a mine, it will hurt less!
 
 AMMUNITION: Allows you to shoot at enemies (+10 bullets per reload).
 
@@ -133,9 +134,9 @@ MAIN MENU
 =========
 
 If no key is pressed, the menu automatically displays pages with:
-- High score table
-- Summary help
-- Game information
+  - High score table
+  - Summary help
+  - Game information
 
 In the game menu you can:
   - Start a new game
@@ -143,11 +144,11 @@ In the game menu you can:
     - Choose difficulty level
   - Exit the game
 
-In the settings menu you can adjust*:
+In the settings menu you can adjust:
   - WINDOWED: Play in windowed mode.
-  - 4:3: Full screen for traditional monitors.
-  - 16:9: Full screen for widescreen monitors (centred play area without squashing).
-*4:3 and 16:9 modes are only available on Windows.
+  - 4:3: Full screen for traditional monitors.*
+  - 16:9: Full screen for widescreen monitors. (centred play area without squashing) *
+  *only available on Windows.
 
 SCANLINES:
   Simulates the effect of CRT screens from classic arcade machines.

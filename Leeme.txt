@@ -146,11 +146,11 @@ En el menú de juego puedes:
 
 En el menú de configuración puedes ajustar:
 
-SCREEN MODE*:
+SCREEN MODE:
   - WINDOWED: Juega en ventana.
-  - 4:3: Pantalla completa para monitores tradicionales.
-  - 16:9: Pantalla completa para monitores panorámicos (zona de juego centrada sin achatar).
-*los modos 4:3 y 19:9 solo están disponibles en Windows.
+  - 4:3: Pantalla completa para monitores tradicionales.*
+  - 16:9: Pantalla completa para monitores panorámicos (zona de juego centrada sin achatar)*
+  *solo están disponibles en Windows.
 
 SCANLINES:
   Simula el efecto de las pantallas CRT de las máquinas arcade clásicas.
