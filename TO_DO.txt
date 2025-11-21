@@ -13,7 +13,6 @@ EN PROCESO
 
 BUGS
 ====
-- posible bug en enemigo perseguidor al pararse en tile bloqueante?
 
 
 POR HACER
