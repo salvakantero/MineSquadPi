@@ -39,9 +39,7 @@ MAP_PIXEL_SIZE = MAP_TILE_SIZE[0] * TILE_SIZE, MAP_TILE_SIZE[1] * TILE_SIZE # ma
 H_MARGIN = 40 # horizontal distance between the edge and the playing area (windowed mode)
 V_MARGIN = 20 # vertical distance between the edge and the playing area (windowed mode)
 
-#NUM_MINES =   28, 32, 36, 40, 44, 48, 52, 56, 60 # number of mines per map
 NUM_MINES =   25, 30, 35, 40, 45, 50, 55, 60, 65 # number of mines per map
-#NUM_BEACONS = 32, 36, 40, 43, 47, 51, 54, 58, 62 # number of flags/beacons per map
 NUM_BEACONS = 30, 35, 40, 45, 50, 55, 60, 65, 70 # number of flags/beacons per map
 
 # player
