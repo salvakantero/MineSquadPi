@@ -139,12 +139,12 @@ ENEMIES_DATA = [
     #           7) BOAR
     #           8) SOLDIER2
     # 6
-    (6, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, -1, 10, 30, 10),
-    (6, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, -1, 32, 30, 32),
-    (6, enums.EN_BOAR, enums.EM_RANDOM, 18, 36, 0, 0),
-    (6, enums.EN_BOAR, enums.EM_RANDOM, 7, 18, 0, 0),
-    (6, enums.EN_BOAR, enums.EM_RANDOM, 24, 21, 0, 0),
-    (6, enums.EN_BOAR, enums.EM_RANDOM, 12, 3, 0, 0),
+    (6, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 24, -1, 24, 40),
+    (6, enums.EN_BOAR, enums.EM_RANDOM, 10, 26, 0, 0),
+    (6, enums.EN_BOAR, enums.EM_RANDOM, 23, 25, 0, 0),
+    (6, enums.EN_BOAR, enums.EM_RANDOM, 10, 7, 0, 0),
+    (6, enums.EN_BOAR, enums.EM_RANDOM, 24, 8, 0, 0),
+    (6, enums.EN_SOLDIER2, enums.EM_CHASER, 16, 16, 0, 0),
     # 7
     (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 0, 10, 29, 10),
     (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 0, 20, 29, 10),
