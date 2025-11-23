@@ -41,7 +41,7 @@ BATTLE OF THE BULGE (Belgium - January 1945)
 --------------------------------------------
 Snow-covered forest during the German winter offensive.
 Enemies: Skiers, wild boars, mountain soldiers.
-Obstacles: Barbed wire that causes injuries.
+Obstacles: Semi-buried clamps.
 
 
 GAME MECHANICS
@@ -117,7 +117,7 @@ WILD BOAR:       Random movement       80 points   3 lives
 WHITE SOLDIER:   Chases player        200 points   4 lives
 
 DEADLY OBSTACLES:
-Cacti, barbed wire, and anti-tank barriers are terrain obstacles you can traverse, but they will cause damage when doing so.
+Cacti, clamps, and anti-tank barriers are terrain obstacles you can traverse, but they will cause damage when doing so.
 
 
 DIFFICULTY
@@ -192,7 +192,7 @@ TIPS AND TRICKS
 
 - The invincibility shield is ideal for exploring areas with many enemies or chasing enemies.
 
-- Avoid terrain obstacles (cacti, barbed wire, etc.) whenever possible, as they reduce energy.
+- Avoid terrain obstacles (cacti, clamps, etc.) whenever possible, as they reduce energy.
 
 - In advanced levels, chasing enemies are very dangerous. Eliminate them before they corner you.
 

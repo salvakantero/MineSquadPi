@@ -42,7 +42,7 @@ BATALLA DE LAS ARDENAS (Bélgica - Enero 1945)
 ---------------------------------------------
 Bosque nevado durante la ofensiva alemana de invierno.
 Enemigos: Esquiadores, jabalíes, soldados de montaña.
-Obstáculos: Alambradas que hieren.
+Obstáculos: Cepos semienterrados.
 
 
 MECÁNICA DE JUEGO
@@ -117,7 +117,7 @@ JABALÍ:          Movimiento aleatorio   80 puntos   3 vidas
 SOLDADO BLANCO:  Persigue al jugador   200 puntos   4 vidas
 
 OBSTÁCULOS MORTALES:
-Los cactus, alambradas y barreras antitanques son obstáculos del terreno que puedes atravesar, pero te causarán daño al hacerlo.
+Los cactus, cepos y barreras antitanques son obstáculos del terreno que puedes atravesar, pero te causarán daño al hacerlo.
 
 
 DIFICULTAD
@@ -194,7 +194,7 @@ CONSEJOS Y TRUCOS
 
 - El escudo de invencibilidad es ideal para explorar zonas con muchos enemigos o enemigos perseguidores.
 
-- Evita los obstáculos del terreno (cactus, alambradas, etc) siempre que sea posible, ya que restan energía.
+- Evita los obstáculos del terreno (cactus, cepos, etc) siempre que sea posible, ya que restan energía.
 
 - En niveles avanzados, los enemigos que persiguen son muy peligrosos. Elimínalos antes de que te acorralen.
 
