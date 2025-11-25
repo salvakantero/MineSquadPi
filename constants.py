@@ -130,6 +130,7 @@ ENEMIES_DATA = [
     (5, enums.EN_CRAB, enums.EM_RANDOM, 16, 32, 0, 0),
     (5, enums.EN_CRAB, enums.EM_RANDOM, 18, 5, 0, 0),
     (5, enums.EN_CRAB, enums.EM_RANDOM, 5, 34, 0, 0),
+    (5, enums.EN_CRAB, enums.EM_RANDOM, 24, 22, 0, 0),
     (5, enums.EN_SOLDIER1, enums.EM_CHASER, 4, 19, 0, 0),
     (5, enums.EN_SOLDIER1, enums.EM_CHASER, 12, 4, 0, 0),
 
@@ -138,32 +139,38 @@ ENEMIES_DATA = [
     # types:    6) SKIER
     #           7) BOAR
     #           8) SOLDIER2
-    # 6
+    # 6 ---------------------------------------------------------------
     (6, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 24, -1, 24, 40),
     (6, enums.EN_BOAR, enums.EM_RANDOM, 10, 26, 0, 0),
     (6, enums.EN_BOAR, enums.EM_RANDOM, 23, 25, 0, 0),
     (6, enums.EN_BOAR, enums.EM_RANDOM, 10, 7, 0, 0),
     (6, enums.EN_BOAR, enums.EM_RANDOM, 24, 8, 0, 0),
+    (6, enums.EN_BOAR, enums.EM_RANDOM, 6, 15, 0, 0),
     (6, enums.EN_SOLDIER2, enums.EM_CHASER, 16, 16, 0, 0),
-    # 7
-    (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 0, 10, 29, 10),
-    (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 0, 20, 29, 10),
-    (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 0, 32, 29, 32),
+    # 7 ---------------------------------------------------------------
+    (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 2, -1, 2, 40),
+    (7, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 27, -1, 27, 40),
     (7, enums.EN_BOAR, enums.EM_RANDOM, 22, 36, 0, 0),
-    (7, enums.EN_BOAR, enums.EM_RANDOM, 23, 22, 0, 0),
+    (7, enums.EN_BOAR, enums.EM_RANDOM, 23, 20, 0, 0),
     (7, enums.EN_BOAR, enums.EM_RANDOM, 14, 3, 0, 0),
     (7, enums.EN_BOAR, enums.EM_RANDOM, 5, 20, 0, 0),
+    (7, enums.EN_BOAR, enums.EM_RANDOM, 17, 2, 0, 0),
     (7, enums.EN_SOLDIER2, enums.EM_CHASER, 15, 12, 0, 0),
-    (7, enums.EN_SOLDIER2, enums.EM_CHASER, 15, 25, 0, 0),
-    # 8
-    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 2, 35, 12, 35),
-    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 1, 29, 8, 29),
-    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 19, 18, 28, 18),
-    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 4, 9, 9, 9),
-    (8, enums.EN_BOAR, enums.EM_RANDOM, 20, 32, 0, 0),
-    (8, enums.EN_BOAR, enums.EM_RANDOM, 22, 5, 0, 0),
-    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 24, 18, 0, 0),
-    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 12, 4, 0, 0),]
+    (7, enums.EN_SOLDIER2, enums.EM_CHASER, 15, 28, 0, 0),
+    # 8 ---------------------------------------------------------------
+    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 9, -1, 9, 40),
+    (8, enums.EN_SKIER, enums.EM_VERTICAL_LOOP, 24, -1, 24, 40),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 12, 28, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 1, 23, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 19, 4, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 26, 24, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 17, 34, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 2, 32, 0, 0),
+    (8, enums.EN_BOAR, enums.EM_RANDOM, 28, 32, 0, 0),
+    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 26, 13, 0, 0),
+    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 7, 4, 0, 0),
+    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 7, 9, 0, 0),
+    (8, enums.EN_SOLDIER2, enums.EM_CHASER, 7, 14, 0, 0),]
 
 # hotspot data
 HOTSPOT_DATA = [
@@ -204,6 +211,7 @@ HOTSPOT_DATA = [
     [enums.HS_BEACON, 4],
     
     [enums.HS_AMMO,   5],
+    [enums.HS_AMMO,   5],
     [enums.HS_SHIELD, 5],
     [enums.HS_SHIELD, 5],
     [enums.HS_SHIELD, 5],
@@ -220,13 +228,15 @@ HOTSPOT_DATA = [
     [enums.HS_LIFE,   7],
     [enums.HS_AMMO,   7],
     [enums.HS_AMMO,   7],
+    [enums.HS_SHIELD, 7],
     [enums.HS_BEACON, 7],
-    
-    [enums.HS_BEACON, 8],
+        
     [enums.HS_SHIELD, 8],
     [enums.HS_SHIELD, 8],
     [enums.HS_SHIELD, 8],
-    [enums.HS_AMMO,   8],]
+    [enums.HS_AMMO,   8],
+    [enums.HS_AMMO,   8],
+    [enums.HS_BEACON, 8],]
 
 # paths
 FX_PATH = 'sounds/fx/'
