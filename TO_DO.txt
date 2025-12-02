@@ -6,8 +6,6 @@ EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
 - documentación
-- mapeado stage 3
-- gráficos de enemigos stage 3
 
 
 BUGS
@@ -24,6 +22,8 @@ POR HACER
 
 HECHO
 =====
+02/12/25 - mapeado stage 3
+02/12/25 - gráficos de enemigos stage 3
 23/11/25 - gráficos de tiles stage 3
 14/11/25 - gráficos de tiles stage 2
 12/11/25 - gráficos de enemigos stage 2
