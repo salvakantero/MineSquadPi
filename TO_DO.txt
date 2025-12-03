@@ -5,8 +5,7 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - calibrar jugabilidad/dificultad
-- documentación
-
+- secuencia WIN
 
 BUGS
 ====
@@ -14,14 +13,13 @@ BUGS
 
 POR HACER
 =========
-- secuencia WIN
-----------------------------------
 - eliminar recuento de FPS
 - eliminar truco de saltar niveles
 
 
 HECHO
 =====
+03/12/25 - documentación
 02/12/25 - mapeado stage 3
 02/12/25 - gráficos de enemigos stage 3
 23/11/25 - gráficos de tiles stage 3
