@@ -5,18 +5,6 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - secuencia WIN
-- revisar jugabilidad/dificultad de los 9 niveles
-  L0: ..
-  L1: ..
-  L2: ..
-  ------
-  L3: ..
-  L4: ..
-  L5: ..
-  ------
-  L6: ..
-  L7: ..
-  L8: ..
 
 
 BUGS
@@ -25,12 +13,12 @@ BUGS
 
 POR HACER
 =========
-- eliminar recuento de FPS
 - eliminar truco de saltar niveles
 
 
 HECHO
 =====
+05/12/25 - revisar jugabilidad/dificultad de los 9 niveles
 03/12/25 - documentación
 02/12/25 - mapeado stage 3
 02/12/25 - gráficos de enemigos stage 3

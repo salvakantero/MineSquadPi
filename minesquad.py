@@ -217,7 +217,7 @@ while True:
             continue
 
         # TEST ZONE ================================================================================
-        game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (228, 169))
+        #game.fonts[enums.S_B_GREEN].render(str(int(game.clock.get_fps())), game.srf_map, (228, 169))
         #game.fonts[enums.S_B_WHITE].render(str(player.state), game.srf_sboard, (100, 25))
         # ==========================================================================================
         
