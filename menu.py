@@ -37,9 +37,7 @@ class Menu():
         self.tip = 'Use mouse, joypad, or cursors and SPACE/ENTER to select'        
         # images
         self.img_menu = pygame.image.load(constants.ASS_PATH + 'menu_back.png').convert()
-        self.img_blaze = pygame.image.load(constants.ASS_PATH + 'blaze.png').convert_alpha()
-        self.img_piper = pygame.image.load(constants.ASS_PATH + 'piper.png').convert_alpha()
-        self.img_piper_flipped = pygame.transform.flip(self.img_piper, True, False)
+        self.img_piper_flipped = pygame.transform.flip(self.game.img_piper, True, False)
         self.img_star = pygame.image.load(constants.SPR_PATH + 'star.png').convert_alpha()
         self.img_pointer = pygame.image.load(constants.SPR_PATH + 'pointer.png').convert_alpha()
         # sounds
@@ -114,7 +112,7 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'B L A Z E', self.menu_pages[2], 115, 30, 1)
         self._draw_player_info(115, enums.PL_BLAZE, 2)
-        self.menu_pages[2].blit(self.img_blaze, (10, 0))
+        self.menu_pages[2].blit(self.game.img_blaze, (10, 0))
 
 
 
@@ -122,7 +120,7 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], self.game.fonts[enums.L_F_RED], 
                          'P I P E R', self.menu_pages[3], 10, 30, 1)
         self._draw_player_info(10, enums.PL_PIPER, 3)
-        self.menu_pages[3].blit(self.img_piper, (120, 0))
+        self.menu_pages[3].blit(self.game.img_piper, (120, 0))
 
 
 
@@ -216,7 +214,7 @@ class Menu():
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
                         'B L A Z E', self.menu_pages[7], 27, 36, 1)
-        self.menu_pages[7].blit(self.img_blaze, (15, 60))      
+        self.menu_pages[7].blit(self.game.img_blaze, (15, 60)) 
         # Piper info (right side)
         self._shaded_text(self.game.fonts[enums.L_B_BROWN], 
                         self.game.fonts[enums.L_F_RED], 
@@ -327,9 +325,9 @@ class Menu():
                 speed, strength = 5, 3                            
 
             if self.game.selected_player == enums.PL_BLAZE:
-                self.srf_menu.blit(self.img_blaze, (125, 75))
+                self.srf_menu.blit(self.game.img_blaze, (125, 75))
             else:  # PL_PIPER
-                self.srf_menu.blit(self.img_piper, (125, 75))
+                self.srf_menu.blit(self.game.img_piper, (125, 75))
             # stars
             x, y = 30, 120
             fb, ff = self.game.fonts[enums.S_B_WHITE], self.game.fonts[enums.S_F_WHITE]

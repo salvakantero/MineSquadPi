@@ -4,7 +4,6 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
-- secuencia WIN
 
 
 BUGS
@@ -18,6 +17,7 @@ POR HACER
 
 HECHO
 =====
+07/12/25 - secuencia WIN
 05/12/25 - revisar jugabilidad/dificultad de los 9 niveles
 03/12/25 - documentación
 02/12/25 - mapeado stage 3

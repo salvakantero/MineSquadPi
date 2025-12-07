@@ -77,6 +77,10 @@ class Game():
         self.beacon_image = self._load_image(constants.SPR_PATH + 'beacon.png')
         self.beacon2_image = self._load_image(constants.SPR_PATH + 'beacon2.png')
 
+        # players
+        self.img_blaze = self._load_image(constants.ASS_PATH + 'blaze.png')
+        self.img_piper = self._load_image(constants.ASS_PATH + 'piper.png')
+
         # enemies
         enem_path = constants.SPR_PATH + 'enemies/'
         self.enemy_images = {
@@ -427,7 +431,9 @@ class Game():
 
     # our player wins the game. End sequence
     def win(self):
-        self.message('CONGRATULATIONS!!', 'You achieved all the goals!', True, True, False, False)
+        self.srf_map.blit(self.img_piper, (90, 0))
+        self.srf_map.blit(self.img_blaze, (40, 0))
+        self.message('CONGRATULATIONS!!', 'Your squad achieved all assigned objectives!', False, True, True, False)
         # main theme song again
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
         pygame.mixer.music.play()

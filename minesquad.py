@@ -208,6 +208,8 @@ while True:
                 game.blast_sequence -= 1 # blast animation in progress
         # condition 2: impossible to complete (not enough beacons)
         if game.is_game_impossible():
+            game.message('Opss!', 'THERE AREN\'T ENOUGH BEACONS!', True, False, False, False)
+            game.wait_for_key()
             game_over = True
         # handle game over
         if game_over:
