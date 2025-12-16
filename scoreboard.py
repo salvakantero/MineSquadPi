@@ -51,7 +51,7 @@ class Scoreboard():
     def update(self, player):
         if self.needs_updating:
             # player data
-            self._draw_energy_bar(player.energy)
+            self._draw_energy_bar(player)
             self._clear_zone(88, 15)
             self._shaded_text(player.ammo, 90, 6)
             self._shaded_text('\'' + str(constants.MAX_AMMO), 105, 6) # ' = /
@@ -102,18 +102,17 @@ class Scoreboard():
 
     ##### auxiliary functions #####
 
-    # 16-position multi-coloured energy bar
-    def _draw_energy_bar(self, energy):
+    # 14-position multi-coloured energy bar
+    def _draw_energy_bar(self, player):
         x, y = 20, 7
-        bar_units = 14
         bar_unit_width, bar_unit_height = 2, 10
         bar_unit_spacing = 1
 
         # draw as many units as the player has energy
-        for i in range(bar_units):
+        for i in range(player.max_energy):
             # draws the bar units using pre-created color array
             rect_x = x + i * (bar_unit_width + bar_unit_spacing)
-            color = self._energy_bar_colors[i] if i < energy else constants.PALETTE['BLACK0']
+            color = self._energy_bar_colors[i] if i < player.energy else constants.PALETTE['BLACK0']
             pygame.draw.rect(self.game.srf_sboard, color,
                              (rect_x, y, bar_unit_width, bar_unit_height))
             
