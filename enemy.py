@@ -40,8 +40,8 @@ class Enemy(pygame.sprite.Sprite):
         # enemy_data = (map, type, movement, tile_x1, tile_y1, tile_x2, tile_y2)
         # enemy type:
         # SCORPION, SNAKE, SOLDIER1
-        # CRAB, PROJECTILE, SOLDIER2
-        # SKIER, HABALI, SOLDIER3
+        # PROJECTILE, CRAB, SOLDIER2
+        # SKIER, BOAR, SOLDIER3
         self.type = enemy_data[1]
 
         # movement type: HORIZONTAL, VERTICAL, RANDOM, CHASER
