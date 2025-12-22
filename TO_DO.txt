@@ -8,8 +8,7 @@ EN PROCESO
 
 BUGS
 ====
-- marcador de energía deforme en pantalla completa
-- salto de tile brusco del player
+
 
 
 POR HACER

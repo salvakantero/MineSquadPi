@@ -37,7 +37,6 @@ class Player(pygame.sprite.Sprite):
         self.x, self.y = constants.PLAYER_X_INI, constants.PLAYER_Y_INI
         # movement
         self.direction = pygame.math.Vector2(0.0, 0.0) # direction of movement
-        self.steps = -1 # check that the distance does not exceed the size of the tile
         self.target_x = self.x
         self.target_y = self.y
         self.move_progress = 0
@@ -45,10 +44,7 @@ class Player(pygame.sprite.Sprite):
         # player state
         self.state = enums.PS_IDLE_UP # to know the animation to be applied
         self.look_at = enums.DI_UP # where the player looks
-        # turning state
-        self.is_turning = False # if 'True' apply a pause before movement
-        self.turn_timer = 0 # time before applying movement if it rotates
-        self.last_key_pressed = None # check that the key is still pressed
+        self.turn_time = 0 # timestamp when player changed direction
         #animation
         self.frame_index = 0 # frame number
         self.animation_timer = 0 # timer to change frame
@@ -240,7 +236,6 @@ class Player(pygame.sprite.Sprite):
                 self.x = self.target_x
                 self.y = self.target_y
                 self.is_moving_to_target = False
-                self.steps = -1
                 # update tile position only when movement is complete
                 if self._update_tile_position():
                     self.map.mark_tile(self._current_tile_x, self._current_tile_y)
@@ -355,7 +350,10 @@ class Player(pygame.sprite.Sprite):
 
 
     # keyboard/mouse/joystick keystroke input
-    def _get_input(self): 
+    def _get_input(self):
+        # don't allow direction changes while moving to a target
+        if self.is_moving_to_target:
+            return
         # joystick buttons
         if self.game.joystick is not None:
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
@@ -370,50 +368,21 @@ class Player(pygame.sprite.Sprite):
         else:
             # check joystick direction if no key is pressed
             look_at, direction_vector = self._get_joystick_direction()
-
-        # if the direction has changed, apply a pause before moving
-        previous_look_at = self.look_at
-        if self.steps >= 0:
-            self.steps += 1
-            if self.steps >= constants.TILE_SIZE-1:
-                self.steps = -1
-            return
-        # currently turning?
-        if self.is_turning:
-            self._handle_turning()
-            return
         # no input detected
         if look_at is None:
-            # if not moving to a target, stop completely
-            if not self.is_moving_to_target:
-                self.direction.update(0, 0)
-            return
-        # update direction and state
-        self.look_at = look_at
-        self.last_key_pressed = pressed_key
-        if previous_look_at != self.look_at:
             self.direction.update(0, 0)
-            self.turn_timer = pygame.time.get_ticks()
-            self.is_turning = True
-        else:
-            self.direction.update(direction_vector)
-            self.steps = 0
-
-
-
-    def _handle_turning(self):
-        current_time = pygame.time.get_ticks()
-        if current_time - self.turn_timer > 120: # waiting time (120ms)
-            self.is_turning = False
-            # verifies if the last key pressed is still held down
-            # (we only move forward if the key is still pressed)
-            key_state = pygame.key.get_pressed()
-            if (self.last_key_pressed and 
-                key_state[self.last_key_pressed] and 
-                self.last_key_pressed in self._direction_mappings):
-                _, direction_vector = self._direction_mappings[self.last_key_pressed]
-                self.direction.update(direction_vector)
-                self.steps = 0
+            return
+        # if direction changed, only turn (don't move yet)
+        if look_at != self.look_at:
+            self.look_at = look_at
+            self.direction.update(0, 0)
+            self.turn_time = pygame.time.get_ticks()
+            return
+        # wait 120ms after turning before allowing movement
+        if pygame.time.get_ticks() - self.turn_time < 120:
+            return
+        # update direction to start moving
+        self.direction.update(direction_vector)
 
 
 

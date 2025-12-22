@@ -105,8 +105,12 @@ class Scoreboard():
     # 14-position multi-coloured energy bar
     def _draw_energy_bar(self, player):
         x, y = 20, 7
-        bar_unit_width, bar_unit_height = 2, 10
-        bar_unit_spacing = 1
+        if self.game.config.data['screen_mode'] == enums.SM_WINDOW:
+            bar_unit_width, bar_unit_height = 2, 10
+            bar_unit_spacing = 1
+        else:
+            bar_unit_width, bar_unit_height = 3, 10
+            bar_unit_spacing = 0
 
         # draw as many units as the player has energy
         for i in range(player.max_energy):
