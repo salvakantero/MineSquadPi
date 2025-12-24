@@ -3,8 +3,8 @@
 =============================
 For Raspberry Pi / Windows *
 
-* and other systems compatible with python/pygame.
-  (Installers and executables for Windows and Raspberry Pi in the /PUB folder)
+*and other systems compatible with python/pygame.
+*(Compiled program for Windows, Linux and Raspberry Pi in the "/dist" folder)
 
 
 You are part of an elite sapper squad during the Second World War. 

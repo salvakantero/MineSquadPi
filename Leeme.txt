@@ -4,8 +4,8 @@
 =============================
 Para Raspberry Pi / Windows *
 
-* y otros sistemas compatibles con python/pygame.
-  (Instaladores y ejecutables de Windows y Raspberry Pi en la carpeta /PUB)
+*y otros sistemas compatibles con python/pygame.
+*(Programa compilado para Windows, Linux y Raspberry Pi en la carpeta "/dist")
 
 
 Formas parte de un equipo de élite de zapadores durante la Segunda Guerra Mundial. 
