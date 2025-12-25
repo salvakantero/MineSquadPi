@@ -4,6 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- promo
+- consejos en docs
 
 
 BUGS

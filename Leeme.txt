@@ -194,9 +194,9 @@ CONSEJOS Y TRUCOS
 
 - El escudo de invencibilidad es ideal para explorar zonas con muchos enemigos o enemigos perseguidores.
 
-- Evita los obstáculos del terreno (cactus, cepos, etc) siempre que sea posible, ya que restan energía.
+- Sé ordenado en la búsqueda y ten siempre claro por donde has pasado. Una mina olvidada puede ser un gran quebradero de cabeza al final del nivel.
 
-- En niveles avanzados, los enemigos que persiguen son muy peligrosos. Elimínalos antes de que te acorralen.
+- Reserva las recargas de energía (corazones) y escudos para situaciones delicadas.
 
 - Cada escenario tiene enemigos diferentes. Aprende sus patrones de movimiento para anticiparte.
 
