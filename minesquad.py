@@ -186,6 +186,8 @@ while True:
         # check map completion (9 levels from 0 to 8)
         if game.remaining_mines == 0:
             if map.number < MAX_LEVEL:
+                if game.shake_timer > 0:
+                    game.shake_timer = 1  # stop screen shake and clean up
                 game.update_screen()
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
