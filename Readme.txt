@@ -1,9 +1,8 @@
 =============================
  Mine Squad Pi v1.0 (C) 2025
 =============================
-For Raspberry Pi / Windows *
+For systems compatible with python/pygame.*
 
-*and other systems compatible with python/pygame.
 *(Compiled program for Windows, Linux and Raspberry Pi in the "/dist" folder)
 
 
@@ -192,9 +191,9 @@ TIPS AND TRICKS
 
 - The invincibility shield is ideal for exploring areas with many enemies or chasing enemies.
 
-- Avoid terrain obstacles (cacti, clamps, etc.) whenever possible, as they reduce energy.
+- Be methodical in your search and always keep track of where you've been. A forgotten mine can become a real headache at the end of the level.
 
-- In advanced levels, chasing enemies are very dangerous. Eliminate them before they corner you.
+- Save energy refills (hearts) and shields for critical situations.
 
 - Each scenario has different enemies. Learn their movement patterns to anticipate them.
 

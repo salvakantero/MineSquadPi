@@ -2,9 +2,8 @@
 =============================
  Mine Squad Pi v1.0 (C) 2025
 =============================
-Para Raspberry Pi / Windows *
+Para sistemas compatibles con python/pygame.*
 
-*y otros sistemas compatibles con python/pygame.
 *(Programa compilado para Windows, Linux y Raspberry Pi en la carpeta "/dist")
 
 
