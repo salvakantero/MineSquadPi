@@ -7,6 +7,7 @@ EN PROCESO
 
 BUGS
 ====
+-no ganar si no queda energía
 
 POR HACER
 =========
