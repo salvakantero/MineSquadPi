@@ -186,7 +186,7 @@ while True:
             jukebox.update()
 
         # check map completion (9 levels from 0 to 8)
-        if game.remaining_mines == 0:
+        if game.remaining_mines == 0 and player.energy > 0:
             if map.number < MAX_LEVEL:
                 if game.shake_timer > 0:
                     game.shake_timer = 1  # stop screen shake and clean up
@@ -199,7 +199,7 @@ while True:
                 pygame.mixer.music.play()
                 game.wait_for_key()
                 map.number += 1 
-            elif player.energy > 0:
+            else:
                 game.win()
 
         # game over conditions

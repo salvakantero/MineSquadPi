@@ -7,7 +7,10 @@ EN PROCESO
 
 BUGS
 ====
--no ganar si no queda energía
+- revisar Win()
+-no llamar a FX con inmunidad
+-en nivel 2 mayor contraste de tiles visitados
+
 
 POR HACER
 =========
