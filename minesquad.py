@@ -68,6 +68,8 @@ while True:
         # reset some variables
         map.last = -1
         game.remaining_mines = -1
+        game.score = 0
+        game.blast_sequence = 0
         game.status = enums.GS_RUNNING
         map.number = 0
     else: # game running
@@ -197,7 +199,8 @@ while True:
                 pygame.mixer.music.play()
                 game.wait_for_key()
                 map.number += 1 
-            else: game.win()
+            elif player.energy > 0:
+                game.win()
 
         # game over conditions
         game_over = False
