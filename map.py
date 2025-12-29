@@ -54,9 +54,14 @@ class Map():
         self._text_surfaces_cache = {}  # {(value, alpha): surface}
         self._tile_size = constants.TILE_SIZE
         self._half_tile_size = constants.HALF_TILE_SIZE
-        # pre-create fog surface (avoid creating one per tile per frame)
-        self._fog_surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE), pygame.SRCALPHA)
-        self._fog_surface.fill((0, 0, 0, 35))
+        # pre-create fog surfaces per stage (different alpha for darker tilesets)
+        fog_alpha = (45, 65, 35)  # stage 1, 2, 3
+        self._fog_surfaces = []
+        for alpha in fog_alpha:
+            surface = pygame.Surface((constants.TILE_SIZE, constants.TILE_SIZE), pygame.SRCALPHA)
+            surface.fill((0, 0, 0, alpha))
+            self._fog_surfaces.append(surface)
+        self._fog_surface = self._fog_surfaces[0]
 
 
 
@@ -66,6 +71,8 @@ class Map():
         self.last = self.number
         # set the stage number, knowing that there are 3 levels per stage
         self.stage = self.number // 3
+        # select fog surface for current stage
+        self._fog_surface = self._fog_surfaces[self.stage]
         # load the wallpaper if necessary
         if self.game.config.data['screen_mode'] == enums.SM_16_9: # 16:9
             self.game.set_background(self.number)

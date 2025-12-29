@@ -477,9 +477,10 @@ class Game():
                 scoreboard.invalidate()
                 return
             elif tile_type == enums.TT_KILLER:
-                self.sfx_death.play()
-                player.loses_energy(1)
-                scoreboard.invalidate()
+                if not player.invincible:
+                    self.sfx_death.play()
+                    player.loses_energy(1)
+                    scoreboard.invalidate()
                 return
     
             # player and enemies

@@ -8,8 +8,7 @@ EN PROCESO
 BUGS
 ====
 - revisar Win()
--no llamar a FX con inmunidad
--en nivel 2 mayor contraste de tiles visitados
+-no llamar a FX con inmunidad (probar)
 
 
 POR HACER
