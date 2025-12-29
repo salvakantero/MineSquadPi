@@ -71,7 +71,7 @@ POWER-UPS:
 
 EXTRA LIFE: Completely refills your energy bar.
 
-SHIELD: Makes you invincible for 30 seconds. Take advantage to explore dangerous areas. 
+SHIELD: Makes you invincible for 40 seconds. Take advantage to explore dangerous areas. 
 If you step on a mine, it will hurt less!
 
 AMMUNITION: Allows you to shoot at enemies (+10 bullets per reload).

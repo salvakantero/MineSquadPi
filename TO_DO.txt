@@ -7,6 +7,8 @@ EN PROCESO
 
 BUGS
 ====
+- escudo: 40 segundos
+- perseguidor se queda parado al pillar
 
 
 POR HACER

@@ -56,7 +56,7 @@ class Player(pygame.sprite.Sprite):
         # invincibility
         self.invincible = False # invincible after losing a life or take a shield
         self.timer_from = 0 # tick number when the shield effect begins
-        self.timer_to = constants.TIME_REMAINING # time of shield (20 secs.)        
+        self.timer_to = constants.TIME_REMAINING # time of shield (40 secs.)        
         # FX sounds
         self.sfx_shot1 = pygame.mixer.Sound(constants.FX_PATH + 'sfx_shot1.wav')
         self.sfx_no_ammo = pygame.mixer.Sound(constants.FX_PATH + 'sfx_no_ammo.wav')

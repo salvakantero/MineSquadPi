@@ -72,7 +72,7 @@ POWER-UPS:
 
 VIDA EXTRA: Rellena completamente tu barra de energía.
 
-ESCUDO: Te vuelve invencible durante 30 segundos. Aprovecha para explorar zonas peligrosas.
+ESCUDO: Te vuelve invencible durante 40 segundos. Aprovecha para explorar zonas peligrosas.
 
 MUNICIÓN: Te permite disparar contra enemigos (+10 balas cada recarga).
 
