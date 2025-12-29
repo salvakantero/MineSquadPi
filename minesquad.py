@@ -170,7 +170,7 @@ while True:
         # collision between player and enemies, mines or hotspots
         game.check_player_collisions(player, scoreboard, map)
         # collision between bullets and enemies
-        game.check_bullet_collisions(player, scoreboard)
+        game.check_bullet_collisions(scoreboard)
 
         # regenerate the hotspot to score (if needed)
         game.regenerate_hotspot(map)
@@ -187,10 +187,10 @@ while True:
 
         # check map completion (9 levels from 0 to 8)
         if game.remaining_mines == 0 and player.energy > 0:
+            if game.shake_timer > 0:
+                game.shake_timer = 1  # stop screen shake and clean up
+            game.update_screen()
             if map.number < MAX_LEVEL:
-                if game.shake_timer > 0:
-                    game.shake_timer = 1  # stop screen shake and clean up
-                game.update_screen()
                 # show a random end-of-level message
                 title, message = random.choice(constants.END_LEVEL_MESSAGES)
                 game.message(title, message, True, False, False, False)

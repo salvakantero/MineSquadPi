@@ -438,6 +438,7 @@ class Game():
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
         pygame.mixer.music.play()
         self.wait_for_key()
+        self.wait_for_key() # extra key to avoid accidental key press
         self.update_high_score_table(self.score)
         self.status = enums.GS_OVER
         return                    
@@ -555,7 +556,7 @@ class Game():
 
 
 
-    def check_bullet_collisions(self, player, scoreboard):
+    def check_bullet_collisions(self, scoreboard):
         # bullets and enemies
         shot_sprite = self.sprite_groups[enums.SG_SHOT].sprite
         if shot_sprite is not None:  # still shot in progress

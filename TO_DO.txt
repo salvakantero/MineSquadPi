@@ -7,8 +7,6 @@ EN PROCESO
 
 BUGS
 ====
-- revisar Win()
--no llamar a FX con inmunidad (probar)
 
 
 POR HACER
