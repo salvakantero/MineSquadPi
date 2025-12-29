@@ -214,9 +214,14 @@ VSC: Cambiar fondo a casi negro:
 }
 
 Para compilar exe:
-pyinstaller --name=redplanet --icon=redplanet.ico redplanet.py
 
-Para generar un tar.gz:
-tar cvzf RedPlanetPi.tar.gz RedPlanetPi
+cd /ruta/a/tu/proyecto
+python3 -m venv venv
+source venv/bin/activate
+pip install pygame pyinstaller
+
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+pyinstaller --onefile --windowed --icon=minesquad.png minesquad.py
 
 Obtener recursos de: opengameart.org
