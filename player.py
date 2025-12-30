@@ -378,8 +378,8 @@ class Player(pygame.sprite.Sprite):
             self.direction.update(0, 0)
             self.turn_time = pygame.time.get_ticks()
             return
-        # wait 120ms after turning before allowing movement
-        if pygame.time.get_ticks() - self.turn_time < 120:
+        # wait 125ms after turning before allowing movement
+        if pygame.time.get_ticks() - self.turn_time < 125:
             return
         # update direction to start moving
         self.direction.update(direction_vector)

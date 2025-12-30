@@ -63,7 +63,7 @@ def get_chaser_enemy_pause_duration(stage):
     return base_durations[min(stage, 2)]
 
 CHASER_ACTIVATION_RANGE = 5  # the enemy activates when the player is X tiles or less away
-ENEMY_RESPAWN_TIME = 10000  # time in milliseconds before enemy respawns (10 seconds)
+ENEMY_RESPAWN_TIME = 15000  # time in milliseconds before enemy respawns (10 seconds)
 ENEMY_RESPAWN_SAFE_DISTANCE = 5  # minimum distance in tiles between player and enemy respawn position
 # SCORPION, SNAKE, SOLDIER1, PROJECTILE, CRAB, SOLDIER2, SKIER, WILDBOAR, SOLDIER3
 ENEMY_LIFE = 1, 1, 2, 1, 2, 3, 2, 3, 3
