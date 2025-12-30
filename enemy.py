@@ -297,8 +297,11 @@ class Enemy(pygame.sprite.Sprite):
             self.vx = 0
             self.vy = 1 if dy_target > 0 else -1
         else:
+            # can't move (same tile as player), force pause to retry later
             self.vx = self.vy = 0
             self.moving_to_target = False
+            self.is_paused = True
+            self.pause_timer = 0
             return
 
         self.moving_to_target = True

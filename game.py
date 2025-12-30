@@ -436,6 +436,7 @@ class Game():
         self.message('CONGRATULATIONS!!', 'Your squad achieved all assigned objectives!', False, True, True, False)
         # main theme song again
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_menu.ogg')
+        pygame.mixer.music.set_volume(1)
         pygame.mixer.music.play()
         self.wait_for_key()
         self.wait_for_key() # extra key to avoid accidental key press

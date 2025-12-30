@@ -7,7 +7,6 @@ EN PROCESO
 
 BUGS
 ====
-- perseguidor se queda parado al pillar
 
 
 POR HACER
