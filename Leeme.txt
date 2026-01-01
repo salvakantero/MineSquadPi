@@ -1,7 +1,7 @@
 
-=============================
- Mine Squad Pi v1.0 (C) 2025
-=============================
+===========================
+Mine Squad Pi v1.0 (C) 2026
+===========================
 Para sistemas compatibles con python/pygame.*
 
 *(Programa compilado para Windows, Linux y Raspberry Pi en la carpeta "/dist")
@@ -201,7 +201,7 @@ CONSEJOS Y TRUCOS
 
 
 ===================================
-Mine Squad Pi  (C) PlayOnRetro 2025
+Mine Squad Pi  (C) PlayOnRetro 2026
 ===================================
 
 PROGRAMA: salvaKantero
