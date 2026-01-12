@@ -5,7 +5,7 @@
 # Makes the configuration accessible from the attributes of the class.
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2026 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -33,6 +33,7 @@ import enums
 class Configuration():
     def __init__(self):
         self.OS = platform.system()
+        self.is_pi500plus = self._detect_pi500plus()
         self.filename = 'config.dat'
         self.data = {
             # default values
@@ -82,6 +83,18 @@ class Configuration():
                                      (pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT))
         self.up_key, self.down_key, self.left_key, self.right_key = keys
     
+
+
+    # detects if running on a Raspberry Pi 500+
+    def _detect_pi500plus(self):
+        if self.OS != 'Linux':
+            return False
+        try:
+            with open('/proc/device-tree/model', 'r') as f:
+                model = f.read().lower()
+                return '500+' in model or '500 plus' in model
+        except (FileNotFoundError, PermissionError):
+            return False
 
 
     # create a joystick/joypad/gamepad object
