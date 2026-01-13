@@ -1,6 +1,6 @@
 
 # ==============================================================================
-# .::Mine Squad Pi::. v1.0
+# .::Mine Squad Pi::. v1.1
 # Initialization and main loop
 # ==============================================================================
 #
@@ -72,6 +72,8 @@ while True:
         game.blast_sequence = 0
         game.status = enums.GS_RUNNING
         map.number = 0
+        # light up control keys on Pi 500+ keyboard
+        game.keyboard_rgb.light_control_keys(game.config)
     else: # game running
         # event management
         for event in pygame.event.get():
@@ -85,6 +87,7 @@ while True:
                     if game.music_status == enums.MS_UNMUTED:
                         pygame.mixer.music.pause()
                     if game.confirm_exit():
+                        game.keyboard_rgb.restore_state()
                         game.status = enums.GS_OVER # return to the main menu
                     else:
                         # restore the music if the game continues

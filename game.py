@@ -4,7 +4,7 @@
 # One class to rule them all
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2026 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by
@@ -34,6 +34,7 @@ from font import Font
 from explosion import ExplosionPool
 from floatingtext import FloatingText
 from hotspot import Hotspot
+from keyboardrgb import KeyboardRGB
 
 
 
@@ -186,6 +187,10 @@ class Game():
         # create a joystick/joypad/gamepad object
         self.joystick = self.config.prepare_joystick()
 
+        # RGB keyboard for Pi 500+
+        self.keyboard_rgb = KeyboardRGB(self.config.is_pi500plus)
+        self.keyboard_rgb.save_state()
+
         # common fonts. S = small L = large F = foreground B = background
         self.fonts = {
             # small fonts
@@ -286,6 +291,7 @@ class Game():
 
     # exit to the operating system
     def exit(self):
+        self.keyboard_rgb.restore_state()
         pygame.quit()
         sys.exit()
 
@@ -334,6 +340,8 @@ class Game():
                         self.screen.blit(self.img_background, (0,0))
                     else: # 4:3 fullscreen or windowed mode
                         self.screen.fill(constants.PALETTE['BLACK0'])
+                    # end RGB keyboard effect
+                    self.keyboard_rgb.effect_end()
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
@@ -420,7 +428,8 @@ class Game():
 
     # display a 'game over' message and wait
     def over(self):
-        self.shake_timer = 1 # clean the edges 
+        self.keyboard_rgb.restore_state()
+        self.shake_timer = 1 # clean the edges
         self.message('G a m e  O v e r', 'PRESS ANY KEY', True, True, False, False)
         pygame.mixer.music.set_volume(1)
         pygame.mixer.music.load(constants.MUS_PATH + 'mus_game_over.ogg')
@@ -431,6 +440,7 @@ class Game():
 
     # our player wins the game. End sequence
     def win(self):
+        self.keyboard_rgb.restore_state()
         self.srf_map.blit(self.img_piper, (90, 0))
         self.srf_map.blit(self.img_blaze, (40, 0))
         self.message('CONGRATULATIONS!!', 'Your squad achieved all assigned objectives!', False, True, True, False)
@@ -469,6 +479,7 @@ class Game():
                 blast = self.explosion_pool.get_explosion([blast_x, blast_y], self.blast_images[1])
                 self.sprite_groups[enums.SG_BLASTS].add(blast)
                 random.choice(self._blast_sfx_tuple).play()
+                self.keyboard_rgb.effect_mine_explosion()
                 if player.invincible:
                     player.invincible = False
                     player.loses_energy(3)
@@ -481,6 +492,9 @@ class Game():
             elif tile_type == enums.TT_KILLER:
                 if not player.invincible:
                     self.sfx_death.play()
+                    self.keyboard_rgb.effect_enemy_damage()
+                    self.shake = [2, 2]
+                    self.shake_timer = 6
                     player.loses_energy(1)
                     scoreboard.invalidate()
                 return
@@ -492,6 +506,9 @@ class Game():
                 for enemy in alive_enemies:
                     if pygame.sprite.collide_rect_ratio(0.60)(player, enemy):
                         self.sfx_death2.play()
+                        self.keyboard_rgb.effect_enemy_damage()
+                        self.shake = [2, 2]
+                        self.shake_timer = 6
                         player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     
