@@ -92,7 +92,7 @@ class Configuration():
         try:
             with open('/proc/device-tree/model', 'r') as f:
                 model = f.read().lower()
-                return '500+' in model or '500 plus' in model
+                return '500' in model
         except (FileNotFoundError, PermissionError):
             return False
 
