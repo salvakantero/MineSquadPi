@@ -4,7 +4,7 @@
 # Initialization and main loop
 # ==============================================================================
 #
-#  This file is part of "Mine Squad Pi". Copyright (C) 2025 @salvakantero
+#  This file is part of "Mine Squad Pi". Copyright (C) 2026 @salvakantero
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by

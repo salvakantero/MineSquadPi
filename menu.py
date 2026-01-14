@@ -451,11 +451,12 @@ class Menu():
                       event.type == pygame.JOYAXISMOTION) and y == 0:
                     # active pages
                     if menu_page == 0 or menu_page == 6:
-                        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE: 
+                        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                             if menu_page == 0: self.game.exit() # exits the application completely
                             else: # on page 6, return to page 0
                                 menu_page = 0
                                 selected_option = enums.MO_START # 1st option
+                                self.game.keyboard_rgb.clear_all() # turn off control keys
                                 break
                         # the selected option is accepted by pressing ENTER or SPACE or any joystick button
                         if (event.type == pygame.KEYDOWN and 
@@ -530,6 +531,8 @@ class Menu():
                         y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
                         selected_option = enums.MO_SCREEN_MODE # 1st option
                         menu_page = 6
+                        # light up control keys for current configuration
+                        self.game.keyboard_rgb.light_control_keys(self.game.config)
                     elif selected_option == enums.MO_EXIT:
                         self.game.exit()
                     # options menu page
@@ -541,10 +544,14 @@ class Menu():
                     elif selected_option == enums.MO_CONTROL: # 0 = classic, 1 = gamer, 2 = retro, 3 = joypad
                         self.game.config.data['control'] = (self.game.config.data['control'] + 1) % 4
                         self.game.config.apply_controls() # remap the keyboard
+                        # update control keys lighting for new configuration
+                        self.game.keyboard_rgb.light_control_keys(self.game.config)
                     elif selected_option == enums.MO_EXIT_SETTINGS:
                         y = -(constants.MENU_UNSCALED_SIZE[1]) # completely off-screen
                         selected_option = enums.MO_START # 1st option
-                        menu_page = 0                        
+                        menu_page = 0
+                        # turn off control keys when leaving settings
+                        self.game.keyboard_rgb.clear_all()                        
 
                     # common values for pages 1 and 6
                     confirmed_option = False

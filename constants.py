@@ -330,7 +330,7 @@ HELP = (
 
 # credits for the main menu
 CREDITS = (
-    'Mine Squad Pi v1.0 (2026)     '
+    'Mine Squad Pi v1.1 (2026)     '
     'PROGRAMMING: salvaKantero     '
     'GRAPHICS: salvaKantero     '
     'MENU MUSIC: SigmaMusicArt     '

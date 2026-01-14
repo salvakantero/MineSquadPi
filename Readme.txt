@@ -1,6 +1,6 @@
 
 ===========================
-Mine Squad Pi v1.0 (C) 2026
+Mine Squad Pi v1.1 (C) 2026
 ===========================
 For systems compatible with python/pygame.*
 
