@@ -64,7 +64,7 @@ class KeyboardRGB():
             self.keyboard = RPiKeyboardConfig()
             self.available = True
             self._build_key_mapping()
-        except ImportError:
+        except Exception:
             pass
 
 

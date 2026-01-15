@@ -222,4 +222,10 @@ export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 pyinstaller --onefile --windowed --icon=minesquad.png minesquad.py
 
+
+Para actualizar el firmware del teclado en la Pi500+:
+sudo apt update && sudo apt install rpi-keyboard-fw-update
+sudo rpi-keyboard-fw-update
+
+
 Obtener recursos de: opengameart.org
