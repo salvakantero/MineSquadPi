@@ -95,15 +95,30 @@ class KeyboardRGB():
             self.saved_effect = None
 
 
-    # restores the previously saved RGB configuration
-    def restore_state(self):
-        if not self.available or self.saved_leds is None:
+    # enables direct LED control mode (required before setting individual LEDs)
+    def enable_direct_mode(self):
+        if not self.available:
             return
         try:
-            # restore each LED to its saved state
-            for idx, (h, s, v) in enumerate(self.saved_leds):
-                self.keyboard.set_led_by_idx(idx=idx, colour=(h, s, v))
-            self.keyboard.send_leds()
+            self.keyboard.set_led_direct_effect()
+        except Exception:
+            pass
+
+
+    # restores the previously saved RGB configuration
+    def restore_state(self):
+        if not self.available:
+            return
+        try:
+            # restore the original effect if we saved one
+            if self.saved_effect is not None:
+                self.keyboard.set_effect(self.saved_effect)
+            elif self.saved_leds is not None:
+                # if no effect was saved, restore direct LEDs
+                self.keyboard.set_led_direct_effect()
+                for idx, (h, s, v) in enumerate(self.saved_leds):
+                    self.keyboard.set_led_by_idx(idx=idx, colour=(h, s, v))
+                self.keyboard.send_leds()
         except Exception:
             pass
 
@@ -121,6 +136,7 @@ class KeyboardRGB():
         if not self.available:
             return
         try:
+            self.keyboard.set_led_direct_effect()
             for idx in range(len(self.key_to_led_idx)):
                 self.keyboard.set_led_by_idx(idx=idx, colour=RGB_OFF)
             self.keyboard.send_leds()
@@ -172,6 +188,7 @@ class KeyboardRGB():
         if not self.available:
             return
         try:
+            self.keyboard.set_led_direct_effect()
             # get total number of LEDs
             total_leds = len(self.keyboard.get_current_direct_leds())
             # light all keys in the specified color except control keys
@@ -203,6 +220,7 @@ class KeyboardRGB():
         if not self.available:
             return
         try:
+            self.keyboard.set_led_direct_effect()
             # get total number of LEDs
             total_leds = len(self.keyboard.get_current_direct_leds())
             # turn off all non-control keys
