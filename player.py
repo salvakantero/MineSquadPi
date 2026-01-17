@@ -156,9 +156,10 @@ class Player(pygame.sprite.Sprite):
                 # if there is a mine in the marked tile
                 if self.map.get_tile_type(x, y) == enums.TT_MINE:
                     self.sfx_beacon.play()
-                    self.game.keyboard_rgb.effect_beacon()
-                    self.game.shake = [2, 2]
-                    self.game.shake_timer = 5
+                    if self.game.keyboard_rgb.available:
+                        self.game.keyboard_rgb.effect_beacon()
+                        self.game.shake = [2, 2]
+                        self.game.shake_timer = 5
                     self.game.remaining_mines -= 1
                     self.game.score += 125
                     self.game.floating_text.show('+125',

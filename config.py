@@ -51,6 +51,7 @@ class Configuration():
         self.beacon_key2 = pygame.K_COMMA
         self.fire_key = pygame.K_SPACE
         self.mute_key = pygame.K_m
+        self.pause_key = pygame.K_ESCAPE
 
 
 

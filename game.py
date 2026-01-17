@@ -189,7 +189,6 @@ class Game():
 
         # RGB keyboard for Pi 500+
         self.keyboard_rgb = KeyboardRGB(self.config.is_pi500plus)
-        self.keyboard_rgb.save_state()
 
         # common fonts. S = small L = large F = foreground B = background
         self.fonts = {
@@ -492,9 +491,10 @@ class Game():
             elif tile_type == enums.TT_KILLER:
                 if not player.invincible:
                     self.sfx_death.play()
-                    self.keyboard_rgb.effect_enemy_damage()
-                    self.shake = [2, 2]
-                    self.shake_timer = 6
+                    if self.keyboard_rgb.available:
+                        self.keyboard_rgb.effect_enemy_damage()
+                        self.shake = [2, 2]
+                        self.shake_timer = 6
                     player.loses_energy(1)
                     scoreboard.invalidate()
                 return
@@ -521,8 +521,9 @@ class Game():
             hotspot = collided_hotspots[0]  # only the first one on the list, which will be the only one
 
             # shake the map (just a little)
-            self.shake = [4, 4]
-            self.shake_timer = 4
+            self.keyboard_rgb.effect_hotspot()
+            self.shake = [2, 2]
+            self.shake_timer = 6
 
             # create a magic halo
             blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
@@ -599,6 +600,7 @@ class Game():
                 # if it's the last life, the enemy dies
                 if enemy.health == 0:
                     # shake the map only when enemy dies
+                    self.keyboard_rgb.effect_mine_explosion()
                     self.shake = [10, 6]
                     self.shake_timer = 14
 

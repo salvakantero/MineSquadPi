@@ -24,12 +24,13 @@
 import pygame
 
 # HSV colors (hue 0-255, saturation 0-255, value/brightness 0-255)
-RGB_OFF = (0, 0, 0)
-RGB_GREEN = (85, 255, 255)      # control keys
-RGB_CYAN = (128, 255, 255)      # action keys (fire, beacon)
-RGB_RED = (0, 255, 255)         # mine explosion
-RGB_ORANGE = (21, 255, 255)     # enemy/hazard damage
-RGB_BLUE = (170, 255, 255)      # beacon placed
+HSV_OFF = (0, 0, 0)
+HSV_WHITE = (0, 0, 250) # control keys
+HSV_CYAN = (128, 255, 250) # action keys
+HSV_RED = (0, 255, 255) # mine explosion
+HSV_ORANGE = (10, 250, 250) # enemy/hazard damage
+HSV_GREEN = (85, 200, 255) # beacon placed
+HSV_BLUE = (170, 255, 255) # hotspot
 
 
 
@@ -37,16 +38,20 @@ class KeyboardRGB():
     # mapping from pygame key constants to Pi 500+ key names
     PYGAME_TO_KEYNAME = {
         # arrow keys
-        pygame.K_UP: 'UP', pygame.K_DOWN: 'DOWN',
-        pygame.K_LEFT: 'LEFT', pygame.K_RIGHT: 'RIGHT',
+        pygame.K_UP: 'KC_UP', pygame.K_DOWN: 'KC_DOWN',
+        pygame.K_LEFT: 'KC_LEFT', pygame.K_RIGHT: 'KC_RIGHT',
         # WASD
-        pygame.K_w: 'W', pygame.K_a: 'A', pygame.K_s: 'S', pygame.K_d: 'D',
-        # QAOP (retro)
-        pygame.K_q: 'Q', pygame.K_o: 'O', pygame.K_p: 'P',
+        pygame.K_w: 'KC_W', pygame.K_a: 'KC_A', 
+        pygame.K_s: 'KC_S', pygame.K_d: 'KC_D',
+        # QAOP
+        pygame.K_q: 'KC_Q', pygame.K_o: 'KC_O', 
+        pygame.K_p: 'KC_P',
         # action keys
-        pygame.K_SPACE: 'SPC', pygame.K_b: 'B',
-        pygame.K_COMMA: 'COMM', pygame.K_m: 'M'
+        pygame.K_SPACE: 'KC_SPACE', pygame.K_b: 'KC_B',
+        pygame.K_COMMA: 'KC_COMMA', pygame.K_m: 'KC_M',
+        pygame.K_ESCAPE: 'KC_ESCAPE'
     }
+
 
     def __init__(self, is_pi500plus):
         self.available = False
@@ -55,6 +60,7 @@ class KeyboardRGB():
         self.saved_effect = None
         self.key_to_led_idx = {}        # maps key names to LED indices
         self.control_led_indices = []   # LED indices for current control keys
+        self.action_led_indices = []    # LED indices for current action keys
 
         if not is_pi500plus:
             return
@@ -70,29 +76,16 @@ class KeyboardRGB():
 
     # builds the mapping from key names to LED indices
     def _build_key_mapping(self):
-        try:
-            all_keys = self.keyboard.get_all_keynames(layer=0)
-            for key_info in all_keys:
-                name = key_info.get('name', '')
-                position = key_info.get('position', None)
-                if name and position:
-                    led_idx = self.keyboard.led_matrix_to_idx(position)
-                    if led_idx is not None:
-                        self.key_to_led_idx[name] = led_idx
-        except Exception:
-            pass
-
-
-    # saves the current RGB configuration to restore it later
-    def save_state(self):
-        if not self.available:
-            return
-        try:
-            self.saved_leds = self.keyboard.get_current_direct_leds()
-            self.saved_effect = self.keyboard.get_current_effect()
-        except Exception:
-            self.saved_leds = None
-            self.saved_effect = None
+        all_keys = self.keyboard.get_all_keynames(layer=0)
+        for key_info in all_keys:
+            name = key_info.get('name', '')
+            position = key_info.get('position', None)
+            if name and position:
+                try:
+                    led_idx = self.keyboard.led_matrix_to_idx(matrix=position)
+                    self.key_to_led_idx[name] = led_idx
+                except ValueError:
+                    continue
 
 
     # enables direct LED control mode (required before setting individual LEDs)
@@ -110,17 +103,9 @@ class KeyboardRGB():
         if not self.available:
             return
         try:
-            # restore the original effect if we saved one
-            if self.saved_effect is not None:
-                self.keyboard.set_effect(self.saved_effect)
-            elif self.saved_leds is not None:
-                # if no effect was saved, restore direct LEDs
-                self.keyboard.set_led_direct_effect()
-                for idx, (h, s, v) in enumerate(self.saved_leds):
-                    self.keyboard.set_led_by_idx(idx=idx, colour=(h, s, v))
-                self.keyboard.send_leds()
-        except Exception:
-            pass
+            self.keyboard.revert_to_saved_preset()
+        except Exception as e:
+            print(f"Error restaurando estado: {e}")
 
 
     # converts a pygame key constant to LED index
@@ -137,8 +122,9 @@ class KeyboardRGB():
             return
         try:
             self.keyboard.set_led_direct_effect()
-            for idx in range(len(self.key_to_led_idx)):
-                self.keyboard.set_led_by_idx(idx=idx, colour=RGB_OFF)
+            total_leds = len(self.keyboard.get_current_direct_leds())
+            for idx in range(total_leds):
+                self.keyboard.set_led_by_idx(idx=idx, colour=HSV_OFF)
             self.keyboard.send_leds()
         except Exception:
             pass
@@ -158,61 +144,46 @@ class KeyboardRGB():
                 config.left_key, config.right_key
             ]
             action_keys = [
-                config.fire_key, config.beacon_key, config.beacon_key2
+                config.fire_key, config.beacon_key, config.beacon_key2,
+                config.mute_key, config.pause_key
             ]
 
-            # store LED indices for control keys (to preserve during effects)
+            # store LED indices for control/action keys
             self.control_led_indices = []
+            self.action_led_indices = []
 
-            # light control keys in green
+            # light control keys in white
             for pygame_key in control_keys:
                 led_idx = self._pygame_key_to_led_idx(pygame_key)
                 if led_idx is not None:
                     self.control_led_indices.append(led_idx)
-                    self.keyboard.set_led_by_idx(idx=led_idx, colour=RGB_GREEN)
+                    self.keyboard.set_led_by_idx(idx=led_idx, colour=HSV_WHITE)
 
             # light action keys in cyan
             for pygame_key in action_keys:
                 led_idx = self._pygame_key_to_led_idx(pygame_key)
                 if led_idx is not None:
-                    self.control_led_indices.append(led_idx)
-                    self.keyboard.set_led_by_idx(idx=led_idx, colour=RGB_CYAN)
+                    self.action_led_indices.append(led_idx)
+                    self.keyboard.set_led_by_idx(idx=led_idx, colour=HSV_CYAN)
 
             self.keyboard.send_leds()
         except Exception:
             pass
 
 
-    # generic flash effect (color on all non-control keys)
+    # generic flash effect (color on all keys)
     def _flash_effect(self, colour):
         if not self.available:
             return
         try:
             self.keyboard.set_led_direct_effect()
-            # get total number of LEDs
             total_leds = len(self.keyboard.get_current_direct_leds())
-            # light all keys in the specified color except control keys
+            # light all keys in the specified color
             for idx in range(total_leds):
-                if idx not in self.control_led_indices:
-                    self.keyboard.set_led_by_idx(idx=idx, colour=colour)
+                self.keyboard.set_led_by_idx(idx=idx, colour=colour)
             self.keyboard.send_leds()
         except Exception:
             pass
-
-
-    # flash effect for mine explosion (red on all non-control keys)
-    def effect_mine_explosion(self):
-        self._flash_effect(RGB_RED)
-
-
-    # flash effect for enemy/hazard damage (orange on all non-control keys)
-    def effect_enemy_damage(self):
-        self._flash_effect(RGB_ORANGE)
-
-
-    # flash effect for beacon placed (blue on all non-control keys)
-    def effect_beacon(self):
-        self._flash_effect(RGB_BLUE)
 
 
     # restore control keys after an effect (turns off non-control keys)
@@ -221,12 +192,38 @@ class KeyboardRGB():
             return
         try:
             self.keyboard.set_led_direct_effect()
-            # get total number of LEDs
             total_leds = len(self.keyboard.get_current_direct_leds())
-            # turn off all non-control keys
+
             for idx in range(total_leds):
-                if idx not in self.control_led_indices:
-                    self.keyboard.set_led_by_idx(idx=idx, colour=RGB_OFF)
+                if idx in self.control_led_indices:
+                    self.keyboard.set_led_by_idx(idx=idx, colour=HSV_WHITE)
+                elif idx in self.action_led_indices:
+                    self.keyboard.set_led_by_idx(idx=idx, colour=HSV_CYAN)
+                else:
+                    self.keyboard.set_led_by_idx(idx=idx, colour=HSV_OFF)
+
             self.keyboard.send_leds()
         except Exception:
             pass
+
+
+    # flash effect for mine explosion (red on all non-control keys)
+    def effect_mine_explosion(self):
+        self._flash_effect(HSV_RED)
+
+
+    # flash effect for enemy/hazard damage (orange on all non-control keys)
+    def effect_enemy_damage(self):
+        self._flash_effect(HSV_ORANGE)
+
+
+    # flash effect for beacon placed (green on all non-control keys)
+    def effect_beacon(self):
+        self._flash_effect(HSV_GREEN)
+
+
+    # flash effect for hotspot (blue on all non-control keys)
+    def effect_hotspot(self):
+        self._flash_effect(HSV_BLUE)
+
+
