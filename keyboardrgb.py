@@ -22,6 +22,13 @@
 # ==============================================================================
 
 import pygame
+import threading
+import time
+
+from RPiKeyboardConfig.keyboard import Preset
+
+
+
 
 # HSV colors (hue 0-255, saturation 0-255, value/brightness 0-255)
 HSV_OFF = (0, 0, 0)
@@ -207,9 +214,17 @@ class KeyboardRGB():
             pass
 
 
-    # flash effect for mine explosion (red on all non-control keys)
+    # flash effect for mine explosion
     def effect_mine_explosion(self):
-        self._flash_effect(HSV_RED)
+        if not self.available:
+            return
+        def _run_effect():
+            splash_preset = Preset(effect=41, speed=255, 
+                fixed_hue=True, hue=0, sat=255)
+            self.keyboard.set_temp_effect(preset=splash_preset)
+            time.sleep(1.2)
+            self.effect_end()
+        threading.Thread(target=_run_effect, daemon=True).start()
 
 
     # flash effect for enemy/hazard damage (orange on all non-control keys)

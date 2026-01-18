@@ -93,7 +93,7 @@ while True:
                         # restore the music if the game continues
                         if game.music_status == enums.MS_UNMUTED:
                             pygame.mixer.music.unpause()                            
-                # mute the music, or vice versa               
+                # mute the music, or vice versa    
                 elif event.key == game.config.mute_key:
                     if game.music_status == enums.MS_MUTED:
                         game.music_status = enums.MS_UNMUTED

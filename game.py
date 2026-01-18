@@ -494,7 +494,7 @@ class Game():
                     if self.keyboard_rgb.available:
                         self.keyboard_rgb.effect_enemy_damage()
                         self.shake = [2, 2]
-                        self.shake_timer = 6
+                        self.shake_timer = 10
                     player.loses_energy(1)
                     scoreboard.invalidate()
                 return
@@ -508,7 +508,7 @@ class Game():
                         self.sfx_death2.play()
                         self.keyboard_rgb.effect_enemy_damage()
                         self.shake = [2, 2]
-                        self.shake_timer = 6
+                        self.shake_timer = 10
                         player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     
@@ -523,7 +523,7 @@ class Game():
             # shake the map (just a little)
             self.keyboard_rgb.effect_hotspot()
             self.shake = [2, 2]
-            self.shake_timer = 6
+            self.shake_timer = 10
 
             # create a magic halo
             blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
