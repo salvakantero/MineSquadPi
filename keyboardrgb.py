@@ -34,10 +34,6 @@ from RPiKeyboardConfig.keyboard import Preset
 HSV_OFF = (0, 0, 0)
 HSV_WHITE = (0, 0, 250) # control keys
 HSV_CYAN = (128, 255, 250) # action keys
-HSV_RED = (0, 255, 255) # mine explosion
-HSV_ORANGE = (10, 250, 250) # enemy/hazard damage
-HSV_GREEN = (85, 200, 255) # beacon placed
-HSV_BLUE = (170, 255, 255) # hotspot
 
 
 
@@ -93,16 +89,6 @@ class KeyboardRGB():
                     self.key_to_led_idx[name] = led_idx
                 except ValueError:
                     continue
-
-
-    # enables direct LED control mode (required before setting individual LEDs)
-    def enable_direct_mode(self):
-        if not self.available:
-            return
-        try:
-            self.keyboard.set_led_direct_effect()
-        except Exception:
-            pass
 
 
     # restores the previously saved RGB configuration
@@ -178,21 +164,6 @@ class KeyboardRGB():
             pass
 
 
-    # generic flash effect (color on all keys)
-    def _flash_effect(self, colour):
-        if not self.available:
-            return
-        try:
-            self.keyboard.set_led_direct_effect()
-            total_leds = len(self.keyboard.get_current_direct_leds())
-            # light all keys in the specified color
-            for idx in range(total_leds):
-                self.keyboard.set_led_by_idx(idx=idx, colour=colour)
-            self.keyboard.send_leds()
-        except Exception:
-            pass
-
-
     # restore control keys after an effect (turns off non-control keys)
     def effect_end(self):
         if not self.available:
@@ -214,31 +185,55 @@ class KeyboardRGB():
             pass
 
 
-    # flash effect for mine explosion
+    # flash effect for mine explosion (27: hue pendulum)
     def effect_mine_explosion(self):
         if not self.available:
             return
         def _run_effect():
-            splash_preset = Preset(effect=41, speed=255, 
-                fixed_hue=True, hue=0, sat=255)
+            splash_preset = Preset(effect=27, speed=255, 
+                fixed_hue=False, hue=0, sat=255)
             self.keyboard.set_temp_effect(preset=splash_preset)
             time.sleep(1.2)
             self.effect_end()
         threading.Thread(target=_run_effect, daemon=True).start()
 
 
-    # flash effect for enemy/hazard damage (orange on all non-control keys)
+    # flash effect for enemy/hazard damage (12: band spyral)
     def effect_enemy_damage(self):
-        self._flash_effect(HSV_ORANGE)
+        if not self.available:
+            return
+        def _run_effect():
+            splash_preset = Preset(effect=12, speed=250, 
+                fixed_hue=True, hue=0, sat=255)
+            self.keyboard.set_temp_effect(preset=splash_preset)
+            time.sleep(1.0)
+            self.effect_end()
+        threading.Thread(target=_run_effect, daemon=True).start()
 
 
-    # flash effect for beacon placed (green on all non-control keys)
+    # flash effect for beacon placed (41: solid splash)
     def effect_beacon(self):
-        self._flash_effect(HSV_GREEN)
+        if not self.available:
+            return
+        def _run_effect():
+            splash_preset = Preset(effect=41, speed=195, 
+                fixed_hue=True, hue=85, sat=255)
+            self.keyboard.set_temp_effect(preset=splash_preset)
+            time.sleep(0.3)
+            self.effect_end()
+        threading.Thread(target=_run_effect, daemon=True).start()
 
 
-    # flash effect for hotspot (blue on all non-control keys)
+    # flash effect for hotspot (18: cycle out-in dual)
     def effect_hotspot(self):
-        self._flash_effect(HSV_BLUE)
+        if not self.available:
+            return
+        def _run_effect():
+            splash_preset = Preset(effect=18, speed=255, 
+                fixed_hue=False, hue=0, sat=255)
+            self.keyboard.set_temp_effect(preset=splash_preset)
+            time.sleep(0.8)
+            self.effect_end()
+        threading.Thread(target=_run_effect, daemon=True).start()
 
 

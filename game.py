@@ -339,8 +339,6 @@ class Game():
                         self.screen.blit(self.img_background, (0,0))
                     else: # 4:3 fullscreen or windowed mode
                         self.screen.fill(constants.PALETTE['BLACK0'])
-                    # end RGB keyboard effect
-                    self.keyboard_rgb.effect_end()
                 else:
                     offset[0] = random.randint(-self.shake[0], self.shake[0])
                     offset[1] = random.randint(-self.shake[1], self.shake[1])
@@ -491,10 +489,9 @@ class Game():
             elif tile_type == enums.TT_KILLER:
                 if not player.invincible:
                     self.sfx_death.play()
-                    if self.keyboard_rgb.available:
-                        self.keyboard_rgb.effect_enemy_damage()
-                        self.shake = [2, 2]
-                        self.shake_timer = 10
+                    self.keyboard_rgb.effect_enemy_damage()
+                    self.shake = [2, 2]
+                    self.shake_timer = 4
                     player.loses_energy(1)
                     scoreboard.invalidate()
                 return
@@ -508,7 +505,7 @@ class Game():
                         self.sfx_death2.play()
                         self.keyboard_rgb.effect_enemy_damage()
                         self.shake = [2, 2]
-                        self.shake_timer = 10
+                        self.shake_timer = 4
                         player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     
@@ -523,7 +520,7 @@ class Game():
             # shake the map (just a little)
             self.keyboard_rgb.effect_hotspot()
             self.shake = [2, 2]
-            self.shake_timer = 10
+            self.shake_timer = 4
 
             # create a magic halo
             blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
