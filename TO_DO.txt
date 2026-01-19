@@ -5,11 +5,11 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - probar v1.1 con joystick
-- probar v1.1 con pi500+
-
+- compilar versiones de la v1.1
 
 BUGS
 ====
+- efecto de baliza al usar joypad
 
 POR HACER
 =========
