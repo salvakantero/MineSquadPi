@@ -157,8 +157,6 @@ class Player(pygame.sprite.Sprite):
                 if self.map.get_tile_type(x, y) == enums.TT_MINE:
                     self.sfx_beacon.play()
                     self.game.keyboard_rgb.effect_beacon()
-                    self.game.shake = [2, 2]
-                    self.game.shake_timer = 4
                     self.game.remaining_mines -= 1
                     self.game.score += 125
                     self.game.floating_text.show('+125',

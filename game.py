@@ -490,8 +490,8 @@ class Game():
                 if not player.invincible:
                     self.sfx_death.play()
                     self.keyboard_rgb.effect_enemy_damage()
-                    self.shake = [2, 2]
-                    self.shake_timer = 4
+                    self.shake = [4, 4]
+                    self.shake_timer = 8
                     player.loses_energy(1)
                     scoreboard.invalidate()
                 return
@@ -504,8 +504,8 @@ class Game():
                     if pygame.sprite.collide_rect_ratio(0.60)(player, enemy):
                         self.sfx_death2.play()
                         self.keyboard_rgb.effect_enemy_damage()
-                        self.shake = [2, 2]
-                        self.shake_timer = 4
+                        self.shake = [4, 4]
+                        self.shake_timer = 8
                         player.loses_energy(2)
                         scoreboard.invalidate() # redraws the scoreboard
                         return     
@@ -516,11 +516,7 @@ class Game():
 
         if collided_hotspots:
             hotspot = collided_hotspots[0]  # only the first one on the list, which will be the only one
-
-            # shake the map (just a little)
             self.keyboard_rgb.effect_hotspot()
-            self.shake = [2, 2]
-            self.shake_timer = 4
 
             # create a magic halo
             blast = self.explosion_pool.get_explosion(hotspot.rect.center, self.blast_images[2])
