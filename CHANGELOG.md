@@ -8,13 +8,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 - RGB keyboard support for Raspberry Pi 500+
 - New `KeyboardRGB` class to manage keyboard lighting effects
-- Control keys illumination during gameplay (green for movement, cyan for actions)
+- Control key illumination during gameplay (white for movement, cyan for actions)
 - Visual feedback effects:
-  - Red flash on mine explosion
-  - Orange flash on enemy/hazard damage
-  - Blue flash when placing a beacon
+  - Hue cycling effect on mine explosion
+  - Red effect on enemy/hazard damage
+  - Green flash when placing a beacon
+  - Multicolor effect when a hotspot is picked up
 - Control keys preview in Settings menu when changing control scheme
 - Automatic save/restore of user's original keyboard RGB configuration
+
+### Fixed
+- Joystick detection now filters fake devices (requires at least 2 analog axes)
 
 ## [1.0] - 2026-01-01
 ### Added

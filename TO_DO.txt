@@ -4,6 +4,8 @@ MINESQUAD Pi
 
 EN PROCESO
 ==========
+- probar v1.1 con joystick
+
 
 BUGS
 ====

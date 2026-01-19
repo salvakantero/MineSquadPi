@@ -25,7 +25,6 @@ import pygame
 import threading
 import time
 
-from RPiKeyboardConfig.keyboard import Preset
 
 
 
@@ -56,11 +55,10 @@ class KeyboardRGB():
     }
 
 
+
     def __init__(self, is_pi500plus):
         self.available = False
         self.keyboard = None
-        self.saved_leds = None
-        self.saved_effect = None
         self.key_to_led_idx = {}        # maps key names to LED indices
         self.control_led_indices = []   # LED indices for current control keys
         self.action_led_indices = []    # LED indices for current action keys
@@ -70,11 +68,14 @@ class KeyboardRGB():
 
         try:
             from RPiKeyboardConfig import RPiKeyboardConfig
+            from RPiKeyboardConfig.keyboard import Preset
+            self.Preset = Preset
             self.keyboard = RPiKeyboardConfig()
             self.available = True
             self._build_key_mapping()
         except Exception:
             pass
+
 
 
     # builds the mapping from key names to LED indices
@@ -91,6 +92,7 @@ class KeyboardRGB():
                     continue
 
 
+
     # restores the previously saved RGB configuration
     def restore_state(self):
         if not self.available:
@@ -101,12 +103,14 @@ class KeyboardRGB():
             print(f"Error restaurando estado: {e}")
 
 
+
     # converts a pygame key constant to LED index
     def _pygame_key_to_led_idx(self, pygame_key):
         key_name = self.PYGAME_TO_KEYNAME.get(pygame_key)
         if key_name:
             return self.key_to_led_idx.get(key_name)
         return None
+
 
 
     # turns off all keyboard LEDs
@@ -121,6 +125,7 @@ class KeyboardRGB():
             self.keyboard.send_leds()
         except Exception:
             pass
+
 
 
     # lights up the control keys based on current configuration
@@ -164,6 +169,7 @@ class KeyboardRGB():
             pass
 
 
+
     # restore control keys after an effect (turns off non-control keys)
     def effect_end(self):
         if not self.available:
@@ -185,55 +191,41 @@ class KeyboardRGB():
             pass
 
 
-    # flash effect for mine explosion (27: hue pendulum)
-    def effect_mine_explosion(self):
+
+    # runs an RGB effect in a background thread
+    def _run_effect(self, effect, speed, fixed_hue, hue, sat, duration):
         if not self.available:
             return
-        def _run_effect():
-            splash_preset = Preset(effect=27, speed=255, 
-                fixed_hue=False, hue=0, sat=255)
-            self.keyboard.set_temp_effect(preset=splash_preset)
-            time.sleep(1.2)
+        def _effect_thread():
+            preset = self.Preset(effect=effect, speed=speed,
+                fixed_hue=fixed_hue, hue=hue, sat=sat)
+            self.keyboard.set_temp_effect(preset=preset)
+            time.sleep(duration)
             self.effect_end()
-        threading.Thread(target=_run_effect, daemon=True).start()
+        threading.Thread(target=_effect_thread, daemon=True).start()
+
+
+
+    # flash effect for mine explosion (27: hue pendulum)
+    def effect_mine_explosion(self):
+        self._run_effect(27, 255, False, 0, 255, 1.2)
+
 
 
     # flash effect for enemy/hazard damage (12: band spyral)
     def effect_enemy_damage(self):
-        if not self.available:
-            return
-        def _run_effect():
-            splash_preset = Preset(effect=12, speed=250, 
-                fixed_hue=True, hue=0, sat=255)
-            self.keyboard.set_temp_effect(preset=splash_preset)
-            time.sleep(1.0)
-            self.effect_end()
-        threading.Thread(target=_run_effect, daemon=True).start()
+        self._run_effect(12, 250, True, 0, 255, 1.0) # 0: red
+
 
 
     # flash effect for beacon placed (41: solid splash)
     def effect_beacon(self):
-        if not self.available:
-            return
-        def _run_effect():
-            splash_preset = Preset(effect=41, speed=195, 
-                fixed_hue=True, hue=85, sat=255)
-            self.keyboard.set_temp_effect(preset=splash_preset)
-            time.sleep(0.3)
-            self.effect_end()
-        threading.Thread(target=_run_effect, daemon=True).start()
+        self._run_effect(41, 195, True, 85, 255, 0.3) # 85: green
+
 
 
     # flash effect for hotspot (18: cycle out-in dual)
     def effect_hotspot(self):
-        if not self.available:
-            return
-        def _run_effect():
-            splash_preset = Preset(effect=18, speed=255, 
-                fixed_hue=False, hue=0, sat=255)
-            self.keyboard.set_temp_effect(preset=splash_preset)
-            time.sleep(0.8)
-            self.effect_end()
-        threading.Thread(target=_run_effect, daemon=True).start()
+        self._run_effect(18, 255, False, 0, 255, 0.8)
 
 

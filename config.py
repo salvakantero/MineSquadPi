@@ -98,14 +98,25 @@ class Configuration():
             return False
 
 
+
     # create a joystick/joypad/gamepad object
+    # returns None if no valid joystick found (does not modify config)
     def prepare_joystick(self):
-        joystick = None
         if self.data['control'] == enums.CT_JOYSTICK:
-            if pygame.joystick.get_count() > 0:
-                joystick = pygame.joystick.Joystick(0)
-                joystick.init()
-            else:
-                self.data['control'] = enums.CT_CLASSIC
-        return joystick
+            return self._find_valid_joystick()
+        return None
+
+
+
+    # finds a valid analog joystick (filters fake joysticks)
+    def _find_valid_joystick(self):
+        for i in range(pygame.joystick.get_count()):
+            try:
+                joy = pygame.joystick.Joystick(i)
+                joy.init()
+                if joy.get_numaxes() >= 2:
+                    return joy
+            except pygame.error:
+                continue
+        return None
     
