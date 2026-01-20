@@ -224,9 +224,9 @@ class KeyboardRGB():
 
 
 
-    # flash effect for beacon placed via mouse/joypad (18: cycle out-in dual)
+    # flash effect for beacon placed via mouse/joypad (10: band pinwheel)
     def effect_beacon_alt(self):
-        self._run_effect(18, 255, True, 85, 255, 0.3) # 85: green
+        self._run_effect(10, 255, True, 85, 255, 0.5) # 85: green
 
 
 
