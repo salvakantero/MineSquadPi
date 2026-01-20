@@ -136,7 +136,7 @@ class Player(pygame.sprite.Sprite):
 
 
     # code for placing a flag/beacon
-    def place_beacon(self):
+    def place_beacon(self, from_keyboard=True):
         offsets = {
             enums.DI_UP: (0, -1), enums.DI_DOWN: (0, 1),
             enums.DI_LEFT: (-1, 0), enums.DI_RIGHT: (1, 0)
@@ -156,7 +156,10 @@ class Player(pygame.sprite.Sprite):
                 # if there is a mine in the marked tile
                 if self.map.get_tile_type(x, y) == enums.TT_MINE:
                     self.sfx_beacon.play()
-                    self.game.keyboard_rgb.effect_beacon()
+                    if from_keyboard:
+                        self.game.keyboard_rgb.effect_beacon()
+                    else:
+                        self.game.keyboard_rgb.effect_beacon_alt()
                     self.game.remaining_mines -= 1
                     self.game.score += 125
                     self.game.floating_text.show('+125',
@@ -360,15 +363,17 @@ class Player(pygame.sprite.Sprite):
             if self.game.joystick.get_button(0) or self.game.joystick.get_button(1):
                 self.fire()
             if self.game.joystick.get_button(2) or self.game.joystick.get_button(3):
-                self.place_beacon()
+                self.place_beacon(from_keyboard=False)
         # keyboard keys
         key_state = pygame.key.get_pressed()
         pressed_key = next((k for k in self._direction_mappings if key_state[k]), None)
         if pressed_key:
             look_at, direction_vector = self._direction_mappings[pressed_key]
+            from_joystick = False
         else:
             # check joystick direction if no key is pressed
             look_at, direction_vector = self._get_joystick_direction()
+            from_joystick = True
         # no input detected
         if look_at is None:
             self.direction.update(0, 0)
@@ -379,8 +384,9 @@ class Player(pygame.sprite.Sprite):
             self.direction.update(0, 0)
             self.turn_time = pygame.time.get_ticks()
             return
-        # wait 125ms after turning before allowing movement
-        if pygame.time.get_ticks() - self.turn_time < 125:
+        # wait after turning before allowing movement (longer for joystick)
+        wait_time = 225 if from_joystick else 125
+        if pygame.time.get_ticks() - self.turn_time < wait_time:
             return
         # update direction to start moving
         self.direction.update(direction_vector)

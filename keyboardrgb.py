@@ -224,6 +224,12 @@ class KeyboardRGB():
 
 
 
+    # flash effect for beacon placed via mouse/joypad (18: cycle out-in dual)
+    def effect_beacon_alt(self):
+        self._run_effect(18, 255, True, 85, 255, 0.3) # 85: green
+
+
+
     # flash effect for hotspot (18: cycle out-in dual)
     def effect_hotspot(self):
         self._run_effect(18, 255, False, 0, 255, 0.8)

@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Multicolor effect when a hotspot is picked up
 - Control keys preview in Settings menu when changing control scheme
 - Automatic save/restore of user's original keyboard RGB configuration
+- Increased turn delay for joystick (225ms vs 125ms for keyboard) to prevent accidental mine steps
 
 ### Fixed
 - Joystick detection now filters fake devices (requires at least 2 analog axes)
