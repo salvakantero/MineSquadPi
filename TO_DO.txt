@@ -5,6 +5,8 @@ MINESQUAD Pi
 EN PROCESO
 ==========
 - compilar versiones de la v1.1
+    - windows
+    - pi
 
 BUGS
 ====
