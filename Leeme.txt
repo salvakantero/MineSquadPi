@@ -3,8 +3,8 @@
 Mine Squad Pi v1.1 (C) 2026
 ===========================
 Para sistemas compatibles con python/pygame.*
-
 *(Programa compilado para Windows, Linux y Raspberry Pi en la carpeta "/dist")
+*Para Raspberry Pi 500+ se recomienda actualizar el firmware del teclado a la última versión disponible.
 
 
 Formas parte de un equipo de élite de zapadores durante la Segunda Guerra Mundial. 

@@ -6,8 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [1.1] - 2026-01-18
 ### Added
-- RGB keyboard support for Raspberry Pi 500+
-- New `KeyboardRGB` class to manage keyboard lighting effects
+- New `KeyboardRGB` class to manage keyboard lighting effects for Raspberry Pi 500+
 - Control key illumination during gameplay (white for movement, cyan for actions)
 - Visual feedback effects:
   - Hue cycling effect on mine explosion

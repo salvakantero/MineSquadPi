@@ -3,8 +3,8 @@
 Mine Squad Pi v1.1 (C) 2026
 ===========================
 For systems compatible with python/pygame.*
-
 *(Compiled program for Windows, Linux and Raspberry Pi in the "/dist" folder)
+*For Raspberry Pi 500+, it is recommended to update the keyboard firmware to the latest version available.
 
 
 You are part of an elite sapper squad during the Second World War. 
