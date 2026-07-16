@@ -113,9 +113,9 @@ ENEMIES_DATA = [
     (3, enums.EN_CRAB, enums.EM_RANDOM, 24, 21, 0, 0),
     (3, enums.EN_CRAB, enums.EM_RANDOM, 12, 3, 0, 0),
     # 4 ---------------------------------------------------------------
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 14, 30, 10),
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 24, 30, 10),
-    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 35, 30, 32),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 14, 30, 14),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 24, 30, 24),
+    (4, enums.EN_PROJECTILE, enums.EM_HORIZONTAL_LOOP, -1, 35, 30, 35),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 22, 36, 0, 0),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 23, 22, 0, 0),
     (4, enums.EN_CRAB, enums.EM_RANDOM, 14, 3, 0, 0),
